@@ -6,10 +6,11 @@ interface Props {
   time: number;
   totalDistance: number;
   avgSpeed: number;
+  toLocaleTime: (time: number) => string;
 }
 
 export const PathInformation = (props: Props) => {
-  const time = new Date(props.time).toLocaleTimeString();
+  const time = props.toLocaleTime(props.time);
   return (
     <div>
       <p>Latitude is {props.latitude}</p>
