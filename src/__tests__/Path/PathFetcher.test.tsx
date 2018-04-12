@@ -89,7 +89,7 @@ describe('Path fetcher tests', () => {
     });
   });
 
-  it('should only save positions from geo location which are more than 3 metres away from previous', () => {
+  it('should only save positions from geo location which are more than 5 metres away from previous', () => {
     const getPath = jest.fn();
     getPath.mockReturnValueOnce(2);
     getPath.mockReturnValueOnce(22);

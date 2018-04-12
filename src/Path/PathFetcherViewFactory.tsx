@@ -1,5 +1,6 @@
 import { PositionInTime } from './PathFetcher';
 import * as GeoLib from 'geolib';
+import { getAverageSpeed } from '../getAverageSpeed';
 import { PathFetcherView } from './PathFetcherView';
 import * as React from 'react';
 
@@ -19,7 +20,7 @@ export const PathFetcherViewFactory = (props: Props) => {
       initWatcher={props.initWatcher}
       stopWatcher={props.stopWatcher}
       getPath={GeoLib.getPathLength}
-      getSpeed={GeoLib.getSpeed}
+      getAverageSpeed={getAverageSpeed}
       geoLocationStarted={props.geoLocationStarted}
       toLocaleTime={toLocaleTime}
     />

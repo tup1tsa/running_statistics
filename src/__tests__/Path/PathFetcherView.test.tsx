@@ -10,7 +10,7 @@ describe('should render path component correctly', () => {
     const wrapper = shallow(
       <PathFetcherView
         getPath={jest.fn()}
-        getSpeed={jest.fn()}
+        getAverageSpeed={jest.fn()}
         path={[]}
         initWatcher={initWatcherMock}
         stopWatcher={jest.fn()}
@@ -29,7 +29,7 @@ describe('should render path component correctly', () => {
     const wrapper = shallow(
       <PathFetcherView
         getPath={jest.fn()}
-        getSpeed={jest.fn()}
+        getAverageSpeed={jest.fn()}
         path={[]}
         initWatcher={jest.fn()}
         stopWatcher={stopWatcherMock}
@@ -54,7 +54,7 @@ describe('should render path component correctly', () => {
     const wrapper = shallow(
       <PathFetcherView
         getPath={jest.fn()}
-        getSpeed={jest.fn()}
+        getAverageSpeed={jest.fn()}
         path={path}
         initWatcher={jest.fn()}
         stopWatcher={stopWatcherMock}
@@ -79,7 +79,7 @@ describe('should render path component correctly', () => {
         initWatcher={jest.fn()}
         stopWatcher={jest.fn()}
         getPath={getPathMock}
-        getSpeed={getSpeedMock}
+        getAverageSpeed={getSpeedMock}
         geoLocationStarted={true}
         toLocaleTime={toLocaleTimeMock}
       />
@@ -113,7 +113,7 @@ describe('should render path component correctly', () => {
     const wrapper = shallow(
       <PathFetcherView
         getPath={getPathMock}
-        getSpeed={getSpeedMock}
+        getAverageSpeed={getSpeedMock}
         path={path}
         initWatcher={jest.fn()}
         stopWatcher={jest.fn()}

@@ -94,7 +94,7 @@ export class PathFetcher extends React.Component<Props, State> {
     if (savedPositionsNumber > 0) {
       const lastSavedPosition = positions[savedPositionsNumber - 1];
       const differenceInMetres = this.props.getPath([lastSavedPosition, currentPosition]);
-      if (differenceInMetres < 3) {
+      if (differenceInMetres <= 5) {
         return;
       }
     }
