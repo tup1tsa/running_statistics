@@ -1,6 +1,6 @@
 import { PositionInTime } from './PathFetcher';
 import * as GeoLib from 'geolib';
-import { getAverageSpeed } from '../getAverageSpeed';
+import { getAverageSpeed } from './getAverageSpeed';
 import { PathFetcherView } from './PathFetcherView';
 import * as React from 'react';
 

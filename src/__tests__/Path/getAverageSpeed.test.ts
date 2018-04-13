@@ -1,5 +1,5 @@
-import { getAverageSpeed } from '../getAverageSpeed';
-import { PositionInTime } from '../Path/PathFetcher';
+import { getAverageSpeed } from '../../Path/getAverageSpeed';
+import { PositionInTime } from '../../Path/PathFetcher';
 
 it('should calculate speed correctly in kmh', () => {
   const path: PositionInTime[] =

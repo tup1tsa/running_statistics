@@ -40,7 +40,6 @@ export class GeoLocationMock implements GeoLocation {
   }
 
   sendError(error: string) {
-    // todo: this is an error string, but should be some kind of error object
     this.providedErrorCallback({
       code: 1,
       message: error

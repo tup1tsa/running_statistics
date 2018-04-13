@@ -41,14 +41,30 @@ export interface GeoLocation {
   ): number;
 }
 
+interface GetDistance {
+  (start: Position, end: Position): number;
+}
+
 interface Props {
+  options: {
+    minimumDistanceDiff: number;
+    minimumTimeBetweenCalls: number;
+  };
   geoLocation: GeoLocation;
-  getPath: (positions: PositionInTime[]) => number;
+  getDistance: GetDistance;
+  isMiddlePointAccurate: (start: Position, middle: Position, end: Position, getDistance: GetDistance) => boolean;
 }
 
 interface State {
   positions: PositionInTime[];
   watcherId: number | null;
+  lastTimeCheck: number | null;
+  debug: {
+    all: number;
+    close: number;
+    inAccurate: number;
+    veryRecent: number;
+  };
 }
 
 export class PathFetcher extends React.Component<Props, State> {
@@ -56,7 +72,14 @@ export class PathFetcher extends React.Component<Props, State> {
     super(props);
     this.state = {
       positions: [],
-      watcherId: null
+      watcherId: null,
+      lastTimeCheck: null,
+      debug: {
+        all: 0,
+        close: 0,
+        inAccurate: 0,
+        veryRecent: 0
+      }
     };
     this.initWatcher = this.initWatcher.bind(this);
     this.stopWatcher = this.stopWatcher.bind(this);
@@ -84,22 +107,57 @@ export class PathFetcher extends React.Component<Props, State> {
   }
 
   savePosition(position: PositionResponse) {
+    // todo: refactor this messy method. It's doing to much
+    const currentState = this.state;
+    const newState = {...currentState};
+    newState.debug.all++;
     const currentPosition: PositionInTime = {
       latitude: position.coords.latitude,
       longitude: position.coords.longitude,
       time: position.timestamp
     };
-    let positions = this.state.positions;
+    // it's first position. Save it anyways
+    if (currentState.lastTimeCheck === null) {
+      newState.lastTimeCheck = currentPosition.time;
+      newState.debug.all++;
+      newState.positions.push(currentPosition);
+      this.setState(newState);
+      return;
+    }
+    const isRecent =
+      (currentPosition.time - currentState.lastTimeCheck) < this.props.options.minimumTimeBetweenCalls;
+    if (isRecent) {
+      newState.debug.veryRecent++;
+      this.setState(newState);
+      return;
+    }
+    newState.lastTimeCheck = currentPosition.time;
+    let positions = currentState.positions;
     const savedPositionsNumber = positions.length;
+    const lastSavedPosition = positions[savedPositionsNumber - 1];
+    const beforeLastSavedPosition = positions[savedPositionsNumber - 2];
     if (savedPositionsNumber > 0) {
-      const lastSavedPosition = positions[savedPositionsNumber - 1];
-      const differenceInMetres = this.props.getPath([lastSavedPosition, currentPosition]);
-      if (differenceInMetres <= 5) {
+      const differenceInMetres = this.props.getDistance(lastSavedPosition, currentPosition);
+      if (differenceInMetres <= this.props.options.minimumDistanceDiff) {
+        newState.debug.close++;
+        this.setState(newState);
         return;
       }
     }
+    if (savedPositionsNumber > 1) {
+      const arePositionsAccurate = this.props.isMiddlePointAccurate(
+        beforeLastSavedPosition,
+        lastSavedPosition,
+        currentPosition,
+        this.props.getDistance
+      );
+      if (!arePositionsAccurate) {
+        newState.debug.inAccurate++;
+        positions.splice(savedPositionsNumber - 1, 1);
+      }
+    }
     positions.push(currentPosition);
-    this.setState({positions});
+    this.setState(newState);
   }
 
   render() {
@@ -111,6 +169,13 @@ export class PathFetcher extends React.Component<Props, State> {
           stopWatcher={this.stopWatcher}
           geoLocationStarted={!!this.state.watcherId}
         />
+        <ul>
+          <li>debug menu</li>
+          <li>all: {this.state.debug.all}</li>
+          <li>close: {this.state.debug.close}</li>
+          <li>far away: {this.state.debug.inAccurate}</li>
+          <li>very recent: {this.state.debug.veryRecent}</li>
+        </ul>
       </div>
     );
   }
