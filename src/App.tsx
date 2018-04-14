@@ -1,24 +1,18 @@
 import * as React from 'react';
 import './App.css';
-import { PathFetcher } from './Path/PathFetcher';
-import * as GeoLib from 'geolib';
-import { isMiddlePointAccurate } from './Path/isMiddlePointAccurate';
+import { PathFetcherFactory } from './Path/PathFetcherFactory';
 
-const appProps = {
-  geoLocation: navigator.geolocation,
-  getDistance: GeoLib.getDistance,
-  isMiddlePointAccurate,
-  options: {
-    minimumTimeBetweenCalls: 10000,
-    minimumDistanceDiff: 10
-  }
-};
+const sendPositions = () => undefined;
 
 class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <PathFetcher {...appProps} />
+        <PathFetcherFactory
+          minimumDistanceDiff={10}
+          minimumTimeBetweenCalls={10000}
+          sendPositions={sendPositions}
+        />
       </div>
     );
   }
