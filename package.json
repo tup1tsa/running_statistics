@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node dist/server.js",
     "tsc": "tsc",
-    "postinstall": "npm run tsc",
+    "postinstall": "npm run tsc && cd client && npm install && npm run build",
     "debug": "nodemon --watch 'dist/'  --inspect-brk dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -29,5 +29,6 @@
     "@types/node": "^9.6.5",
     "express": "^4.16.3",
     "typescript": "^2.8.1"
-  }
+  },
+  "devDependencies": {}
 }
