@@ -148,7 +148,7 @@ export class PathFetcher extends React.Component<Props, State> {
           path={this.state.positions}
           initWatcher={this.initWatcher}
           stopWatcher={this.stopWatcher}
-          geoLocationStarted={!!this.state.watcherId}
+          geoLocationStarted={this.state.watcherId !== null}
         />
       </div>
     );

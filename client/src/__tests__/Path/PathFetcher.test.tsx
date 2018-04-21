@@ -18,15 +18,17 @@ describe('Path fetcher tests', () => {
 
   it('default state should be correct', () => {
     const wrapper = shallow(<PathFetcher {...pathFetcherDefaultProps} />);
-    const instance = wrapper.instance() as PathFetcher;
-    expect(instance.state.positions.length).toBe(0);
-    expect(instance.state.watcherId).toBe(null);
+    expect(wrapper.state()).toEqual({
+      lastTimeCheck: null,
+      positions: [],
+      watcherId: null
+    });
   });
 
   it('should pass correct props to fetcher view factory', () => {
     const wrapper = shallow(<PathFetcher {...pathFetcherDefaultProps} />);
     const instance = wrapper.instance() as PathFetcher;
-    const factory = (
+    const view = (
       <PathFetcherViewFactory
         path={instance.state.positions}
         initWatcher={instance.initWatcher}
@@ -34,7 +36,20 @@ describe('Path fetcher tests', () => {
         geoLocationStarted={false}
       />
     );
-    expect(wrapper.contains(factory)).toBe(true);
+    expect(wrapper.contains(view)).toBe(true);
+  });
+
+  it('should pass geoLocationStarted = true if watch id is 0', () => {
+    const geoLocationMock = {
+      watchPosition: jest.fn().mockReturnValueOnce(0),
+      clearWatch: jest.fn()
+    };
+    const wrapper = shallow(<PathFetcher {...pathFetcherDefaultProps} geoLocation={geoLocationMock} />);
+    const instance = wrapper.instance() as PathFetcher;
+    instance.initWatcher();
+    wrapper.update();
+    const renderedView = wrapper.find(PathFetcherViewFactory);
+    expect(renderedView.props().geoLocationStarted).toBe(true);
   });
 
   it('init watcher should call geo location and save provided watch id', () => {
@@ -46,7 +61,7 @@ describe('Path fetcher tests', () => {
     expect(instance.state.watcherId).toBe(watchId);
   });
 
-  it('init watcher should return if watch is already started', () => {
+  it('init watcher should return if watch id exists', () => {
     const geoLocationMock = new GeoLocationMock();
     const wrapper = shallow(<PathFetcher {...pathFetcherDefaultProps} geoLocation={geoLocationMock} />);
     const instance = wrapper.instance() as PathFetcher;
