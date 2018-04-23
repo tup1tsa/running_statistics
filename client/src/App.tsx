@@ -1,19 +1,7 @@
 import * as React from 'react';
 import './App.css';
-import { PathFetcherFactory } from './Path/PathFetcherFactory';
+import { RunningFactory } from './RunningFactory';
 
-const sendPositions = () => undefined;
-
-class App extends React.Component {
-  render() {
-    return (
-     <PathFetcherFactory
-       minimumDistanceDiff={10}
-       minimumTimeBetweenCalls={10000}
-       sendPositions={sendPositions}
-     />
-    );
-  }
-}
+const App = () => <RunningFactory />;
 
 export default App;

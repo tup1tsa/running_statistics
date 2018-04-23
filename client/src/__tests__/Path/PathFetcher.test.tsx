@@ -3,13 +3,14 @@ import { shallow } from 'enzyme';
 import * as React from 'react';
 import { GeoLocationMock } from '../../__mocks__/GeoLocation';
 import { PathFetcherViewFactory } from '../../Path/PathFetcherViewFactory';
+import { isMiddlePointAccurate } from '../../Path/isMiddlePointAccurate';
 
 describe('Path fetcher tests', () => {
 
   const geoLocation = new GeoLocationMock();
   const pathFetcherDefaultProps = {
     geoLocation,
-    sendPositions: jest.fn(),
+    saveRun: jest.fn(),
     getDistance: jest.fn(),
     isMiddlePointAccurate: jest.fn(),
     minimumTimeBetweenCalls: 10000,
@@ -88,7 +89,7 @@ describe('Path fetcher tests', () => {
   it('stop watcher should send positions to higher order component', () => {
     let props = {...pathFetcherDefaultProps};
     props.geoLocation = new GeoLocationMock();
-    props.sendPositions = jest.fn();
+    props.saveRun = jest.fn();
     const wrapper = shallow(<PathFetcher {...props} />);
     const instance = wrapper.instance() as PathFetcher;
     instance.initWatcher();
@@ -101,12 +102,12 @@ describe('Path fetcher tests', () => {
       timestamp: 15000
     });
     instance.stopWatcher();
-    expect(props.sendPositions.mock.calls.length).toBe(1);
+    expect(props.saveRun.mock.calls.length).toBe(1);
     const expectedPositions = [
       { latitude: 24, longitude: 44, time: 1000 },
       { latitude: 24, longitude: 42, time: 15000 }
     ];
-    expect(props.sendPositions.mock.calls[0][0]).toEqual(expectedPositions);
+    expect(props.saveRun.mock.calls[0][0]).toEqual(expectedPositions);
   });
 
   it('should not call geo location clear watch if watch id is null', () => {
@@ -178,7 +179,10 @@ describe('Path fetcher tests', () => {
     const geoLocationMock = new GeoLocationMock();
     const props = {
       ...pathFetcherDefaultProps,
-      ...{getDistance: getDistanceMock, geoLocation: geoLocationMock}
+      ...{
+        getDistance: getDistanceMock,
+        geoLocation: geoLocationMock,
+        isMiddlePointAccurate: isMiddlePointAccurate}
     };
     const wrapper = shallow(<PathFetcher {...props} />);
     const instance = wrapper.instance() as PathFetcher;
@@ -191,8 +195,12 @@ describe('Path fetcher tests', () => {
           timestamp: 1000
         },
         {
+          coords: { latitude: 26, longitude: 79 },
+          timestamp: 12000
+        },
+        {
           coords: { latitude: 77, longitude: 79 },
-          timestamp: 15000
+          timestamp: 23000
         },
         {
           coords: { latitude: 25, longitude: 79 },
@@ -202,9 +210,11 @@ describe('Path fetcher tests', () => {
     geoLocationMock.sendPosition(positionsToSend[0]);
     geoLocationMock.sendPosition(positionsToSend[1]);
     geoLocationMock.sendPosition(positionsToSend[2]);
+    geoLocationMock.sendPosition(positionsToSend[3]);
     expect(instance.state.positions[0].latitude).toBe(24);
-    expect(instance.state.positions[1].latitude).toBe(25);
-    expect(instance.state.positions[2]).toBe(undefined);
+    expect(instance.state.positions[1].latitude).toBe(26);
+    expect(instance.state.positions[2].latitude).toBe(25);
+    expect(instance.state.positions[3]).toBe(undefined);
   });
 
   it('should not save very recent positions', () => {

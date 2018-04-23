@@ -48,7 +48,7 @@ interface GetDistance {
 interface Props {
   minimumDistanceDiff: number;
   minimumTimeBetweenCalls: number;
-  sendPositions: (positions: PositionInTime[]) => void;
+  saveRun: (positions: PositionInTime[]) => void;
   geoLocation: GeoLocation;
   getDistance: GetDistance;
   isMiddlePointAccurate: (start: Position, middle: Position, end: Position, getDistance: GetDistance) => boolean;
@@ -91,7 +91,7 @@ export class PathFetcher extends React.Component<Props, State> {
     }
     this.props.geoLocation.clearWatch(this.state.watcherId);
     this.setState({watcherId: null});
-    this.props.sendPositions(this.state.positions);
+    this.props.saveRun(this.state.positions);
   }
 
   savePosition(position: PositionResponse) {

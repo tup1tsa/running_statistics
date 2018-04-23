@@ -11,6 +11,7 @@ interface Props {
 
 export const PathInformation = (props: Props) => {
   const time = props.toLocaleTime(props.time);
+  // todo: add rounding here
   return (
     <div>
       <p>Latitude is {props.latitude}</p>

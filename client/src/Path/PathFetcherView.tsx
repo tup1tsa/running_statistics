@@ -17,6 +17,7 @@ interface Props {
 }
 
 export const PathFetcherView = (props: Props) => {
+  // todo: increase the size of the buttons
   const startButton = <button onClick={props.initWatcher}>init geo location</button>;
   const stopButton =  <button onClick={props.stopWatcher}>stop geo location</button>;
   if (!props.geoLocationStarted) {

@@ -6,7 +6,7 @@ import { isMiddlePointAccurate } from './isMiddlePointAccurate';
 interface Props {
   minimumDistanceDiff: number;
   minimumTimeBetweenCalls: number;
-  sendPositions: (positions: PositionInTime[]) => void;
+  saveRun: (positions: PositionInTime[]) => void;
 }
 
 export const PathFetcherFactory = (props: Props) => (
