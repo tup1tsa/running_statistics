@@ -13,7 +13,8 @@ describe('Running logic test', () => {
     localStorage: {
       getItem: jest.fn().mockReturnValue(null),
       setItem: jest.fn()
-    }
+    },
+    validatePath: jest.fn().mockReturnValue(true)
   };
 
   it('should render path fetcher factory with correct props', () => {
@@ -83,6 +84,46 @@ describe('Running logic test', () => {
     expect(instance.getRunsFromLocalStorage()).toEqual([]);
     expect(instance.getRunsFromLocalStorage()).toEqual(runs);
     expect(localStorage.getItem.mock.calls.length).toBe(3);
+  });
+
+  it('should return only valid runs from local storage', () => {
+    const localStorage = {
+      getItem: jest.fn(),
+      setItem: jest.fn()
+    };
+    const incorrectRun = [
+      { ba: 23}
+    ];
+    const correctRun: PositionInTime[] = [
+      { latitude: 44, longitude: 12, time: 52 }
+    ];
+    localStorage.getItem.mockReturnValue(JSON.stringify([incorrectRun, correctRun]));
+    const validatePath = jest.fn()
+      .mockReturnValueOnce(false)
+      .mockReturnValue(true);
+    const wrapper = shallow(
+      <Running {...defaultProps} localStorage={localStorage} validatePath={validatePath}/>,
+      { disableLifecycleMethods: true }
+    );
+    const instance = wrapper.instance() as Running;
+    expect(instance.getRunsFromLocalStorage()).toEqual([correctRun]);
+  });
+
+  it('should return empty array if none of the races in storage are valid', () => {
+    const localStorage = {
+      getItem: jest.fn(),
+      setItem: jest.fn()
+    };
+    const validatePath = jest.fn().mockReturnValue(false);
+    localStorage.getItem.mockReturnValue(JSON.stringify(['incorrect data']));
+    localStorage.getItem.mockReturnValueOnce('incorrect json');
+    const wrapper = shallow(
+      <Running {...defaultProps} localStorage={localStorage} validatePath={validatePath}/>,
+      { disableLifecycleMethods: true }
+    );
+    const instance = wrapper.instance() as Running;
+    expect(instance.getRunsFromLocalStorage()).toEqual([]);
+    expect(instance.getRunsFromLocalStorage()).toEqual([]);
   });
 
   it('should save correctly to local storage new run', () => {
@@ -176,9 +217,9 @@ describe('Running logic test', () => {
       post: jest.fn().mockResolvedValueOnce(successResponse)
     };
 
-    shallow(<Running axios={axios} localStorage={localStorage}/>);
+    shallow(<Running {...defaultProps} axios={axios} localStorage={localStorage}/>);
     expect(axios.post.mock.calls.length).toBe(0);
-    shallow(<Running axios={axios} localStorage={localStorage}/>);
+    shallow(<Running {...defaultProps} axios={axios} localStorage={localStorage}/>);
     expect(axios.post.mock.calls.length).toBe(1);
     const [url, data] = axios.post.mock.calls[0];
     expect(url).toBe('/saveRuns');
@@ -214,9 +255,9 @@ describe('Running logic test', () => {
       }
     });
 
-    shallow(<Running axios={axios} localStorage={localStorage}/>);
-    shallow(<Running axios={axios} localStorage={localStorage}/>);
-    shallow(<Running axios={axios} localStorage={localStorage}/>);
+    shallow(<Running {...defaultProps} axios={axios} localStorage={localStorage}/>);
+    shallow(<Running {...defaultProps} axios={axios} localStorage={localStorage}/>);
+    shallow(<Running {...defaultProps} axios={axios} localStorage={localStorage}/>);
     // weird workaround for async componentDidUpdate method
     return new Promise(() => {
       process.nextTick(() => {

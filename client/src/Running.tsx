@@ -19,21 +19,14 @@ interface LocalStorage {
   setItem(item: string, data: string): void;
 }
 
-interface Run {
-  finishTime: number;
-  positions: PositionInTime[];
-}
-
 interface Props {
   axios: Axios;
   localStorage: LocalStorage;
+  // tslint:disable-next-line no-any
+  validatePath(path: any): boolean;
 }
 
-interface State {
-  runs: Run[];
-}
-
-export class Running extends React.Component<Props, State> {
+export class Running extends React.Component<Props> {
 
   constructor(props: Props) {
     super(props);
@@ -84,8 +77,18 @@ export class Running extends React.Component<Props, State> {
     if (runs === null) {
       return [];
     }
-    // todo: possible failure part. There should be validation
-    return JSON.parse(runs) as Array<Array<PositionInTime>>;
+    let parsedRuns;
+    try {
+      parsedRuns = JSON.parse(runs);
+    } catch (e) {
+      return [];
+    }
+    if (!Array.isArray(parsedRuns)) {
+      return [];
+    }
+    return parsedRuns.filter(run => {
+      return this.props.validatePath(run);
+    });
   }
 
   saveRunToLocalStorage(run: PositionInTime[]) {
