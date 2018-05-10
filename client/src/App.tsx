@@ -1,7 +1,14 @@
 import * as React from 'react';
 import './App.css';
-import { RunningFactory } from './RunningFactory';
+import { PathFetcherFactory } from './Path/PathFetcherFactory';
+import { saveRunFactory } from './saveRunFactory';
 
-const App = () => <RunningFactory />;
+const App = () => (
+  <PathFetcherFactory
+    minimumDistanceDiff={10}
+    minimumTimeBetweenCalls={10000}
+    saveRun={saveRunFactory}
+  />
+);
 
 export default App;
