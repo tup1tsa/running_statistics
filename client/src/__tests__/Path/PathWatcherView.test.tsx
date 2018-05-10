@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import { PathFetcherView } from '../../Path/PathFetcherView';
+import { PathWatcherView } from '../../Path/PathWatcherView';
 import { PathInformation } from '../../Path/PathInformation';
 
-describe('should render path component correctly', () => {
+describe('should render path view component correctly', () => {
 
   it('should render button if geo was not started. Button should start watcher', () => {
     const initWatcherMock = jest.fn();
     const wrapper = shallow(
-      <PathFetcherView
+      <PathWatcherView
         getPath={jest.fn()}
         getAverageSpeed={jest.fn()}
         path={[]}
@@ -27,7 +27,7 @@ describe('should render path component correctly', () => {
   it('should render button and notification if no positions were fetched. Button should stop watcher', () => {
     const stopWatcherMock = jest.fn();
     const wrapper = shallow(
-      <PathFetcherView
+      <PathWatcherView
         getPath={jest.fn()}
         getAverageSpeed={jest.fn()}
         path={[]}
@@ -52,7 +52,7 @@ describe('should render path component correctly', () => {
     ];
     const stopWatcherMock = jest.fn();
     const wrapper = shallow(
-      <PathFetcherView
+      <PathWatcherView
         getPath={jest.fn()}
         getAverageSpeed={jest.fn()}
         path={path}
@@ -74,7 +74,7 @@ describe('should render path component correctly', () => {
     const getSpeedMock = jest.fn();
     const toLocaleTimeMock = jest.fn();
     const wrapper = shallow(
-      <PathFetcherView
+      <PathWatcherView
         path={path}
         initWatcher={jest.fn()}
         stopWatcher={jest.fn()}
@@ -111,7 +111,7 @@ describe('should render path component correctly', () => {
     getSpeedMock.mockReturnValue(220);
     const toLocaleTimeMock = jest.fn();
     const wrapper = shallow(
-      <PathFetcherView
+      <PathWatcherView
         getPath={getPathMock}
         getAverageSpeed={getSpeedMock}
         path={path}

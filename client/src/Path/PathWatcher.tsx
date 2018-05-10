@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { PathFetcherViewFactory } from './PathFetcherViewFactory';
+import { PathWatcherViewFactory } from './PathWatcherViewFactory';
 
 export interface Position {
   latitude: number;
@@ -60,7 +60,7 @@ interface State {
   lastTimeCheck: number | null;
 }
 
-export class PathFetcher extends React.Component<Props, State> {
+export class PathWatcher extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -144,7 +144,7 @@ export class PathFetcher extends React.Component<Props, State> {
   render() {
     return (
       <div>
-        <PathFetcherViewFactory
+        <PathWatcherViewFactory
           path={this.state.positions}
           initWatcher={this.initWatcher}
           stopWatcher={this.stopWatcher}

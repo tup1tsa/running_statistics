@@ -1,4 +1,4 @@
-import { PositionInTime } from './PathFetcher';
+import { PositionInTime } from './PathWatcher';
 
 export interface LocalStorage {
   getItem(item: string): string | null;

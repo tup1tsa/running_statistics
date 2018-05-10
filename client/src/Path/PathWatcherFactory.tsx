@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { PathFetcher, PositionInTime } from './PathFetcher';
+import { PathWatcher, PositionInTime } from './PathWatcher';
 import * as GeoLib from 'geolib';
 import { isMiddlePointAccurate } from './isMiddlePointAccurate';
 
@@ -9,8 +9,8 @@ interface Props {
   saveRun: (positions: PositionInTime[]) => void;
 }
 
-export const PathFetcherFactory = (props: Props) => (
-  <PathFetcher
+export const PathWatcherFactory = (props: Props) => (
+  <PathWatcher
     {...props}
     geoLocation={navigator.geolocation}
     getDistance={GeoLib.getDistance}

@@ -1,4 +1,4 @@
-import { PositionInTime } from './Path/PathFetcher';
+import { PositionInTime } from './Path/PathWatcher';
 import { saveRun } from './saveRun';
 import { savePathToStorageFactory } from './Path/storageUtilsFactories';
 import { sendPathsToServerFactory } from './Path/sendPathsToServerFactory';

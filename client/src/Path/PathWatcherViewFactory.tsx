@@ -1,7 +1,7 @@
-import { PositionInTime } from './PathFetcher';
+import { PositionInTime } from './PathWatcher';
 import * as GeoLib from 'geolib';
 import { getAverageSpeed } from './getAverageSpeed';
-import { PathFetcherView } from './PathFetcherView';
+import { PathWatcherView } from './PathWatcherView';
 import * as React from 'react';
 
 interface Props {
@@ -13,9 +13,9 @@ interface Props {
 
 const toLocaleTime = (time: number) => new Date(time).toLocaleTimeString();
 
-export const PathFetcherViewFactory = (props: Props) => {
+export const PathWatcherViewFactory = (props: Props) => {
   return (
-    <PathFetcherView
+    <PathWatcherView
       path={props.path}
       initWatcher={props.initWatcher}
       stopWatcher={props.stopWatcher}

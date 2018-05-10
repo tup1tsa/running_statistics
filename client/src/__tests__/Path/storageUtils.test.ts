@@ -1,4 +1,4 @@
-import { PositionInTime } from '../../Path/PathFetcher';
+import { PositionInTime } from '../../Path/PathWatcher';
 import { fetchPathsFromStorage, savePathToStorage, clearPathsFromStorage } from '../../Path/storageUtils';
 
 describe('saving to local storage', () => {

@@ -1,4 +1,4 @@
-import { Position, PositionInTime } from './PathFetcher';
+import { Position, PositionInTime } from './PathWatcher';
 import * as React from 'react';
 import { PathInformation } from './PathInformation';
 
@@ -16,7 +16,7 @@ interface Props {
   toLocaleTime: (time: number) => string;
 }
 
-export const PathFetcherView = (props: Props) => {
+export const PathWatcherView = (props: Props) => {
   // todo: increase the size of the buttons
   const startButton = <button onClick={props.initWatcher}>init geo location</button>;
   const stopButton =  <button onClick={props.stopWatcher}>stop geo location</button>;

@@ -1,4 +1,4 @@
-import { PositionInTime } from './PathFetcher';
+import { PositionInTime } from './PathWatcher';
 
 interface Config {
   minSpeed: number;

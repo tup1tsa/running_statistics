@@ -1,4 +1,4 @@
-import { PositionInTime } from '../Path/PathFetcher';
+import { PositionInTime } from '../Path/PathWatcher';
 
 // tslint:disable-next-line no-any
 export const validatePath = (path: any): path is PositionInTime[] => {

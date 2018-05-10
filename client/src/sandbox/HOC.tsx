@@ -1,4 +1,4 @@
-import { Position } from '../Path/PathFetcher';
+import { Position } from '../Path/PathWatcher';
 import * as React from 'react';
 import { google } from 'google-maps';
 declare var google: google;

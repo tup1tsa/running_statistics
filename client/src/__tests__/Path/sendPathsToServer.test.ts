@@ -1,4 +1,4 @@
-import { PositionInTime } from '../../Path/PathFetcher';
+import { PositionInTime } from '../../Path/PathWatcher';
 import { sendPathsToServer, Response } from '../../Path/sendPathsToServer';
 
 describe('saving runs to the server', () => {

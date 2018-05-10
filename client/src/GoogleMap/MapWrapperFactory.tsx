@@ -4,7 +4,7 @@ import {
   MapWrapperWithGoogleMap
 } from './MapWrapper';
 import * as React from 'react';
-import { Position } from '../Path/PathFetcher';
+import { Position } from '../Path/PathWatcher';
 
 interface Props {
   map: {

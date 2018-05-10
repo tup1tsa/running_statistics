@@ -4,7 +4,7 @@ import {
   SuccessWatchCallback,
   GeoLocation,
   Options
-} from '../Path/PathFetcher';
+} from '../Path/PathWatcher';
 
 export class GeoLocationMock implements GeoLocation {
 
