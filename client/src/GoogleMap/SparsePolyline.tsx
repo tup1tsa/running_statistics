@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Polyline } from 'react-google-maps';
-import { Position } from '../Path/PathWatcher';
+import { Position } from '../common_files/interfaces';
 
 interface PathPart {
   positions: Position[];

@@ -1,6 +1,7 @@
-import { Position, PositionInTime } from './PathWatcher';
+import { PositionInTime } from '../common_files/interfaces';
 import * as React from 'react';
 import { PathInformation } from './PathInformation';
+import { Position } from '../common_files/interfaces';
 
 interface GetPath {
   (path: Position[]): number;

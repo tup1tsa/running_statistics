@@ -1,4 +1,4 @@
-import { PositionInTime } from './PathWatcher';
+import { PositionInTime } from '../common_files/interfaces';
 
 interface GetPath {
   (positions: PositionInTime[]): number;

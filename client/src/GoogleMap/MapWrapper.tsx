@@ -6,7 +6,7 @@ import {
   withScriptjs,
   WithScriptjsProps
 } from 'react-google-maps';
-import { Position } from '../Path/PathWatcher';
+import { Position } from '../common_files/interfaces';
 
 interface MapProps {
   center: Position;

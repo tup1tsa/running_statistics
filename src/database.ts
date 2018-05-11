@@ -1,5 +1,5 @@
 import { MongoClient, Db } from 'mongodb';
-import { PositionInTime } from '../client/src/Path/PathWatcher';
+import { PositionInTime } from '../client/src/common_files/interfaces';
 
 export const connect =  async (): Promise<MongoClient> => {
   const url = process.env.MONGODB_URI;

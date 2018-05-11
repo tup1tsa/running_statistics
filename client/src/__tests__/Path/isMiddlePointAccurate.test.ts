@@ -1,4 +1,4 @@
-import { Position } from '../../Path/PathWatcher';
+import { Position } from '../../common_files/interfaces';
 import { isMiddlePointAccurate } from '../../Path/isMiddlePointAccurate';
 import * as GeoLib from 'geolib';
 

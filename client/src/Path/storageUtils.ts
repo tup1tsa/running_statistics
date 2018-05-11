@@ -1,4 +1,4 @@
-import { PositionInTime } from './PathWatcher';
+import { PositionInTime } from '../common_files/interfaces';
 
 export interface LocalStorage {
   getItem(item: string): string | null;

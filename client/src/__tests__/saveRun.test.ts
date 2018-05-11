@@ -1,5 +1,5 @@
 import { saveRun } from '../saveRun';
-import { PositionInTime } from '../Path/PathWatcher';
+import { PositionInTime } from '../common_files/interfaces';
 
 it('should save run correctly', async (done) => {
   const run: PositionInTime[] = [{

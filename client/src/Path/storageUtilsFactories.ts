@@ -5,7 +5,7 @@ import {
   LocalStorage,
 } from './storageUtils';
 import { validatePath } from '../common_files/validatePath';
-import { PositionInTime } from './PathWatcher';
+import { PositionInTime } from '../common_files/interfaces';
 
 declare var localStorage: LocalStorage;
 

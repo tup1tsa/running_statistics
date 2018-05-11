@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { PathWatcher, PositionInTime } from './PathWatcher';
+import { PathWatcher } from './PathWatcher';
 import * as GeoLib from 'geolib';
 import { isMiddlePointAccurate } from './isMiddlePointAccurate';
+import { PositionInTime } from '../common_files/interfaces';
 
 interface Props {
   minimumDistanceDiff: number;

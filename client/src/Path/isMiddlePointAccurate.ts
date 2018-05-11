@@ -1,4 +1,4 @@
-import { Position } from './PathWatcher';
+import { Position } from '../common_files/interfaces';
 
 interface GetDistance {
   (start: Position, end: Position): number;
