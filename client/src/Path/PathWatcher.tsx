@@ -5,7 +5,8 @@ export interface Position {
   latitude: number;
   longitude: number;
 }
-
+// todo: move position in time from here to common files (it's used on the server)
+// todo: probably move folder common files to the server src directory? (it creates weird structure in server/dist)
 export interface PositionInTime extends Position {
   time: number;
 }
