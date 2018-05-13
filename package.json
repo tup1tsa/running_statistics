@@ -11,7 +11,7 @@
     "start": "node dist/src/server.js",
     "postinstall": "tsc && cd client && npm install && npm run build",
     "debug": "nodemon --watch 'dist/'  --inspect-brk dist/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest dist --watch --colors"
   },
   "repository": {
     "type": "git",
@@ -35,6 +35,7 @@
     "compression": "^1.7.2",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
+    "jest": "^22.4.3",
     "mongodb": "^3.0.8",
     "typescript": "^2.8.1"
   },

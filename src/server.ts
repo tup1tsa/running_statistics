@@ -2,7 +2,9 @@ import * as dotenv from 'dotenv';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
-import { connect, disconnect, saveRuns } from './database';
+import { getSaveRunQuery } from './database/queries';
+import { runQuery } from './database/databaseWrappers';
+import { MongoClient } from 'mongodb';
 
 dotenv.load();
 
@@ -17,10 +19,13 @@ app.use(express.static('client/build'));
 
 app.post('/saveRuns', async (req, res) => {
   const runs = req.body;
-  const client = await connect();
-  const db = client.db('remote-azure-mongo');
-  await saveRuns(db, runs);
-  await disconnect(client);
+  const saveRunQuery = getSaveRunQuery('runs', runs);
+  try {
+    await runQuery(process.env, MongoClient, saveRunQuery);
+  } catch (e) {
+    res.status(500).end(JSON.stringify(e));
+    return;
+  }
   const response = { saved: true };
   res.status(200).end(JSON.stringify(response));
 });
