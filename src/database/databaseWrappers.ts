@@ -1,14 +1,20 @@
 // import { Collection } from 'mongodb';
 
-interface Collection {
-  insertMany: (data: object[]) => Promise<Object>;
+interface InsertResult {
+  insertedCount: number;
+}
+
+export interface Collection {
+  insertMany: (data: object[]) => Promise<InsertResult>;
 }
 
 export interface Db {
   collection: (name: string) => Collection;
+  // tslint:disable-next-line no-any
+  dropDatabase(): Promise<any>;
 }
 
-interface MongoClientInstance {
+export interface MongoClientInstance {
   db(name: string): Db;
   close(): Promise<void>;
 }
@@ -18,7 +24,7 @@ interface MongoClient {
 }
 
 export interface Query {
-  (db: Db): Promise<object|void>;
+  (db: Db): Promise<InsertResult>;
 }
 
 interface ProcessEnv {

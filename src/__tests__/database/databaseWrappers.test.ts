@@ -71,7 +71,7 @@ describe('database logic', () => {
   });
 
   it('run query should return query result', async (done) => {
-    const result = [{}];
+    const result = {insertedCount: 1};
     const client = {...defaultClient};
     client.connect.mockResolvedValue(client);
     const query = (database: Db) => Promise.resolve(result);
