@@ -1,57 +1,29 @@
-// import { Collection } from 'mongodb';
-
-interface InsertResult {
-  insertedCount: number;
-}
-
-export interface Collection {
-  insertMany: (data: object[]) => Promise<InsertResult>;
-}
-
-export interface Db {
-  collection: (name: string) => Collection;
-  // tslint:disable-next-line no-any
-  dropDatabase(): Promise<any>;
-}
-
-export interface MongoClientInstance {
-  db(name: string): Db;
-  close(): Promise<void>;
-}
-
-interface MongoClient {
-  connect(uri: string): Promise<MongoClientInstance>;
-}
+import { MongoClient, Db, InsertWriteOpResult } from 'mongodb';
+// MongoClient is used directly here because of problems with static 'connect' method
+// if you pass client: MongoClient as dependency in functions -> typescript would think
+// that client is an instance of MongoClient, not MongoClient class itself
+// Db interface is used for simplification (it would be very tedious to make interface
+// of mongodb manually)
 
 export interface Query {
-  (db: Db): Promise<InsertResult>;
+  (db: Db): Promise<InsertWriteOpResult>;
 }
 
-interface ProcessEnv {
-  [key: string]: string | undefined;
-}
-
-export const connect =  async (processEnv: ProcessEnv, Client: MongoClient) => {
-  const isProd = processEnv.NODE_ENV === 'production';
-  const uri = isProd ? processEnv.MONGODB_URI : processEnv.MONGODB_URI_LOCAL;
-  const dbName = isProd ? processEnv.MONGODB_NAME : processEnv.MONGODB_NAME_LOCAL;
-  if (typeof uri !== 'string' || typeof dbName !== 'string') {
-    throw new Error('db uri or db name is not set in .env');
-  }
-  const client =  await Client.connect(uri);
+export const connect =  async (uri: string, dbName: string) => {
+  const clientInstance =  await MongoClient.connect(uri);
   return {
-    client,
-    db: client.db(dbName)
+    clientInstance,
+    db: clientInstance.db(dbName)
   };
 };
 
-export const disconnect = async (client: MongoClientInstance) => {
-  return await client.close();
+export const disconnect = async (client: MongoClient) => {
+  await client.close();
 };
 
-export const runQuery = async (processEnv: ProcessEnv, Client: MongoClient, query: Query) => {
-  const {client, db} = await connect(processEnv, Client);
+export const runQuery = async (uri: string, dbName: string, query: Query) => {
+  const {clientInstance, db} = await connect(uri, dbName);
   const result = await query(db);
-  await client.close();
+  await clientInstance.close();
   return result;
 };

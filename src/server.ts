@@ -2,9 +2,7 @@ import * as dotenv from 'dotenv';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
-import { getSaveRunQuery } from './database/queries';
-import { runQuery } from './database/databaseWrappers';
-import { MongoClient } from 'mongodb';
+import { saveRuns } from './database/queriesFactories';
 
 dotenv.load();
 
@@ -19,9 +17,8 @@ app.use(express.static('client/build'));
 
 app.post('/saveRuns', async (req, res) => {
   const runs = req.body;
-  const saveRunQuery = getSaveRunQuery('runs', runs);
   try {
-    await runQuery(process.env, MongoClient, saveRunQuery);
+    await saveRuns(runs);
   } catch (e) {
     res.status(500).end(JSON.stringify(e));
     return;

@@ -1,19 +1,21 @@
-import { MongoClientInstance, Db, connect } from '../../database/databaseWrappers';
-import { MongoClient } from 'mongodb';
+import { connect } from '../../database/databaseWrappers';
+import { MongoClient, Db } from 'mongodb';
 import * as dotenv from 'dotenv';
-import { getSaveRunQuery } from '../../database/queries';
+import { saveRuns } from '../../database/queries';
+import { getConnectionInfo } from '../../database/getConnectionInfo';
 
 describe('database queries', () => {
 
-  let client: MongoClientInstance;
+  let client: MongoClient;
   let db: Db;
   const collection = 'runs';
 
   beforeAll(() => dotenv.load());
 
   beforeEach(async (done) => {
-    const result = await connect(process.env, MongoClient);
-    client = result.client;
+    const connectionInfo = getConnectionInfo(process.env);
+    const result = await connect(connectionInfo.uri, connectionInfo.dbName);
+    client = result.clientInstance;
     db = result.db;
     done();
   });
@@ -24,14 +26,18 @@ describe('database queries', () => {
     done();
   });
 
-  it('save runs query', async (done) => {
-    const runs = [
+  it('should save runs correctly', async (done) => {
+    const run = [
       { latitude: 42, longitude: 44, time: 323 },
       { latitude: 17, longitude: 23, time: 323 },
     ];
-    const query  = getSaveRunQuery(collection, [runs]);
-    const result = await query(db);
-    expect(result.insertedCount).toEqual(1);
+    const query  = saveRuns(collection, [run]);
+    await query(db);
+    const cursor = await db.collection('runs').find();
+    const docs = await cursor.toArray();
+    expect(docs.length).toBe(1);
+    expect(docs[0].points).toEqual(run);
+    expect(docs[0].type).toBe('run');
     done();
   });
 });
