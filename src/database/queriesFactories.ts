@@ -1,9 +1,16 @@
 import { PositionInTime } from '../../client/src/common_files/interfaces';
-import { saveRuns } from './queries';
+import { fetchRuns, saveRuns } from './queries';
 import { runQuery } from './databaseWrappers';
-import { MongoClient } from 'mongodb';
+import { getConnectionInfo } from './getConnectionInfo';
 
-export const saveRuns = async (runs: PositionInTime[][]) => {
+export const saveRunsFactory = async (runs: PositionInTime[][]) => {
   const query = saveRuns('runs', runs);
-  return runQuery(process.env, MongoClient, query);
+  const connectionInfo = getConnectionInfo(process.env);
+  return runQuery(connectionInfo.uri, connectionInfo.dbName, query);
+};
+
+export  const fetchRunsFactory = async () => {
+  const query = await fetchRuns('runs');
+  const connectionInfo = getConnectionInfo(process.env);
+  return runQuery(connectionInfo.uri, connectionInfo.dbName, query);
 };

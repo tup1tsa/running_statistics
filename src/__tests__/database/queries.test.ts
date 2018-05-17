@@ -1,7 +1,7 @@
 import { connect } from '../../database/databaseWrappers';
 import { MongoClient, Db } from 'mongodb';
 import * as dotenv from 'dotenv';
-import { saveRuns } from '../../database/queries';
+import { fetchRuns, saveRuns } from '../../database/queries';
 import { getConnectionInfo } from '../../database/getConnectionInfo';
 
 describe('database queries', () => {
@@ -38,6 +38,19 @@ describe('database queries', () => {
     expect(docs.length).toBe(1);
     expect(docs[0].points).toEqual(run);
     expect(docs[0].type).toBe('run');
+    done();
+  });
+
+  it('should fetch runs correctly', async (done) => {
+    const run = [
+      { latitude: 42, longitude: 44, time: 323 },
+      { latitude: 17, longitude: 23, time: 323 },
+    ];
+    const saveRunsQuery  = saveRuns(collection, [run]);
+    await saveRunsQuery(db);
+    const fetchRunsQuery = fetchRuns(collection);
+    const runs = await fetchRunsQuery(db);
+    expect(runs).toEqual([run]);
     done();
   });
 });
