@@ -39,7 +39,18 @@ export const dividePath = (path: PositionInTime[], config: DividePathConfig): Di
   return dividedPath;
 };
 
+export const unitePath = (path: DividedPathPart[]): PositionInTime[] => {
+  return path
+    .map(dividedPart => {
+      return dividedPart.path;
+    })
+    .reduce(  (totalPath, currentPath) => {
+      return totalPath.concat(currentPath);
+    },        []);
+};
+
 export const findCenter = (path: Position[]): Position => {
+  // todo: find center works weird. Should be the center between top left position and bottom right
   const error = 'path should contain at least one point';
   if (path.length === 0) {
     throw new Error(error);

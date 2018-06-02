@@ -1,8 +1,8 @@
 import { PositionInTime } from '../common_files/interfaces';
 import * as GeoLib from 'geolib';
-import { getAverageSpeed } from './getAverageSpeed';
 import { PathWatcherView } from './PathWatcherView';
 import * as React from 'react';
+import { getAverageSpeed } from './pathUtils';
 
 interface Props {
   path: PositionInTime[];

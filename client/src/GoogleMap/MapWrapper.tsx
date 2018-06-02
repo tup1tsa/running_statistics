@@ -27,17 +27,16 @@ interface ScriptProps {
 
 export const MapWrapper = <P extends {}>
   (
-    WrappedComponent: React.ComponentType<P>,
-    mapProps: MapProps
-  ) => (props: P) => {
+    WrappedComponent: React.ComponentType<P>
+  ) => (props: P & MapProps) => {
     const center = {
-      lat: mapProps.center.latitude,
-      lng: mapProps.center.longitude
+      lat: props.center.latitude,
+      lng: props.center.longitude
     };
     return (
       <GoogleMap
         defaultCenter={center}
-        defaultZoom={mapProps.zoom}
+        defaultZoom={props.zoom}
       >
         <WrappedComponent {...props} />
       </GoogleMap>
@@ -46,18 +45,21 @@ export const MapWrapper = <P extends {}>
 
 export const MapWrapperWithGoogleMap = <P extends {}>
   (
-    WrappedComponent: React.ComponentType<P>,
-    mapSize: MapSize
+    WrappedComponent: React.ComponentType<P>
   ) => {
-    const Hoc = withGoogleMap(WrappedComponent) as React.ComponentClass<WithGoogleMapProps>;
-    const containerStyle = {
-      height: `${mapSize.height}px`,
-      width: `${mapSize.width}px`
-    };
-    return class  extends React.Component {
+    return class  extends React.Component<P & MapSize> {
+      constructor(props: P & MapSize) {
+        super(props);
+      }
       render() {
+        const Hoc = withGoogleMap(WrappedComponent) as React.ComponentClass<WithGoogleMapProps>;
+        const containerStyle = {
+          height: `${this.props.height}px`,
+          width: `${this.props.width}px`
+        };
         return (
           <Hoc
+            {...this.props}
             containerElement={<div style={containerStyle}/>}
             mapElement={<div style={{height: '100%'}}/>}
           />
@@ -68,17 +70,17 @@ export const MapWrapperWithGoogleMap = <P extends {}>
 
 export const MapWrapperWithScript = <P extends {}>
   (
-    WrappedComponent: React.ComponentClass<P>,
-    props: ScriptProps
-  ) => {
+    WrappedComponent: React.ComponentClass<P>
+  ) => (props: P & ScriptProps) => {
     let secretKey;
     if (props.processEnv.REACT_APP_GOOGLE_MAPS_KEY) {
       secretKey = props.processEnv.REACT_APP_GOOGLE_MAPS_KEY;
     }
     let url = secretKey ? `${props.googleMapDefaultUrl}&key=${secretKey}` : props.googleMapDefaultUrl;
     const Hoc = withScriptjs(WrappedComponent) as React.ComponentClass<WithScriptjsProps>;
-    return () => (
+    return (
       <Hoc
+        {...props}
         googleMapURL={url}
         loadingElement={<div style={{height: '100%'}} />}
       />

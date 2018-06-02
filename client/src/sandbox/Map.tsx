@@ -8,17 +8,14 @@ const path = [
 ];
 const InnerElement = () => <Polyline path={path}/>;
 const props = {
-  map: {
-    center: {
-      latitude: 48,
-      longitude: 23,
-    },
-    zoom: 13
+  center: {
+    latitude: 48,
+    longitude: 23,
   },
-  containerSize: {
-    width: 400,
-    height: 400
-  }
+  zoom: 13,
+  width: 400,
+  height: 400
 };
-export const MapSandbox = MapWrapperFactory(InnerElement, props);
-// usage <MapSandbox />;
+const MapSandbox = MapWrapperFactory(InnerElement);
+
+export const Map = <MapSandbox {...props} />;

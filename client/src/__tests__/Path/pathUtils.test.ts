@@ -1,5 +1,12 @@
 import { PositionInTime, Position } from '../../common_files/interfaces';
-import { dividePath, findCenter, getAverageSpeed, isMiddlePointAccurate } from '../../Path/pathUtils';
+import {
+  DividedPathPart,
+  dividePath,
+  findCenter,
+  getAverageSpeed,
+  isMiddlePointAccurate,
+  unitePath
+} from '../../Path/pathUtils';
 import * as GeoLib from 'geolib';
 
 describe('divide path', () => {
@@ -49,7 +56,18 @@ describe('divide path', () => {
     expect(dividedPath[3]).toEqual({active: false, path: [defaultPath[3], defaultPath[4]]});
     expect(dividedPath[4]).toEqual({active: true, path: [defaultPath[4], defaultPath[5]]});
   });
+});
 
+describe('unite path', () => {
+  const dividedPath: DividedPathPart[] = [
+    {active:  true, path: [{ latitude: 22, longitude: 44, time: 117 }]},
+    {active: false, path: [
+      { latitude: 55, longitude: 19, time: 222 },
+      { latitude: 22, longitude: 20, time: 113 }
+    ]}
+  ];
+  const unitedPath = [dividedPath[0].path[0], dividedPath[1].path[0], dividedPath[1].path[1]];
+  expect(unitePath(dividedPath)).toEqual(unitedPath);
 });
 
 describe('find center of the path', () => {

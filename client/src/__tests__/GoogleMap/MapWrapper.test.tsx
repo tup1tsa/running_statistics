@@ -14,22 +14,25 @@ describe('higher order component logic', () => {
 
   it('should render inner stateless component without props', () => {
     const InnerComponent = () => <span id="inner" />;
-    const Hoc = MapWrapper(InnerComponent, defaultProps);
-    const wrapper = shallow(<Hoc />);
+    const Hoc = MapWrapper(InnerComponent);
+    const wrapper = shallow(<Hoc {...defaultProps} />);
     expect(wrapper.children().dive().is('span#inner')).toBe(true);
   });
 
   it('should render inner stateless component with props', () => {
-    const InnerComponent = ({name}: {name: string}) => <span data-name={name} />;
-    const Hoc = MapWrapper(InnerComponent, defaultProps);
-    const wrapper = shallow(<Hoc name="sasha" />);
+    interface Props {
+      name: string;
+    }
+    const InnerComponent = (props: Props) => <span data-name={props.name} />;
+    const Hoc = MapWrapper(InnerComponent);
+    const wrapper = shallow(<Hoc name="sasha" {...defaultProps} />);
     expect(wrapper.children().dive().is('[data-name="sasha"]')).toBe(true);
   });
 
   it('map should convert and render center and zoom props correctly', () => {
     const InnerComponent = () => <div />;
-    const Hoc = MapWrapper(InnerComponent, defaultProps);
-    const wrapper = shallow(<Hoc />);
+    const Hoc = MapWrapper(InnerComponent);
+    const wrapper = shallow(<Hoc {...defaultProps} />);
     const centerConverted = {
       lat: 23,
       lng: 44
@@ -40,13 +43,13 @@ describe('higher order component logic', () => {
 
   it('should render container element and map element with correct size', () => {
     const InnerComponent = () => <span />;
-    const Hoc = MapWrapper(InnerComponent, defaultProps);
+    const Hoc = MapWrapper(InnerComponent);
     const size = {
       width: 400,
       height: 400
     };
-    const HocWithGoogleMap = MapWrapperWithGoogleMap(Hoc, size);
-    const wrapper = shallow(<HocWithGoogleMap />);
+    const HocWithGoogleMap = MapWrapperWithGoogleMap(Hoc);
+    const wrapper = shallow(<HocWithGoogleMap {...defaultProps} {...size} />);
     const mapElement = <div style={{height: '100%'}} />;
     expect(wrapper.props().mapElement).toEqual(mapElement);
     const containerElement = <div style={{height: `${size.height}px`, width: `${size.width}px`}}/>;
@@ -66,8 +69,8 @@ describe('higher order component logic', () => {
     };
     const expectedUrl = `${defaultUrl}&key=${processEnv.REACT_APP_GOOGLE_MAPS_KEY}`;
     const loadingElement = <div style={{height: '100%'}} />;
-    const Hoc = MapWrapperWithScript(InnerComponent, {googleMapDefaultUrl: defaultUrl, processEnv});
-    const wrapper = shallow(<Hoc />);
+    const Hoc = MapWrapperWithScript(InnerComponent);
+    const wrapper = shallow(<Hoc googleMapDefaultUrl={defaultUrl} processEnv={processEnv}/>);
     expect(wrapper.props().googleMapURL).toBe(expectedUrl);
     expect(wrapper.props().loadingElement).toEqual(loadingElement);
   });

@@ -3,8 +3,8 @@ import { shallow } from 'enzyme';
 import * as React from 'react';
 import { GeoLocationMock } from '../../__mocks__/GeoLocation';
 import { PathWatcherViewFactory } from '../../Path/PathWatcherViewFactory';
-import { isMiddlePointAccurate } from '../../Path/isMiddlePointAccurate';
 import { Position } from '../../common_files/interfaces';
+import { isMiddlePointAccurate } from '../../Path/pathUtils';
 
 describe('Path watcher tests', () => {
 
