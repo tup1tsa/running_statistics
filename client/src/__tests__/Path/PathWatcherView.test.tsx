@@ -88,8 +88,6 @@ describe('should render path view component correctly', () => {
     expect(getSpeedMock.mock.calls.length).toBe(0);
     const pathInformation = (
       <PathInformation
-        latitude={25}
-        longitude={44}
         time={2342432}
         totalDistance={0}
         avgSpeed={0}
@@ -127,8 +125,6 @@ describe('should render path view component correctly', () => {
     expect(getSpeedMock.mock.calls[0][0]).toBe(path);
     const pathInformation = (
       <PathInformation
-        latitude={48}
-        longitude={-17}
         time={23456553}
         totalDistance={1458}
         avgSpeed={220}

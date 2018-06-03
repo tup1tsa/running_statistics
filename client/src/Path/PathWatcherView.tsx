@@ -19,8 +19,8 @@ interface Props {
 
 export const PathWatcherView = (props: Props) => {
   // todo: increase the size of the buttons
-  const startButton = <button onClick={props.initWatcher}>init geo location</button>;
-  const stopButton =  <button onClick={props.stopWatcher}>stop geo location</button>;
+  const startButton = <button className="blue" onClick={props.initWatcher}>init geo location</button>;
+  const stopButton =  <button className="blue" onClick={props.stopWatcher}>stop geo location</button>;
   if (!props.geoLocationStarted) {
     return <div>{startButton}</div>;
   }
@@ -42,8 +42,6 @@ export const PathWatcherView = (props: Props) => {
   return (
     <div>
       <PathInformation
-        latitude={lastPosition.latitude}
-        longitude={lastPosition.longitude}
         time={lastPosition.time}
         toLocaleTime={props.toLocaleTime}
         totalDistance={totalDistance}

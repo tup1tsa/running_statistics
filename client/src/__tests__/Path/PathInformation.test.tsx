@@ -9,11 +9,9 @@ describe('should render path information correctly', () => {
 
   const wrapper = shallow(
     <PathInformation
-      latitude={45}
-      longitude={45}
       time={2323323}
       toLocaleTime={toLocaleTimeMock}
-      avgSpeed={13}
+      avgSpeed={13.2563}
       totalDistance={23}
     />
   );
@@ -24,15 +22,13 @@ describe('should render path information correctly', () => {
   });
 
   it('should render 5 paragraphs', () => {
-    expect(wrapper.find('p').length).toBe(5);
+    expect(wrapper.find('li').length).toBe(3);
   });
 
   it('should render correct data', () => {
-    expect(wrapper.contains(<p>Latitude is 45</p>)).toBe(true);
-    expect(wrapper.contains(<p>Longitude is 45</p>)).toBe(true);
-    expect(wrapper.contains(<p>Last check was at 7 pm</p>)).toBe(true);
-    expect(wrapper.contains(<p>Average speed is 13 kmh</p>)).toBe(true);
-    expect(wrapper.contains(<p>Total distance is 23 metres</p>)).toBe(true);
+    expect(wrapper.contains(<li>Last check was at 7 pm</li>)).toBe(true);
+    expect(wrapper.contains(<li>Average speed is 13.26 kmh</li>)).toBe(true);
+    expect(wrapper.contains(<li>Total distance is 23 metres</li>)).toBe(true);
   });
 
 });

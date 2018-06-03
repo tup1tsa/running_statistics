@@ -1,8 +1,6 @@
 import * as React from 'react';
 
 interface Props {
-  latitude: number;
-  longitude: number;
   time: number;
   totalDistance: number;
   avgSpeed: number;
@@ -11,14 +9,13 @@ interface Props {
 
 export const PathInformation = (props: Props) => {
   const time = props.toLocaleTime(props.time);
-  // todo: add rounding here
+  const speedPrecision = 100;
+  const speed = Math.round(props.avgSpeed * speedPrecision) / speedPrecision;
   return (
-    <div>
-      <p>Latitude is {props.latitude}</p>
-      <p>Longitude is {props.longitude}</p>
-      <p>Last check was at {time}</p>
-      <p>Total distance is {props.totalDistance} metres</p>
-      <p>Average speed is {props.avgSpeed} kmh</p>
-    </div>
+    <ul>
+      <li>Last check was at {time}</li>
+      <li>Total distance is {props.totalDistance} metres</li>
+      <li>Average speed is {speed} kmh</li>
+    </ul>
   );
 };
