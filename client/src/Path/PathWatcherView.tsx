@@ -8,6 +8,7 @@ interface GetPath {
 }
 
 interface Props {
+  runningType: string;
   path: PositionInTime[];
   initWatcher: () => void;
   stopWatcher: () => void;
@@ -18,9 +19,8 @@ interface Props {
 }
 
 export const PathWatcherView = (props: Props) => {
-  // todo: increase the size of the buttons
-  const startButton = <button className="blue" onClick={props.initWatcher}>init geo location</button>;
-  const stopButton =  <button className="blue" onClick={props.stopWatcher}>stop geo location</button>;
+  const startButton = <button className="blue" onClick={props.initWatcher}>Start run</button>;
+  const stopButton =  <button className="blue" onClick={props.stopWatcher}>Finish</button>;
   if (!props.geoLocationStarted) {
     return <div>{startButton}</div>;
   }
@@ -42,6 +42,7 @@ export const PathWatcherView = (props: Props) => {
   return (
     <div>
       <PathInformation
+        runningType={props.runningType}
         time={lastPosition.time}
         toLocaleTime={props.toLocaleTime}
         totalDistance={totalDistance}

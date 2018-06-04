@@ -1,14 +1,7 @@
 import * as React from 'react';
 import './App.css';
-import { PathWatcherFactory } from './Path/PathWatcherFactory';
-import { saveRunFactory } from './saveRunFactory';
+import { Navigation } from './Navigation';
 
-const App = () => (
-  <PathWatcherFactory
-    minimumDistanceDiff={10}
-    minimumTimeBetweenCalls={10000}
-    saveRun={saveRunFactory}
-  />
-);
+const App = () => <Navigation />;
 
 export default App;

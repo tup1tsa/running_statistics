@@ -2,8 +2,7 @@ import * as React from 'react';
 import { PathWatcherViewFactory } from './PathWatcherViewFactory';
 import { Position, PositionInTime } from '../common_files/interfaces';
 
-// todo: move position in time from here to common files (it's used on the server)
-// todo: probably move folder common files to the server src directory? (it creates weird structure in server/dist)
+// todo: add somewhere hint that data is saving on the server currently or was successfully saved
 
 export interface PositionResponse {
   timestamp: number;
@@ -41,9 +40,15 @@ interface GetDistance {
 }
 
 interface Props {
+  runningType: string;
+  speedLimits: {
+    minSpeed: number;
+    maxSpeed: number;
+  };
   minimumDistanceDiff: number;
-  minimumTimeBetweenCalls: number;
-  saveRun: (positions: PositionInTime[]) => void;
+  delaySecs: number;
+  saveRun: (positions: PositionInTime[]) => Promise<string>;
+  setSaveResult: (message: string) => void;
   geoLocation: GeoLocation;
   getDistance: GetDistance;
   isMiddlePointAccurate: (start: Position, middle: Position, end: Position, getDistance: GetDistance) => boolean;
@@ -53,6 +58,7 @@ interface State {
   positions: PositionInTime[];
   watcherId: number | null;
   lastTimeCheck: number | null;
+  savingInProgress: boolean;
 }
 
 export class PathWatcher extends React.Component<Props, State> {
@@ -62,6 +68,7 @@ export class PathWatcher extends React.Component<Props, State> {
       positions: [],
       watcherId: null,
       lastTimeCheck: null,
+      savingInProgress: false
     };
     this.initWatcher = this.initWatcher.bind(this);
     this.stopWatcher = this.stopWatcher.bind(this);
@@ -69,6 +76,7 @@ export class PathWatcher extends React.Component<Props, State> {
   }
 
   initWatcher() {
+    // todo: run this immediately. Start run button in watcher view factory is obsolete -> remove it
     if (this.state.watcherId !== null) {
       return;
     }
@@ -80,13 +88,21 @@ export class PathWatcher extends React.Component<Props, State> {
     this.setState({watcherId});
   }
 
-  stopWatcher() {
-    if (this.state.watcherId === null) {
-      return;
-    }
-    this.props.geoLocation.clearWatch(this.state.watcherId);
-    this.setState({watcherId: null});
-    this.props.saveRun(this.state.positions);
+  async stopWatcher() {
+    return new Promise((resolve) => {
+      if (this.state.watcherId === null) {
+        return resolve();
+      }
+      this.props.geoLocation.clearWatch(this.state.watcherId);
+      this.setState({watcherId: null, savingInProgress: true });
+      // there is no try catch in sending data to the server. Save run should not throw at all.
+      // todo: path watcher view should also show that saving run is in progress
+      this.props.saveRun(this.state.positions)
+        .then(result => {
+          this.props.setSaveResult(result);
+          resolve();
+        });
+    });
   }
 
   savePosition(position: PositionResponse) {
@@ -104,7 +120,7 @@ export class PathWatcher extends React.Component<Props, State> {
       return;
     }
     // this position is too recent -> ignore it
-    if ((currentPosition.time - this.state.lastTimeCheck) < this.props.minimumTimeBetweenCalls) {
+    if ((currentPosition.time - this.state.lastTimeCheck) < this.props.delaySecs * 1000) {
       return;
     }
     let positions = this.state.positions.slice(0);
@@ -137,9 +153,13 @@ export class PathWatcher extends React.Component<Props, State> {
   }
 
   render() {
+    if (this.state.savingInProgress) {
+      return <div>Saving in progress</div>;
+    }
     return (
       <div>
         <PathWatcherViewFactory
+          runningType={this.props.runningType}
           path={this.state.positions}
           initWatcher={this.initWatcher}
           stopWatcher={this.stopWatcher}

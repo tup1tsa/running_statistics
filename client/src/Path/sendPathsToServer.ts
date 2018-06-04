@@ -21,13 +21,13 @@ export interface SendPathsToServer {
     fetchPaths: FetchPathsFromStorage,
     axios: Axios,
     clearStorage: () => void
-  ): Promise<void>;
+  ): Promise<string>;
 }
 
 export const sendPathsToServer: SendPathsToServer = async (fetchPaths, axios, clearStorage) => {
   const paths = fetchPaths();
   if (paths.length === 0) {
-    return;
+    return 'There is nothing to save';
   }
   let response: Response;
   try {
@@ -35,7 +35,12 @@ export const sendPathsToServer: SendPathsToServer = async (fetchPaths, axios, cl
   } catch (e) {
     response = e.response;
   }
-  if (response.status === 200 && response.data.saved === true) {
+  if (response.status === 200 && response.data && response.data.saved === true) {
     clearStorage();
+    return 'Runs were successfully saved';
   }
+  if (response.data && response.data.saved === false) {
+    return 'There were some problems on server. Saving unsuccessful';
+  }
+  return 'Unexpected error during saving';
 };

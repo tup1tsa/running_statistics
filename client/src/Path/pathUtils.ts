@@ -73,6 +73,7 @@ interface GetPath {
 }
 
 export const getAverageSpeed = (path: PositionInTime[], getPath: GetPath) => {
+  // todo: redo it. It should calculate pure speed. Path should be divided before calculating using speed limits
   if (path.length === 0 || path.length === 1) {
     return 0;
   }

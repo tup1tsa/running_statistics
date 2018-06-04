@@ -20,13 +20,15 @@ describe('saving runs to the server', () => {
       get: jest.fn(),
       post: jest.fn().mockResolvedValueOnce(successResponse)
     };
-    await sendPathsToServer(fetchPaths, axios, jest.fn());
+    const emptyStorageResult = await sendPathsToServer(fetchPaths, axios, jest.fn());
+    expect(emptyStorageResult).toBe('There is nothing to save');
     expect(axios.post.mock.calls.length).toBe(0);
-    await sendPathsToServer(fetchPaths, axios, jest.fn());
+    const fullStorageResult = await sendPathsToServer(fetchPaths, axios, jest.fn());
     expect(axios.post.mock.calls.length).toBe(1);
     const [url, data] = axios.post.mock.calls[0];
     expect(url).toBe('/saveRuns');
     expect(data).toEqual(runsInStorage);
+    expect(fullStorageResult).toEqual('Runs were successfully saved');
     done();
   });
 
@@ -58,11 +60,14 @@ describe('saving runs to the server', () => {
 
     await sendPathsToServer(fetchPaths, axios, clearStorage);
     expect(clearStorage.mock.calls.length).toBe(1);
-    await sendPathsToServer(fetchPaths, axios, clearStorage);
-    await sendPathsToServer(fetchPaths, axios, clearStorage);
+    const serverError = await sendPathsToServer(fetchPaths, axios, clearStorage);
+    const unexpectedError = await sendPathsToServer(fetchPaths, axios, clearStorage);
+
+    expect(serverError).toBe('There were some problems on server. Saving unsuccessful');
+    expect(unexpectedError).toBe('Unexpected error during saving');
 
     expect(axios.post.mock.calls.length).toBe(3);
-    // mock calls length check is duplicated to make sure that it wasn't invoked again
+    // clear storage calls check is duplicated to make sure that it wasn't invoked again
     expect(clearStorage.mock.calls.length).toBe(1);
     done();
   });

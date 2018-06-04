@@ -10,11 +10,17 @@ describe('Path watcher tests', () => {
 
   const geoLocation = new GeoLocationMock();
   const pathFetcherDefaultProps = {
+    runningType: 'Walking',
+    speedLimits: {
+      minSpeed: 5,
+      maxSpeed: 17
+    },
     geoLocation,
-    saveRun: jest.fn(),
+    saveRun: jest.fn().mockResolvedValue(''),
+    setSaveResult: jest.fn(),
     getDistance: jest.fn(),
     isMiddlePointAccurate: jest.fn(),
-    minimumTimeBetweenCalls: 10000,
+    delaySecs: 10,
     minimumDistanceDiff: 10
   };
 
@@ -23,7 +29,8 @@ describe('Path watcher tests', () => {
     expect(wrapper.state()).toEqual({
       lastTimeCheck: null,
       positions: [],
-      watcherId: null
+      watcherId: null,
+      savingInProgress: false
     });
   });
 
@@ -32,6 +39,7 @@ describe('Path watcher tests', () => {
     const instance = wrapper.instance() as PathWatcher;
     const view = (
       <PathWatcherViewFactory
+        runningType={pathFetcherDefaultProps.runningType}
         path={instance.state.positions}
         initWatcher={instance.initWatcher}
         stopWatcher={instance.stopWatcher}
@@ -76,21 +84,24 @@ describe('Path watcher tests', () => {
     expect(stateBeforeSecondCall).toEqual(stateAfterSecondCall);
   });
 
-  it('stop watcher should call geo location with correct watch id and clear watch id state', () => {
+  it('stop watcher should call geo location with correct watch id and clear watch id state', async (done) => {
     const geoLocationMock = new GeoLocationMock();
     const wrapper = shallow(<PathWatcher {...pathFetcherDefaultProps} geoLocation={geoLocationMock} />);
     const instance = wrapper.instance() as PathWatcher;
     instance.initWatcher();
     const watchId = geoLocationMock.watchId;
-    instance.stopWatcher();
+    await instance.stopWatcher();
     expect(instance.state.watcherId).toBe(null);
     expect(geoLocationMock.clearWatchWasCalled.providedWatchNumber).toBe(watchId);
+    done();
   });
 
-  it('stop watcher should send positions to higher order component', () => {
+  it('stop watcher should send positions to higher order component and send result of saving', async (done) => {
     let props = {...pathFetcherDefaultProps};
     props.geoLocation = new GeoLocationMock();
-    props.saveRun = jest.fn();
+    const savingResult = 'all is ok';
+    props.saveRun = jest.fn().mockResolvedValue(savingResult);
+    props.setSaveResult = jest.fn();
     const wrapper = shallow(<PathWatcher {...props} />);
     const instance = wrapper.instance() as PathWatcher;
     instance.initWatcher();
@@ -98,17 +109,31 @@ describe('Path watcher tests', () => {
       coords: { latitude: 24, longitude: 44 },
       timestamp: 1000
     });
-    props.geoLocation.sendPosition({
-      coords: {latitude: 24, longitude: 42 },
-      timestamp: 15000
-    });
-    instance.stopWatcher();
+    await instance.stopWatcher();
     expect(props.saveRun.mock.calls.length).toBe(1);
-    const expectedPositions = [
-      { latitude: 24, longitude: 44, time: 1000 },
-      { latitude: 24, longitude: 42, time: 15000 }
-    ];
+    const expectedPositions = [{ latitude: 24, longitude: 44, time: 1000 }];
     expect(props.saveRun.mock.calls[0][0]).toEqual(expectedPositions);
+    expect(props.setSaveResult.mock.calls.length).toBe(1);
+    expect(props.setSaveResult.mock.calls[0][0]).toBe(savingResult);
+    done();
+  });
+
+  it('should show that saving is in progress during saving', async (done) => {
+    let props = {...pathFetcherDefaultProps};
+    props.geoLocation = new GeoLocationMock();
+    props.saveRun = jest.fn().mockResolvedValue('');
+    const wrapper = shallow(<PathWatcher {...props} />);
+    const instance = wrapper.instance() as PathWatcher;
+    instance.initWatcher();
+    props.geoLocation.sendPosition({
+      coords: { latitude: 44, longitude: 17 },
+      timestamp: 23232
+    });
+    const stopWatcherPromise = instance.stopWatcher();
+    wrapper.update();
+    expect(wrapper.contains(<div>Saving in progress</div>)).toBe(true);
+    await stopWatcherPromise;
+    done();
   });
 
   it('should not call geo location clear watch if watch id is null', () => {
