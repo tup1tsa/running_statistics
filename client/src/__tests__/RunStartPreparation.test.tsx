@@ -24,6 +24,7 @@ describe('run start preparation logic', () => {
     speedLimits: speedLimits,
     delaySecs: 2,
     minimumDistanceDiff: 2,
+    maxTimeBetweenPointsSecs: 30,
     saveRun: jest.fn(),
     setSaveResult: jest.fn()
   };
@@ -47,7 +48,8 @@ describe('run start preparation logic', () => {
         minimumDistanceDiff: defaultProps.minimumDistanceDiff,
         delaySecs: defaultProps.delaySecs,
         saveRun: defaultProps.saveRun,
-        setSaveResult: defaultProps.setSaveResult
+        setSaveResult: defaultProps.setSaveResult,
+        maxTimeBetweenPointsSecs: defaultProps.maxTimeBetweenPointsSecs
       };
       const wrapper = shallow(<RunStartPreparation {...defaultProps} />);
       wrapper.find(buttonId).simulate('click');

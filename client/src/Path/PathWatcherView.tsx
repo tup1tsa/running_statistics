@@ -1,18 +1,16 @@
 import { PositionInTime } from '../common_files/interfaces';
 import * as React from 'react';
 import { PathInformation } from './PathInformation';
-import { Position } from '../common_files/interfaces';
-
-interface GetPath {
-  (path: Position[]): number;
-}
+import { GetActivePathDataFactory } from './pathUtilsFactories';
+import { SpeedLimits } from '../RunStartPreparation';
 
 interface Props {
   runningType: string;
+  speedLimits: SpeedLimits;
+  maxTimeBetweenPointsSecs: number;
+  getActivePathData: GetActivePathDataFactory;
   path: PositionInTime[];
   stopWatcher: () => Promise<{}>;
-  getPath: GetPath;
-  getAverageSpeed: (path: PositionInTime[], getPath: GetPath) => number;
   toLocaleTime: (time: number) => string;
 }
 
@@ -28,18 +26,22 @@ export const PathWatcherView = (props: Props) => {
   }
   let totalDistance = 0;
   let averageSpeed = 0;
+  let totalTimeSecs = 0;
   const lastPosition = props.path[props.path.length - 1];
   if (props.path.length > 1) {
-    totalDistance = props.getPath(props.path);
-    averageSpeed = props.getAverageSpeed(props.path, props.getPath);
+    const data = props.getActivePathData(props.path, props.speedLimits, props.maxTimeBetweenPointsSecs);
+    totalDistance = data.distance;
+    averageSpeed = data.averageSpeed;
+    totalTimeSecs = data.timeSecs;
   }
   return (
     <div>
       <PathInformation
         runningType={props.runningType}
-        time={lastPosition.time}
+        lastTimeCheck={lastPosition.time}
         toLocaleTime={props.toLocaleTime}
         totalDistance={totalDistance}
+        totalTimeSecs={totalTimeSecs}
         avgSpeed={averageSpeed}
       />
       {stopButton}

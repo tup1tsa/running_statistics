@@ -2,7 +2,7 @@ import { PositionInTime, Position } from '../../common_files/interfaces';
 import {
   DividedPathPart,
   dividePath,
-  findCenter,
+  findCenter, getActiveParts, getActivePathData,
   getAverageSpeed,
   isMiddlePointAccurate,
   unitePath
@@ -23,8 +23,9 @@ describe('divide path', () => {
   const defaultConfig = {
     minSpeed: 2,
     maxSpeed: 5,
-    maxTimeBetweenPointsMs: 1000,
-    getAverageSpeed: jest.fn().mockReturnValue(3)
+    maxTimeBetweenPointsSecs: 1,
+    getAverageSpeed: jest.fn().mockReturnValue(3),
+    getPath: jest.fn()
   };
 
   it('should return inactive path if path array length is 1 or 0', () => {
@@ -47,7 +48,7 @@ describe('divide path', () => {
   });
 
   it('should divide path depending on time between points', () => {
-    const config = {...defaultConfig, maxTimeBetweenPointsMs: 100};
+    const config = {...defaultConfig, maxTimeBetweenPointsSecs: 0.1};
     const dividedPath = dividePath(defaultPath, config);
     expect(dividedPath.length).toBe(5);
     expect(dividedPath[0]).toEqual({active: true, path: [defaultPath[0], defaultPath[1]]});
@@ -114,6 +115,64 @@ describe('get average speed', () => {
       time: 24344
     };
     expect(getAverageSpeed([position], jest.fn())).toBe(0);
+  });
+
+});
+
+describe('get active parts', () => {
+
+  it('should return correct array of active path parts', () => {
+    const pathPart: PositionInTime[] = [
+      { latitude: 22, longitude: 44, time: 23 },
+      { latitude: 24, longitude: 45, time: 342434 }
+    ];
+    const path: DividedPathPart[] = [
+      { active: true, path: pathPart },
+      { active: false, path: pathPart },
+      { active: true, path: pathPart }
+    ];
+    expect(getActiveParts(path)).toEqual([pathPart, pathPart]);
+  });
+
+});
+
+describe('get active path data', () => {
+
+  it('should return zeroes if path is empty', () => {
+    const path: PositionInTime[] = [
+      { latitude: 11, longitude: 11, time: 22 }
+    ];
+    const getParts = jest.fn().mockReturnValue([path, []]);
+    const getPath = jest.fn();
+    expect(getActivePathData([], getPath, getParts)).toEqual({
+      averageSpeed: 0,
+      distance: 0,
+      timeSecs: 0
+    });
+    expect(getPath.mock.calls.length).toBe(0);
+  });
+
+  it('should calculate all data correctly', () => {
+    const firstPart: PositionInTime[] = [
+      { latitude: 11, longitude: 11, time: 1000 },
+      { latitude: 11, longitude: 11, time: 2000 }
+    ];
+    const secondPart: PositionInTime[] = [
+      { latitude: 12, longitude: 52, time: 7000 },
+      { latitude: 44, longitude: 52, time: 8000 }
+    ];
+    const getParts = jest.fn().mockReturnValueOnce([firstPart, secondPart]);
+    const getPath = jest.fn()
+      .mockReturnValueOnce(10)
+      .mockReturnValueOnce(10);
+    // 20 metres per 2 secs = 10m/s or 36 km/h
+    expect(getActivePathData([], getPath, getParts)).toEqual({
+      averageSpeed: 36,
+      distance: 20,
+      timeSecs: 2
+    });
+    expect(getParts.mock.calls.length).toBe(1);
+    expect(getPath.mock.calls.length).toBe(2);
   });
 
 });

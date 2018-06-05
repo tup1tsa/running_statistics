@@ -10,11 +10,12 @@ describe('Path watcher tests', () => {
 
   const geoLocation = new GeoLocationMock();
   const defaultProps = {
-    runningType: 'Walking',
+    runningType: 'walking',
     speedLimits: {
       minSpeed: 5,
       maxSpeed: 17
     },
+    maxTimeBetweenPointsSecs: 30,
     geoLocation,
     saveRun: jest.fn().mockResolvedValue(''),
     setSaveResult: jest.fn(),
@@ -50,6 +51,8 @@ describe('Path watcher tests', () => {
         runningType={defaultProps.runningType}
         path={instance.state.positions}
         stopWatcher={instance.stopWatcher}
+        speedLimits={defaultProps.speedLimits}
+        maxTimeBetweenPointsSecs={defaultProps.maxTimeBetweenPointsSecs}
       />
     );
     expect(wrapper.contains(view)).toBe(true);

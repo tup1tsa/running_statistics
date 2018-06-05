@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { PathWatcherViewFactory } from './PathWatcherViewFactory';
 import { Position, PositionInTime } from '../common_files/interfaces';
+import { SpeedLimits } from '../RunStartPreparation';
 
 // todo: add somewhere hint that data is saving on the server currently or was successfully saved
 
@@ -41,10 +42,8 @@ interface GetDistance {
 
 interface Props {
   runningType: string;
-  speedLimits: {
-    minSpeed: number;
-    maxSpeed: number;
-  };
+  speedLimits: SpeedLimits;
+  maxTimeBetweenPointsSecs: number;
   minimumDistanceDiff: number;
   delaySecs: number;
   saveRun: (positions: PositionInTime[]) => Promise<string>;
@@ -165,6 +164,8 @@ export class PathWatcher extends React.Component<Props, State> {
           runningType={this.props.runningType}
           path={this.state.positions}
           stopWatcher={this.stopWatcher}
+          speedLimits={this.props.speedLimits}
+          maxTimeBetweenPointsSecs={this.props.maxTimeBetweenPointsSecs}
         />
       </div>
     );

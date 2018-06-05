@@ -1,12 +1,14 @@
 import { PositionInTime } from '../common_files/interfaces';
-import * as GeoLib from 'geolib';
 import { PathWatcherView } from './PathWatcherView';
 import * as React from 'react';
-import { getAverageSpeed } from './pathUtils';
+import { getActivePathDataFactory } from './pathUtilsFactories';
+import { SpeedLimits } from '../RunStartPreparation';
 
 interface Props {
   path: PositionInTime[];
   runningType: string;
+  speedLimits: SpeedLimits;
+  maxTimeBetweenPointsSecs: number;
   stopWatcher: () => Promise<{}>;
 }
 
@@ -18,9 +20,10 @@ export const PathWatcherViewFactory = (props: Props) => {
       runningType={props.runningType}
       path={props.path}
       stopWatcher={props.stopWatcher}
-      getPath={GeoLib.getPathLength}
-      getAverageSpeed={getAverageSpeed}
       toLocaleTime={toLocaleTime}
+      getActivePathData={getActivePathDataFactory}
+      speedLimits={props.speedLimits}
+      maxTimeBetweenPointsSecs={props.maxTimeBetweenPointsSecs}
     />
   );
 };

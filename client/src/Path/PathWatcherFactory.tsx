@@ -10,6 +10,7 @@ interface Props {
     minSpeed: number;
     maxSpeed: number;
   };
+  maxTimeBetweenPointsSecs: number;
   minimumDistanceDiff: number;
   delaySecs: number;
   saveRun: (positions: PositionInTime[]) => Promise<string>;

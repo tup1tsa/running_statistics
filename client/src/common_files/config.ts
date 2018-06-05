@@ -16,3 +16,7 @@ export const runSettings = {
     maxSpeed: 50
   }
 };
+
+export const delayBetweenGeoCalls = 10;
+export const minimumDistanceDiffBetweenPositions = 10;
+export const maximumTimeBetweenPointsSecs = 30;

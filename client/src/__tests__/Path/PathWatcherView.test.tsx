@@ -6,12 +6,16 @@ import { PathInformation } from '../../Path/PathInformation';
 describe('should render path view component correctly', () => {
 
   const defaultProps = {
-    getPath: jest.fn(),
-    getAverageSpeed: jest.fn(),
     path: [],
     stopWatcher: jest.fn(),
     toLocaleTime: jest.fn(),
-    runningType: 'walking'
+    runningType: 'walking',
+    speedLimits: {
+      minSpeed: 5,
+      maxSpeed: 10
+    },
+    maxTimeBetweenPointsSecs: 30,
+    getActivePathData: jest.fn().mockReturnValue({ distance: 0, averageSpeed: 0, timeSecs: 0 })
   };
 
   it('should render button and notification if no positions were fetched. Button should stop watcher', () => {
@@ -44,24 +48,21 @@ describe('should render path view component correctly', () => {
 
   it('should display path information correctly with only one position', () => {
     const path = [{ latitude: 25, longitude: 44, time: 2342432 }];
-    const getPathMock = jest.fn();
     const getSpeedMock = jest.fn();
     const toLocaleTimeMock = jest.fn();
     const wrapper = shallow(
       <PathWatcherView
         {...defaultProps}
         path={path}
-        getPath={getPathMock}
-        getAverageSpeed={getSpeedMock}
         toLocaleTime={toLocaleTimeMock}
       />
     );
-    expect(getPathMock.mock.calls.length).toBe(0);
     expect(getSpeedMock.mock.calls.length).toBe(0);
     const pathInformation = (
       <PathInformation
         runningType={defaultProps.runningType}
-        time={2342432}
+        lastTimeCheck={2342432}
+        totalTimeSecs={0}
         totalDistance={0}
         avgSpeed={0}
         toLocaleTime={toLocaleTimeMock}
@@ -76,28 +77,28 @@ describe('should render path view component correctly', () => {
       { latitude: 42, longitude: 23, time: 232323235 },
       { latitude: 48, longitude: -17, time: 23456553 }
     ];
-    const getPathMock = jest.fn().mockReturnValue(1458);
-    const getSpeedMock = jest.fn().mockReturnValue(220);
     const toLocaleTimeMock = jest.fn();
+    const getActivePathData = jest.fn()
+      .mockReturnValue({ distance: 17, averageSpeed: 44, timeSecs: 117 });
     const wrapper = shallow(
       <PathWatcherView
         {...defaultProps}
-        getPath={getPathMock}
-        getAverageSpeed={getSpeedMock}
         path={path}
+        getActivePathData={getActivePathData}
         toLocaleTime={toLocaleTimeMock}
       />
     );
-    expect(getPathMock.mock.calls.length).toBe(1);
-    expect(getPathMock.mock.calls[0][0]).toBe(path);
-    expect(getSpeedMock.mock.calls.length).toBe(1);
-    expect(getSpeedMock.mock.calls[0][0]).toBe(path);
+    expect(getActivePathData.mock.calls.length).toBe(1);
+    expect(getActivePathData.mock.calls[0][0]).toBe(path);
+    expect(getActivePathData.mock.calls[0][1]).toBe(defaultProps.speedLimits);
+    expect(getActivePathData.mock.calls[0][2]).toBe(defaultProps.maxTimeBetweenPointsSecs);
     const pathInformation = (
       <PathInformation
         runningType={defaultProps.runningType}
-        time={23456553}
-        totalDistance={1458}
-        avgSpeed={220}
+        lastTimeCheck={23456553}
+        totalTimeSecs={117}
+        totalDistance={17}
+        avgSpeed={44}
         toLocaleTime={toLocaleTimeMock}
       />
     );

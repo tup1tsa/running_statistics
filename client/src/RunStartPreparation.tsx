@@ -14,6 +14,7 @@ interface Props {
     cycling: SpeedLimits;
   };
   minimumDistanceDiff: number;
+  maxTimeBetweenPointsSecs: number;
   delaySecs: number;
   saveRun: (positions: PositionInTime[]) => Promise<string>;
   setSaveResult: (message: string) => void;
@@ -59,6 +60,7 @@ export class RunStartPreparation extends React.Component<Props, State> {
       <PathWatcherFactory
         runningType={this.state.runTypeChosen}
         speedLimits={speedLimits}
+        maxTimeBetweenPointsSecs={this.props.maxTimeBetweenPointsSecs}
         minimumDistanceDiff={this.props.minimumDistanceDiff}
         delaySecs={this.props.delaySecs}
         saveRun={this.props.saveRun}
