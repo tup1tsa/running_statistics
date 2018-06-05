@@ -9,23 +9,10 @@ describe('should render path view component correctly', () => {
     getPath: jest.fn(),
     getAverageSpeed: jest.fn(),
     path: [],
-    initWatcher: jest.fn(),
     stopWatcher: jest.fn(),
-    geoLocationStarted: true,
     toLocaleTime: jest.fn(),
     runningType: 'walking'
   };
-
-  it('should render button if geo was not started. Button should start watcher', () => {
-    const initWatcherMock = jest.fn();
-    const wrapper = shallow(
-      <PathWatcherView {...defaultProps} initWatcher={initWatcherMock} geoLocationStarted={false} />
-    );
-    const buttons = wrapper.find('button');
-    expect(buttons.length).toBe(1);
-    buttons.simulate('click');
-    expect(initWatcherMock.mock.calls.length).toBe(1);
-  });
 
   it('should render button and notification if no positions were fetched. Button should stop watcher', () => {
     const stopWatcherMock = jest.fn();

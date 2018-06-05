@@ -10,20 +10,14 @@ interface GetPath {
 interface Props {
   runningType: string;
   path: PositionInTime[];
-  initWatcher: () => void;
-  stopWatcher: () => void;
+  stopWatcher: () => Promise<{}>;
   getPath: GetPath;
   getAverageSpeed: (path: PositionInTime[], getPath: GetPath) => number;
-  geoLocationStarted: boolean;
   toLocaleTime: (time: number) => string;
 }
 
 export const PathWatcherView = (props: Props) => {
-  const startButton = <button className="blue" onClick={props.initWatcher}>Start run</button>;
   const stopButton =  <button className="blue" onClick={props.stopWatcher}>Finish</button>;
-  if (!props.geoLocationStarted) {
-    return <div>{startButton}</div>;
-  }
   if (props.path.length === 0) {
     return (
       <div>

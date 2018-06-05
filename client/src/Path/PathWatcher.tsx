@@ -75,8 +75,11 @@ export class PathWatcher extends React.Component<Props, State> {
     this.savePosition = this.savePosition.bind(this);
   }
 
+  componentWillMount() {
+    this.initWatcher();
+  }
+
   initWatcher() {
-    // todo: run this immediately. Start run button in watcher view factory is obsolete -> remove it
     if (this.state.watcherId !== null) {
       return;
     }
@@ -161,9 +164,7 @@ export class PathWatcher extends React.Component<Props, State> {
         <PathWatcherViewFactory
           runningType={this.props.runningType}
           path={this.state.positions}
-          initWatcher={this.initWatcher}
           stopWatcher={this.stopWatcher}
-          geoLocationStarted={this.state.watcherId !== null}
         />
       </div>
     );

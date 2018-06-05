@@ -44,7 +44,7 @@ export class RunStartPreparation extends React.Component<Props, State> {
           <button className="blue" id="start_running" onClick={() => this.startWatcher('running')}>Running</button>
           <button className="blue" id="start_walking" onClick={() => this.startWatcher('walking')}>Walking</button>
           <button className="blue" id="start_cycling" onClick={() => this.startWatcher('cycling')}>Cycling</button>
-          <button className="blue back" onClick={() => this.props.setSaveResult('')}>Back</button>
+          <button className="green back" onClick={() => this.props.setSaveResult('')}>Back</button>
         </div>
       );
     }

@@ -7,9 +7,7 @@ import { getAverageSpeed } from './pathUtils';
 interface Props {
   path: PositionInTime[];
   runningType: string;
-  initWatcher: () => void;
-  stopWatcher: () => void;
-  geoLocationStarted: boolean;
+  stopWatcher: () => Promise<{}>;
 }
 
 const toLocaleTime = (time: number) => new Date(time).toLocaleTimeString();
@@ -19,11 +17,9 @@ export const PathWatcherViewFactory = (props: Props) => {
     <PathWatcherView
       runningType={props.runningType}
       path={props.path}
-      initWatcher={props.initWatcher}
       stopWatcher={props.stopWatcher}
       getPath={GeoLib.getPathLength}
       getAverageSpeed={getAverageSpeed}
-      geoLocationStarted={props.geoLocationStarted}
       toLocaleTime={toLocaleTime}
     />
   );

@@ -9,7 +9,7 @@ import { isMiddlePointAccurate } from '../../Path/pathUtils';
 describe('Path watcher tests', () => {
 
   const geoLocation = new GeoLocationMock();
-  const pathFetcherDefaultProps = {
+  const defaultProps = {
     runningType: 'Walking',
     speedLimits: {
       minSpeed: 5,
@@ -25,46 +25,39 @@ describe('Path watcher tests', () => {
   };
 
   it('default state should be correct', () => {
-    const wrapper = shallow(<PathWatcher {...pathFetcherDefaultProps} />);
-    expect(wrapper.state()).toEqual({
+    const wrapper = shallow(<PathWatcher {...defaultProps} />);
+    let state = wrapper.state();
+    delete state.watcherId;
+    // watcher id can be any number
+    expect(state).toEqual({
       lastTimeCheck: null,
       positions: [],
-      watcherId: null,
       savingInProgress: false
     });
   });
 
+  it('should init watcher on mount', () => {
+    const wrapper = shallow(<PathWatcher {...defaultProps} />);
+    const instance = wrapper.instance() as PathWatcher;
+    expect(instance.state.watcherId).not.toBe(null);
+  });
+
   it('should pass correct props to fetcher view factory', () => {
-    const wrapper = shallow(<PathWatcher {...pathFetcherDefaultProps} />);
+    const wrapper = shallow(<PathWatcher {...defaultProps} />);
     const instance = wrapper.instance() as PathWatcher;
     const view = (
       <PathWatcherViewFactory
-        runningType={pathFetcherDefaultProps.runningType}
+        runningType={defaultProps.runningType}
         path={instance.state.positions}
-        initWatcher={instance.initWatcher}
         stopWatcher={instance.stopWatcher}
-        geoLocationStarted={false}
       />
     );
     expect(wrapper.contains(view)).toBe(true);
   });
 
-  it('should pass geoLocationStarted = true if watch id is 0', () => {
-    const geoLocationMock = {
-      watchPosition: jest.fn().mockReturnValueOnce(0),
-      clearWatch: jest.fn()
-    };
-    const wrapper = shallow(<PathWatcher {...pathFetcherDefaultProps} geoLocation={geoLocationMock} />);
-    const instance = wrapper.instance() as PathWatcher;
-    instance.initWatcher();
-    wrapper.update();
-    const renderedView = wrapper.find(PathWatcherViewFactory);
-    expect(renderedView.props().geoLocationStarted).toBe(true);
-  });
-
   it('init watcher should call geo location and save provided watch id', () => {
     const geoLocationMock = new GeoLocationMock();
-    const wrapper = shallow(<PathWatcher {...pathFetcherDefaultProps} geoLocation={geoLocationMock} />);
+    const wrapper = shallow(<PathWatcher {...defaultProps} geoLocation={geoLocationMock} />);
     const instance = wrapper.instance() as PathWatcher;
     instance.initWatcher();
     const watchId = geoLocationMock.watchId;
@@ -73,7 +66,7 @@ describe('Path watcher tests', () => {
 
   it('init watcher should return if watch id exists', () => {
     const geoLocationMock = new GeoLocationMock();
-    const wrapper = shallow(<PathWatcher {...pathFetcherDefaultProps} geoLocation={geoLocationMock} />);
+    const wrapper = shallow(<PathWatcher {...defaultProps} geoLocation={geoLocationMock} />);
     const instance = wrapper.instance() as PathWatcher;
     instance.initWatcher();
     expect(geoLocationMock.watchPositionWasCalledTimes).toBe(1);
@@ -86,7 +79,7 @@ describe('Path watcher tests', () => {
 
   it('stop watcher should call geo location with correct watch id and clear watch id state', async (done) => {
     const geoLocationMock = new GeoLocationMock();
-    const wrapper = shallow(<PathWatcher {...pathFetcherDefaultProps} geoLocation={geoLocationMock} />);
+    const wrapper = shallow(<PathWatcher {...defaultProps} geoLocation={geoLocationMock} />);
     const instance = wrapper.instance() as PathWatcher;
     instance.initWatcher();
     const watchId = geoLocationMock.watchId;
@@ -97,7 +90,7 @@ describe('Path watcher tests', () => {
   });
 
   it('stop watcher should send positions to higher order component and send result of saving', async (done) => {
-    let props = {...pathFetcherDefaultProps};
+    let props = {...defaultProps};
     props.geoLocation = new GeoLocationMock();
     const savingResult = 'all is ok';
     props.saveRun = jest.fn().mockResolvedValue(savingResult);
@@ -119,7 +112,7 @@ describe('Path watcher tests', () => {
   });
 
   it('should show that saving is in progress during saving', async (done) => {
-    let props = {...pathFetcherDefaultProps};
+    let props = {...defaultProps};
     props.geoLocation = new GeoLocationMock();
     props.saveRun = jest.fn().mockResolvedValue('');
     const wrapper = shallow(<PathWatcher {...props} />);
@@ -136,19 +129,20 @@ describe('Path watcher tests', () => {
     done();
   });
 
-  it('should not call geo location clear watch if watch id is null', () => {
+  it('should not call geo location clear watch if watch id is null', async (done) => {
     const geoLocationMock = new GeoLocationMock();
-    const wrapper = shallow(<PathWatcher {...pathFetcherDefaultProps} geoLocation={geoLocationMock} />);
+    const wrapper = shallow(<PathWatcher {...defaultProps} geoLocation={geoLocationMock} />);
     const instance = wrapper.instance() as PathWatcher;
-    expect(instance.state.watcherId).toBe(null);
-    instance.stopWatcher();
+    instance.setState({watcherId: null});
+    await instance.stopWatcher();
     expect(instance.state.watcherId).toBe(null);
     expect(geoLocationMock.clearWatchWasCalled.status).toBe(false);
+    done();
   });
 
   it('should successfully save first position from geo location', () => {
     const geoLocationMock = new GeoLocationMock();
-    const wrapper = shallow(<PathWatcher {...pathFetcherDefaultProps} geoLocation={geoLocationMock} />);
+    const wrapper = shallow(<PathWatcher {...defaultProps} geoLocation={geoLocationMock} />);
     const instance = wrapper.instance() as PathWatcher;
     instance.initWatcher();
     geoLocationMock.sendPosition({
@@ -163,7 +157,7 @@ describe('Path watcher tests', () => {
   });
 
   it('should not save very close positions', () => {
-    const minDistance = pathFetcherDefaultProps.minimumDistanceDiff;
+    const minDistance = defaultProps.minimumDistanceDiff;
     const getDistance = jest.fn();
     const appropriateDistance = 2;
     const inappropriateDistance = 12;
@@ -171,7 +165,7 @@ describe('Path watcher tests', () => {
     getDistance.mockReturnValueOnce(appropriateDistance);
     getDistance.mockReturnValueOnce(inappropriateDistance);
     const geoLocationMock = new GeoLocationMock();
-    const props = {...pathFetcherDefaultProps, ...{getDistance, geoLocation: geoLocationMock}};
+    const props = {...defaultProps, ...{getDistance, geoLocation: geoLocationMock}};
     const wrapper = shallow(<PathWatcher {...props} />);
     const instance = wrapper.instance() as PathWatcher;
     instance.initWatcher();
@@ -204,7 +198,7 @@ describe('Path watcher tests', () => {
       Math.abs(start.latitude - end.latitude) * 1000;
     const geoLocationMock = new GeoLocationMock();
     const props = {
-      ...pathFetcherDefaultProps,
+      ...defaultProps,
       ...{
         getDistance: getDistanceMock,
         geoLocation: geoLocationMock,
@@ -244,7 +238,7 @@ describe('Path watcher tests', () => {
   });
 
   it('should not save very recent positions', () => {
-    let props = {...pathFetcherDefaultProps};
+    let props = {...defaultProps};
     props.geoLocation = new GeoLocationMock();
     const wrapper = shallow(<PathWatcher {...props} />);
     const instance = wrapper.instance() as PathWatcher;
@@ -268,7 +262,7 @@ describe('Path watcher tests', () => {
 
   it('should skip errors for now', () => {
     const geoLocationMock = new GeoLocationMock();
-    const wrapper = shallow(<PathWatcher {...pathFetcherDefaultProps} geoLocation={geoLocationMock} />);
+    const wrapper = shallow(<PathWatcher {...defaultProps} geoLocation={geoLocationMock} />);
     const instance = wrapper.instance() as PathWatcher;
     instance.initWatcher();
     geoLocationMock.sendError('some error name');
@@ -277,7 +271,7 @@ describe('Path watcher tests', () => {
 
   it('should use only high precision api', () => {
     const geoLocationMock = new GeoLocationMock();
-    const wrapper = shallow(<PathWatcher {...pathFetcherDefaultProps} geoLocation={geoLocationMock} />);
+    const wrapper = shallow(<PathWatcher {...defaultProps} geoLocation={geoLocationMock} />);
     const instance = wrapper.instance() as PathWatcher;
     instance.initWatcher();
     expect(geoLocationMock.options).toEqual({enableHighAccuracy: true});
