@@ -24,6 +24,14 @@ export interface SendPathsToServer {
   ): Promise<string>;
 }
 
+interface SendPathsToServerFactory {
+  (): Promise<string>;
+}
+
+interface SendPathsToServerWithTimeout {
+  (sendPaths: SendPathsToServerFactory, timeoutSecs: number): Promise<string>;
+}
+
 export const sendPathsToServer: SendPathsToServer = async (fetchPaths, axios, clearStorage) => {
   const paths = fetchPaths();
   if (paths.length === 0) {
@@ -43,4 +51,13 @@ export const sendPathsToServer: SendPathsToServer = async (fetchPaths, axios, cl
     return 'There were some problems on server. Saving unsuccessful';
   }
   return 'Unexpected error during saving';
+};
+
+export const sendPathsToServerWithTimeout: SendPathsToServerWithTimeout = (sendPaths, timeoutSecs) => {
+  const timeOut = (): Promise<string> => {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve('Timeout'), timeoutSecs * 1000);
+    });
+  };
+  return Promise.race([sendPaths(), timeOut()]);
 };

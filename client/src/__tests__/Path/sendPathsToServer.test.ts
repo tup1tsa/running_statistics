@@ -1,21 +1,30 @@
 import { PositionInTime } from '../../common_files/interfaces';
-import { sendPathsToServer, Response } from '../../Path/sendPathsToServer';
+import { sendPathsToServer, sendPathsToServerWithTimeout } from '../../Path/sendPathsToServer';
 
 describe('saving runs to the server', () => {
 
+  const runsInStorage: PositionInTime[][] = [[{
+    time: 23,
+    longitude: 44,
+    latitude: 56
+  }]];
+  const fetchPaths = jest.fn().mockReturnValue(runsInStorage);
+  const successResponse = {
+    status: 200,
+    data: { saved: true }
+  };
+  const failResponse = {
+    status: 200,
+    data: { saved: false }
+  };
+  const unexpectedResponse = {
+    response: {
+      status: 404
+    }
+  };
+
   it('should try to send all runs (if they exist) from the local storage to the server', async (done) => {
-    const runsInStorage: PositionInTime[][] = [[{
-      time: 23,
-      longitude: 44,
-      latitude: 22
-    }]];
-    const fetchPaths = jest.fn()
-      .mockReturnValueOnce([])
-      .mockReturnValue(runsInStorage);
-    const successResponse: Response = {
-      status: 200,
-      data: { saved: true }
-    };
+    fetchPaths.mockReturnValueOnce([]);
     const axios = {
       get: jest.fn(),
       post: jest.fn().mockResolvedValueOnce(successResponse)
@@ -33,31 +42,14 @@ describe('saving runs to the server', () => {
   });
 
   it('should delete runs from local storage if they were successfully stored on server', async (done) => {
-    const runsInStorage: PositionInTime[][] = [[{
-      time: 23,
-      longitude: 44,
-      latitude: 56
-    }]];
-    const fetchPaths = jest.fn().mockReturnValue(runsInStorage);
     const clearStorage = jest.fn();
     const axios = {
       get: jest.fn(),
       post: jest.fn()
     };
-    axios.post.mockResolvedValueOnce({
-      status: 200,
-      data: { saved: true }
-    });
-    axios.post.mockResolvedValueOnce({
-      status: 200,
-      data: { saved: false }
-    });
-    axios.post.mockRejectedValueOnce({
-      response: {
-        status: 404
-      }
-    });
-
+    axios.post.mockResolvedValueOnce(successResponse);
+    axios.post.mockResolvedValueOnce(failResponse);
+    axios.post.mockRejectedValueOnce(unexpectedResponse);
     await sendPathsToServer(fetchPaths, axios, clearStorage);
     expect(clearStorage.mock.calls.length).toBe(1);
     const serverError = await sendPathsToServer(fetchPaths, axios, clearStorage);
@@ -69,6 +61,23 @@ describe('saving runs to the server', () => {
     expect(axios.post.mock.calls.length).toBe(3);
     // clear storage calls check is duplicated to make sure that it wasn't invoked again
     expect(clearStorage.mock.calls.length).toBe(1);
+    done();
+  });
+
+  it('should use timeout properly', async (done) => {
+    jest.useFakeTimers();
+    const getPromise = () => {
+      return new Promise(resolve => {
+        setTimeout(() => resolve('success'), 10000);
+      });
+    };
+    const sendPathsMock = jest.fn().mockReturnValue(getPromise());
+    const timeoutSending = sendPathsToServerWithTimeout(sendPathsMock, 5);
+    jest.runAllTimers();
+    expect(await timeoutSending).toBe('Timeout');
+    const normalSending = sendPathsToServerWithTimeout(sendPathsMock, 15);
+    jest.runAllTimers();
+    expect(await normalSending).toBe('success');
     done();
   });
 
