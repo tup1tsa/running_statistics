@@ -1,7 +1,7 @@
 import { saveRace } from '../saveRace';
 import { Race } from '../common_files/interfaces';
 
-it('should save run correctly', async (done) => {
+it('should save race correctly', async (done) => {
   const race: Race = {
     type: 'walking',
     path: [{

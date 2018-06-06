@@ -2,7 +2,7 @@
 // default speed params, local storage keys, etc
 // todo: add default values: km/h or m/s. All units should be the same (e.g., metres, sec, m/sec)
 
-export const runSettings = {
+export const raceSettings = {
   walking: {
     minSpeed: 3,
     maxSpeed: 7.5

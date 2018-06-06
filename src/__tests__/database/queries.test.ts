@@ -26,7 +26,7 @@ describe('database queries', () => {
     done();
   });
 
-  it('should save runs correctly', async (done) => {
+  it('should save races correctly', async (done) => {
     const race = {
       type: 'running',
       path: [
@@ -43,7 +43,7 @@ describe('database queries', () => {
     done();
   });
 
-  it('should fetch runs correctly', async (done) => {
+  it('should fetch races correctly', async (done) => {
     const race = {
       type: 'walking',
       path: [
@@ -51,11 +51,11 @@ describe('database queries', () => {
         { latitude: 17, longitude: 23, time: 323 },
       ]
     };
-    const saveRunsQuery  = saveRaces(collection, [race]);
-    await saveRunsQuery(db);
-    const fetchRunsQuery = fetchRaces(collection);
-    const runs = await fetchRunsQuery(db);
-    expect(runs).toEqual([race]);
+    const saveRacesQuery  = saveRaces(collection, [race]);
+    await saveRacesQuery(db);
+    const fetchRacesQuery = fetchRaces(collection);
+    const races = await fetchRacesQuery(db);
+    expect(races).toEqual([race]);
     done();
   });
 });

@@ -45,7 +45,7 @@ export const sendRacesToServer: SendRacesToServer = async (fetchPaths, axios, cl
   }
   if (response.status === 200 && response.data && response.data.saved === true) {
     clearStorage();
-    return 'Runs were successfully saved';
+    return 'Races were successfully saved';
   }
   if (response.data && response.data.saved === false) {
     return 'There were some problems on server. Saving unsuccessful';

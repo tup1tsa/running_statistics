@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import { RunsOnMap } from '../RunsOnMap';
+import { RacesOnMap } from '../RacesOnMap';
 import { DividedPathPart } from '../Path/pathUtils';
 import { PositionInTime, Position } from '../common_files/interfaces';
 
-describe('runs on map display', () => {
+describe('races on map display', () => {
 
   const defaultActivePath: PositionInTime[] = [
     { latitude: 44, longitude: 44, time: 117 },
@@ -14,19 +14,19 @@ describe('runs on map display', () => {
     { latitude: 44.002, longitude: 44.002, time: 222 },
     { latitude: 44.005, longitude: 44.002, time: 444 }
   ];
-  const firstRun: DividedPathPart[] = [
+  const firstRace: DividedPathPart[] = [
     { active: true, path: defaultActivePath },
     { active: false, path: defaultInactivePath }
   ];
-  let secondRun = [...firstRun];
-  secondRun.push({ active: true, path: defaultActivePath });
-  let thirdRun = [...secondRun];
-  thirdRun.push({ active: false, path: defaultInactivePath });
+  let secondRace = [...firstRace];
+  secondRace.push({ active: true, path: defaultActivePath });
+  let thirdRace = [...secondRace];
+  thirdRace.push({ active: false, path: defaultInactivePath });
   const defaultCenter: Position = { latitude: 54, longitude: 17 };
   const defaultProps = {
     activeColor: 'black',
     inactiveColor: 'red',
-    runs: [firstRun, secondRun, thirdRun],
+    races: [firstRace, secondRace, thirdRace],
     findCenter: jest.fn().mockReturnValue(defaultCenter),
     unitePath: jest.fn(),
     size: {
@@ -35,8 +35,8 @@ describe('runs on map display', () => {
     }
   };
 
-  it('should not render next and previous runs buttons if it`s the only run', () => {
-    const wrapper = shallow(<RunsOnMap {...defaultProps} runs={[firstRun]} />);
+  it('should not render next and previous races buttons if it`s the only race', () => {
+    const wrapper = shallow(<RacesOnMap {...defaultProps} races={[firstRace]} />);
     expect(wrapper.find('button').length).toBe(0);
   });
 
@@ -45,14 +45,14 @@ describe('runs on map display', () => {
     const unitedPath: PositionInTime[] = [{ latitude: 12, longitude: 44, time: 222 }];
     const findCenter = jest.fn().mockReturnValue(center);
     const unitePath = jest.fn().mockReturnValue(unitedPath);
-    const wrapper = shallow(<RunsOnMap {...defaultProps} findCenter={findCenter} unitePath={unitePath} />);
+    const wrapper = shallow(<RacesOnMap {...defaultProps} findCenter={findCenter} unitePath={unitePath} />);
     expect(findCenter.mock.calls.length).toBe(1);
     expect(findCenter.mock.calls[0][0]).toEqual(unitedPath);
     expect(wrapper.props().children[0].props.center).toEqual(center);
   });
 
   it('should path correct props to google map wrapper', () => {
-    const wrapper = shallow(<RunsOnMap {...defaultProps} />);
+    const wrapper = shallow(<RacesOnMap {...defaultProps} />);
     const coloredPath = [
       { color: defaultProps.activeColor, positions: defaultActivePath },
       { color: defaultProps.inactiveColor, positions: defaultInactivePath }
@@ -67,31 +67,31 @@ describe('runs on map display', () => {
     });
   });
 
-  it('should render next and previous buttons if  runs number > 1 ', () => {
-    const wrapper = shallow(<RunsOnMap {...defaultProps} />);
+  it('should render next and previous buttons if  races number > 1 ', () => {
+    const wrapper = shallow(<RacesOnMap {...defaultProps} />);
     expect(wrapper.find('button').length).toBe(2);
   });
 
-  it('should render first run if multiple runs were send', () => {
-    const wrapper = shallow(<RunsOnMap {...defaultProps} />);
-    expect(wrapper.props().children[0].props.path.length).toBe(firstRun.length);
+  it('should render first race if multiple races were send', () => {
+    const wrapper = shallow(<RacesOnMap {...defaultProps} />);
+    expect(wrapper.props().children[0].props.path.length).toBe(firstRace.length);
   });
 
-  it('should render correct runs after pressing buttons', () => {
-    const wrapper = shallow(<RunsOnMap {...defaultProps} />);
-    const getRunLength = () => wrapper.props().children[0].props.path.length;
-    const nextButton = wrapper.find('button#next_run');
-    const previousButton = wrapper.find('button#previous_run');
+  it('should render correct races after pressing buttons', () => {
+    const wrapper = shallow(<RacesOnMap {...defaultProps} />);
+    const getRaceLength = () => wrapper.props().children[0].props.path.length;
+    const nextButton = wrapper.find('button#next_race');
+    const previousButton = wrapper.find('button#previous_race');
     nextButton.simulate('click');
-    expect(getRunLength()).toBe(secondRun.length);
+    expect(getRaceLength()).toBe(secondRace.length);
     nextButton.simulate('click');
-    expect(getRunLength()).toBe(thirdRun.length);
+    expect(getRaceLength()).toBe(thirdRace.length);
     nextButton.simulate('click');
-    expect(getRunLength()).toBe(firstRun.length);
+    expect(getRaceLength()).toBe(firstRace.length);
     previousButton.simulate('click');
-    expect(getRunLength()).toBe(thirdRun.length);
+    expect(getRaceLength()).toBe(thirdRace.length);
     previousButton.simulate('click');
-    expect(getRunLength()).toBe(secondRun.length);
+    expect(getRaceLength()).toBe(secondRace.length);
   });
 
 });

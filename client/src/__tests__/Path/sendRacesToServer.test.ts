@@ -1,7 +1,7 @@
 import { Race } from '../../common_files/interfaces';
 import { sendRacesToServer, sendRacesToServerWithTimeout } from '../../Path/sendRacesToServer';
 
-describe('saving runs to the server', () => {
+describe('saving races to the server', () => {
 
   const racesInStorage: Race[] = [
     {
@@ -28,7 +28,7 @@ describe('saving runs to the server', () => {
     }
   };
 
-  it('should try to send all runs (if they exist) from the local storage to the server', async (done) => {
+  it('should try to send all races (if they exist) from the local storage to the server', async (done) => {
     fetchRacesFromStorage.mockReturnValueOnce([]);
     const axios = {
       get: jest.fn(),
@@ -42,11 +42,11 @@ describe('saving runs to the server', () => {
     const [url, data] = axios.post.mock.calls[0];
     expect(url).toBe('/saveRaces');
     expect(data).toEqual(racesInStorage);
-    expect(fullStorageResult).toEqual('Runs were successfully saved');
+    expect(fullStorageResult).toEqual('Races were successfully saved');
     done();
   });
 
-  it('should delete runs from local storage if they were successfully stored on server', async (done) => {
+  it('should delete races from local storage if they were successfully stored on server', async (done) => {
     const clearStorage = jest.fn();
     const axios = {
       get: jest.fn(),

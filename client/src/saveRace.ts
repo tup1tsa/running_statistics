@@ -1,10 +1,10 @@
 import { Race } from './common_files/interfaces';
 
 export const saveRace = async (
-  run: Race,
-  saveRaceToStorage: (run: Race) => void,
+  race: Race,
+  saveRaceToStorage: (race: Race) => void,
   sendPathsToServerFactory: () => Promise<string>
 ) => {
-  saveRaceToStorage(run);
+  saveRaceToStorage(race);
   return sendPathsToServerFactory();
 };

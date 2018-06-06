@@ -2,12 +2,12 @@ import { Race } from '../../common_files/interfaces';
 import { fetchRacesFromStorage, saveRaceToStorage, clearRacesFromStorage } from '../../Path/storageUtils';
 
 describe('saving to local storage', () => {
-  it('should save correctly to the local storage new run', () => {
+  it('should save correctly to the local storage new race', () => {
     const localStorage = {
       getItem: jest.fn(),
       setItem: jest.fn()
     };
-    let runsInStorage: Race[] = [{
+    let racesInStorage: Race[] = [{
       type: 'walking',
       path: [{
         time: 23,
@@ -15,7 +15,7 @@ describe('saving to local storage', () => {
         longitude: 62
       }]
     }];
-    const runToSave: Race = {
+    const raceToSave: Race = {
       type: 'walking',
       path: [{
         time: 66,
@@ -24,12 +24,12 @@ describe('saving to local storage', () => {
       }]
     };
 
-    saveRaceToStorage(runToSave, localStorage, () => runsInStorage);
+    saveRaceToStorage(raceToSave, localStorage, () => racesInStorage);
 
     expect(localStorage.setItem.mock.calls.length).toBe(1);
     expect(localStorage.setItem.mock.calls[0][0]).toBe('races');
-    runsInStorage.push(runToSave);
-    expect(localStorage.setItem.mock.calls[0][1]).toBe(JSON.stringify(runsInStorage));
+    racesInStorage.push(raceToSave);
+    expect(localStorage.setItem.mock.calls[0][1]).toBe(JSON.stringify(racesInStorage));
   });
 });
 
@@ -43,13 +43,13 @@ describe('fetching from local storage', () => {
     const validatePath = jest.fn().mockReturnValue(true);
     localStorage.getItem.mockReturnValueOnce(null);
     localStorage.getItem.mockReturnValueOnce(JSON.stringify([]));
-    // runs array can consist of any values as long as they are valid by validatePath mock
-    const runs = ['fsaf'];
-    localStorage.getItem.mockReturnValueOnce(JSON.stringify(runs));
+    // races array can consist of any values as long as they are valid by validatePath mock
+    const races = ['fsaf'];
+    localStorage.getItem.mockReturnValueOnce(JSON.stringify(races));
     expect(fetchRacesFromStorage(localStorage, validatePath)).toEqual([]);
     expect(localStorage.getItem.mock.calls[0][0]).toBe('races');
     expect(fetchRacesFromStorage(localStorage, validatePath)).toEqual([]);
-    expect(fetchRacesFromStorage(localStorage, validatePath)).toEqual(runs);
+    expect(fetchRacesFromStorage(localStorage, validatePath)).toEqual(races);
     expect(localStorage.getItem.mock.calls.length).toBe(3);
   });
 
@@ -58,13 +58,13 @@ describe('fetching from local storage', () => {
       getItem: jest.fn(),
       setItem: jest.fn()
     };
-    const incorrectRun = 'fasf';
-    const correctRun = 'gas';
-    localStorage.getItem.mockReturnValue(JSON.stringify([incorrectRun, correctRun]));
+    const incorrectRace = 'fasf';
+    const correctRace = 'gas';
+    localStorage.getItem.mockReturnValue(JSON.stringify([incorrectRace, correctRace]));
     const validatePath = jest.fn()
       .mockReturnValueOnce(false)
       .mockReturnValue(true);
-    expect(fetchRacesFromStorage(localStorage, validatePath)).toEqual([correctRun]);
+    expect(fetchRacesFromStorage(localStorage, validatePath)).toEqual([correctRace]);
   });
 
   it('should return empty array if none of the paths in the storage are valid', () => {

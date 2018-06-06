@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { RunStartPreparationFactory } from './RunStartPreparationFactory';
+import { RaceStartPreparationFactory } from './RaceStartPreparationFactory';
 
 interface Props {}
 
 interface State {
-  runInProgress: boolean;
-  finishRunMessage: string;
+  raceInProgess: boolean;
+  finishRaceMessage: string;
 }
 
 export class Navigation extends React.Component<Props, State> {
@@ -13,31 +13,31 @@ export class Navigation extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      runInProgress: false,
-      finishRunMessage: ''
+      raceInProgess: false,
+      finishRaceMessage: ''
     };
 
-    this.startRun = this.startRun.bind(this);
-    this.finishRun = this.finishRun.bind(this);
+    this.startRace = this.startRace.bind(this);
+    this.finishRace = this.finishRace.bind(this);
   }
 
-  startRun() {
-    this.setState({ runInProgress: true });
+  startRace() {
+    this.setState({ raceInProgess: true });
   }
 
-  finishRun(message: string) {
-    this.setState({ runInProgress: false, finishRunMessage: message });
+  finishRace(message: string) {
+    this.setState({ raceInProgess: false, finishRaceMessage: message });
   }
 
   render() {
-    if (this.state.runInProgress) {
-      return <div><RunStartPreparationFactory setSaveResult={this.finishRun} /></div>;
+    if (this.state.raceInProgess) {
+      return <div><RaceStartPreparationFactory setSaveResult={this.finishRace} /></div>;
     }
     return (
       <div>
-        <button className="blue" id="start_run" onClick={this.startRun}>Start run</button>
+        <button className="blue" id="start_race" onClick={this.startRace}>Start race</button>
         <button className="blue" id="show_stats">Show stats</button>
-        <p>{this.state.finishRunMessage}</p>
+        <p>{this.state.finishRaceMessage}</p>
       </div>
     );
   }

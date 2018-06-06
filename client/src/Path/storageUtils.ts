@@ -15,20 +15,20 @@ interface FetchRacesFromStorage {
 }
 
 export const fetchRacesFromStorage: FetchRacesFromStorage = (storage, validatePath) => {
-  const runs = storage.getItem('races');
-  if (runs === null) {
+  const races = storage.getItem('races');
+  if (races === null) {
     return [];
   }
-  let parsedRuns;
+  let parsedRaces;
   try {
-    parsedRuns = JSON.parse(runs);
+    parsedRaces = JSON.parse(races);
   } catch (e) {
     return [];
   }
-  if (!Array.isArray(parsedRuns)) {
+  if (!Array.isArray(parsedRaces)) {
     return [];
   }
-  return parsedRuns.filter(run => validatePath(run.path));
+  return parsedRaces.filter(race => validatePath(race.path));
 };
 
 export const saveRaceToStorage = (
