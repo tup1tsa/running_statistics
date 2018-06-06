@@ -1,23 +1,23 @@
 import * as React from 'react';
-import { RunStartPreparation } from './RunStartPreparation';
+import { RaceStartPreparation } from './RaceStartPreparation';
 import {
   runSettings,
   minimumDistanceDiffBetweenPositions,
   delayBetweenGeoCalls,
   maximumTimeBetweenPointsSecs
 } from './common_files/config';
-import { saveRunFactory } from './saveRunFactory';
+import { saveRaceFactory } from './saveRaceFactory';
 
 interface Props {
   setSaveResult: (message: string) => void;
 }
 
 export const RunStartPreparationFactory = (props: Props) => (
-  <RunStartPreparation
+  <RaceStartPreparation
     speedLimits={runSettings}
     minimumDistanceDiff={minimumDistanceDiffBetweenPositions}
     delaySecs={delayBetweenGeoCalls}
-    saveRun={saveRunFactory}
+    saveRace={saveRaceFactory}
     setSaveResult={props.setSaveResult}
     maxTimeBetweenPointsSecs={maximumTimeBetweenPointsSecs}
   />

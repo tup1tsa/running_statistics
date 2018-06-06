@@ -10,14 +10,14 @@ describe('Path watcher tests', () => {
 
   const geoLocation = new GeoLocationMock();
   const defaultProps = {
-    runningType: 'walking',
+    raceType: 'walking',
     speedLimits: {
       minSpeed: 5,
       maxSpeed: 17
     },
     maxTimeBetweenPointsSecs: 30,
     geoLocation,
-    saveRun: jest.fn().mockResolvedValue(''),
+    saveRace: jest.fn().mockResolvedValue(''),
     setSaveResult: jest.fn(),
     getDistance: jest.fn(),
     isMiddlePointAccurate: jest.fn(),
@@ -48,7 +48,7 @@ describe('Path watcher tests', () => {
     const instance = wrapper.instance() as PathWatcher;
     const view = (
       <PathWatcherViewFactory
-        runningType={defaultProps.runningType}
+        raceType={defaultProps.raceType}
         path={instance.state.positions}
         stopWatcher={instance.stopWatcher}
         speedLimits={defaultProps.speedLimits}
@@ -96,7 +96,7 @@ describe('Path watcher tests', () => {
     let props = {...defaultProps};
     props.geoLocation = new GeoLocationMock();
     const savingResult = 'all is ok';
-    props.saveRun = jest.fn().mockResolvedValue(savingResult);
+    props.saveRace = jest.fn().mockResolvedValue(savingResult);
     props.setSaveResult = jest.fn();
     const wrapper = shallow(<PathWatcher {...props} />);
     const instance = wrapper.instance() as PathWatcher;
@@ -106,9 +106,12 @@ describe('Path watcher tests', () => {
       timestamp: 1000
     });
     await instance.stopWatcher();
-    expect(props.saveRun.mock.calls.length).toBe(1);
+    expect(props.saveRace.mock.calls.length).toBe(1);
     const expectedPositions = [{ latitude: 24, longitude: 44, time: 1000 }];
-    expect(props.saveRun.mock.calls[0][0]).toEqual(expectedPositions);
+    expect(props.saveRace.mock.calls[0][0]).toEqual({
+      type: defaultProps.raceType,
+      path: expectedPositions
+    });
     expect(props.setSaveResult.mock.calls.length).toBe(1);
     expect(props.setSaveResult.mock.calls[0][0]).toBe(savingResult);
     done();
@@ -117,7 +120,7 @@ describe('Path watcher tests', () => {
   it('should show that saving is in progress during saving', async (done) => {
     let props = {...defaultProps};
     props.geoLocation = new GeoLocationMock();
-    props.saveRun = jest.fn().mockResolvedValue('');
+    props.saveRace = jest.fn().mockResolvedValue('');
     const wrapper = shallow(<PathWatcher {...props} />);
     const instance = wrapper.instance() as PathWatcher;
     instance.initWatcher();

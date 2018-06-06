@@ -1,7 +1,7 @@
-import { PositionInTime } from '../common_files/interfaces';
+import { Race } from '../common_files/interfaces';
 
-interface FetchPathsFromStorage {
-  (): PositionInTime[][];
+interface FetchRacesFromStorage {
+  (): Race[];
 }
 
 export interface Response {
@@ -16,30 +16,30 @@ interface Axios {
   post(url: string, data?: any): Promise<Response>;
 }
 
-export interface SendPathsToServer {
+export interface SendRacesToServer {
   (
-    fetchPaths: FetchPathsFromStorage,
+    fetchPaths: FetchRacesFromStorage,
     axios: Axios,
     clearStorage: () => void
   ): Promise<string>;
 }
 
-interface SendPathsToServerFactory {
+interface SendRacesToServerFactory {
   (): Promise<string>;
 }
 
-interface SendPathsToServerWithTimeout {
-  (sendPaths: SendPathsToServerFactory, timeoutSecs: number): Promise<string>;
+interface SendRacesToServerWithTimeout {
+  (sendPaths: SendRacesToServerFactory, timeoutSecs: number): Promise<string>;
 }
 
-export const sendPathsToServer: SendPathsToServer = async (fetchPaths, axios, clearStorage) => {
+export const sendRacesToServer: SendRacesToServer = async (fetchPaths, axios, clearStorage) => {
   const paths = fetchPaths();
   if (paths.length === 0) {
     return 'There is nothing to save';
   }
   let response: Response;
   try {
-    response = await axios.post('/saveRuns', paths);
+    response = await axios.post('/saveRaces', paths);
   } catch (e) {
     response = e.response;
   }
@@ -53,11 +53,11 @@ export const sendPathsToServer: SendPathsToServer = async (fetchPaths, axios, cl
   return 'Unexpected error during saving';
 };
 
-export const sendPathsToServerWithTimeout: SendPathsToServerWithTimeout = (sendPaths, timeoutSecs) => {
+export const sendRacesToServerWithTimeout: SendRacesToServerWithTimeout = (sendsRaces, timeoutSecs) => {
   const timeOut = (): Promise<string> => {
     return new Promise((resolve) => {
       setTimeout(() => resolve('Timeout'), timeoutSecs * 1000);
     });
   };
-  return Promise.race([sendPaths(), timeOut()]);
+  return Promise.race([sendsRaces(), timeOut()]);
 };

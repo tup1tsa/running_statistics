@@ -2,10 +2,10 @@ import { PositionInTime } from '../common_files/interfaces';
 import * as React from 'react';
 import { PathInformation } from './PathInformation';
 import { GetActivePathDataFactory } from './pathUtilsFactories';
-import { SpeedLimits } from '../RunStartPreparation';
+import { SpeedLimits } from '../RaceStartPreparation';
 
 interface Props {
-  runningType: string;
+  raceType: string;
   speedLimits: SpeedLimits;
   maxTimeBetweenPointsSecs: number;
   getActivePathData: GetActivePathDataFactory;
@@ -37,7 +37,7 @@ export const PathWatcherView = (props: Props) => {
   return (
     <div>
       <PathInformation
-        runningType={props.runningType}
+        raceType={props.raceType}
         lastTimeCheck={lastPosition.time}
         toLocaleTime={props.toLocaleTime}
         totalDistance={totalDistance}

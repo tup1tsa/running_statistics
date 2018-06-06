@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { PathWatcher } from './PathWatcher';
 import * as GeoLib from 'geolib';
-import { PositionInTime } from '../common_files/interfaces';
 import { isMiddlePointAccurate } from './pathUtils';
+import { SaveRaceFactory } from '../saveRaceFactory';
 
 interface Props {
-  runningType: string;
+  raceType: string;
   speedLimits: {
     minSpeed: number;
     maxSpeed: number;
@@ -13,7 +13,7 @@ interface Props {
   maxTimeBetweenPointsSecs: number;
   minimumDistanceDiff: number;
   delaySecs: number;
-  saveRun: (positions: PositionInTime[]) => Promise<string>;
+  saveRace: SaveRaceFactory;
   setSaveResult: (message: string) => void;
 }
 

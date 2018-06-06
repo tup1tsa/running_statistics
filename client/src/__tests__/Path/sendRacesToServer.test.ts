@@ -1,14 +1,19 @@
-import { PositionInTime } from '../../common_files/interfaces';
-import { sendPathsToServer, sendPathsToServerWithTimeout } from '../../Path/sendPathsToServer';
+import { Race } from '../../common_files/interfaces';
+import { sendRacesToServer, sendRacesToServerWithTimeout } from '../../Path/sendRacesToServer';
 
 describe('saving runs to the server', () => {
 
-  const runsInStorage: PositionInTime[][] = [[{
-    time: 23,
-    longitude: 44,
-    latitude: 56
-  }]];
-  const fetchPaths = jest.fn().mockReturnValue(runsInStorage);
+  const racesInStorage: Race[] = [
+    {
+      type: 'walking',
+      path: [{
+        time: 23,
+        longitude: 44,
+        latitude: 56
+      }]
+    }
+  ];
+  const fetchRacesFromStorage = jest.fn().mockReturnValue(racesInStorage);
   const successResponse = {
     status: 200,
     data: { saved: true }
@@ -24,19 +29,19 @@ describe('saving runs to the server', () => {
   };
 
   it('should try to send all runs (if they exist) from the local storage to the server', async (done) => {
-    fetchPaths.mockReturnValueOnce([]);
+    fetchRacesFromStorage.mockReturnValueOnce([]);
     const axios = {
       get: jest.fn(),
       post: jest.fn().mockResolvedValueOnce(successResponse)
     };
-    const emptyStorageResult = await sendPathsToServer(fetchPaths, axios, jest.fn());
+    const emptyStorageResult = await sendRacesToServer(fetchRacesFromStorage, axios, jest.fn());
     expect(emptyStorageResult).toBe('There is nothing to save');
     expect(axios.post.mock.calls.length).toBe(0);
-    const fullStorageResult = await sendPathsToServer(fetchPaths, axios, jest.fn());
+    const fullStorageResult = await sendRacesToServer(fetchRacesFromStorage, axios, jest.fn());
     expect(axios.post.mock.calls.length).toBe(1);
     const [url, data] = axios.post.mock.calls[0];
-    expect(url).toBe('/saveRuns');
-    expect(data).toEqual(runsInStorage);
+    expect(url).toBe('/saveRaces');
+    expect(data).toEqual(racesInStorage);
     expect(fullStorageResult).toEqual('Runs were successfully saved');
     done();
   });
@@ -50,10 +55,10 @@ describe('saving runs to the server', () => {
     axios.post.mockResolvedValueOnce(successResponse);
     axios.post.mockResolvedValueOnce(failResponse);
     axios.post.mockRejectedValueOnce(unexpectedResponse);
-    await sendPathsToServer(fetchPaths, axios, clearStorage);
+    await sendRacesToServer(fetchRacesFromStorage, axios, clearStorage);
     expect(clearStorage.mock.calls.length).toBe(1);
-    const serverError = await sendPathsToServer(fetchPaths, axios, clearStorage);
-    const unexpectedError = await sendPathsToServer(fetchPaths, axios, clearStorage);
+    const serverError = await sendRacesToServer(fetchRacesFromStorage, axios, clearStorage);
+    const unexpectedError = await sendRacesToServer(fetchRacesFromStorage, axios, clearStorage);
 
     expect(serverError).toBe('There were some problems on server. Saving unsuccessful');
     expect(unexpectedError).toBe('Unexpected error during saving');
@@ -72,10 +77,10 @@ describe('saving runs to the server', () => {
       });
     };
     const sendPathsMock = jest.fn().mockReturnValue(getPromise());
-    const timeoutSending = sendPathsToServerWithTimeout(sendPathsMock, 5);
+    const timeoutSending = sendRacesToServerWithTimeout(sendPathsMock, 5);
     jest.runAllTimers();
     expect(await timeoutSending).toBe('Timeout');
-    const normalSending = sendPathsToServerWithTimeout(sendPathsMock, 15);
+    const normalSending = sendRacesToServerWithTimeout(sendPathsMock, 15);
     jest.runAllTimers();
     expect(await normalSending).toBe('success');
     done();

@@ -1,5 +1,5 @@
 import { PositionInTime } from '../common_files/interfaces';
-import { SpeedLimits } from '../RunStartPreparation';
+import { SpeedLimits } from '../RaceStartPreparation';
 import { dividePath, getActiveParts, getActivePathData, getAverageSpeed } from './pathUtils';
 import * as Geolib from 'geolib';
 

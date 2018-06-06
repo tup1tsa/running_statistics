@@ -2,8 +2,8 @@ import * as dotenv from 'dotenv';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
-import { fetchRunsFactory, saveRunsFactory } from './database/queriesFactories';
-import { PositionInTime } from '../client/src/common_files/interfaces';
+import { fetchRacesFactory, saveRacesFactory } from './database/queriesFactories';
+import { Race } from '../client/src/common_files/interfaces';
 
 dotenv.load();
 
@@ -17,10 +17,10 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('client/build'));
 
 // todo: add some kind of tests here (probably integration)
-app.post('/saveRuns', async (req, res) => {
-  const runs = req.body;
+app.post('/saveRaces', async (req, res) => {
+  const races = req.body;
   try {
-    await saveRunsFactory(runs);
+    await saveRacesFactory(races);
   } catch (e) {
     res.status(500).end(JSON.stringify(e));
     return;
@@ -29,14 +29,14 @@ app.post('/saveRuns', async (req, res) => {
   res.status(200).end(JSON.stringify(response));
 });
 
-app.get('/fetchRuns', async (req, res) => {
-  let runs: PositionInTime[][] = [];
+app.get('/fetchRaces', async (req, res) => {
+  let races: Race[] = [];
   try {
-    runs = await fetchRunsFactory();
+    races = await fetchRacesFactory();
   } catch (e) {
     res.status(500).end(JSON.stringify(e));
   }
-  res.status(200).end(JSON.stringify(runs));
+  res.status(200).end(JSON.stringify(races));
 });
 
 app.listen(PORT);

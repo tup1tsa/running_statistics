@@ -1,4 +1,4 @@
-import { PositionInTime } from '../common_files/interfaces';
+import { Race } from '../common_files/interfaces';
 
 export interface LocalStorage {
   getItem(item: string): string | null;
@@ -10,8 +10,12 @@ export interface ValidatePath {
   (path: any): boolean;
 }
 
-export const fetchPathsFromStorage = (storage: LocalStorage, validatePath: ValidatePath): PositionInTime[][] => {
-  const runs = storage.getItem('runs');
+interface FetchRacesFromStorage {
+  (storage: LocalStorage, validatePath: ValidatePath): Race[];
+}
+
+export const fetchRacesFromStorage: FetchRacesFromStorage = (storage, validatePath) => {
+  const runs = storage.getItem('races');
   if (runs === null) {
     return [];
   }
@@ -24,19 +28,19 @@ export const fetchPathsFromStorage = (storage: LocalStorage, validatePath: Valid
   if (!Array.isArray(parsedRuns)) {
     return [];
   }
-  return parsedRuns.filter(run => validatePath(run));
+  return parsedRuns.filter(run => validatePath(run.path));
 };
 
-export const savePathToStorage = (
-  path: PositionInTime[],
+export const saveRaceToStorage = (
+  race: Race,
   storage: LocalStorage,
-  fetchPathFromStorage: () => PositionInTime[][]
+  fetchRacesFromStorageFactory: () => Race[]
 ) => {
-  const localPaths = fetchPathFromStorage();
-  const allPaths = localPaths.concat([path]);
-  storage.setItem('runs', JSON.stringify(allPaths));
+  const localPaths = fetchRacesFromStorageFactory();
+  const allPaths = localPaths.concat([race]);
+  storage.setItem('races', JSON.stringify(allPaths));
 };
 
-export const clearPathsFromStorage = (storage: LocalStorage) => {
-  storage.setItem('runs', JSON.stringify([]));
+export const clearRacesFromStorage = (storage: LocalStorage) => {
+  storage.setItem('races', JSON.stringify([]));
 };

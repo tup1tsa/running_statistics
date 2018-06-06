@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 interface Props {
-  runningType:  string;
+  raceType:  string;
   lastTimeCheck: number;
   totalDistance: number;
   totalTimeSecs: number;
@@ -13,7 +13,7 @@ export const PathInformation = (props: Props) => {
   const time = props.toLocaleTime(props.lastTimeCheck);
   const speedPrecision = 100;
   const speed = Math.round(props.avgSpeed * speedPrecision) / speedPrecision;
-  let runTypeUppercase = props.runningType
+  let runTypeUppercase = props.raceType
     .split('')
     .map((letter, index) => index === 0 ? letter.toUpperCase() : letter)
     .join('');

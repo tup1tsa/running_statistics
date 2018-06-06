@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { PositionInTime } from './common_files/interfaces';
 import { PathWatcherFactory } from './Path/PathWatcherFactory';
+import { SaveRaceFactory } from './saveRaceFactory';
 
 export interface SpeedLimits {
   minSpeed: number;
@@ -16,17 +16,17 @@ interface Props {
   minimumDistanceDiff: number;
   maxTimeBetweenPointsSecs: number;
   delaySecs: number;
-  saveRun: (positions: PositionInTime[]) => Promise<string>;
+  saveRace: SaveRaceFactory;
   setSaveResult: (message: string) => void;
 }
 
 interface State {
-  runTypeChosen?: string;
+  raceTypeChosen?: string;
 }
 
 // todo: redo save run in order to save running type too (and redo backend)
 
-export class RunStartPreparation extends React.Component<Props, State> {
+export class RaceStartPreparation extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {};
@@ -35,11 +35,11 @@ export class RunStartPreparation extends React.Component<Props, State> {
   }
 
   startWatcher(type: string) {
-    this.setState({runTypeChosen: type});
+    this.setState({raceTypeChosen: type});
   }
 
   render() {
-    if (!this.state.runTypeChosen) {
+    if (!this.state.raceTypeChosen) {
       return (
         <div>
           <button className="blue" id="start_running" onClick={() => this.startWatcher('running')}>Running</button>
@@ -50,20 +50,20 @@ export class RunStartPreparation extends React.Component<Props, State> {
       );
     }
     let speedLimits = this.props.speedLimits.running;
-    if (this.state.runTypeChosen === 'walking') {
+    if (this.state.raceTypeChosen === 'walking') {
       speedLimits = this.props.speedLimits.walking;
     }
-    if (this.state.runTypeChosen === 'cycling') {
+    if (this.state.raceTypeChosen === 'cycling') {
       speedLimits = this.props.speedLimits.cycling;
     }
     return (
       <PathWatcherFactory
-        runningType={this.state.runTypeChosen}
+        raceType={this.state.raceTypeChosen}
         speedLimits={speedLimits}
         maxTimeBetweenPointsSecs={this.props.maxTimeBetweenPointsSecs}
         minimumDistanceDiff={this.props.minimumDistanceDiff}
         delaySecs={this.props.delaySecs}
-        saveRun={this.props.saveRun}
+        saveRace={this.props.saveRace}
         setSaveResult={this.props.setSaveResult}
       />
     );

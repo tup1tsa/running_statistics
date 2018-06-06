@@ -1,9 +1,9 @@
 import { shallow } from 'enzyme';
 import * as React from 'react';
-import { RunStartPreparation, SpeedLimits } from '../RunStartPreparation';
+import { RaceStartPreparation, SpeedLimits } from '../RaceStartPreparation';
 import { PathWatcherFactory } from '../Path/PathWatcherFactory';
 
-describe('run start preparation logic', () => {
+describe('race start preparation logic', () => {
 
   const speedLimits = {
     walking: {
@@ -25,40 +25,40 @@ describe('run start preparation logic', () => {
     delaySecs: 2,
     minimumDistanceDiff: 2,
     maxTimeBetweenPointsSecs: 30,
-    saveRun: jest.fn(),
+    saveRace: jest.fn(),
     setSaveResult: jest.fn()
   };
 
   it('should render four buttons', () => {
-    const wrapper = shallow(<RunStartPreparation  {...defaultProps} />);
+    const wrapper = shallow(<RaceStartPreparation  {...defaultProps} />);
     expect(wrapper.find('button').length).toBe(4);
   });
 
-  it('should finish run with empty message if back button is clicked', () => {
+  it('should finish race with empty message if back button is clicked', () => {
     const setSaveResult = jest.fn();
-    const wrapper = shallow(<RunStartPreparation {...defaultProps} setSaveResult={setSaveResult}/>);
+    const wrapper = shallow(<RaceStartPreparation {...defaultProps} setSaveResult={setSaveResult}/>);
     wrapper.find('button.back').simulate('click');
     expect(setSaveResult.mock.calls.length).toBe(1);
     expect(setSaveResult.mock.calls[0][0]).toBe('');
   });
 
   it('should run path watcher with correct props', () => {
-    const checkProps = (buttonId: string, runningType: string, currentSpeedLimits: SpeedLimits) => {
+    const checkProps = (buttonId: string, raceType: string, currentSpeedLimits: SpeedLimits) => {
       const defaultWatcherProps = {
         minimumDistanceDiff: defaultProps.minimumDistanceDiff,
         delaySecs: defaultProps.delaySecs,
-        saveRun: defaultProps.saveRun,
+        saveRace: defaultProps.saveRace,
         setSaveResult: defaultProps.setSaveResult,
         maxTimeBetweenPointsSecs: defaultProps.maxTimeBetweenPointsSecs
       };
-      const wrapper = shallow(<RunStartPreparation {...defaultProps} />);
+      const wrapper = shallow(<RaceStartPreparation {...defaultProps} />);
       wrapper.find(buttonId).simulate('click');
       expect(wrapper.find('button').length).toBe(0);
       expect(wrapper.contains(
         <PathWatcherFactory
           {...defaultWatcherProps}
           speedLimits={currentSpeedLimits}
-          runningType={runningType}
+          raceType={raceType}
         />
       )).toBe(true);
     };

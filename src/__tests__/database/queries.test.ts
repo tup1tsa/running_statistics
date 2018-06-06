@@ -1,14 +1,14 @@
 import { connect } from '../../database/databaseWrappers';
 import { MongoClient, Db } from 'mongodb';
 import * as dotenv from 'dotenv';
-import { fetchRuns, saveRuns } from '../../database/queries';
+import { fetchRaces, saveRaces } from '../../database/queries';
 import { getConnectionInfo } from '../../database/getConnectionInfo';
 
 describe('database queries', () => {
 
   let client: MongoClient;
   let db: Db;
-  const collection = 'runs';
+  const collection = 'races';
 
   beforeAll(() => dotenv.load());
 
@@ -27,30 +27,35 @@ describe('database queries', () => {
   });
 
   it('should save runs correctly', async (done) => {
-    const run = [
-      { latitude: 42, longitude: 44, time: 323 },
-      { latitude: 17, longitude: 23, time: 323 },
-    ];
-    const query  = saveRuns(collection, [run]);
+    const race = {
+      type: 'running',
+      path: [
+        { latitude: 42, longitude: 44, time: 323 },
+        { latitude: 17, longitude: 23, time: 323 },
+      ]
+    };
+    const query  = saveRaces(collection, [race]);
     await query(db);
-    const cursor = await db.collection('runs').find();
+    const cursor = await db.collection('races').find();
     const docs = await cursor.toArray();
     expect(docs.length).toBe(1);
-    expect(docs[0].points).toEqual(run);
-    expect(docs[0].type).toBe('run');
+    expect(docs[0]).toEqual(race);
     done();
   });
 
   it('should fetch runs correctly', async (done) => {
-    const run = [
-      { latitude: 42, longitude: 44, time: 323 },
-      { latitude: 17, longitude: 23, time: 323 },
-    ];
-    const saveRunsQuery  = saveRuns(collection, [run]);
+    const race = {
+      type: 'walking',
+      path: [
+        { latitude: 42, longitude: 44, time: 323 },
+        { latitude: 17, longitude: 23, time: 323 },
+      ]
+    };
+    const saveRunsQuery  = saveRaces(collection, [race]);
     await saveRunsQuery(db);
-    const fetchRunsQuery = fetchRuns(collection);
+    const fetchRunsQuery = fetchRaces(collection);
     const runs = await fetchRunsQuery(db);
-    expect(runs).toEqual([run]);
+    expect(runs).toEqual([race]);
     done();
   });
 });

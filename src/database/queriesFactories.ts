@@ -1,16 +1,16 @@
-import { PositionInTime } from '../../client/src/common_files/interfaces';
-import { fetchRuns, saveRuns } from './queries';
+import { Race } from '../../client/src/common_files/interfaces';
+import { fetchRaces, saveRaces } from './queries';
 import { runQuery } from './databaseWrappers';
 import { getConnectionInfo } from './getConnectionInfo';
 
-export const saveRunsFactory = async (runs: PositionInTime[][]) => {
-  const query = saveRuns('runs', runs);
+export const saveRacesFactory = async (races: Race[]) => {
+  const query = saveRaces('races', races);
   const connectionInfo = getConnectionInfo(process.env);
   return runQuery(connectionInfo.uri, connectionInfo.dbName, query);
 };
 
-export  const fetchRunsFactory = async () => {
-  const query = await fetchRuns('runs');
+export  const fetchRacesFactory = async () => {
+  const query = await fetchRaces('races');
   const connectionInfo = getConnectionInfo(process.env);
   return runQuery(connectionInfo.uri, connectionInfo.dbName, query);
 };

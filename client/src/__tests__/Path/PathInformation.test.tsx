@@ -9,7 +9,7 @@ describe('should render path information correctly', () => {
 
   const wrapper = shallow(
     <PathInformation
-      runningType={'walking'}
+      raceType={'walking'}
       lastTimeCheck={2323323}
       totalTimeSecs={117}
       toLocaleTime={toLocaleTimeMock}

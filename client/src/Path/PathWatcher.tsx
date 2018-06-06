@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { PathWatcherViewFactory } from './PathWatcherViewFactory';
-import { Position, PositionInTime } from '../common_files/interfaces';
-import { SpeedLimits } from '../RunStartPreparation';
+import { Position, PositionInTime, Race } from '../common_files/interfaces';
+import { SpeedLimits } from '../RaceStartPreparation';
+import { SaveRaceFactory } from '../saveRaceFactory';
 
 // todo: add somewhere hint that data is saving on the server currently or was successfully saved
 
@@ -41,12 +42,12 @@ interface GetDistance {
 }
 
 interface Props {
-  runningType: string;
+  raceType: string;
   speedLimits: SpeedLimits;
   maxTimeBetweenPointsSecs: number;
   minimumDistanceDiff: number;
   delaySecs: number;
-  saveRun: (positions: PositionInTime[]) => Promise<string>;
+  saveRace: SaveRaceFactory;
   setSaveResult: (message: string) => void;
   geoLocation: GeoLocation;
   getDistance: GetDistance;
@@ -98,8 +99,11 @@ export class PathWatcher extends React.Component<Props, State> {
       this.props.geoLocation.clearWatch(this.state.watcherId);
       this.setState({watcherId: null, savingInProgress: true });
       // there is no try catch in sending data to the server. Save run should not throw at all.
-      // todo: path watcher view should also show that saving run is in progress
-      this.props.saveRun(this.state.positions)
+      const race: Race = {
+        type: this.props.raceType,
+        path: this.state.positions
+      };
+      this.props.saveRace(race)
         .then(result => {
           this.props.setSaveResult(result);
           resolve();
@@ -161,7 +165,7 @@ export class PathWatcher extends React.Component<Props, State> {
     return (
       <div>
         <PathWatcherViewFactory
-          runningType={this.props.runningType}
+          raceType={this.props.raceType}
           path={this.state.positions}
           stopWatcher={this.stopWatcher}
           speedLimits={this.props.speedLimits}

@@ -9,7 +9,7 @@ describe('should render path view component correctly', () => {
     path: [],
     stopWatcher: jest.fn(),
     toLocaleTime: jest.fn(),
-    runningType: 'walking',
+    raceType: 'walking',
     speedLimits: {
       minSpeed: 5,
       maxSpeed: 10
@@ -60,7 +60,7 @@ describe('should render path view component correctly', () => {
     expect(getSpeedMock.mock.calls.length).toBe(0);
     const pathInformation = (
       <PathInformation
-        runningType={defaultProps.runningType}
+        raceType={defaultProps.raceType}
         lastTimeCheck={2342432}
         totalTimeSecs={0}
         totalDistance={0}
@@ -94,7 +94,7 @@ describe('should render path view component correctly', () => {
     expect(getActivePathData.mock.calls[0][2]).toBe(defaultProps.maxTimeBetweenPointsSecs);
     const pathInformation = (
       <PathInformation
-        runningType={defaultProps.runningType}
+        raceType={defaultProps.raceType}
         lastTimeCheck={23456553}
         totalTimeSecs={117}
         totalDistance={17}
