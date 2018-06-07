@@ -2,7 +2,7 @@ import * as React from 'react';
 import { PathWatcherViewFactory } from './PathWatcherViewFactory';
 import { Position, PositionInTime, Race } from '../common_files/interfaces';
 import { SpeedLimits } from '../RaceStartPreparation';
-import { SaveRaceFactory } from '../saveRaceFactory';
+import { FinishRaceFactory } from '../finishRaceFactory';
 
 // todo: add somewhere hint that data is saving on the server currently or was successfully saved
 
@@ -47,7 +47,7 @@ interface Props {
   maxTimeBetweenPointsSecs: number;
   minimumDistanceDiff: number;
   delaySecs: number;
-  saveRace: SaveRaceFactory;
+  saveRace: FinishRaceFactory;
   setSaveResult: (message: string) => void;
   geoLocation: GeoLocation;
   getDistance: GetDistance;

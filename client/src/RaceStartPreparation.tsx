@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { PathWatcherFactory } from './Path/PathWatcherFactory';
-import { SaveRaceFactory } from './saveRaceFactory';
+import { FinishRaceFactory } from './finishRaceFactory';
 
 export interface SpeedLimits {
   minSpeed: number;
@@ -16,7 +16,7 @@ interface Props {
   minimumDistanceDiff: number;
   maxTimeBetweenPointsSecs: number;
   delaySecs: number;
-  saveRace: SaveRaceFactory;
+  saveRace: FinishRaceFactory;
   setSaveResult: (message: string) => void;
 }
 

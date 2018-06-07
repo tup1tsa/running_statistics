@@ -83,11 +83,11 @@ describe('find center of the path', () => {
 
   it('should calculate center correctly for 3 points', () => {
     const path: Position[] = [
-      { latitude: 20, longitude: 20 },
-      { latitude: 25, longitude: 30 },
+      { latitude: 0, longitude: 0 },
+      { latitude: 0, longitude: 0 },
       { latitude: 30, longitude: 40 }
     ];
-    expect(findCenter(path)).toEqual({ latitude: 25, longitude: 30 });
+    expect(findCenter(path)).toEqual({ latitude: 15, longitude: 20 });
   });
 });
 

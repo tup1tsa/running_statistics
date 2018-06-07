@@ -72,21 +72,19 @@ export const unitePath = (path: DividedPathPart[]): PositionInTime[] => {
 };
 
 export const findCenter = (path: Position[]): Position => {
-  // todo: find center works weird. Should be the center between top left position and bottom right
   const error = 'path should contain at least one point';
   if (path.length === 0) {
     throw new Error(error);
   }
-  const findTotalLatLng = (total: Position, current: Position) => {
-    return {
-      latitude: total.latitude + current.latitude,
-      longitude: total.longitude + current.longitude
-    };
-  };
-  const totalLatLng = path.reduce(findTotalLatLng);
+  const latitudes = path.map(position => position.latitude);
+  const longitudes = path.map(position => position.longitude);
+  const minLatitude = Math.min(...latitudes);
+  const maxLatitude = Math.max(...latitudes);
+  const minLongitude = Math.min(...longitudes);
+  const maxLongitude = Math.max(...longitudes);
   return {
-    latitude: totalLatLng.latitude / path.length,
-    longitude: totalLatLng.longitude / path.length
+    latitude: (minLatitude + maxLatitude) / 2,
+    longitude: (minLongitude + maxLongitude) / 2
   };
 };
 

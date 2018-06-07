@@ -6,7 +6,7 @@ import {
   delayBetweenGeoCalls,
   maximumTimeBetweenPointsSecs
 } from './common_files/config';
-import { saveRaceFactory } from './saveRaceFactory';
+import { finishRaceFactory } from './finishRaceFactory';
 
 interface Props {
   setSaveResult: (message: string) => void;
@@ -17,7 +17,7 @@ export const RaceStartPreparationFactory = (props: Props) => (
     speedLimits={raceSettings}
     minimumDistanceDiff={minimumDistanceDiffBetweenPositions}
     delaySecs={delayBetweenGeoCalls}
-    saveRace={saveRaceFactory}
+    saveRace={finishRaceFactory}
     setSaveResult={props.setSaveResult}
     maxTimeBetweenPointsSecs={maximumTimeBetweenPointsSecs}
   />

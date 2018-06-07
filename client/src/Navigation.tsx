@@ -4,7 +4,7 @@ import { RaceStartPreparationFactory } from './RaceStartPreparationFactory';
 interface Props {}
 
 interface State {
-  raceInProgess: boolean;
+  activeBlock: string;
   finishRaceMessage: string;
 }
 
@@ -13,30 +13,34 @@ export class Navigation extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      raceInProgess: false,
+      activeBlock: '',
       finishRaceMessage: ''
     };
 
     this.startRace = this.startRace.bind(this);
     this.finishRace = this.finishRace.bind(this);
+    this.showStatsBlock = this.showStatsBlock.bind(this);
   }
 
   startRace() {
-    this.setState({ raceInProgess: true });
+    this.setState({ activeBlock: 'race' });
   }
 
   finishRace(message: string) {
-    this.setState({ raceInProgess: false, finishRaceMessage: message });
+    this.setState({ activeBlock: '', finishRaceMessage: message });
   }
 
+  // tslint:disable-next-line no-empty
+  async showStatsBlock() {}
+
   render() {
-    if (this.state.raceInProgess) {
+    if (this.state.activeBlock === 'race') {
       return <div><RaceStartPreparationFactory setSaveResult={this.finishRace} /></div>;
     }
     return (
       <div>
         <button className="blue" id="start_race" onClick={this.startRace}>Start race</button>
-        <button className="blue" id="show_stats">Show stats</button>
+        <button className="blue" id="show_stats" onClick={this.showStatsBlock}>Show stats</button>
         <p>{this.state.finishRaceMessage}</p>
       </div>
     );

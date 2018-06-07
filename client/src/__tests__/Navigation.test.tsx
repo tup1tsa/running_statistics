@@ -33,4 +33,11 @@ describe('site navigation', () => {
     expect(wrapper.contains(<p>saved successfully</p>)).toBe(true);
   });
 
+  /*it('should render race on map block is show stats button is clicked', () => {
+    const wrapper = shallow(<Navigation />);
+    wrapper.find('#show_stats').simulate('click');
+    wrapper.update();
+    expect(wrapper.contains(<Race)).toBe(true);
+  });*/
+
 });
