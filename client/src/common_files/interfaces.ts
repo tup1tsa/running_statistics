@@ -12,6 +12,18 @@ export interface Race {
   path: PositionInTime[];
 }
 
+interface RaceLimits {
+  minSpeed: number;
+  maxSpeed: number;
+  maximumTimeBetweenPointsSecs: number;
+}
+
+export interface RaceSettings {
+  walking: RaceLimits;
+  running: RaceLimits;
+  cycling: RaceLimits;
+}
+
 export interface LocalStorage {
   getItem(item: string): string | null;
   setItem(item: string, data: string): void;

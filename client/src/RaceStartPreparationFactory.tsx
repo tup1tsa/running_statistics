@@ -3,8 +3,7 @@ import { RaceStartPreparation } from './RaceStartPreparation';
 import {
   raceSettings,
   minimumDistanceDiffBetweenPositions,
-  delayBetweenGeoCalls,
-  maximumTimeBetweenPointsSecs
+  delayBetweenGeoCalls
 } from './common_files/config';
 import { finishRaceFactory } from './finishRaceFactory';
 
@@ -19,6 +18,7 @@ export const RaceStartPreparationFactory = (props: Props) => (
     delaySecs={delayBetweenGeoCalls}
     saveRace={finishRaceFactory}
     setSaveResult={props.setSaveResult}
-    maxTimeBetweenPointsSecs={maximumTimeBetweenPointsSecs}
+    // todo: move maxTimeBetween points sec somewhere (it's inside raceSettings)
+    maxTimeBetweenPointsSecs={raceSettings.running.maximumTimeBetweenPointsSecs}
   />
 );

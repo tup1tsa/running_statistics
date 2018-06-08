@@ -8,6 +8,8 @@ interface State {
   currentRaceIndex: number;
 }
 
+// todo: add here race information block somehow
+
 interface Props {
   size: {
     width: number;

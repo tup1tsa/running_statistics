@@ -1,6 +1,6 @@
-import { PositionInTime, Position } from '../common_files/interfaces';
+import { PositionInTime, Position, Race, RaceSettings } from '../common_files/interfaces';
 
-interface GetPath {
+export interface GetPath {
   (positions: PositionInTime[]): number;
 }
 
@@ -17,7 +17,7 @@ export interface DividedPathPart {
   active: boolean;
 }
 
-interface GetAverageSpeed {
+export interface GetAverageSpeed {
   (path: PositionInTime[], getPath: GetPath): number;
 }
 
@@ -34,7 +34,21 @@ interface GetDistance {
   (start: Position, end: Position): number;
 }
 
-export const dividePath = (path: PositionInTime[], config: DividePathConfig): DividedPathPart[] => {
+export interface DividePath {
+  (path: PositionInTime[], config: DividePathConfig): DividedPathPart[];
+}
+
+export interface DivideRace {
+  (
+    race: Race,
+    raceSettings: RaceSettings,
+    getSpeed: GetAverageSpeed,
+    getPath: GetPath,
+    dividePathFunc: DividePath
+  ): DividedPathPart[];
+}
+
+export const dividePath: DividePath = (path, config) => {
   if (path.length < 2) {
     return [{ active: false, path }];
   }
@@ -59,6 +73,27 @@ export const dividePath = (path: PositionInTime[], config: DividePathConfig): Di
     dividedPath.push({active: active, path: [currentPoint, nextPoint]});
   }
   return dividedPath;
+};
+
+export const divideRace: DivideRace = (race, raceSettings, getSpeed, getPath, dividePathFunc) => {
+  let dividedPathConfig: DividePathConfig = {
+    minSpeed: raceSettings.running.minSpeed,
+    maxSpeed: raceSettings.running.maxSpeed,
+    maxTimeBetweenPointsSecs: raceSettings.running.maximumTimeBetweenPointsSecs,
+    getPath: getPath,
+    getAverageSpeed: getSpeed
+  };
+  if (race.type === 'walking') {
+    dividedPathConfig.minSpeed = raceSettings.walking.minSpeed;
+    dividedPathConfig.maxSpeed = raceSettings.walking.maxSpeed;
+    dividedPathConfig.maxTimeBetweenPointsSecs = raceSettings.walking.maximumTimeBetweenPointsSecs;
+  }
+  if (race.type === 'cycling') {
+    dividedPathConfig.minSpeed = raceSettings.cycling.minSpeed;
+    dividedPathConfig.maxSpeed = raceSettings.cycling.maxSpeed;
+    dividedPathConfig.maxTimeBetweenPointsSecs = raceSettings.cycling.maximumTimeBetweenPointsSecs;
+  }
+  return dividePathFunc(race.path, dividedPathConfig);
 };
 
 export const unitePath = (path: DividedPathPart[]): PositionInTime[] => {

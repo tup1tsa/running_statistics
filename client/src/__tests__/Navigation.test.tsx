@@ -2,6 +2,7 @@ import * as React from 'react';
 import { shallow } from 'enzyme';
 import { Navigation } from '../Navigation';
 import { RaceStartPreparationFactory } from '../RaceStartPreparationFactory';
+import { RaceStatsFactory } from '../RaceStatsFactory';
 
 describe('site navigation', () => {
 
@@ -33,11 +34,12 @@ describe('site navigation', () => {
     expect(wrapper.contains(<p>saved successfully</p>)).toBe(true);
   });
 
-  /*it('should render race on map block is show stats button is clicked', () => {
+  it('should render race stats factory block if show stats button is clicked and navigation buttons', () => {
     const wrapper = shallow(<Navigation />);
     wrapper.find('#show_stats').simulate('click');
     wrapper.update();
-    expect(wrapper.contains(<Race)).toBe(true);
-  });*/
+    expect(wrapper.contains(<RaceStatsFactory />)).toBe(true);
+    expect(wrapper.find('button').length).toBe(2);
+  });
 
 });

@@ -29,7 +29,7 @@ app.post('/saveRaces', async (req, res) => {
   res.status(200).end(JSON.stringify(response));
 });
 
-app.get('/fetchRaces', async (req, res) => {
+app.post('/fetchRaces', async (req, res) => {
   let races: Race[] = [];
   try {
     races = await fetchRacesFactory();
