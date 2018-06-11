@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
 import { PathWatcherView } from '../../Path/PathWatcherView';
-import { PathInformation } from '../../Path/PathInformation';
+import { OngoingRaceInfo } from '../../Path/OngoingRaceInfo';
 
 describe('should render path view component correctly', () => {
 
@@ -48,7 +48,7 @@ describe('should render path view component correctly', () => {
     const path = [{ latitude: 25, longitude: 44, time: 2342432 }];
     const race = { type: 'running', path };
     const getSpeedMock = jest.fn();
-    const toLocaleTimeMock = jest.fn();
+    const toLocaleTimeMock = jest.fn().mockReturnValue('7 pm');
     const wrapper = shallow(
       <PathWatcherView
         {...defaultProps}
@@ -58,13 +58,13 @@ describe('should render path view component correctly', () => {
     );
     expect(getSpeedMock.mock.calls.length).toBe(0);
     const pathInformation = (
-      <PathInformation
-        raceType={race.type}
-        lastTimeCheck={2342432}
+      <OngoingRaceInfo
+        raceType={'Running'}
+        lastTimeCheck={path[0].time}
+        toLocaleTime={toLocaleTimeMock}
         totalTimeSecs={0}
         totalDistance={0}
         avgSpeed={0}
-        toLocaleTime={toLocaleTimeMock}
       />
     );
     expect(wrapper.contains(pathInformation)).toBe(true);
@@ -77,7 +77,7 @@ describe('should render path view component correctly', () => {
       { latitude: 48, longitude: -17, time: 23456553 }
     ];
     const race = { type: 'running', path };
-    const toLocaleTimeMock = jest.fn();
+    const toLocaleTimeMock = jest.fn().mockReturnValue('7 pm');
     const getRaceInfo = jest.fn()
       .mockReturnValue({ distance: 17, averageSpeed: 44, timeSecs: 117 });
     const wrapper = shallow(
@@ -91,13 +91,13 @@ describe('should render path view component correctly', () => {
     expect(getRaceInfo.mock.calls.length).toBe(1);
     expect(getRaceInfo.mock.calls[0][0]).toBe(race);
     const pathInformation = (
-      <PathInformation
-        raceType={race.type}
-        lastTimeCheck={23456553}
+      <OngoingRaceInfo
+        raceType={'Running'}
+        lastTimeCheck={path[2].time}
+        toLocaleTime={toLocaleTimeMock}
         totalTimeSecs={117}
         totalDistance={17}
         avgSpeed={44}
-        toLocaleTime={toLocaleTimeMock}
       />
     );
     expect(wrapper.contains(pathInformation)).toBe(true);

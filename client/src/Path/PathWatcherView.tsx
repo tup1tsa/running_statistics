@@ -1,13 +1,13 @@
 import { Race } from '../common_files/interfaces';
 import * as React from 'react';
-import { PathInformation } from './PathInformation';
 import { GetRaceInfoFactory } from './pathUtilsFactories';
+import { OngoingRaceInfo, ToLocaleTime } from './OngoingRaceInfo';
 
 interface Props {
   race: Race;
   getRaceInfo: GetRaceInfoFactory;
   stopWatcher: () => Promise<{}>;
-  toLocaleTime: (time: number) => string;
+  toLocaleTime: ToLocaleTime;
 }
 
 export const PathWatcherView = (props: Props) => {
@@ -22,15 +22,19 @@ export const PathWatcherView = (props: Props) => {
   }
   const lastPosition = props.race.path[props.race.path.length - 1];
   const raceInfo = props.getRaceInfo(props.race);
+  const raceTypeUpperCase = props.race.type
+    .split('')
+    .map((letter, index) => index === 0 ? letter.toUpperCase() : letter)
+    .join('');
   return (
     <div>
-      <PathInformation
-        raceType={props.race.type}
+      <OngoingRaceInfo
+        raceType={raceTypeUpperCase}
         lastTimeCheck={lastPosition.time}
-        toLocaleTime={props.toLocaleTime}
         totalDistance={raceInfo.distance}
         totalTimeSecs={raceInfo.timeSecs}
         avgSpeed={raceInfo.averageSpeed}
+        toLocaleTime={props.toLocaleTime}
       />
       {stopButton}
     </div>
