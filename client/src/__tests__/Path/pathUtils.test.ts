@@ -4,7 +4,9 @@ import {
   DividedPathPart,
   dividePath,
   divideRace,
-  findCenter, getActiveParts, getActivePathData,
+  findCenter,
+  getActiveParts,
+  getRaceInfo,
   getAverageSpeed,
   isMiddlePointAccurate,
   unitePath
@@ -198,15 +200,25 @@ describe('get active parts', () => {
 
 });
 
-describe('get active path data', () => {
+describe('get race information', () => {
 
   it('should return zeroes if path is empty', () => {
     const path: PositionInTime[] = [
       { latitude: 11, longitude: 11, time: 22 }
     ];
-    const getParts = jest.fn().mockReturnValue([path, []]);
+    const emptyRace: Race = { type: 'running', path: []};
+    const almostEmptyRace: Race = { type: 'walking', path };
+    const divideRaceMock = jest.fn()
+      .mockReturnValueOnce([{ active: true, path: []}])
+      .mockReturnValueOnce([{ active: true, path }]);
     const getPath = jest.fn();
-    expect(getActivePathData([], getPath, getParts)).toEqual({
+    expect(getRaceInfo(emptyRace, divideRaceMock, getPath, getActiveParts)).toEqual({
+      averageSpeed: 0,
+      distance: 0,
+      timeSecs: 0
+    });
+    expect(getPath.mock.calls.length).toBe(0);
+    expect(getRaceInfo(almostEmptyRace, divideRaceMock, getPath, getActiveParts)).toEqual({
       averageSpeed: 0,
       distance: 0,
       timeSecs: 0
@@ -223,17 +235,21 @@ describe('get active path data', () => {
       { latitude: 12, longitude: 52, time: 7000 },
       { latitude: 44, longitude: 52, time: 8000 }
     ];
-    const getParts = jest.fn().mockReturnValueOnce([firstPart, secondPart]);
+    const race: Race = { type: 'running', path: [firstPart[0], firstPart[1], secondPart[0], secondPart[1]] };
+    const dividedRace = [
+      { active: true, path: firstPart },
+      { active: true, path: secondPart }
+    ];
+    const divideRaceMock = jest.fn().mockReturnValue(dividedRace);
     const getPath = jest.fn()
       .mockReturnValueOnce(10)
       .mockReturnValueOnce(10);
     // 20 metres per 2 secs = 10m/s or 36 km/h
-    expect(getActivePathData([], getPath, getParts)).toEqual({
+    expect(getRaceInfo(race, divideRaceMock, getPath, getActiveParts)).toEqual({
       averageSpeed: 36,
       distance: 20,
       timeSecs: 2
     });
-    expect(getParts.mock.calls.length).toBe(1);
     expect(getPath.mock.calls.length).toBe(2);
   });
 

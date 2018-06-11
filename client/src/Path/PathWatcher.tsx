@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { PathWatcherViewFactory } from './PathWatcherViewFactory';
 import { Position, PositionInTime, Race } from '../common_files/interfaces';
-import { SpeedLimits } from '../RaceStartPreparation';
 import { FinishRaceFactory } from '../finishRaceFactory';
 
 // todo: add somewhere hint that data is saving on the server currently or was successfully saved
@@ -43,8 +42,6 @@ interface GetDistance {
 
 interface Props {
   raceType: string;
-  speedLimits: SpeedLimits;
-  maxTimeBetweenPointsSecs: number;
   minimumDistanceDiff: number;
   delaySecs: number;
   saveRace: FinishRaceFactory;
@@ -162,15 +159,10 @@ export class PathWatcher extends React.Component<Props, State> {
     if (this.state.savingInProgress) {
       return <div>Saving in progress</div>;
     }
+    const race = { type: this.props.raceType, path: this.state.positions };
     return (
       <div>
-        <PathWatcherViewFactory
-          raceType={this.props.raceType}
-          path={this.state.positions}
-          stopWatcher={this.stopWatcher}
-          speedLimits={this.props.speedLimits}
-          maxTimeBetweenPointsSecs={this.props.maxTimeBetweenPointsSecs}
-        />
+        <PathWatcherViewFactory race={race} stopWatcher={this.stopWatcher}/>
       </div>
     );
   }

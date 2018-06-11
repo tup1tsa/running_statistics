@@ -1,4 +1,5 @@
 import { PositionInTime, Position, Race, RaceSettings } from '../common_files/interfaces';
+import { DivideRaceFactory } from './pathUtilsFactories';
 
 export interface GetPath {
   (positions: PositionInTime[]): number;
@@ -25,8 +26,8 @@ export interface GetActiveParts {
   (path: DividedPathPart[]): PositionInTime[][];
 }
 
-export interface GetActivePathData {
-  (path: DividedPathPart[], getPath: GetPath, getActiveParts: GetActiveParts):
+export interface GetRaceInfo {
+  (race: Race, divideRace: DivideRaceFactory, getPath: GetPath, getActiveParts: GetActiveParts):
     { distance: number, averageSpeed: number, timeSecs: number };
 }
 
@@ -141,8 +142,9 @@ export const getActiveParts: GetActiveParts = (path) => {
     .map(activePathPart => activePathPart.path);
 };
 
-export const getActivePathData: GetActivePathData = (path, getPath, getParts) => {
-  const activeParts = getParts(path)
+export const getRaceInfo: GetRaceInfo = (race, divideRaceFunc, getPath, getParts) => {
+  const dividedPath = divideRaceFunc(race);
+  const activeParts = getParts(dividedPath)
     .filter(activePath =>  activePath.length > 1);
   if (activeParts.length === 0) {
     return {

@@ -6,11 +6,6 @@ import { FinishRaceFactory } from '../finishRaceFactory';
 
 interface Props {
   raceType: string;
-  speedLimits: {
-    minSpeed: number;
-    maxSpeed: number;
-  };
-  maxTimeBetweenPointsSecs: number;
   minimumDistanceDiff: number;
   delaySecs: number;
   saveRace: FinishRaceFactory;

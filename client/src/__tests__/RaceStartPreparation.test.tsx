@@ -1,30 +1,13 @@
 import { shallow } from 'enzyme';
 import * as React from 'react';
-import { RaceStartPreparation, SpeedLimits } from '../RaceStartPreparation';
+import { RaceStartPreparation } from '../RaceStartPreparation';
 import { PathWatcherFactory } from '../Path/PathWatcherFactory';
 
 describe('race start preparation logic', () => {
 
-  const speedLimits = {
-    walking: {
-      minSpeed: 2,
-      maxSpeed: 4
-    },
-    running: {
-      minSpeed: 3,
-      maxSpeed: 5
-    },
-    cycling: {
-      minSpeed: 7,
-      maxSpeed: 9
-    }
-  };
-
   const defaultProps = {
-    speedLimits: speedLimits,
     delaySecs: 2,
     minimumDistanceDiff: 2,
-    maxTimeBetweenPointsSecs: 30,
     saveRace: jest.fn(),
     setSaveResult: jest.fn()
   };
@@ -42,28 +25,23 @@ describe('race start preparation logic', () => {
     expect(setSaveResult.mock.calls[0][0]).toBe('');
   });
 
-  it('should run path watcher with correct props', () => {
-    const checkProps = (buttonId: string, raceType: string, currentSpeedLimits: SpeedLimits) => {
-      const defaultWatcherProps = {
-        minimumDistanceDiff: defaultProps.minimumDistanceDiff,
-        delaySecs: defaultProps.delaySecs,
-        saveRace: defaultProps.saveRace,
-        setSaveResult: defaultProps.setSaveResult,
-        maxTimeBetweenPointsSecs: defaultProps.maxTimeBetweenPointsSecs
-      };
-      const wrapper = shallow(<RaceStartPreparation {...defaultProps} />);
-      wrapper.find(buttonId).simulate('click');
-      expect(wrapper.find('button').length).toBe(0);
-      expect(wrapper.contains(
-        <PathWatcherFactory
-          {...defaultWatcherProps}
-          speedLimits={currentSpeedLimits}
-          raceType={raceType}
-        />
-      )).toBe(true);
-    };
-    checkProps('#start_running', 'running', defaultProps.speedLimits.running);
-    checkProps('#start_walking', 'walking', defaultProps.speedLimits.walking);
-    checkProps('#start_cycling', 'cycling', defaultProps.speedLimits.cycling);
+  it('should send correct props to path watcher after clicking buttons', () => {
+    const runningWrapper = shallow(<RaceStartPreparation  {...defaultProps} />);
+    runningWrapper.find('button#start_running').simulate('click');
+    expect(runningWrapper.contains(<PathWatcherFactory {...defaultProps} raceType={'running'} />)).toBe(true);
+
+    const walkingWrapper = shallow(<RaceStartPreparation  {...defaultProps} />);
+    walkingWrapper.find('button#start_walking').simulate('click');
+    expect(walkingWrapper.contains(<PathWatcherFactory {...defaultProps} raceType={'walking'} />)).toBe(true);
+
+    const cyclingWrapper = shallow(<RaceStartPreparation  {...defaultProps} />);
+    cyclingWrapper.find('button#start_cycling').simulate('click');
+    expect(cyclingWrapper.contains(<PathWatcherFactory {...defaultProps} raceType={'cycling'} />)).toBe(true);
+  });
+
+  it('should not render buttons if one of the buttons was clicked', () => {
+    const wrapper = shallow(<RaceStartPreparation {...defaultProps} />);
+    wrapper.find('button#start_walking').simulate('click');
+    expect(wrapper.find('button').length).toBe(0);
   });
 });

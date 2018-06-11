@@ -1,22 +1,18 @@
-import { PositionInTime } from '../common_files/interfaces';
+import { Race } from '../common_files/interfaces';
 import * as React from 'react';
 import { PathInformation } from './PathInformation';
-import { GetActivePathDataFactory } from './pathUtilsFactories';
-import { SpeedLimits } from '../RaceStartPreparation';
+import { GetRaceInfoFactory } from './pathUtilsFactories';
 
 interface Props {
-  raceType: string;
-  speedLimits: SpeedLimits;
-  maxTimeBetweenPointsSecs: number;
-  getActivePathData: GetActivePathDataFactory;
-  path: PositionInTime[];
+  race: Race;
+  getRaceInfo: GetRaceInfoFactory;
   stopWatcher: () => Promise<{}>;
   toLocaleTime: (time: number) => string;
 }
 
 export const PathWatcherView = (props: Props) => {
   const stopButton =  <button className="blue" onClick={props.stopWatcher}>Finish</button>;
-  if (props.path.length === 0) {
+  if (props.race.path.length === 0) {
     return (
       <div>
         <div>geo location is initializing</div>
@@ -24,25 +20,17 @@ export const PathWatcherView = (props: Props) => {
       </div>
     );
   }
-  let totalDistance = 0;
-  let averageSpeed = 0;
-  let totalTimeSecs = 0;
-  const lastPosition = props.path[props.path.length - 1];
-  if (props.path.length > 1) {
-    const data = props.getActivePathData(props.path, props.speedLimits, props.maxTimeBetweenPointsSecs);
-    totalDistance = data.distance;
-    averageSpeed = data.averageSpeed;
-    totalTimeSecs = data.timeSecs;
-  }
+  const lastPosition = props.race.path[props.race.path.length - 1];
+  const raceInfo = props.getRaceInfo(props.race);
   return (
     <div>
       <PathInformation
-        raceType={props.raceType}
+        raceType={props.race.type}
         lastTimeCheck={lastPosition.time}
         toLocaleTime={props.toLocaleTime}
-        totalDistance={totalDistance}
-        totalTimeSecs={totalTimeSecs}
-        avgSpeed={averageSpeed}
+        totalDistance={raceInfo.distance}
+        totalTimeSecs={raceInfo.timeSecs}
+        avgSpeed={raceInfo.averageSpeed}
       />
       {stopButton}
     </div>

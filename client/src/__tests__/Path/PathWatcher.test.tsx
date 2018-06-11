@@ -11,11 +11,6 @@ describe('Path watcher tests', () => {
   const geoLocation = new GeoLocationMock();
   const defaultProps = {
     raceType: 'walking',
-    speedLimits: {
-      minSpeed: 5,
-      maxSpeed: 17
-    },
-    maxTimeBetweenPointsSecs: 30,
     geoLocation,
     saveRace: jest.fn().mockResolvedValue(''),
     setSaveResult: jest.fn(),
@@ -26,21 +21,14 @@ describe('Path watcher tests', () => {
   };
 
   it('default state should be correct', () => {
-    const wrapper = shallow(<PathWatcher {...defaultProps} />);
-    let state = wrapper.state();
-    delete state.watcherId;
-    // watcher id can be any number
-    expect(state).toEqual({
+    const geoLocationMock = new GeoLocationMock();
+    const wrapper = shallow(<PathWatcher {...defaultProps} geoLocation={geoLocationMock} />);
+    expect(wrapper.state()).toEqual({
       lastTimeCheck: null,
       positions: [],
-      savingInProgress: false
+      savingInProgress: false,
+      watcherId: geoLocationMock.watchId
     });
-  });
-
-  it('should init watcher on mount', () => {
-    const wrapper = shallow(<PathWatcher {...defaultProps} />);
-    const instance = wrapper.instance() as PathWatcher;
-    expect(instance.state.watcherId).not.toBe(null);
   });
 
   it('should pass correct props to fetcher view factory', () => {
@@ -48,11 +36,8 @@ describe('Path watcher tests', () => {
     const instance = wrapper.instance() as PathWatcher;
     const view = (
       <PathWatcherViewFactory
-        raceType={defaultProps.raceType}
-        path={instance.state.positions}
+        race={{ type: 'walking', path: []}}
         stopWatcher={instance.stopWatcher}
-        speedLimits={defaultProps.speedLimits}
-        maxTimeBetweenPointsSecs={defaultProps.maxTimeBetweenPointsSecs}
       />
     );
     expect(wrapper.contains(view)).toBe(true);
