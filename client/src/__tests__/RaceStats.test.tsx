@@ -2,19 +2,29 @@ import { shallow } from 'enzyme';
 import { RaceStats } from '../RaceStats';
 import * as React from 'react';
 import { RacesOnMapFactory } from '../RacesOnMapFactory';
-import { DividedPathPart } from '../Path/pathUtils';
 
 describe('race statistics block', () => {
 
   const defaultProps = {
-    downloadRaces: jest.fn(),
-    divideRace: jest.fn()
+    downloadRaces: jest.fn()
   };
 
   it('should show notification if there are no races available', () => {
     const message = <p>No races are available</p>;
-    const wrapper = (shallow(<RaceStats {...defaultProps} />, {disableLifecycleMethods: true}));
+    const wrapper = shallow(<RaceStats {...defaultProps} />, {disableLifecycleMethods: true});
     expect(wrapper.contains(message)).toBe(true);
+  });
+
+  it('should show notification that races are being downloaded at the moment', (done) => {
+    const message = <p>Races are being downloaded at the moment</p>;
+    const downloadRaces = jest.fn().mockResolvedValue([]);
+    const wrapper = shallow(<RaceStats {...defaultProps} downloadRaces={downloadRaces} />);
+    expect(wrapper.contains(message)).toBe(true);
+    process.nextTick(() => {
+      wrapper.update();
+      expect(wrapper.contains(message)).toBe(false);
+      done();
+    });
   });
 
   it('should show error notification if races download was unsuccessful', async (done) => {
@@ -30,16 +40,12 @@ describe('race statistics block', () => {
   });
 
   it('should pass correct props to Races on map component', async (done) => {
-    const downloadRaces = jest.fn().mockResolvedValue([{
-      type: 'walking',
-      path: []
-    }]);
-    const dividedRace: DividedPathPart[] = [{active: true, path: []}];
-    const divideRace = jest.fn().mockReturnValue(dividedRace);
-    const wrapper = shallow(<RaceStats {...defaultProps} downloadRaces={downloadRaces} divideRace={divideRace} />);
+    const races = [{ type: 'walking', path: [] }];
+    const downloadRaces = jest.fn().mockResolvedValue(races);
+    const wrapper = shallow(<RaceStats {...defaultProps} downloadRaces={downloadRaces} />);
     process.nextTick(() => {
       wrapper.update();
-      const racesOnMapElem = <RacesOnMapFactory races={[dividedRace]} size={{width: 1000, height: 1000}} />;
+      const racesOnMapElem = <RacesOnMapFactory races={races} size={{width: 1000, height: 1000}} />;
       expect(wrapper.contains(racesOnMapElem)).toBe(true);
       done();
     });

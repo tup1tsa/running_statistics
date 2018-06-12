@@ -1,9 +1,11 @@
 import { RacesOnMap } from './RacesOnMap';
-import { DividedPathPart, findCenter, unitePath } from './Path/pathUtils';
+import { findCenter } from './Path/pathUtils';
 import * as React from 'react';
+import { divideRaceFactory, getRaceInfoFactory } from './Path/pathUtilsFactories';
+import { Race } from './common_files/interfaces';
 
 interface Props {
-  races: DividedPathPart[][];
+  races: Race[];
   size: {
     width: number;
     height: number;
@@ -17,6 +19,7 @@ export const RacesOnMapFactory = (props: Props) => (
     activeColor={'black'}
     inactiveColor={'red'}
     findCenter={findCenter}
-    unitePath={unitePath}
+    divideRace={divideRaceFactory}
+    getRaceInfo={getRaceInfoFactory}
   />
 );

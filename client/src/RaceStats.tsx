@@ -1,15 +1,14 @@
 import * as React from 'react';
 import { Race } from './common_files/interfaces';
 import { RacesOnMapFactory } from './RacesOnMapFactory';
-import { DivideRaceFactory } from './Path/pathUtilsFactories';
 
 interface Props {
   downloadRaces: () => Promise<Race[]>;
-  divideRace: DivideRaceFactory;
 }
 
 interface State {
   races: Race[];
+  downloadInProgress: boolean;
   fetchingErrorMessage?: string;
 }
 
@@ -18,17 +17,19 @@ export class RaceStats extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      races: []
+      races: [],
+      downloadInProgress: false
     };
   }
 
   async componentDidMount() {
     let races: Race[];
+    this.setState({ downloadInProgress: true });
     try {
       races = await this.props.downloadRaces();
-      this.setState({races});
+      this.setState({races, downloadInProgress: false });
     } catch (e) {
-      this.setState({fetchingErrorMessage: e.message});
+      this.setState({fetchingErrorMessage: e.message, downloadInProgress: false });
       return;
     }
   }
@@ -37,10 +38,12 @@ export class RaceStats extends React.Component<Props, State> {
     if (this.state.fetchingErrorMessage) {
       return <p>{this.state.fetchingErrorMessage}</p>;
     }
+    if (this.state.downloadInProgress) {
+      return <p>Races are being downloaded at the moment</p>;
+    }
     if (this.state.races.length === 0) {
       return <p>No races are available</p>;
     }
-    const dividedRaces = this.state.races.map(race => this.props.divideRace(race));
-    return <RacesOnMapFactory races={dividedRaces} size={{ width: 1000, height: 1000 }} />;
+    return <RacesOnMapFactory races={this.state.races} size={{ width: 1000, height: 1000 }} />;
   }
 }
