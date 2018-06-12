@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import { RaceInformation } from '../../Path/RaceInformation';
 import { FinishedRaceInfo } from '../../Path/FinishedRaceInfo';
+import { RaceInformationFactory } from '../../Path/RaceInformationFactory';
 
 describe('finished race information block', () => {
 
@@ -17,7 +17,7 @@ describe('finished race information block', () => {
   it('should render race information with correct props', () => {
     const wrapper = shallow(<FinishedRaceInfo {...defaultProps} />);
     const raceInfo = (
-      <RaceInformation
+      <RaceInformationFactory
         totalDistance={defaultProps.totalDistance}
         totalTimeSecs={defaultProps.totalTimeSecs}
         avgSpeed={defaultProps.avgSpeed}

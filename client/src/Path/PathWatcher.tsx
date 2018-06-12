@@ -3,8 +3,6 @@ import { PathWatcherViewFactory } from './PathWatcherViewFactory';
 import { Position, PositionInTime, Race } from '../common_files/interfaces';
 import { FinishRaceFactory } from '../finishRaceFactory';
 
-// todo: add somewhere hint that data is saving on the server currently or was successfully saved
-
 export interface PositionResponse {
   timestamp: number;
   coords: Position;

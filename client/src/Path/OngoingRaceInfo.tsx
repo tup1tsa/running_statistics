@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { RaceInformation } from './RaceInformation';
+import { RaceInformationFactory } from './RaceInformationFactory';
 
 export interface ToLocaleTime {
   (time: number): string;
@@ -18,7 +18,7 @@ export const OngoingRaceInfo = (props: Props) => (
   <ul>
     <li>Last time check was at {props.toLocaleTime(props.lastTimeCheck)}</li>
     <li>{props.raceType} is in progress</li>
-    <RaceInformation
+    <RaceInformationFactory
       totalDistance={props.totalDistance}
       totalTimeSecs={props.totalTimeSecs}
       avgSpeed={props.avgSpeed}

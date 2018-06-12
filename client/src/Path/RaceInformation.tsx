@@ -1,9 +1,14 @@
 import * as React from 'react';
 
+export interface HumanizeDuration {
+  (time: number): string;
+}
+
 interface Props {
   totalDistance: number;
   totalTimeSecs: number;
   avgSpeed: number;
+  humanizeDuration: HumanizeDuration;
 }
 
 export const RaceInformation = (props: Props) => {
@@ -13,7 +18,7 @@ export const RaceInformation = (props: Props) => {
   return (
     <>
       <li>Total distance is {props.totalDistance} metres</li>
-      <li>Total time is {props.totalTimeSecs} seconds.</li>
+      <li>Total time is {props.humanizeDuration(props.totalTimeSecs)}</li>
       <li>Average speed is {speed} kmh</li>
     </>
   );
