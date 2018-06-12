@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { FinishedRaceInfo } from './FinishedRaceInfo';
+import { getReadableDateFactory } from '../utilsFactories';
 
 interface Props {
   totalDistance: number;
@@ -9,8 +10,6 @@ interface Props {
   raceType: string;
 }
 
-const toLocaleTime = (time: number) => new Date().toLocaleString('en-GB');
-
 export const FinishedRaceInfoFactory = (props: Props) => (
   <FinishedRaceInfo
     totalDistance={props.totalDistance}
@@ -18,6 +17,6 @@ export const FinishedRaceInfoFactory = (props: Props) => (
     avgSpeed={props.avgSpeed}
     lastTimeCheck={props.lastTimeCheck}
     raceType={props.raceType}
-    toLocaleDate={toLocaleTime}
+    toLocaleDate={getReadableDateFactory}
   />
 );

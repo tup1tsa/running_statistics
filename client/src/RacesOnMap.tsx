@@ -53,8 +53,8 @@ export class RacesOnMap extends React.Component<Props, State> {
     const Map = MapWrapperFactory(SparsePolyline);
     const buttons = (
       <>
-        <button type="button" id="next_race" onClick={this.incrementRace}>Next race</button>
         <button type="button" id="previous_race" onClick={this.decrementRace}>Previous race</button>
+        <button type="button" id="next_race" onClick={this.incrementRace}>Next race</button>
       </>
     );
     const raceInfo = this.props.getRaceInfo(currentRace);

@@ -1,16 +1,13 @@
 import * as React from 'react';
 import { RaceInformationFactory } from './RaceInformationFactory';
-
-export interface ToLocaleTime {
-  (time: number): string;
-}
+import { GetReadableDateFactory } from '../utilsFactories';
 
 interface Props {
   totalDistance: number;
   totalTimeSecs: number;
   avgSpeed: number;
   lastTimeCheck: number;
-  toLocaleTime: ToLocaleTime;
+  toLocaleTime: GetReadableDateFactory;
   raceType: string;
 }
 

@@ -2,13 +2,12 @@ import { PathWatcherView } from './PathWatcherView';
 import * as React from 'react';
 import { Race } from '../common_files/interfaces';
 import { getRaceInfoFactory } from './pathUtilsFactories';
+import { getReadableDateFactory } from '../utilsFactories';
 
 interface Props {
   race: Race;
   stopWatcher: () => Promise<{}>;
 }
-
-const toLocaleTime = (time: number) => new Date(time).toLocaleTimeString();
 
 export const PathWatcherViewFactory = (props: Props) => {
   return (
@@ -16,7 +15,7 @@ export const PathWatcherViewFactory = (props: Props) => {
       race={props.race}
       getRaceInfo={getRaceInfoFactory}
       stopWatcher={props.stopWatcher}
-      toLocaleTime={toLocaleTime}
+      toLocaleTime={getReadableDateFactory}
     />
   );
 };
