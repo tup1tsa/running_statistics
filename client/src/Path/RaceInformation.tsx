@@ -1,14 +1,11 @@
 import * as React from 'react';
-
-export interface HumanizeDuration {
-  (time: number): string;
-}
+import { HumanizeDurationFactory } from '../utilsFactories';
 
 interface Props {
   totalDistance: number;
   totalTimeSecs: number;
   avgSpeed: number;
-  humanizeDuration: HumanizeDuration;
+  humanizeDuration: HumanizeDurationFactory;
 }
 
 export const RaceInformation = (props: Props) => {
