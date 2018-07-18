@@ -52,7 +52,7 @@ describe('higher order component logic', () => {
     const wrapper = shallow(<HocWithGoogleMap {...defaultProps} {...size} />);
     const mapElement = <div style={{height: '100%'}} />;
     expect(wrapper.props().mapElement).toEqual(mapElement);
-    const containerElement = <div style={{height: `${size.height}px`, width: `${size.width}px`}}/>;
+    const containerElement = <div style={{float: 'left', height: `${size.height}px`, width: `${size.width}px`}}/>;
     expect(wrapper.props().containerElement).toEqual(containerElement);
   });
 

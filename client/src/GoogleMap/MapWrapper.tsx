@@ -60,7 +60,7 @@ export const MapWrapperWithGoogleMap = <P extends {}>
         return (
           <Hoc
             {...this.props}
-            containerElement={<div style={containerStyle}/>}
+            containerElement={<div style={{...containerStyle, float: 'left'}}/>}
             mapElement={<div style={{height: '100%'}}/>}
           />
         );

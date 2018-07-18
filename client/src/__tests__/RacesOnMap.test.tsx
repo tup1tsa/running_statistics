@@ -3,6 +3,8 @@ import { shallow } from 'enzyme';
 import { RacesOnMap } from '../RacesOnMap';
 import { PositionInTime, Position, Race } from '../common_files/interfaces';
 import { FinishedRaceInfoFactory } from '../Path/FinishedRaceInfoFactory';
+import { getRacePart } from '../Path/pathUtils';
+import { RaceViewerSlider } from '../RaceViewerSlider';
 
 describe('races on map display', () => {
 
@@ -43,11 +45,23 @@ describe('races on map display', () => {
     findCenter: jest.fn().mockReturnValue(defaultCenter),
     divideRace: (race: Race) => [{ active: true, path: race.path }],
     getRaceInfo: jest.fn().mockReturnValue(raceInfo),
+    getRacePart: getRacePart,
     size: {
       width: 1000,
       height: 1000
     }
   };
+
+  it('default state should be correct', () => {
+    const wrapper = shallow(<RacesOnMap {...defaultProps} />);
+    expect(wrapper.instance().state).toEqual({
+      currentRaceIndex: 2,
+      partialRaceRange: {
+        start: 0,
+        finish: 100
+      }
+    });
+  });
 
   it('should not render next and previous races buttons if it`s the only race', () => {
     const wrapper = shallow(<RacesOnMap {...defaultProps} races={[firstRace]} />);
@@ -90,6 +104,7 @@ describe('races on map display', () => {
   });
 
   it('should path correct props to google map wrapper', () => {
+    const getRacePartMock = jest.fn().mockReturnValue(firstRace);
     const coloredPath = [
       { color: defaultProps.activeColor, positions: firstRacePath },
       { color: defaultProps.inactiveColor, positions: secondRacePath }
@@ -98,7 +113,13 @@ describe('races on map display', () => {
       { active: true, path: firstRacePath },
       { active: false, path: secondRacePath }
     ]);
-    const wrapper = shallow(<RacesOnMap {...defaultProps} divideRace={divideRaceMock} />);
+    const wrapper = shallow(
+      <RacesOnMap
+        {...defaultProps}
+        divideRace={divideRaceMock}
+        getRacePart={getRacePartMock}
+      />
+    );
     // todo: zoom is magic number here... And it equals 12 for now. Pass it as a prop?
     expect(wrapper.props().children[0].props).toEqual({
       width: defaultProps.size.width,
@@ -107,6 +128,8 @@ describe('races on map display', () => {
       zoom: 12,
       path: coloredPath
     });
+    expect(getRacePartMock.mock.calls.length).toBe(1);
+    expect(getRacePartMock.mock.calls[0]).toEqual([thirdRace, 0, 100]);
   });
 
   it('should render next and previous buttons if  races number > 1 ', () => {
@@ -135,6 +158,38 @@ describe('races on map display', () => {
     expect(getRaceLength()).toBe(thirdRace.path.length);
     previousButton.simulate('click');
     expect(getRaceLength()).toBe(secondRace.path.length);
+  });
+
+  it('should render race viewer slider', () => {
+    const wrapper = shallow(<RacesOnMap {...defaultProps} />);
+    const instance = wrapper.instance() as RacesOnMap;
+    instance.setState({
+      partialRaceRange: {
+        start: 25,
+        finish: 44
+      }
+    });
+    wrapper.update();
+    const slider = (
+      <RaceViewerSlider
+        handleChange={instance.handleSliderChange}
+        defaults={{
+          startSliderValue: 0,
+          finishSliderValue: 100
+        }}
+      />
+    );
+    expect(wrapper.contains(slider)).toBe(true);
+  });
+
+  it('should handle slider change properly', ()  => {
+    const wrapper = shallow(<RacesOnMap {...defaultProps} />);
+    const instance = wrapper.instance() as RacesOnMap;
+    instance.handleSliderChange(25, 52);
+    expect(instance.state.partialRaceRange).toEqual({
+      start: 25,
+      finish: 52
+    });
   });
 
 });

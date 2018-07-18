@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RaceStartPreparationFactory } from './RaceStartPreparationFactory';
-import { RaceStatsFactory } from './RaceStatsFactory';
+import { RaceViewerFactory } from './RaceViewerFactory';
 
 interface Props {}
 
@@ -43,7 +43,7 @@ export class Navigation extends React.Component<Props, State> {
       <div>
         <button className="blue" id="start_race" onClick={this.startRace}>Start race</button>
         <button className="blue" id="show_stats" onClick={this.showStatsBlock}>Show stats</button>
-        {this.state.activeBlock === 'stats' ? <RaceStatsFactory /> : <p>{this.state.finishRaceMessage}</p>}
+        {this.state.activeBlock === 'stats' ? <RaceViewerFactory /> : <p>{this.state.finishRaceMessage}</p>}
       </div>
     );
   }

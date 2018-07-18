@@ -1,9 +1,9 @@
 import { shallow } from 'enzyme';
-import { RaceStats } from '../RaceStats';
+import { RaceViewer } from '../RaceViewer';
 import * as React from 'react';
 import { RacesOnMapFactory } from '../RacesOnMapFactory';
 
-describe('race statistics block', () => {
+describe('race viewer block', () => {
 
   const defaultProps = {
     downloadRaces: jest.fn()
@@ -11,14 +11,14 @@ describe('race statistics block', () => {
 
   it('should show notification if there are no races available', () => {
     const message = <p>No races are available</p>;
-    const wrapper = shallow(<RaceStats {...defaultProps} />, {disableLifecycleMethods: true});
+    const wrapper = shallow(<RaceViewer {...defaultProps} />, {disableLifecycleMethods: true});
     expect(wrapper.contains(message)).toBe(true);
   });
 
   it('should show notification that races are being downloaded at the moment', (done) => {
     const message = <p>Races are being downloaded at the moment</p>;
     const downloadRaces = jest.fn().mockResolvedValue([]);
-    const wrapper = shallow(<RaceStats {...defaultProps} downloadRaces={downloadRaces} />);
+    const wrapper = shallow(<RaceViewer {...defaultProps} downloadRaces={downloadRaces} />);
     expect(wrapper.contains(message)).toBe(true);
     process.nextTick(() => {
       wrapper.update();
@@ -30,7 +30,7 @@ describe('race statistics block', () => {
   it('should show error notification if races download was unsuccessful', async (done) => {
     const errorMessage = 'some problems fetching errors';
     const downloadRaces = jest.fn().mockRejectedValue(new Error(errorMessage));
-    const wrapper = shallow(<RaceStats {...defaultProps} downloadRaces={downloadRaces}/>);
+    const wrapper = shallow(<RaceViewer {...defaultProps} downloadRaces={downloadRaces}/>);
     process.nextTick(() => {
       // async lifecycle method workaround
       wrapper.update();
@@ -42,7 +42,7 @@ describe('race statistics block', () => {
   it('should pass correct props to Races on map component', async (done) => {
     const races = [{ type: 'walking', path: [] }];
     const downloadRaces = jest.fn().mockResolvedValue(races);
-    const wrapper = shallow(<RaceStats {...defaultProps} downloadRaces={downloadRaces} />);
+    const wrapper = shallow(<RaceViewer {...defaultProps} downloadRaces={downloadRaces} />);
     process.nextTick(() => {
       wrapper.update();
       const racesOnMapElem = <RacesOnMapFactory races={races} size={{width: 1000, height: 1000}} />;

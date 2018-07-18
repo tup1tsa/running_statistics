@@ -1,13 +1,18 @@
-import { DividedPathPart } from './Path/pathUtils';
+import { DividedPathPart, GetRacePart } from './Path/pathUtils';
 import * as React from 'react';
 import { SparsePolyline } from './GoogleMap/SparsePolyline';
 import { MapWrapperFactory } from './GoogleMap/MapWrapperFactory';
 import { Position, Race } from './common_files/interfaces';
 import { GetRaceInfoFactory } from './Path/pathUtilsFactories';
 import { FinishedRaceInfoFactory } from './Path/FinishedRaceInfoFactory';
+import { RaceViewerSlider } from './RaceViewerSlider';
 
 interface State {
   currentRaceIndex: number;
+  partialRaceRange: {
+    start: number,
+    finish: number
+  };
 }
 
 interface Props {
@@ -21,20 +26,42 @@ interface Props {
   findCenter: (path: Position[]) => Position;
   divideRace: (race:  Race) => DividedPathPart[];
   getRaceInfo: GetRaceInfoFactory;
+  getRacePart: GetRacePart;
 }
 
 export class RacesOnMap extends React.Component<Props, State> {
  constructor(props: Props) {
    super(props);
-   this.state = {currentRaceIndex: this.props.races.length - 1};
+   this.state = {
+     currentRaceIndex: this.props.races.length - 1,
+     partialRaceRange: {
+       start: 0,
+       finish: 100
+     }
+   };
 
    this.incrementRace = this.incrementRace.bind(this);
    this.decrementRace = this.decrementRace.bind(this);
+   this.handleSliderChange = this.handleSliderChange.bind(this);
  }
+
+  handleSliderChange(startSlider: number, finishSlider: number) {
+    this.setState({
+      partialRaceRange: {
+        start: startSlider,
+        finish: finishSlider
+      }
+    });
+  }
 
   render() {
     const sortedRaces = this.getSortedRaces();
-    const currentRace = sortedRaces[this.state.currentRaceIndex];
+    const wholeRace = sortedRaces[this.state.currentRaceIndex];
+    const currentRace = this.props.getRacePart(
+      wholeRace,
+      this.state.partialRaceRange.start,
+      this.state.partialRaceRange.finish
+    );
     const dividedRace = this.props.divideRace(currentRace);
     const pathWithColors = dividedRace
       .map((racePart: DividedPathPart) => {
@@ -62,6 +89,23 @@ export class RacesOnMap extends React.Component<Props, State> {
     return (
       <div>
         <Map path={pathWithColors} {...mapProps} />
+        <div
+          style={{
+            marginLeft: '5%',
+            float: 'left',
+            width: '5%',
+            height: this.props.size.height / 5,
+          }}
+        >
+          <RaceViewerSlider
+            handleChange={this.handleSliderChange}
+            defaults={{
+              startSliderValue: 0,
+              finishSliderValue: 100
+            }}
+          />
+        </div>
+        <div style={{clear: 'both'}} />
         <FinishedRaceInfoFactory
           totalDistance={raceInfo.distance}
           totalTimeSecs={raceInfo.timeSecs}

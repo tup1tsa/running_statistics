@@ -1,5 +1,5 @@
 import { RacesOnMap } from './RacesOnMap';
-import { findCenter } from './Path/pathUtils';
+import { findCenter, getRacePart } from './Path/pathUtils';
 import * as React from 'react';
 import { divideRaceFactory, getRaceInfoFactory } from './Path/pathUtilsFactories';
 import { Race } from './common_files/interfaces';
@@ -21,5 +21,6 @@ export const RacesOnMapFactory = (props: Props) => (
     findCenter={findCenter}
     divideRace={divideRaceFactory}
     getRaceInfo={getRaceInfoFactory}
+    getRacePart={getRacePart}
   />
 );

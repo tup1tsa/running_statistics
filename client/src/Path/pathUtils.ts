@@ -49,6 +49,8 @@ export interface DivideRace {
   ): DividedPathPart[];
 }
 
+export type GetRacePart = (race: Race, startPercent: number, finishPercent: number) => Race;
+
 export const dividePath: DividePath = (path, config) => {
   if (path.length < 2) {
     return [{ active: false, path }];
@@ -186,4 +188,26 @@ export const isMiddlePointAccurate = (
   const fromStartToEnd = getPath(start, end);
   const fromMiddleToEnd = getPath(middle, end);
   return fromStartToEnd > fromMiddleToEnd;
+};
+
+export const getRacePart: GetRacePart = (race, startPercent, finishPercent) => {
+  if (
+    startPercent > 100 ||
+    startPercent < 0 ||
+    finishPercent > 100 ||
+    finishPercent < 0 ||
+    startPercent > finishPercent
+  ) {
+    throw new Error('percentage is not correct');
+  }
+  const startPoint = Math.floor(race.path.length * startPercent / 100);
+  const finishPoint = Math.round(race.path.length * finishPercent / 100);
+  let path = race.path.slice(startPoint, finishPoint);
+  if (path.length === 0) {
+    path = [race.path[startPoint]];
+  }
+  return {
+    type: race.type,
+    path
+  };
 };

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { shallow } from 'enzyme';
 import { Navigation } from '../Navigation';
 import { RaceStartPreparationFactory } from '../RaceStartPreparationFactory';
-import { RaceStatsFactory } from '../RaceStatsFactory';
+import { RaceViewerFactory } from '../RaceViewerFactory';
 
 describe('site navigation', () => {
 
@@ -38,7 +38,7 @@ describe('site navigation', () => {
     const wrapper = shallow(<Navigation />);
     wrapper.find('#show_stats').simulate('click');
     wrapper.update();
-    expect(wrapper.contains(<RaceStatsFactory />)).toBe(true);
+    expect(wrapper.contains(<RaceViewerFactory />)).toBe(true);
     expect(wrapper.find('button').length).toBe(2);
   });
 

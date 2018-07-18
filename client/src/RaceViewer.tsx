@@ -12,7 +12,7 @@ interface State {
   fetchingErrorMessage?: string;
 }
 
-export class RaceStats extends React.Component<Props, State> {
+export class RaceViewer extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
