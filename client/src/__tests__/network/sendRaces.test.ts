@@ -1,4 +1,4 @@
-import { sendRaces } from '../../network/sendRaces';
+import { sendRaces } from '../../application/network/sendRaces';
 
 describe('sending races to server logic', () => {
 

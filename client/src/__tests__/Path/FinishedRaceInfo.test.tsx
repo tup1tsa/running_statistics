@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import { FinishedRaceInfo } from '../../Path/FinishedRaceInfo';
-import { RaceInformationFactory } from '../../Path/RaceInformationFactory';
+import { FinishedRaceInfo } from '../../application/Path/FinishedRaceInfo';
+import { RaceInformationFactory } from '../../factories/Path/RaceInformationFactory';
 
 describe('finished race information block', () => {
 

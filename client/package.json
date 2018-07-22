@@ -2,11 +2,7 @@
   "name": "temp",
   "jest": {
     "collectCoverageFrom": [
-      "**/*.{ts,tsx}",
-      "!src/index.tsx",
-      "!src/registerServiceWorker.ts",
-      "!**/sandbox/*",
-      "!**/*{Factory,Factories}*.{ts,tsx}"
+      "src/application/**/*.{ts,tsx}"
     ]
   },
   "version": "0.1.0",

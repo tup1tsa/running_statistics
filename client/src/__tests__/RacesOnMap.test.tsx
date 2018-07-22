@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import { RacesOnMap } from '../RacesOnMap';
-import { PositionInTime, Position, Race } from '../common_files/interfaces';
-import { FinishedRaceInfoFactory } from '../Path/FinishedRaceInfoFactory';
-import { getRacePart } from '../Path/pathUtils';
-import { RaceViewerSlider } from '../RaceViewerSlider';
+import { RacesOnMap } from '../application/RacesOnMap';
+import { PositionInTime, Position, Race } from '../application/common_files/interfaces';
+import { FinishedRaceInfoFactory } from '../factories/Path/FinishedRaceInfoFactory';
+import { getRacePart } from '../application/Path/pathUtils';
+import { RaceViewerSlider } from '../application/RaceViewerSlider';
 
 describe('races on map display', () => {
 

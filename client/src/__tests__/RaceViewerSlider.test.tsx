@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import { RaceViewerSlider } from '../RaceViewerSlider';
+import { RaceViewerSlider } from '../application/RaceViewerSlider';
 import Slider from 'rc-slider';
 
 describe('race viewer sliders', () => {

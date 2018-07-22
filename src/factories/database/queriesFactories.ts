@@ -1,4 +1,4 @@
-import { Race } from '../../../client/src/common_files/interfaces';
+import { Race } from '../../../client/src/application/common_files/interfaces';
 import { fetchRaces, saveRaces } from '../../server/database/queries';
 import { runQuery } from '../../server/database/databaseWrappers';
 import { getConnectionInfo } from '../../server/database/getConnectionInfo';

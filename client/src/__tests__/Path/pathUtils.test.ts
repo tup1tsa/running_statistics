@@ -1,5 +1,5 @@
-import { PositionInTime, Position, Race } from '../../common_files/interfaces';
-import { raceSettings } from '../../common_files/config';
+import { PositionInTime, Position, Race } from '../../application/common_files/interfaces';
+import { raceSettings } from '../../application/common_files/config';
 import {
   DividedPathPart,
   dividePath,
@@ -10,7 +10,7 @@ import {
   getAverageSpeed,
   isMiddlePointAccurate,
   unitePath, getRacePart
-} from '../../Path/pathUtils';
+} from '../../application/Path/pathUtils';
 import * as GeoLib from 'geolib';
 
 describe('divide path', () => {

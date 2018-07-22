@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import { MapWrapper, MapWrapperWithGoogleMap, MapWrapperWithScript } from '../../GoogleMap/MapWrapper';
+import { MapWrapper, MapWrapperWithGoogleMap, MapWrapperWithScript } from '../../application/GoogleMap/MapWrapper';
 
 describe('higher order component logic', () => {
 

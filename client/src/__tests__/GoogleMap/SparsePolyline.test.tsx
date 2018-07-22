@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import { Polyline } from 'react-google-maps';
-import { SparsePolyline } from '../../GoogleMap/SparsePolyline';
+import { SparsePolyline } from '../../application/GoogleMap/SparsePolyline';
 
 describe('sparse polyline logic', () => {
 

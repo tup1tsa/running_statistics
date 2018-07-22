@@ -1,4 +1,4 @@
-import { deleteRaces } from '../../storage/deleteRaces';
+import { deleteRaces } from '../../application/storage/deleteRaces';
 
 describe('clearing local storage', () => {
 

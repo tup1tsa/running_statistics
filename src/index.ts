@@ -3,7 +3,7 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
 import { fetchRacesFactory, saveRacesFactory } from './factories/database/queriesFactories';
-import { Race } from '../client/src/common_files/interfaces';
+import { Race } from '../client/src/application/common_files/interfaces';
 
 dotenv.load();
 

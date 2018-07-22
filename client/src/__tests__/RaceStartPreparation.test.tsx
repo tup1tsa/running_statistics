@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme';
 import * as React from 'react';
-import { RaceStartPreparation } from '../RaceStartPreparation';
-import { PathWatcherFactory } from '../Path/PathWatcherFactory';
+import { RaceStartPreparation } from '../application/RaceStartPreparation';
+import { PathWatcherFactory } from '../factories/Path/PathWatcherFactory';
 
 describe('race start preparation logic', () => {
 

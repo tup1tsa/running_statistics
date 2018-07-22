@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import { RaceInformation } from '../../Path/RaceInformation';
+import { RaceInformation } from '../../application/Path/RaceInformation';
 
 describe('should render path information correctly', () => {
 

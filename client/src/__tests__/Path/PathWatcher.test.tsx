@@ -1,10 +1,10 @@
-import { PathWatcher } from '../../Path/PathWatcher';
+import { PathWatcher } from '../../application/Path/PathWatcher';
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import { GeoLocationMock } from '../../__mocks__/GeoLocation';
-import { PathWatcherViewFactory } from '../../Path/PathWatcherViewFactory';
-import { Position } from '../../common_files/interfaces';
-import { isMiddlePointAccurate } from '../../Path/pathUtils';
+import { PathWatcherViewFactory } from '../../factories/Path/PathWatcherViewFactory';
+import { Position } from '../../application/common_files/interfaces';
+import { isMiddlePointAccurate } from '../../application/Path/pathUtils';
 
 describe('Path watcher tests', () => {
 

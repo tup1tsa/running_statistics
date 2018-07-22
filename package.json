@@ -8,7 +8,7 @@
     "npm": "6.0.1"
   },
   "scripts": {
-    "start": "node dist/src/server.js",
+    "start": "node dist/src/index.js",
     "postinstall": "tsc && cd client && npm install && npm run build",
     "debug": "nodemon --watch 'dist/'  --inspect-brk dist/server.js",
     "test": "jest --watch dist --colors",

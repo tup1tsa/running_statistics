@@ -1,4 +1,4 @@
-import { fetchRaces } from '../../storage/fetchRaces';
+import { fetchRaces } from '../../application/storage/fetchRaces';
 
 describe('fetching from local storage', () => {
 

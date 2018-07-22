@@ -1,5 +1,5 @@
-import { Race } from '../common_files/interfaces';
-import { finishRace } from '../finishRace';
+import { Race } from '../application/common_files/interfaces';
+import { finishRace } from '../application/finishRace';
 
 describe('saving races to the server', () => {
 

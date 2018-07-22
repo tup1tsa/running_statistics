@@ -1,5 +1,5 @@
-import { saveRace } from '../../storage/saveRace';
-import { Race } from '../../common_files/interfaces';
+import { saveRace } from '../../application/storage/saveRace';
+import { Race } from '../../application/common_files/interfaces';
 
 describe('saving to local storage', () => {
   it('should save correctly to the local storage new race', () => {

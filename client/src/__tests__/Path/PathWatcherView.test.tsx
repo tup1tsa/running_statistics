@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import { PathWatcherView } from '../../Path/PathWatcherView';
-import { OngoingRaceInfo } from '../../Path/OngoingRaceInfo';
+import { PathWatcherView } from '../../application/Path/PathWatcherView';
+import { OngoingRaceInfo } from '../../application/Path/OngoingRaceInfo';
 
 describe('should render path view component correctly', () => {
 

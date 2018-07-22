@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { MapWrapperFactory } from '../GoogleMap/MapWrapperFactory';
+import { MapWrapperFactory } from '../factories/GoogleMap/MapWrapperFactory';
 import Polyline from 'react-google-maps/lib/components/Polyline';
 
 const path = [

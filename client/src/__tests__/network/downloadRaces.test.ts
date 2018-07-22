@@ -1,5 +1,5 @@
-import { downloadRaces } from '../../network/downloadRaces';
-import { Response } from '../../common_files/interfaces';
+import { downloadRaces } from '../../application/network/downloadRaces';
+import { Response } from '../../application/common_files/interfaces';
 
 describe('download races logic', () => {
 

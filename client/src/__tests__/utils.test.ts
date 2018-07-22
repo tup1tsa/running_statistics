@@ -1,4 +1,4 @@
-import { getReadableDate, humanizeDuration } from '../utils';
+import { getReadableDate, humanizeDuration } from '../application/utils';
 import * as moment from 'moment';
 
 describe('humanize duration function', () => {

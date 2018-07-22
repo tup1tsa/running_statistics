@@ -1,4 +1,4 @@
-import { Position } from '../common_files/interfaces';
+import { Position } from '../application/common_files/interfaces';
 import * as React from 'react';
 import { google } from 'google-maps';
 declare var google: google;

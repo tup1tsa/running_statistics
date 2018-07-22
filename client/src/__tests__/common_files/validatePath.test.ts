@@ -1,5 +1,5 @@
-import { validatePath } from '../../common_files/validatePath';
-import { PositionInTime } from '../../common_files/interfaces';
+import { validatePath } from '../../application/common_files/validatePath';
+import { PositionInTime } from '../../application/common_files/interfaces';
 
 describe('path validation logic', () => {
 

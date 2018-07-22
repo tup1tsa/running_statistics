@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme';
-import { RaceViewer } from '../RaceViewer';
+import { RaceViewer } from '../application/RaceViewer';
 import * as React from 'react';
-import { RacesOnMapFactory } from '../RacesOnMapFactory';
+import { RacesOnMapFactory } from '../factories/RacesOnMapFactory';
 
 describe('race viewer block', () => {
 

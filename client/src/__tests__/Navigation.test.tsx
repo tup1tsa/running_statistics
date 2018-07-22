@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import { Navigation } from '../Navigation';
-import { RaceStartPreparationFactory } from '../RaceStartPreparationFactory';
-import { RaceViewerFactory } from '../RaceViewerFactory';
+import { Navigation } from '../application/Navigation';
+import { RaceStartPreparationFactory } from '../factories/RaceStartPreparationFactory';
+import { RaceViewerFactory } from '../factories/RaceViewerFactory';
 
 describe('site navigation', () => {
 
