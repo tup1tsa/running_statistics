@@ -1,7 +1,7 @@
-import { Race } from '../../client/src/common_files/interfaces';
-import { fetchRaces, saveRaces } from './queries';
-import { runQuery } from './databaseWrappers';
-import { getConnectionInfo } from './getConnectionInfo';
+import { Race } from '../../../client/src/common_files/interfaces';
+import { fetchRaces, saveRaces } from '../../server/database/queries';
+import { runQuery } from '../../server/database/databaseWrappers';
+import { getConnectionInfo } from '../../server/database/getConnectionInfo';
 
 export const saveRacesFactory = async (races: Race[]) => {
   const query = saveRaces('races', races);

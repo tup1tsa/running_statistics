@@ -11,7 +11,8 @@
     "start": "node dist/src/server.js",
     "postinstall": "tsc && cd client && npm install && npm run build",
     "debug": "nodemon --watch 'dist/'  --inspect-brk dist/server.js",
-    "test": "jest dist --watch --colors"
+    "test": "jest --watch dist --colors",
+    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watch src"
   },
   "repository": {
     "type": "git",

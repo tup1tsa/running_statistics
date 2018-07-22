@@ -1,6 +1,6 @@
 jest.mock('mongodb');
 import { MongoClient } from 'mongodb';
-import { connect, disconnect, runQuery } from '../../database/databaseWrappers';
+import { connect, disconnect, runQuery } from '../../server/database/databaseWrappers';
 
 describe('database logic', () => {
 

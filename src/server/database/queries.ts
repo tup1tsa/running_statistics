@@ -1,4 +1,4 @@
-import { Race } from '../../client/src/common_files/interfaces';
+import { Race } from '../../../client/src/common_files/interfaces';
 import { Query } from './databaseWrappers';
 import { Db, Collection, InsertWriteOpResult } from 'mongodb';
 

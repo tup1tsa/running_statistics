@@ -1,8 +1,8 @@
-import { connect } from '../../database/databaseWrappers';
+import { connect } from '../../server/database/databaseWrappers';
 import { MongoClient, Db } from 'mongodb';
 import * as dotenv from 'dotenv';
-import { fetchRaces, saveRaces } from '../../database/queries';
-import { getConnectionInfo } from '../../database/getConnectionInfo';
+import { fetchRaces, saveRaces } from '../../server/database/queries';
+import { getConnectionInfo } from '../../server/database/getConnectionInfo';
 
 describe('database queries', () => {
 

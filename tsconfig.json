@@ -13,7 +13,7 @@
       "node",
       "jest"
     ],
-    "sourceMap": true,
+    "sourceMap": false,
     "outDir": "dist",
     "baseUrl": ".",
     "paths": {

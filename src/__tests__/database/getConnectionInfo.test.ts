@@ -1,4 +1,4 @@
-import { getConnectionInfo } from '../../database/getConnectionInfo';
+import { getConnectionInfo } from '../../server/database/getConnectionInfo';
 
 const defaultProcessEnv = {
   MONGODB_URI: 'prod db uri',
