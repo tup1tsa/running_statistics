@@ -147,6 +147,22 @@ describe('Path watcher tests', () => {
     });
   });
 
+  it('should convert date to timestamp when saving position', () => {
+    const geoLocationMock = new GeoLocationMock();
+    const wrapper = shallow(<PathWatcher {...defaultProps} geoLocation={geoLocationMock} />);
+    const instance = wrapper.instance() as PathWatcher;
+    instance.initWatcher();
+    geoLocationMock.sendPosition({
+      coords: { latitude: 24, longitude: 44 },
+      timestamp: new Date(25000)
+    });
+    expect(instance.state.positions[0]).toEqual({
+      latitude: 24,
+      longitude: 44,
+      time: 25000
+    });
+  });
+
   it('should not save very close positions', () => {
     const minDistance = defaultProps.minimumDistanceDiff;
     const getDistance = jest.fn();

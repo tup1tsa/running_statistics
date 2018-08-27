@@ -4,7 +4,8 @@ import { Position, PositionInTime, Race } from '../common_files/interfaces';
 import { FinishRaceFactory } from '../../factories/finishRaceFactory';
 
 export interface PositionResponse {
-  timestamp: number;
+  // date is used instead of number is UC Mini browser
+  timestamp: number | Date;
   coords: Position;
 }
 
@@ -107,10 +108,11 @@ export class PathWatcher extends React.Component<Props, State> {
   }
 
   savePosition(position: PositionResponse) {
+    const timeStamp = typeof position.timestamp === 'number' ? position.timestamp : position.timestamp.getTime();
     const currentPosition: PositionInTime = {
       latitude: position.coords.latitude,
       longitude: position.coords.longitude,
-      time: position.timestamp
+      time: timeStamp
     };
     // it's first position. Save it anyways
     if (this.state.lastTimeCheck === null) {
