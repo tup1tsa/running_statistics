@@ -33,7 +33,7 @@ app.post("/saveRaces", async (req, res) => {
 });
 
 app.post("/fetchRaces", async (req, res) => {
-  let races: Race[] = [];
+  let races: ReadonlyArray<Race> = [];
   try {
     races = await fetchRacesContainer();
   } catch (e) {
