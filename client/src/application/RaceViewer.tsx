@@ -1,19 +1,18 @@
-import * as React from 'react';
-import { Race } from './common_files/interfaces';
-import { RacesOnMapFactory } from '../factories/RacesOnMapFactory';
+import * as React from "react";
+import { RacesOnMapFactory } from "../factories/RacesOnMapFactory";
+import { Race } from "./common_files/interfaces";
 
 interface Props {
-  downloadRaces: () => Promise<Race[]>;
+  readonly downloadRaces: () => Promise<ReadonlyArray<Race>>;
 }
 
 interface State {
-  races: Race[];
-  downloadInProgress: boolean;
-  fetchingErrorMessage?: string;
+  readonly races: ReadonlyArray<Race>;
+  readonly downloadInProgress: boolean;
+  readonly fetchingErrorMessage?: string;
 }
 
 export class RaceViewer extends React.Component<Props, State> {
-
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -22,19 +21,22 @@ export class RaceViewer extends React.Component<Props, State> {
     };
   }
 
-  async componentDidMount() {
-    let races: Race[];
+  public async componentDidMount() {
+    let races: ReadonlyArray<Race>;
     this.setState({ downloadInProgress: true });
     try {
       races = await this.props.downloadRaces();
-      this.setState({races, downloadInProgress: false });
+      this.setState({ races, downloadInProgress: false });
     } catch (e) {
-      this.setState({fetchingErrorMessage: e.message, downloadInProgress: false });
+      this.setState({
+        fetchingErrorMessage: e.message,
+        downloadInProgress: false
+      });
       return;
     }
   }
 
-  render() {
+  public render() {
     if (this.state.fetchingErrorMessage) {
       return <p>{this.state.fetchingErrorMessage}</p>;
     }
@@ -44,6 +46,11 @@ export class RaceViewer extends React.Component<Props, State> {
     if (this.state.races.length === 0) {
       return <p>No races are available</p>;
     }
-    return <RacesOnMapFactory races={this.state.races} size={{ width: 1000, height: 1000 }} />;
+    return (
+      <RacesOnMapFactory
+        races={this.state.races}
+        size={{ width: 1000, height: 1000 }}
+      />
+    );
   }
 }

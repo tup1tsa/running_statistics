@@ -1,116 +1,155 @@
-import { PositionInTime, Position, Race, RaceSettings } from '../common_files/interfaces';
-import { DivideRaceFactory } from '../../factories/Path/pathUtilsFactories';
+import { DivideRaceFactory } from "../../factories/Path/pathUtilsFactories";
+import {
+  Position,
+  PositionInTime,
+  Race,
+  RaceSettings
+} from "../common_files/interfaces";
 
-export interface GetPath {
-  (positions: PositionInTime[]): number;
-}
+export type GetPath = (positions: ReadonlyArray<PositionInTime>) => number;
 
 export interface DividePathConfig {
-  minSpeed: number;
-  maxSpeed: number;
-  maxTimeBetweenPointsSecs: number;
-  getAverageSpeed: (path: PositionInTime[], getPath: GetPath) => number;
+  readonly minSpeed: number;
+  readonly maxSpeed: number;
+  readonly maxTimeBetweenPointsSecs: number;
+  getAverageSpeed: (
+    path: ReadonlyArray<PositionInTime>,
+    getPath: GetPath
+  ) => number;
   getPath: GetPath;
 }
 
 export interface DividedPathPart {
-  path: PositionInTime[];
-  active: boolean;
+  readonly path: ReadonlyArray<PositionInTime>;
+  readonly active: boolean;
 }
 
-export interface GetAverageSpeed {
-  (path: PositionInTime[], getPath: GetPath): number;
-}
+export type GetAverageSpeed = (
+  path: ReadonlyArray<PositionInTime>,
+  getPath: GetPath
+) => number;
 
-export interface GetActiveParts {
-  (path: DividedPathPart[]): PositionInTime[][];
-}
+export type GetActiveParts = (
+  path: ReadonlyArray<DividedPathPart>
+) => ReadonlyArray<ReadonlyArray<PositionInTime>>;
 
-export interface GetRaceInfo {
-  (race: Race, divideRace: DivideRaceFactory, getPath: GetPath, getActiveParts: GetActiveParts):
-    { distance: number, averageSpeed: number, timeSecs: number };
-}
+export type GetRaceInfo = (
+  race: Race,
+  divideRace: DivideRaceFactory,
+  getPath: GetPath,
+  getActiveParts: GetActiveParts
+) => {
+  readonly distance: number;
+  readonly averageSpeed: number;
+  readonly timeSecs: number;
+};
 
-interface GetDistance {
-  (start: Position, end: Position): number;
-}
+type GetDistance = (start: Position, end: Position) => number;
 
-export interface DividePath {
-  (path: PositionInTime[], config: DividePathConfig): DividedPathPart[];
-}
+export type DividePath = (
+  path: ReadonlyArray<PositionInTime>,
+  config: DividePathConfig
+) => ReadonlyArray<DividedPathPart>;
 
-export interface DivideRace {
-  (
-    race: Race,
-    raceSettings: RaceSettings,
-    getSpeed: GetAverageSpeed,
-    getPath: GetPath,
-    dividePathFunc: DividePath
-  ): DividedPathPart[];
-}
+export type DivideRace = (
+  race: Race,
+  raceSettings: RaceSettings,
+  getSpeed: GetAverageSpeed,
+  getPath: GetPath,
+  dividePathFunc: DividePath
+) => ReadonlyArray<DividedPathPart>;
 
-export type GetRacePart = (race: Race, startPercent: number, finishPercent: number) => Race;
+export type GetRacePart = (
+  race: Race,
+  startPercent: number,
+  finishPercent: number
+) => Race;
 
 export const dividePath: DividePath = (path, config) => {
   if (path.length < 2) {
     return [{ active: false, path }];
   }
-  let dividedPath: DividedPathPart[] = [];
+  let dividedPath: ReadonlyArray<DividedPathPart> = [];
   for (let i = 0; i < path.length - 1; i++) {
     const currentPoint = path[i];
     const nextPoint = path[i + 1];
-    const speed = config.getAverageSpeed([currentPoint, nextPoint], config.getPath);
+    const speed = config.getAverageSpeed(
+      [currentPoint, nextPoint],
+      config.getPath
+    );
     const active =
       speed <= config.maxSpeed &&
       speed >= config.minSpeed &&
-      (nextPoint.time - currentPoint.time) <= config.maxTimeBetweenPointsSecs * 1000;
+      nextPoint.time - currentPoint.time <=
+        config.maxTimeBetweenPointsSecs * 1000;
     if (dividedPath.length === 0) {
-      dividedPath.push({active, path: [currentPoint, nextPoint]});
+      dividedPath = [
+        ...dividedPath,
+        { active, path: [currentPoint, nextPoint] }
+      ];
       continue;
     }
-    let currentPath = dividedPath[dividedPath.length - 1];
+    const currentPath = dividedPath[dividedPath.length - 1];
     if (currentPath.active === active) {
+      // @ts-ignore
+      // todo: fix it somehow
       currentPath.path.push(nextPoint);
       continue;
     }
-    dividedPath.push({active: active, path: [currentPoint, nextPoint]});
+    dividedPath = [...dividedPath, { active, path: [currentPoint, nextPoint] }];
   }
   return dividedPath;
 };
 
-export const divideRace: DivideRace = (race, raceSettings, getSpeed, getPath, dividePathFunc) => {
+export const divideRace: DivideRace = (
+  race,
+  raceSettings,
+  getSpeed,
+  getPath,
+  dividePathFunc
+) => {
   let dividedPathConfig: DividePathConfig = {
     minSpeed: raceSettings.running.minSpeed,
     maxSpeed: raceSettings.running.maxSpeed,
     maxTimeBetweenPointsSecs: raceSettings.running.maximumTimeBetweenPointsSecs,
-    getPath: getPath,
+    getPath,
     getAverageSpeed: getSpeed
   };
-  if (race.type === 'walking') {
-    dividedPathConfig.minSpeed = raceSettings.walking.minSpeed;
-    dividedPathConfig.maxSpeed = raceSettings.walking.maxSpeed;
-    dividedPathConfig.maxTimeBetweenPointsSecs = raceSettings.walking.maximumTimeBetweenPointsSecs;
+  if (race.type === "walking") {
+    dividedPathConfig = {
+      ...dividedPathConfig,
+      minSpeed: raceSettings.walking.minSpeed,
+      maxSpeed: raceSettings.walking.maxSpeed,
+      maxTimeBetweenPointsSecs:
+        raceSettings.walking.maximumTimeBetweenPointsSecs
+    };
   }
-  if (race.type === 'cycling') {
-    dividedPathConfig.minSpeed = raceSettings.cycling.minSpeed;
-    dividedPathConfig.maxSpeed = raceSettings.cycling.maxSpeed;
-    dividedPathConfig.maxTimeBetweenPointsSecs = raceSettings.cycling.maximumTimeBetweenPointsSecs;
+  if (race.type === "cycling") {
+    dividedPathConfig = {
+      ...dividedPathConfig,
+      minSpeed: raceSettings.cycling.minSpeed,
+      maxSpeed: raceSettings.cycling.maxSpeed,
+      maxTimeBetweenPointsSecs:
+        raceSettings.cycling.maximumTimeBetweenPointsSecs
+    };
   }
   return dividePathFunc(race.path, dividedPathConfig);
 };
 
-export const unitePath = (path: DividedPathPart[]): PositionInTime[] => {
+export const unitePath = (
+  path: ReadonlyArray<DividedPathPart>
+): ReadonlyArray<PositionInTime> => {
   return path
     .map(dividedPart => {
       return dividedPart.path;
     })
-    .reduce(  (totalPath, currentPath) => {
+    .reduce((totalPath, currentPath) => {
       return totalPath.concat(currentPath);
-    },        []);
+    }, []);
 };
 
-export const findCenter = (path: Position[]): Position => {
-  const error = 'path should contain at least one point';
+export const findCenter = (path: ReadonlyArray<Position>): Position => {
+  const error = "path should contain at least one point";
   if (path.length === 0) {
     throw new Error(error);
   }
@@ -138,16 +177,22 @@ export const getAverageSpeed: GetAverageSpeed = (path, getPath) => {
   return totalDistanceKms / timeDiffHours;
 };
 
-export const getActiveParts: GetActiveParts = (path) => {
+export const getActiveParts: GetActiveParts = path => {
   return path
     .filter(pathPart => pathPart.active)
     .map(activePathPart => activePathPart.path);
 };
 
-export const getRaceInfo: GetRaceInfo = (race, divideRaceFunc, getPath, getParts) => {
+export const getRaceInfo: GetRaceInfo = (
+  race,
+  divideRaceFunc,
+  getPath,
+  getParts
+) => {
   const dividedPath = divideRaceFunc(race);
-  const activeParts = getParts(dividedPath)
-    .filter(activePath =>  activePath.length > 1);
+  const activeParts = getParts(dividedPath).filter(
+    activePath => activePath.length > 1
+  );
   if (activeParts.length === 0) {
     return {
       averageSpeed: 0,
@@ -155,7 +200,7 @@ export const getRaceInfo: GetRaceInfo = (race, divideRaceFunc, getPath, getParts
       timeSecs: 0
     };
   }
-  let data = activeParts
+  const data = activeParts
     .map(activePathPart => {
       const lastPosition = activePathPart[activePathPart.length - 1];
       const firstPosition = activePathPart[0];
@@ -167,7 +212,7 @@ export const getRaceInfo: GetRaceInfo = (race, divideRaceFunc, getPath, getParts
     .reduce((total, current) => {
       return {
         timeSecs: total.timeSecs + current.timeSecs,
-        distance: total.distance + current.distance,
+        distance: total.distance + current.distance
       };
     });
   const totalDistanceKms = data.distance / 1000;
@@ -198,10 +243,10 @@ export const getRacePart: GetRacePart = (race, startPercent, finishPercent) => {
     finishPercent < 0 ||
     startPercent > finishPercent
   ) {
-    throw new Error('percentage is not correct');
+    throw new Error("percentage is not correct");
   }
-  const startPoint = Math.floor(race.path.length * startPercent / 100);
-  const finishPoint = Math.round(race.path.length * finishPercent / 100);
+  const startPoint = Math.floor((race.path.length * startPercent) / 100);
+  const finishPoint = Math.round((race.path.length * finishPercent) / 100);
   let path = race.path.slice(startPoint, finishPoint);
   if (path.length === 0) {
     path = [race.path[startPoint]];

@@ -1,16 +1,14 @@
-import { LocalStorage, Race } from '../common_files/interfaces';
+import { LocalStorage, Race } from "../common_files/interfaces";
 
-export interface ValidatePath {
-  // tslint:disable-next-line no-any
-  (path: any): boolean;
-}
+export type ValidatePath = (path: any) => boolean;
 
-interface FetchRaces {
-  (storage: LocalStorage, validatePath: ValidatePath): Race[];
-}
+type FetchRaces = (
+  storage: LocalStorage,
+  validatePath: ValidatePath
+) => ReadonlyArray<Race>;
 
 export const fetchRaces: FetchRaces = (storage, validatePath) => {
-  const races = storage.getItem('races');
+  const races = storage.getItem("races");
   if (races === null) {
     return [];
   }

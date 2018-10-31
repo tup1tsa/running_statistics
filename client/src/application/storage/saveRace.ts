@@ -1,11 +1,11 @@
-import { LocalStorage, Race } from '../common_files/interfaces';
+import { LocalStorage, Race } from "../common_files/interfaces";
 
 export const saveRace = (
   race: Race,
   storage: LocalStorage,
-  fetchRacesFromStorageFactory: () => Race[]
+  fetchRacesFromStorageFactory: () => ReadonlyArray<Race>
 ) => {
   const savedRaces = fetchRacesFromStorageFactory();
   const allRaces = savedRaces.concat([race]);
-  storage.setItem('races', JSON.stringify(allRaces));
+  storage.setItem("races", JSON.stringify(allRaces));
 };

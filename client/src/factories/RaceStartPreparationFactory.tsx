@@ -1,13 +1,13 @@
-import * as React from 'react';
-import { RaceStartPreparation } from '../application/RaceStartPreparation';
+import * as React from "react";
 import {
-  minimumDistanceDiffBetweenPositions,
-  delayBetweenGeoCalls
-} from '../application/common_files/config';
-import { finishRaceFactory } from './finishRaceFactory';
+  delayBetweenGeoCalls,
+  minimumDistanceDiffBetweenPositions
+} from "../application/common_files/config";
+import { RaceStartPreparation } from "../application/RaceStartPreparation";
+import { finishRaceFactory } from "./finishRaceFactory";
 
 interface Props {
-  setSaveResult: (message: string) => void;
+  readonly setSaveResult: (message: string) => void;
 }
 
 export const RaceStartPreparationFactory = (props: Props) => (

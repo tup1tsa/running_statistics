@@ -1,21 +1,18 @@
-import * as React from 'react';
-import { RaceStartPreparationFactory } from '../factories/RaceStartPreparationFactory';
-import { RaceViewerFactory } from '../factories/RaceViewerFactory';
-
-interface Props {}
+import * as React from "react";
+import { RaceStartPreparationFactory } from "../factories/RaceStartPreparationFactory";
+import { RaceViewerFactory } from "../factories/RaceViewerFactory";
 
 interface State {
-  activeBlock: string;
-  finishRaceMessage: string;
+  readonly activeBlock: string;
+  readonly finishRaceMessage: string;
 }
 
-export class Navigation extends React.Component<Props, State> {
-
-  constructor(props: Props) {
+export class Navigation extends React.Component<{}, State> {
+  constructor(props: {}) {
     super(props);
     this.state = {
-      activeBlock: '',
-      finishRaceMessage: ''
+      activeBlock: "",
+      finishRaceMessage: ""
     };
 
     this.startRace = this.startRace.bind(this);
@@ -23,29 +20,40 @@ export class Navigation extends React.Component<Props, State> {
     this.showStatsBlock = this.showStatsBlock.bind(this);
   }
 
-  startRace() {
-    this.setState({ activeBlock: 'race' });
+  public startRace() {
+    this.setState({ activeBlock: "race" });
   }
 
-  finishRace(message: string) {
-    this.setState({ activeBlock: '', finishRaceMessage: message });
+  public finishRace(message: string) {
+    this.setState({ activeBlock: "", finishRaceMessage: message });
   }
 
-  showStatsBlock() {
-    this.setState({ activeBlock: 'stats'});
+  public showStatsBlock() {
+    this.setState({ activeBlock: "stats" });
   }
 
-  render() {
-    if (this.state.activeBlock === 'race') {
-      return <div><RaceStartPreparationFactory setSaveResult={this.finishRace} /></div>;
+  public render() {
+    if (this.state.activeBlock === "race") {
+      return (
+        <div>
+          <RaceStartPreparationFactory setSaveResult={this.finishRace} />
+        </div>
+      );
     }
     return (
       <div>
-        <button className="blue" id="start_race" onClick={this.startRace}>Start race</button>
-        <button className="blue" id="show_stats" onClick={this.showStatsBlock}>Show stats</button>
-        {this.state.activeBlock === 'stats' ? <RaceViewerFactory /> : <p>{this.state.finishRaceMessage}</p>}
+        <button className="blue" id="start_race" onClick={this.startRace}>
+          Start race
+        </button>
+        <button className="blue" id="show_stats" onClick={this.showStatsBlock}>
+          Show stats
+        </button>
+        {this.state.activeBlock === "stats" ? (
+          <RaceViewerFactory />
+        ) : (
+          <p>{this.state.finishRaceMessage}</p>
+        )}
       </div>
     );
   }
-
 }

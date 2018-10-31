@@ -1,12 +1,12 @@
-import { PathWatcherView } from '../../application/Path/PathWatcherView';
-import * as React from 'react';
-import { Race } from '../../application/common_files/interfaces';
-import { getRaceInfoFactory } from './pathUtilsFactories';
-import { getLocalTimeFactory } from '../utilsFactories';
+import * as React from "react";
+import { Race } from "../../application/common_files/interfaces";
+import { PathWatcherView } from "../../application/Path/PathWatcherView";
+import { getLocalTimeFactory } from "../utilsFactories";
+import { getRaceInfoFactory } from "./pathUtilsFactories";
 
 interface Props {
-  race: Race;
-  stopWatcher: () => Promise<{}>;
+  readonly race: Race;
+  readonly stopWatcher: () => Promise<{}>;
 }
 
 export const PathWatcherViewFactory = (props: Props) => {

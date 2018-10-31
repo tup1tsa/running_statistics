@@ -1,27 +1,27 @@
 export interface Position {
-  latitude: number;
-  longitude: number;
+  readonly latitude: number;
+  readonly longitude: number;
 }
 
 export interface PositionInTime extends Position {
-  time: number;
+  readonly time: number;
 }
 
 export interface Race {
-  type: string;
-  path: PositionInTime[];
+  readonly type: string;
+  readonly path: ReadonlyArray<PositionInTime>;
 }
 
 interface RaceLimits {
-  minSpeed: number;
-  maxSpeed: number;
-  maximumTimeBetweenPointsSecs: number;
+  readonly minSpeed: number;
+  readonly maxSpeed: number;
+  readonly maximumTimeBetweenPointsSecs: number;
 }
 
 export interface RaceSettings {
-  walking: RaceLimits;
-  running: RaceLimits;
-  cycling: RaceLimits;
+  readonly walking: RaceLimits;
+  readonly running: RaceLimits;
+  readonly cycling: RaceLimits;
 }
 
 export interface LocalStorage {
@@ -31,8 +31,8 @@ export interface LocalStorage {
 
 export interface Response {
   // tslint:disable-next-line no-any
-  data?: any;
-  status: number;
+  readonly data?: any;
+  readonly status: number;
 }
 
 export interface Axios {

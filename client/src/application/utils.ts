@@ -1,6 +1,8 @@
 interface Moment {
-  duration(timeMs: number): {
-    humanize: () => string;
+  duration(
+    timeMs: number
+  ): {
+    readonly humanize: () => string;
   };
   (timestamp: number): {
     format(type: string): string;
@@ -8,23 +10,19 @@ interface Moment {
 }
 
 interface DateClass {
-  new(time: number): {
+  new (time: number): {
     toLocaleTimeString: () => string;
   };
 }
 
-interface HumanizeDuration {
-  (timeSecs: number, moment: Moment): string;
-}
+type HumanizeDuration = (timeSecs: number, moment: Moment) => string;
 
-interface GetReadableDate {
-  (time: number, moment: Moment): string;
-}
+type GetReadableDate = (time: number, moment: Moment) => string;
 
 type GetLocalTime = (time: number, Date: DateClass) => string;
 
 export const getReadableDate: GetReadableDate = (time, moment) =>
-  moment(time).format('DD.MM.YY');
+  moment(time).format("DD.MM.YY");
 
 export const humanizeDuration: HumanizeDuration = (timeSecs, moment) =>
   moment.duration(timeSecs * 1000).humanize();

@@ -1,17 +1,20 @@
-import { Position } from '../application/common_files/interfaces';
-import * as React from 'react';
-import { google } from 'google-maps';
+import { google } from "google-maps";
+import * as React from "react";
+import { Position } from "../application/common_files/interfaces";
 declare var google: google;
 
 interface DefaultProps {
-  center: Position;
-  zoom: number;
+  readonly center: Position;
+  readonly zoom: number;
 }
 
-const GoogleMapHoc = <P extends {}>(WrappedComponent: React.ComponentType<P>, defaultProps: DefaultProps) => {
+const GoogleMapHoc = <P extends {}>(
+  WrappedComponent: React.ComponentType<P>,
+  defaultProps: DefaultProps
+) => {
   return (internalProps: P) => {
     return (
-      <div {...defaultProps} >
+      <div {...defaultProps}>
         <WrappedComponent {...internalProps} />
       </div>
     );
@@ -19,10 +22,12 @@ const GoogleMapHoc = <P extends {}>(WrappedComponent: React.ComponentType<P>, de
 };
 
 interface SpecificProps {
-  path: Position[];
+  readonly path: ReadonlyArray<Position>;
 }
 
-const InsideElement = (props: SpecificProps) => <div data-path={JSON.stringify(props.path)} />;
+const InsideElement = (props: SpecificProps) => (
+  <div data-path={JSON.stringify(props.path)} />
+);
 
 const mapDefaultProps: DefaultProps = {
   center: {

@@ -1,13 +1,13 @@
-import * as React from 'react';
-import { FinishedRaceInfo } from '../../application/Path/FinishedRaceInfo';
-import { getReadableDateFactory } from '../utilsFactories';
+import * as React from "react";
+import { FinishedRaceInfo } from "../../application/Path/FinishedRaceInfo";
+import { getReadableDateFactory } from "../utilsFactories";
 
 interface Props {
-  totalDistance: number;
-  totalTimeSecs: number;
-  avgSpeed: number;
-  lastTimeCheck: number;
-  raceType: string;
+  readonly totalDistance: number;
+  readonly totalTimeSecs: number;
+  readonly avgSpeed: number;
+  readonly lastTimeCheck: number;
+  readonly raceType: string;
 }
 
 export const FinishedRaceInfoFactory = (props: Props) => (

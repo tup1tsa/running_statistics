@@ -1,13 +1,12 @@
 import {
   ErrorWatchCallback,
-  PositionResponse,
-  SuccessWatchCallback,
   GeoLocation,
-  Options
-} from '../application/Path/PathWatcher';
+  Options,
+  PositionResponse,
+  SuccessWatchCallback
+} from "../application/Path/PathWatcher";
 
 export class GeoLocationMock implements GeoLocation {
-
   public providedSuccessCallback: SuccessWatchCallback;
   public providedErrorCallback: ErrorWatchCallback;
   public options: Options;
@@ -18,7 +17,7 @@ export class GeoLocationMock implements GeoLocation {
     providedWatchNumber: 0
   };
 
-  clearWatch(watchId: number) {
+  public clearWatch(watchId: number) {
     this.providedErrorCallback = () => undefined;
     this.providedSuccessCallback = () => undefined;
     this.clearWatchWasCalled.status = true;
@@ -26,7 +25,11 @@ export class GeoLocationMock implements GeoLocation {
     this.watchId = null;
   }
 
-  watchPosition(successCallback: SuccessWatchCallback, errorCallback: ErrorWatchCallback, options: Options) {
+  public watchPosition(
+    successCallback: SuccessWatchCallback,
+    errorCallback: ErrorWatchCallback,
+    options: Options
+  ) {
     this.watchPositionWasCalledTimes++;
     this.providedSuccessCallback = successCallback;
     this.providedErrorCallback = errorCallback;
@@ -35,15 +38,14 @@ export class GeoLocationMock implements GeoLocation {
     return this.watchId;
   }
 
-  sendPosition(position: PositionResponse) {
+  public sendPosition(position: PositionResponse) {
     this.providedSuccessCallback(position);
   }
 
-  sendError(error: string) {
+  public sendError(error: string) {
     this.providedErrorCallback({
       code: 1,
       message: error
     });
   }
-
 }

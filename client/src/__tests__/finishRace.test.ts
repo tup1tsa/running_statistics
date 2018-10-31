@@ -1,28 +1,31 @@
-import { Race } from '../application/common_files/interfaces';
-import { finishRace } from '../application/finishRace';
+import { Race } from "../application/common_files/interfaces";
+import { finishRace } from "../application/finishRace";
 
-describe('saving races to the server', () => {
-
-  const racesInStorage: Race[] = [
+describe("saving races to the server", () => {
+  const racesInStorage: ReadonlyArray<Race> = [
     {
-      type: 'walking',
-      path: [{
-        time: 23,
-        longitude: 44,
-        latitude: 56
-      }]
+      type: "walking",
+      path: [
+        {
+          time: 23,
+          longitude: 44,
+          latitude: 56
+        }
+      ]
     }
   ];
   const currentRace: Race = {
-    type: 'running',
+    type: "running",
     path: []
   };
 
-  it('should not send anything if all races are invalid and clear storage', async (done) => {
+  it("should not send anything if all races are invalid and clear storage", async done => {
     const validatePath = jest.fn().mockReturnValue(false);
     const saveRaceToStorage = jest.fn();
     const sendRaces = jest.fn().mockResolvedValue(false);
-    const fetchRacesFromStorage = jest.fn().mockReturnValue([racesInStorage[0], currentRace]);
+    const fetchRacesFromStorage = jest
+      .fn()
+      .mockReturnValue([racesInStorage[0], currentRace]);
     const deleteRaces = jest.fn();
     const result = await finishRace(
       currentRace,
@@ -39,16 +42,19 @@ describe('saving races to the server', () => {
     expect(validatePath.mock.calls[1][0]).toBe(currentRace.path);
     expect(sendRaces.mock.calls.length).toBe(0);
     expect(deleteRaces.mock.calls.length).toBe(1);
-    expect(result).toBe('There is nothing to save');
+    expect(result).toBe("There is nothing to save");
     done();
   });
 
-  it('should send only valid races', async (done) => {
-    const validatePath = jest.fn()
+  it("should send only valid races", async done => {
+    const validatePath = jest
+      .fn()
       .mockReturnValueOnce(true)
       .mockReturnValueOnce(false);
     const sendRaces = jest.fn().mockResolvedValue(true);
-    const fetchRacesFromStorage = jest.fn().mockReturnValue([racesInStorage[0], currentRace]);
+    const fetchRacesFromStorage = jest
+      .fn()
+      .mockReturnValue([racesInStorage[0], currentRace]);
     await finishRace(
       currentRace,
       jest.fn(),
@@ -62,12 +68,15 @@ describe('saving races to the server', () => {
     done();
   });
 
-  it('should delete races from local storage if they were successfully stored on server', async (done) => {
+  it("should delete races from local storage if they were successfully stored on server", async done => {
     const validatePath = jest.fn().mockReturnValue(true);
-    const sendRaces = jest.fn()
+    const sendRaces = jest
+      .fn()
       .mockResolvedValueOnce(true)
       .mockResolvedValueOnce(false);
-    const fetchRacesFromStorage = jest.fn().mockReturnValue([racesInStorage[0], currentRace]);
+    const fetchRacesFromStorage = jest
+      .fn()
+      .mockReturnValue([racesInStorage[0], currentRace]);
     const deleteRaces = jest.fn();
     const success = await finishRace(
       currentRace,
@@ -77,7 +86,7 @@ describe('saving races to the server', () => {
       validatePath,
       sendRaces
     );
-    expect(success).toBe('Races were successfully saved');
+    expect(success).toBe("Races were successfully saved");
     expect(deleteRaces.mock.calls.length).toBe(1);
     const fail = await finishRace(
       currentRace,
@@ -87,9 +96,8 @@ describe('saving races to the server', () => {
       validatePath,
       sendRaces
     );
-    expect(fail).toBe('Saving was unsuccessful');
+    expect(fail).toBe("Saving was unsuccessful");
     expect(deleteRaces.mock.calls.length).toBe(1);
     done();
   });
-
 });

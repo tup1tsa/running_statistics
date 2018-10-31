@@ -1,15 +1,15 @@
-import * as React from 'react';
-import { PathWatcher } from '../../application/Path/PathWatcher';
-import * as GeoLib from 'geolib';
-import { isMiddlePointAccurate } from '../../application/Path/pathUtils';
-import { FinishRaceFactory } from '../finishRaceFactory';
+import * as GeoLib from "geolib";
+import * as React from "react";
+import { isMiddlePointAccurate } from "../../application/Path/pathUtils";
+import { PathWatcher } from "../../application/Path/PathWatcher";
+import { FinishRaceFactory } from "../finishRaceFactory";
 
 interface Props {
-  raceType: string;
-  minimumDistanceDiff: number;
-  delaySecs: number;
-  saveRace: FinishRaceFactory;
-  setSaveResult: (message: string) => void;
+  readonly raceType: string;
+  readonly minimumDistanceDiff: number;
+  readonly delaySecs: number;
+  readonly saveRace: FinishRaceFactory;
+  readonly setSaveResult: (message: string) => void;
 }
 
 export const PathWatcherFactory = (props: Props) => (

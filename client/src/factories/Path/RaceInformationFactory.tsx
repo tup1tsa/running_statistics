@@ -1,11 +1,11 @@
-import * as React from 'react';
-import { RaceInformation } from '../../application/Path/RaceInformation';
-import { humanizeDurationFactory } from '../utilsFactories';
+import * as React from "react";
+import { RaceInformation } from "../../application/Path/RaceInformation";
+import { humanizeDurationFactory } from "../utilsFactories";
 
 interface Props {
-  totalDistance: number;
-  totalTimeSecs: number;
-  avgSpeed: number;
+  readonly totalDistance: number;
+  readonly totalTimeSecs: number;
+  readonly avgSpeed: number;
 }
 
 export const RaceInformationFactory = (props: Props) => (

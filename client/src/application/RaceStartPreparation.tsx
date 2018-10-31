@@ -1,16 +1,16 @@
-import * as React from 'react';
-import { PathWatcherFactory } from '../factories/Path/PathWatcherFactory';
-import { FinishRaceFactory } from '../factories/finishRaceFactory';
+import * as React from "react";
+import { FinishRaceFactory } from "../factories/finishRaceFactory";
+import { PathWatcherFactory } from "../factories/Path/PathWatcherFactory";
 
 interface Props {
-  minimumDistanceDiff: number;
-  delaySecs: number;
-  saveRace: FinishRaceFactory;
-  setSaveResult: (message: string) => void;
+  readonly minimumDistanceDiff: number;
+  readonly delaySecs: number;
+  readonly saveRace: FinishRaceFactory;
+  readonly setSaveResult: (message: string) => void;
 }
 
 interface State {
-  raceTypeChosen?: string;
+  readonly raceTypeChosen?: string;
 }
 
 export class RaceStartPreparation extends React.Component<Props, State> {
@@ -21,18 +21,41 @@ export class RaceStartPreparation extends React.Component<Props, State> {
     this.startWatcher = this.startWatcher.bind(this);
   }
 
-  startWatcher(type: string) {
-    this.setState({raceTypeChosen: type});
+  public startWatcher(type: string) {
+    this.setState({ raceTypeChosen: type });
   }
 
-  render() {
+  public render() {
     if (!this.state.raceTypeChosen) {
       return (
         <div>
-          <button className="blue" id="start_running" onClick={() => this.startWatcher('running')}>Running</button>
-          <button className="blue" id="start_walking" onClick={() => this.startWatcher('walking')}>Walking</button>
-          <button className="blue" id="start_cycling" onClick={() => this.startWatcher('cycling')}>Cycling</button>
-          <button className="green back" onClick={() => this.props.setSaveResult('')}>Back</button>
+          <button
+            className="blue"
+            id="start_running"
+            onClick={() => this.startWatcher("running")}
+          >
+            Running
+          </button>
+          <button
+            className="blue"
+            id="start_walking"
+            onClick={() => this.startWatcher("walking")}
+          >
+            Walking
+          </button>
+          <button
+            className="blue"
+            id="start_cycling"
+            onClick={() => this.startWatcher("cycling")}
+          >
+            Cycling
+          </button>
+          <button
+            className="green back"
+            onClick={() => this.props.setSaveResult("")}
+          >
+            Back
+          </button>
         </div>
       );
     }
