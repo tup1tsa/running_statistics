@@ -16,6 +16,7 @@ export class GeoLocationMock implements GeoLocation {
     status: false,
     providedWatchNumber: 0
   };
+  public lastError?: PositionError;
 
   public clearWatch(watchId: number) {
     this.providedErrorCallback = () => undefined;
@@ -43,9 +44,13 @@ export class GeoLocationMock implements GeoLocation {
   }
 
   public sendError(error: string) {
-    this.providedErrorCallback({
+    this.lastError = {
       code: 1,
-      message: error
-    });
+      message: error,
+      POSITION_UNAVAILABLE: 2,
+      TIMEOUT: 23,
+      PERMISSION_DENIED: 0
+    };
+    this.providedErrorCallback(this.lastError);
   }
 }
