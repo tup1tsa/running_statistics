@@ -1,9 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
 
-const fakeUrl = '232';
+const fakeUrl = "232";
 
-export const sendRequest = async function () {
-
+export const sendRequest = async () => {
   let response;
 
   try {
