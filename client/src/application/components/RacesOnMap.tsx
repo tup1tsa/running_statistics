@@ -1,9 +1,11 @@
 import * as React from "react";
 import { MapWrapperFactory } from "../../containers/components/GoogleMap/MapWrapperFactory";
 import { FinishedRaceInfoFactory } from "../../containers/components/Path/FinishedRaceInfoFactory";
-import { GetRaceInfoContainer } from "../../containers/logic/pathUtilsContainers";
-import { Position, Race } from "../common_files/interfaces";
-import { DividedPathPart, GetRacePart } from "../logic/pathUtils";
+import { DivideRaceContainer } from "../../containers/logic/path/divideRaceContainer";
+import { GetRaceInfoContainer } from "../../containers/logic/path/getRaceInfoContainer";
+import { Race } from "../common_files/interfaces";
+import { FindCenter } from "../logic/path/findCenter";
+import { GetRacePart } from "../logic/path/getRacePart";
 import { SparsePolyline } from "./GoogleMap/SparsePolyline";
 import { RaceViewerSlider } from "./RaceViewerSlider";
 
@@ -23,8 +25,8 @@ interface Props {
   readonly races: ReadonlyArray<Race>;
   readonly activeColor: string;
   readonly inactiveColor: string;
-  readonly findCenter: (path: ReadonlyArray<Position>) => Position;
-  readonly divideRace: (race: Race) => ReadonlyArray<DividedPathPart>;
+  readonly findCenter: FindCenter;
+  readonly divideRace: DivideRaceContainer;
   readonly getRaceInfo: GetRaceInfoContainer;
   readonly getRacePart: GetRacePart;
 }
@@ -63,7 +65,7 @@ export class RacesOnMap extends React.Component<Props, State> {
       this.state.partialRaceRange.finish
     );
     const dividedRace = this.props.divideRace(currentRace);
-    const pathWithColors = dividedRace.map((racePart: DividedPathPart) => {
+    const pathWithColors = dividedRace.map(racePart => {
       const color = racePart.active
         ? this.props.activeColor
         : this.props.inactiveColor;

@@ -5,9 +5,9 @@ import {
   PositionInTime,
   Race
 } from "../../application/common_files/interfaces";
-import { getRacePart } from "../../application/logic/pathUtils";
 import { RacesOnMap } from "../../application/components/RacesOnMap";
 import { RaceViewerSlider } from "../../application/components/RaceViewerSlider";
+import { getRacePart } from "../../application/logic/path/getRacePart";
 import { FinishedRaceInfoFactory } from "../../containers/components/Path/FinishedRaceInfoFactory";
 
 describe("races on map display", () => {

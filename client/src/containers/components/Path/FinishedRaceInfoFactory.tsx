@@ -1,6 +1,9 @@
 import * as React from "react";
 import { FinishedRaceInfo } from "../../../application/components/Path/FinishedRaceInfo";
-import { getReadableDateContainer } from "../../logic/utilsContainers";
+import {
+  getReadableDateContainer,
+  humanizeDurationContainer
+} from "../../logic/utilsContainers";
 
 interface Props {
   readonly totalDistance: number;
@@ -12,6 +15,7 @@ interface Props {
 
 export const FinishedRaceInfoFactory = (props: Props) => (
   <FinishedRaceInfo
+    humanizeDuration={humanizeDurationContainer}
     totalDistance={props.totalDistance}
     totalTimeSecs={props.totalTimeSecs}
     avgSpeed={props.avgSpeed}

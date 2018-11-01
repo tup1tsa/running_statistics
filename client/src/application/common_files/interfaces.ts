@@ -40,3 +40,7 @@ export interface Axios {
   // tslint:disable-next-line no-any
   post(url: string, data?: any): Promise<Response>;
 }
+
+export type GetPath = (positions: ReadonlyArray<PositionInTime>) => number;
+
+export type GetDistance = (start: Position, end: Position) => number;

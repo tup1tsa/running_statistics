@@ -1,7 +1,7 @@
 import * as GeoLib from "geolib";
 import * as React from "react";
 import { PathWatcher } from "../../../application/components/Path/PathWatcher";
-import { isMiddlePointAccurate } from "../../../application/logic/pathUtils";
+import { isMiddlePointAccurate } from "../../../application/logic/path/isMiddlePointAccurate";
 import { FinishRaceContainer } from "../../logic/finishRaceContainer";
 
 interface Props {

@@ -1,11 +1,10 @@
 import * as React from "react";
 import { Race } from "../../application/common_files/interfaces";
 import { RacesOnMap } from "../../application/components/RacesOnMap";
-import { findCenter, getRacePart } from "../../application/logic/pathUtils";
-import {
-  divideRaceContainer,
-  getRaceInfoContainer
-} from "../logic/pathUtilsContainers";
+import { findCenter } from "../../application/logic/path/findCenter";
+import { getRacePart } from "../../application/logic/path/getRacePart";
+import { divideRaceContainer } from "../logic/path/divideRaceContainer";
+import { getRaceInfoContainer } from "../logic/path/getRaceInfoContainer";
 
 interface Props {
   readonly races: ReadonlyArray<Race>;

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { GetRaceInfoContainer } from "../../../containers/logic/pathUtilsContainers";
+import { GetRaceInfoContainer } from "../../../containers/logic/path/getRaceInfoContainer";
 import {
   GetReadableDateContainer,
   HumanizeDurationContainer
