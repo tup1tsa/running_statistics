@@ -1,6 +1,9 @@
 import * as React from "react";
-import { RaceInformationFactory } from "../../../containers/components/Path/RaceInformationFactory";
-import { GetReadableDateContainer } from "../../../containers/logic/utilsContainers";
+import {
+  GetReadableDateContainer,
+  HumanizeDurationContainer
+} from "../../../containers/logic/utilsContainers";
+import { RaceInformation } from "./RaceInformation";
 
 interface Props {
   readonly totalDistance: number;
@@ -9,16 +12,18 @@ interface Props {
   readonly lastTimeCheck: number;
   readonly toLocaleTime: GetReadableDateContainer;
   readonly raceType: string;
+  readonly humanizeDuration: HumanizeDurationContainer;
 }
 
 export const OngoingRaceInfo = (props: Props) => (
   <ul>
     <li>Last time check was at {props.toLocaleTime(props.lastTimeCheck)}</li>
     <li>{props.raceType} is in progress</li>
-    <RaceInformationFactory
+    <RaceInformation
       totalDistance={props.totalDistance}
       totalTimeSecs={props.totalTimeSecs}
       avgSpeed={props.avgSpeed}
+      humanizeDuration={props.humanizeDuration}
     />
   </ul>
 );

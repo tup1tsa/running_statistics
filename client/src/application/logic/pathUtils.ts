@@ -65,6 +65,8 @@ export type GetRacePart = (
   finishPercent: number
 ) => Race;
 
+export type IsMiddlePointAccurate = () => null;
+
 export const dividePath: DividePath = (path, config) => {
   if (path.length < 2) {
     return [{ active: false, path }];

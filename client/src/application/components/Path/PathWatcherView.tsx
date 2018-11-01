@@ -1,6 +1,9 @@
 import * as React from "react";
 import { GetRaceInfoContainer } from "../../../containers/logic/pathUtilsContainers";
-import { GetReadableDateContainer } from "../../../containers/logic/utilsContainers";
+import {
+  GetReadableDateContainer,
+  HumanizeDurationContainer
+} from "../../../containers/logic/utilsContainers";
 import { Race } from "../../common_files/interfaces";
 import { OngoingRaceInfo } from "./OngoingRaceInfo";
 
@@ -9,6 +12,7 @@ interface Props {
   readonly getRaceInfo: GetRaceInfoContainer;
   readonly stopWatcher: () => Promise<{}>;
   readonly toLocaleTime: GetReadableDateContainer;
+  readonly humanizeDuration: HumanizeDurationContainer;
 }
 
 export const PathWatcherView = (props: Props) => {
@@ -34,6 +38,7 @@ export const PathWatcherView = (props: Props) => {
   return (
     <div>
       <OngoingRaceInfo
+        humanizeDuration={props.humanizeDuration}
         raceType={raceTypeUpperCase}
         lastTimeCheck={lastPosition.time}
         totalDistance={raceInfo.distance}

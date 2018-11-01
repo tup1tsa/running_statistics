@@ -13,7 +13,8 @@ describe("should render path view component correctly", () => {
     toLocaleTime: jest.fn(),
     getRaceInfo: jest
       .fn()
-      .mockReturnValue({ distance: 0, averageSpeed: 0, timeSecs: 0 })
+      .mockReturnValue({ distance: 0, averageSpeed: 0, timeSecs: 0 }),
+    humanizeDuration: jest.fn()
   };
 
   it("should render button and notification if no positions were fetched. Button should stop watcher", () => {
@@ -70,6 +71,7 @@ describe("should render path view component correctly", () => {
         totalTimeSecs={0}
         totalDistance={0}
         avgSpeed={0}
+        humanizeDuration={defaultProps.humanizeDuration}
       />
     );
     expect(wrapper.contains(pathInformation)).toBe(true);
@@ -104,6 +106,7 @@ describe("should render path view component correctly", () => {
         totalTimeSecs={117}
         totalDistance={17}
         avgSpeed={44}
+        humanizeDuration={defaultProps.humanizeDuration}
       />
     );
     expect(wrapper.contains(pathInformation)).toBe(true);

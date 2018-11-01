@@ -1,7 +1,7 @@
 import { shallow } from "enzyme";
 import * as React from "react";
 import { FinishedRaceInfo } from "../../../application/components/Path/FinishedRaceInfo";
-import { RaceInformationFactory } from "../../../containers/components/Path/RaceInformationFactory";
+import { RaceInformation } from "../../../application/components/Path/RaceInformation";
 
 describe("finished race information block", () => {
   const defaultProps = {
@@ -10,13 +10,15 @@ describe("finished race information block", () => {
     avgSpeed: 25,
     lastTimeCheck: 117,
     raceType: "walking",
-    toLocaleDate: jest.fn()
+    toLocaleDate: jest.fn(),
+    humanizeDuration: jest.fn()
   };
 
   it("should render race information with correct props", () => {
     const wrapper = shallow(<FinishedRaceInfo {...defaultProps} />);
     const raceInfo = (
-      <RaceInformationFactory
+      <RaceInformation
+        humanizeDuration={defaultProps.humanizeDuration}
         totalDistance={defaultProps.totalDistance}
         totalTimeSecs={defaultProps.totalTimeSecs}
         avgSpeed={defaultProps.avgSpeed}
