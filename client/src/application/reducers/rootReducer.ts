@@ -4,10 +4,10 @@ import { PositionInTime } from "../common_files/interfaces";
 export interface GlobalState {
   readonly raceInProgress: boolean;
   readonly raceType: RaceType;
-  readonly connectedToGps: boolean;
   readonly gpsId: number;
   readonly gpsError?: string;
   readonly positions: ReadonlyArray<PositionInTime>;
+  readonly lastTimeCheck?: number;
 }
 
 export type Reducer = (
@@ -24,7 +24,6 @@ export type RootReducer = (
 const defaultState: GlobalState = {
   raceInProgress: false,
   raceType: "running",
-  connectedToGps: false,
   gpsId: 0,
   positions: []
 };

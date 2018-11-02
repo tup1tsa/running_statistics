@@ -66,7 +66,6 @@ export class PathWatcher extends React.Component<Props, State> {
     };
     this.initWatcher = this.initWatcher.bind(this);
     this.stopWatcher = this.stopWatcher.bind(this);
-    this.savePosition = this.savePosition.bind(this);
   }
 
   public componentWillMount() {
@@ -78,7 +77,7 @@ export class PathWatcher extends React.Component<Props, State> {
       return;
     }
     const watcherId = this.props.geoLocation.watchPosition(
-      this.savePosition,
+      () => null,
       () => undefined,
       { enableHighAccuracy: true }
     );
@@ -101,63 +100,6 @@ export class PathWatcher extends React.Component<Props, State> {
         this.props.setSaveResult(result);
         resolve();
       });
-    });
-  }
-
-  public savePosition(position: PositionResponse) {
-    const timeStamp =
-      typeof position.timestamp === "number"
-        ? position.timestamp
-        : position.timestamp.getTime();
-    const currentPosition: PositionInTime = {
-      latitude: position.coords.latitude,
-      longitude: position.coords.longitude,
-      time: timeStamp
-    };
-    // it's first position. Save it anyways
-    if (this.state.lastTimeCheck === null) {
-      this.setState({
-        lastTimeCheck: currentPosition.time,
-        positions: this.state.positions.concat([currentPosition])
-      });
-      return;
-    }
-    // this position is too recent -> ignore it
-    if (
-      currentPosition.time - this.state.lastTimeCheck <
-      this.props.delaySecs * 1000
-    ) {
-      return;
-    }
-    const positions = this.state.positions.slice(0);
-    const savedPositionsNumber = positions.length;
-    const lastSavedPosition = positions[savedPositionsNumber - 1];
-    const beforeLastSavedPosition = positions[savedPositionsNumber - 2];
-    const differenceInMetres = this.props.getDistance(
-      lastSavedPosition,
-      currentPosition
-    );
-    // this position is very close to the last saved -> ignore it
-    if (differenceInMetres <= this.props.minimumDistanceDiff) {
-      this.setState({ lastTimeCheck: currentPosition.time });
-      return;
-    }
-    if (savedPositionsNumber > 1) {
-      const arePositionsAccurate = this.props.isMiddlePointAccurate(
-        beforeLastSavedPosition,
-        lastSavedPosition,
-        currentPosition,
-        this.props.getDistance
-      );
-      // beforeLast position was geo location error and was corrected by current position. Remove it
-      if (!arePositionsAccurate) {
-        positions.splice(savedPositionsNumber - 1, 1);
-      }
-    }
-    positions.push(currentPosition);
-    this.setState({
-      positions,
-      lastTimeCheck: currentPosition.time
     });
   }
 
