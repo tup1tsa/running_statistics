@@ -1,13 +1,13 @@
 import { GeoLocationMock } from "../../__mocks__/GeoLocation";
 import {
   addGpsPosition,
-  clearGpsId
+  toggleSaving
 } from "../../application/actions/actionCreators";
-import { clearGpsIdReducer } from "../../application/reducers/clearGpsIdReducer";
+import { clearGpsIdReducer } from "../../application/reducers/toggleSavingReducer";
 
 const defaultState = {
   raceInProgress: true,
-  gpsId: 17
+  savingInProgress: false
 };
 
 it("should not change state if action is incorrect", () => {
@@ -15,20 +15,16 @@ it("should not change state if action is incorrect", () => {
     coords: { latitude: 33, longitude: 32 },
     timestamp: 33
   });
-  expect(
-    clearGpsIdReducer(defaultState, action, new GeoLocationMock())
-  ).toEqual(defaultState);
+  expect(clearGpsIdReducer(defaultState, action)).toEqual(defaultState);
 });
 
 it("should call clear id with proper id and change state", () => {
-  const action = clearGpsId();
+  const action = toggleSaving();
   const clearWatch = jest.fn();
   const geoMock = new GeoLocationMock();
   geoMock.clearWatch = clearWatch;
-  expect(clearGpsIdReducer(defaultState, action, geoMock)).toEqual({
+  expect(clearGpsIdReducer(defaultState, action)).toEqual({
     raceInProgress: false,
-    gpsId: 0
+    savingInProgress: true
   });
-  expect(clearWatch.mock.calls.length).toBe(1);
-  expect(clearWatch.mock.calls[0][0]).toBe(defaultState.gpsId);
 });

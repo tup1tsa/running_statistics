@@ -1,4 +1,4 @@
-import { clearGpsId } from "../../application/actions/actionCreators";
+import { toggleSaving } from "../../application/actions/actionCreators";
 import { AnyAction, RaceType } from "../../application/actions/actions";
 import { startRaceReducer } from "../../application/reducers/startRaceReducer";
 
@@ -11,7 +11,7 @@ const defaultState = {
 };
 
 it("should not change state if action is incorrect", () => {
-  const action = clearGpsId();
+  const action = toggleSaving();
   expect(startRaceReducer(defaultState, action)).toEqual(defaultState);
 });
 

@@ -8,6 +8,9 @@ export interface GlobalState {
   readonly gpsError?: string;
   readonly positions: ReadonlyArray<PositionInTime>;
   readonly lastTimeCheck?: number;
+  readonly savingInProgress: boolean;
+  readonly savingError?: string;
+  readonly savingSuccessMessage?: string;
 }
 
 export type Reducer = (
@@ -25,7 +28,8 @@ const defaultState: GlobalState = {
   raceInProgress: false,
   raceType: "running",
   gpsId: 0,
-  positions: []
+  positions: [],
+  savingInProgress: false
 };
 
 export const rootReducer: RootReducer = (

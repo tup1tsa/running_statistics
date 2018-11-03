@@ -7,5 +7,7 @@ import { fetchRacesContainer } from "./fetchRacesContainer";
 
 declare var localStorage: LocalStorage;
 
-export const saveRaceContainer = (path: Race) =>
-  saveRace(path, localStorage, fetchRacesContainer);
+export type SaveRaceContainer = (race: Race) => void;
+
+export const saveRaceContainer: SaveRaceContainer = race =>
+  saveRace(race, localStorage, fetchRacesContainer);

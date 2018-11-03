@@ -1,8 +1,11 @@
-import { clearGpsId, gpsError } from "../../application/actions/actionCreators";
+import {
+  gpsError,
+  toggleSaving
+} from "../../application/actions/actionCreators";
 import { gpsErrorReducer } from "../../application/reducers/gpsErrorReducer";
 
 it("should not change state if action is incorrect", () => {
-  const action = clearGpsId();
+  const action = toggleSaving();
   expect(gpsErrorReducer({}, action)).toEqual({});
 });
 

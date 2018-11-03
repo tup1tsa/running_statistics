@@ -1,15 +1,17 @@
-import { Dispatch } from "redux";
-import { GeoLocation, PositionResponse } from "../components/Path/PathWatcher";
+import { PositionResponse } from "../components/Path/PathWatcher";
 import {
   AddGpsPositionAction,
-  AnyAction,
-  ClearGpsIdAction,
   GpsErrorAction,
-  RaceType
+  SavingErrorAction,
+  ShowSavingMessageAction,
+  StartRaceAction,
+  StartRacePayload,
+  StopGpsAction,
+  ToggleSavingAction
 } from "./actions";
 
-export type ClearGpsId = () => ClearGpsIdAction;
-export const clearGpsId: ClearGpsId = () => ({ type: "CLEAR_GPS_ID" });
+export type ToggleSaving = () => ToggleSavingAction;
+export const toggleSaving: ToggleSaving = () => ({ type: "TOGGLE_SAVING" });
 
 export type AddGpsPosition = (
   position: PositionResponse
@@ -26,28 +28,24 @@ export const gpsError: GpsError = error => ({
   payload: error
 });
 
-export type StartRace = (
-  raceType: RaceType
-) => (dispatch: Dispatch<AnyAction>) => void;
-export type StartRaceFactory = (geoLocation: GeoLocation) => StartRace;
-export const startRaceFactory: StartRaceFactory = geoLocation => raceType => dispatch => {
-  const successCallback = (position: PositionResponse) =>
-    dispatch(addGpsPosition(position));
+export type StartRace = (payload: StartRacePayload) => StartRaceAction;
+export const startRace: StartRace = payload => ({
+  type: "START_RACE",
+  payload
+});
 
-  const errorCallback = (error: PositionError) => dispatch(gpsError(error));
+export type ShowSavingMessage = (message: string) => ShowSavingMessageAction;
+export const showSavingMessage: ShowSavingMessage = message => ({
+  type: "SHOW_SAVING_MESSAGE",
+  payload: message
+});
 
-  const options = {
-    enableHighAccuracy: true
-  };
+export type SavingError = (error: Error) => SavingErrorAction;
+export const savingError: SavingError = error => ({
+  type: "SAVING_ERROR",
+  payload: error,
+  error: true
+});
 
-  const gpsId = geoLocation.watchPosition(
-    successCallback,
-    errorCallback,
-    options
-  );
-  dispatch({
-    type: "START_RACE",
-    payload: { raceType, gpsId }
-  });
-};
-export const startRace: StartRace = startRaceFactory(navigator.geolocation);
+export type StopGps = () => StopGpsAction;
+export const stopGps: StopGps = () => ({ type: "STOP_GPS" });

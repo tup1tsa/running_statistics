@@ -1,6 +1,6 @@
 import {
   addGpsPosition,
-  clearGpsId
+  toggleSaving
 } from "../../application/actions/actionCreators";
 import { Position } from "../../application/common_files/interfaces";
 import { addGpsPositionReducer } from "../../application/reducers/addGpsPositionReducer";
@@ -21,7 +21,7 @@ const defaultFunctions = {
 };
 
 it("should not change state if action is incorrect", () => {
-  const action = clearGpsId();
+  const action = toggleSaving();
   expect(
     addGpsPositionReducer(defaultState, action, defaultConfig, defaultFunctions)
   ).toEqual(defaultState);

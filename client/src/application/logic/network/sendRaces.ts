@@ -17,6 +17,8 @@ export const sendRaces: SendRaces = async (races, axios) => {
   } catch (e) {
     response = e.response;
   }
+  // todo: change boolean
+  // this function should reject on fail
   return (
     response.status === 200 && response.data && response.data.saved === true
   );
