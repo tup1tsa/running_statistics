@@ -7,7 +7,8 @@ import { addGpsPositionReducer } from "../../application/reducers/addGpsPosition
 
 const defaultState = {
   positions: [],
-  gpsError: "previous gps error"
+  lastTimeCheck: null,
+  gpsError: "previous error"
 };
 
 const defaultConfig = {
@@ -36,7 +37,8 @@ it("should successfully save first position and remove gps error", () => {
     addGpsPositionReducer(defaultState, action, defaultConfig, defaultFunctions)
   ).toEqual({
     positions: [{ latitude: 24, longitude: 44, time: 2342434 }],
-    lastTimeCheck: 2342434
+    lastTimeCheck: 2342434,
+    gpsError: null
   });
 });
 
@@ -49,7 +51,8 @@ it("should convert date to timestamp when saving position", () => {
     addGpsPositionReducer(defaultState, action, defaultConfig, defaultFunctions)
   ).toEqual({
     positions: [{ latitude: 24, longitude: 44, time: 25000 }],
-    lastTimeCheck: 25000
+    lastTimeCheck: 25000,
+    gpsError: null
   });
 });
 
@@ -64,7 +67,8 @@ it("should not save very close positions", () => {
   const savedPosition = { latitude: 24, longitude: 44, time: 1000 };
   const state = {
     positions: [savedPosition],
-    lastTimeCheck: 1000
+    lastTimeCheck: 1000,
+    gpsError: "some irrelevant error"
   };
 
   const closePositionAction = addGpsPosition({
@@ -78,12 +82,13 @@ it("should not save very close positions", () => {
 
   expect(
     addGpsPositionReducer(state, closePositionAction, defaultConfig, functions)
-  ).toEqual({ ...state, lastTimeCheck: 15000 });
+  ).toEqual({ ...state, lastTimeCheck: 15000, gpsError: null });
   expect(
     addGpsPositionReducer(state, normalPositionAction, defaultConfig, functions)
   ).toEqual({
     positions: [savedPosition, { latitude: 65, longitude: 34, time: 35000 }],
-    lastTimeCheck: 35000
+    lastTimeCheck: 35000,
+    gpsError: null
   });
   expect(getDistance.mock.calls.length).toBe(2);
 });
@@ -99,7 +104,8 @@ it("should remove inaccurate middle position", () => {
 
   const state = {
     positions: [firstPosition, secondPosition, thirdPosition],
-    lastTimeCheck: 23000
+    lastTimeCheck: 23000,
+    gpsError: "some error"
   };
   const functions = { ...defaultFunctions, getDistance: getDistanceMock };
 
@@ -115,7 +121,8 @@ it("should remove inaccurate middle position", () => {
     addGpsPositionReducer(state, action, defaultConfig, functions)
   ).toEqual({
     positions: [firstPosition, secondPosition, fourthPosition],
-    lastTimeCheck: 35000
+    lastTimeCheck: 35000,
+    gpsError: null
   });
 });
 
@@ -131,7 +138,8 @@ it("should not save very recent positions", () => {
   });
   const state = {
     positions: [savedPosition],
-    lastTimeCheck: 1000
+    lastTimeCheck: 1000,
+    gpsError: "some error"
   };
   expect(
     addGpsPositionReducer(
@@ -142,7 +150,8 @@ it("should not save very recent positions", () => {
     )
   ).toEqual({
     positions: [savedPosition],
-    lastTimeCheck: 1000
+    lastTimeCheck: 1000,
+    gpsError: null
   });
   expect(
     addGpsPositionReducer(
@@ -153,6 +162,7 @@ it("should not save very recent positions", () => {
     )
   ).toEqual({
     positions: [savedPosition, { latitude: 42, longitude: 22, time: 12000 }],
+    gpsError: null,
     lastTimeCheck: 12000
   });
 });

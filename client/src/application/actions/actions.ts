@@ -10,14 +10,6 @@ export interface StartRaceAction {
   readonly payload: StartRacePayload;
 }
 
-export interface ToggleSavingAction {
-  readonly type: "TOGGLE_SAVING";
-}
-
-export interface StopGpsAction {
-  readonly type: "STOP_GPS";
-}
-
 export interface AddGpsPositionAction {
   readonly type: "ADD_GPS_POSITION";
   readonly payload: PositionResponse;
@@ -27,6 +19,14 @@ export interface GpsErrorAction {
   readonly type: "GPS_ERROR";
   readonly error: true;
   readonly payload: PositionError;
+}
+
+export interface ToggleSavingAction {
+  readonly type: "TOGGLE_SAVING";
+}
+
+export interface StopGpsAction {
+  readonly type: "STOP_GPS";
 }
 
 export interface SavingErrorAction {

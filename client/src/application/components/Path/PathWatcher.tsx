@@ -91,7 +91,8 @@ export class PathWatcher extends React.Component<Props, State> {
       }
       this.props.geoLocation.clearWatch(this.state.watcherId);
       this.setState({ watcherId: null, savingInProgress: true });
-      // there is no try catch in sending data to the server. Save run should not throw at all.
+      // there is no try catch in sending data to the server.
+      // Save run should not throw at all.
       const race: Race = {
         type: this.props.raceType,
         path: this.state.positions

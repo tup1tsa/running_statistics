@@ -1,7 +1,7 @@
 import { AnyAction } from "../actions/actions";
 
 interface State {
-  gpsError?: string;
+  readonly gpsError: string | null;
 }
 
 export type GpsErrorReducer = (state: State, action: AnyAction) => State;

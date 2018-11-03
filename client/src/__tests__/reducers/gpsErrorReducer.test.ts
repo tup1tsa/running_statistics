@@ -4,9 +4,13 @@ import {
 } from "../../application/actions/actionCreators";
 import { gpsErrorReducer } from "../../application/reducers/gpsErrorReducer";
 
+const defaultState = {
+  gpsError: null
+};
+
 it("should not change state if action is incorrect", () => {
   const action = toggleSaving();
-  expect(gpsErrorReducer({}, action)).toEqual({});
+  expect(gpsErrorReducer({ ...defaultState }, action)).toEqual(defaultState);
 });
 
 it("should set error message in state", () => {
@@ -17,5 +21,7 @@ it("should set error message in state", () => {
     POSITION_UNAVAILABLE: 0,
     TIMEOUT: 1
   });
-  expect(gpsErrorReducer({}, action)).toEqual({ gpsError: "gps error" });
+  expect(gpsErrorReducer({ ...defaultState }, action)).toEqual({
+    gpsError: "gps error"
+  });
 });

@@ -4,8 +4,8 @@ import { GetDistance, PositionInTime } from "../common_files/interfaces";
 
 export interface AddGpsPositionReducerState {
   readonly positions: ReadonlyArray<PositionInTime>;
-  readonly lastTimeCheck?: number;
-  readonly gpsError?: string;
+  readonly lastTimeCheck: number | null;
+  readonly gpsError: string | null;
 }
 
 export type AddGpsPositionReducer = (
@@ -41,15 +41,16 @@ export const addGpsPositionReducer: AddGpsPositionReducer = (
     time: timeStamp
   };
   // it's first position. Save it anyways
-  if (state.lastTimeCheck === undefined) {
+  if (state.lastTimeCheck === null) {
     return {
       lastTimeCheck: currentPosition.time,
-      positions: [currentPosition]
+      positions: [currentPosition],
+      gpsError: null
     };
   }
   // this position is too recent -> ignore it
   if (currentPosition.time - state.lastTimeCheck < config.delayBetweenCallsMs) {
-    return state;
+    return { ...state, gpsError: null };
   }
 
   const savedPositionsNumber = state.positions.length;
@@ -61,7 +62,7 @@ export const addGpsPositionReducer: AddGpsPositionReducer = (
   );
   // this position is very close to the last saved -> ignore it
   if (differenceInMetres <= config.minimumDistanceDiffMetres) {
-    return { ...state, lastTimeCheck: currentPosition.time };
+    return { ...state, lastTimeCheck: currentPosition.time, gpsError: null };
   }
   if (savedPositionsNumber > 1) {
     const arePositionsAccurate = functions.isMiddlePointAccurate(
@@ -73,6 +74,7 @@ export const addGpsPositionReducer: AddGpsPositionReducer = (
     // current position. Remove it
     if (!arePositionsAccurate) {
       return {
+        gpsError: null,
         lastTimeCheck: currentPosition.time,
         positions: [...state.positions, currentPosition].filter(
           position => position.time !== lastSavedPosition.time
@@ -81,6 +83,7 @@ export const addGpsPositionReducer: AddGpsPositionReducer = (
     }
   }
   return {
+    gpsError: null,
     lastTimeCheck: currentPosition.time,
     positions: [...state.positions, currentPosition]
   };

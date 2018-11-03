@@ -25,7 +25,3 @@ export const stopAndSaveRace: StopAndSaveRace = (
     dispatch(savingError(err));
   }
 };
-
-// stop race action should stop race (dispatch clear gps) and dispatch saving (first state)
-// on success dispatch success saving action (second state possibly)
-// on fail dispatch fail action (second state possibly)
