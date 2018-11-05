@@ -4,8 +4,8 @@ import {
   savingError,
   showSavingMessage,
   startRace,
-  toggleSaving,
-  stopGps
+  stopGps,
+  toggleSaving
 } from "../../application/actions/actionCreators";
 import { RaceType } from "../../application/actions/actions";
 import { PositionResponse } from "../../application/components/Path/PathWatcher";

@@ -7,7 +7,7 @@ interface State {
 
 export type ToggleSavingReducer = (state: State, action: AnyAction) => State;
 
-export const clearGpsIdReducer: ToggleSavingReducer = (state, action) => {
+export const toggleSavingReducer: ToggleSavingReducer = (state, action) => {
   if (action.type !== "TOGGLE_SAVING") {
     return state;
   }

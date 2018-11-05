@@ -3,7 +3,7 @@ import {
   addGpsPosition,
   toggleSaving
 } from "../../application/actions/actionCreators";
-import { clearGpsIdReducer } from "../../application/reducers/toggleSavingReducer";
+import { toggleSavingReducer } from "../../application/reducers/toggleSavingReducer";
 
 const defaultState = {
   raceInProgress: true,
@@ -15,7 +15,7 @@ it("should not change state if action is incorrect", () => {
     coords: { latitude: 33, longitude: 32 },
     timestamp: 33
   });
-  expect(clearGpsIdReducer(defaultState, action)).toEqual(defaultState);
+  expect(toggleSavingReducer(defaultState, action)).toEqual(defaultState);
 });
 
 it("should call clear id with proper id and change state", () => {
@@ -23,7 +23,7 @@ it("should call clear id with proper id and change state", () => {
   const clearWatch = jest.fn();
   const geoMock = new GeoLocationMock();
   geoMock.clearWatch = clearWatch;
-  expect(clearGpsIdReducer(defaultState, action)).toEqual({
+  expect(toggleSavingReducer(defaultState, action)).toEqual({
     raceInProgress: false,
     savingInProgress: true
   });
