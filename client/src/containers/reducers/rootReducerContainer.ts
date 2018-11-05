@@ -1,4 +1,5 @@
 import { connectRouter } from "connected-react-router";
+import { createBrowserHistory } from "history";
 import { AnyAction } from "../../application/actions/actions";
 import { gpsErrorReducer } from "../../application/reducers/gpsErrorReducer";
 import {
@@ -17,8 +18,10 @@ export type RootReducerContainer = (
   action: AnyAction
 ) => GlobalState;
 
-export const rootReducerContainer: RootReducerContainer = (state, action) => {
-  const nextState = rootReducer(state, action, [
+export const history = createBrowserHistory();
+
+const rootReducerContainer: RootReducerContainer = (state, action) =>
+  rootReducer(state, action, [
     addGpsPositionReducerContainer,
     gpsErrorReducer,
     savingErrorReducer,
@@ -28,9 +31,7 @@ export const rootReducerContainer: RootReducerContainer = (state, action) => {
     toggleSavingReducer
   ]);
 
-  return {
-    ...nextState,
-    // @ts-ignore
-    router: connectRouter(history)(nextState.router, action)
-  };
-};
+export default (state: GlobalState, action: AnyAction): GlobalState => ({
+  ...rootReducerContainer(state, action),
+  ...connectRouter(history)(rootReducerContainer)
+});

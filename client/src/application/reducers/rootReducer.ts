@@ -12,7 +12,7 @@ export interface GlobalState {
   readonly savingInProgress: boolean;
   readonly savingError: string | null;
   readonly savingSuccessMessage: string | null;
-  readonly router?: RouterState;
+  readonly router: RouterState;
 }
 
 export type Reducer = (
@@ -35,7 +35,16 @@ const defaultState: GlobalState = {
   raceType: "running",
   gpsId: 0,
   positions: [],
-  savingInProgress: false
+  savingInProgress: false,
+  router: {
+    location: {
+      pathname: "",
+      search: "",
+      hash: "",
+      state: ""
+    },
+    action: "POP"
+  }
 };
 
 export const rootReducer: RootReducer = (
