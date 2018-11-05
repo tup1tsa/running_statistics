@@ -1,3 +1,4 @@
+import { RouterState } from "connected-react-router";
 import { AnyAction, RaceType } from "../actions/actions";
 import { PositionInTime } from "../common_files/interfaces";
 
@@ -11,6 +12,7 @@ export interface GlobalState {
   readonly savingInProgress: boolean;
   readonly savingError: string | null;
   readonly savingSuccessMessage: string | null;
+  readonly router?: RouterState;
 }
 
 export type Reducer = (
