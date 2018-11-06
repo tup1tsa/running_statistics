@@ -22,3 +22,9 @@ export const raceSettings = {
 
 export const delayBetweenGeoCalls = 10;
 export const minimumDistanceDiffBetweenPositions = 10;
+
+export const MESSAGES = [
+  "Race was saved successfully.",
+  "There is no internet connection.",
+  "Unexpected server error"
+];
