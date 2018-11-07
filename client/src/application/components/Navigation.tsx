@@ -41,7 +41,7 @@ export class Navigation extends React.Component<{}, State> {
       );
     }
     return (
-      <div>
+      <div id="navigation">
         <button className="blue" id="start_race" onClick={this.startRace}>
           Start race
         </button>
