@@ -6,6 +6,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { applyMiddleware, compose, createStore } from "redux";
+
 import App from "./application/components/App";
 import RootReducer, {
   history

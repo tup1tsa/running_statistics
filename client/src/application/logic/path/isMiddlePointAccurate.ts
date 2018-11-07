@@ -1,9 +1,9 @@
-import { GetDistance, Position } from "../../common_files/interfaces";
+import { Coordinates, GetDistance } from "../../common_files/interfaces";
 
 export type IsMiddlePointAccurate = (
-  start: Position,
-  middle: Position,
-  end: Position,
+  start: Coordinates,
+  middle: Coordinates,
+  end: Coordinates,
   getPath: GetDistance
 ) => boolean;
 

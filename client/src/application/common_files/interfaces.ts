@@ -1,9 +1,9 @@
-export interface Position {
+export interface Coordinates {
   readonly latitude: number;
   readonly longitude: number;
 }
 
-export interface PositionInTime extends Position {
+export interface PositionInTime extends Coordinates {
   readonly time: number;
 }
 
@@ -30,17 +30,32 @@ export interface LocalStorage {
 }
 
 export interface Response {
-  // tslint:disable-next-line no-any
   readonly data?: any;
   readonly status: number;
 }
 
 export interface Axios {
   get(url: string): Promise<Response>;
-  // tslint:disable-next-line no-any
   post(url: string, data?: any): Promise<Response>;
 }
 
 export type GetPath = (positions: ReadonlyArray<PositionInTime>) => number;
 
-export type GetDistance = (start: Position, end: Position) => number;
+export type GetDistance = (start: Coordinates, end: Coordinates) => number;
+
+export interface Position {
+  readonly coords: Coordinates;
+  // date is used instead of number is UC Mini browser
+  readonly timestamp: number | Date;
+}
+
+export type SuccessCallback = (position: Position) => void;
+
+export interface GeoLocation {
+  watchPosition(
+    successCallback: SuccessCallback,
+    errorCallback?: PositionErrorCallback,
+    options?: PositionOptions
+  ): number;
+  clearWatch(id: number): void;
+}

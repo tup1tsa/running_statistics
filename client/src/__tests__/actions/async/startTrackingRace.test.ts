@@ -4,7 +4,7 @@ import {
   StartRaceAction
 } from "../../../application/actions/actions";
 import { startTrackingRace } from "../../../application/actions/async/startTrackingRace";
-import { PositionResponse } from "../../../application/components/Path/PathWatcher";
+import { Position } from "../../../application/common_files/interfaces";
 
 it("should dispatch sync start action", () => {
   const geoLocationMock = new GeoLocationMock();
@@ -43,11 +43,11 @@ it("should dispatch update position action on every update", () => {
   const geoLocationMock = new GeoLocationMock();
   const dispatch = jest.fn();
   startTrackingRace("walking", geoLocationMock)(dispatch);
-  const firstPosition: PositionResponse = {
+  const firstPosition: Position = {
     coords: { latitude: 44, longitude: 32 },
     timestamp: 23
   };
-  const secondPosition: PositionResponse = {
+  const secondPosition: Position = {
     coords: { latitude: 12, longitude: 17 },
     timestamp: 553
   };

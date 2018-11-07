@@ -1,4 +1,4 @@
-import { Position } from "../../../application/common_files/interfaces";
+import { Coordinates } from "../../../application/common_files/interfaces";
 import { findCenter } from "../../../application/logic/path/findCenter";
 
 it("should throw an error if the path length is 0", () => {
@@ -11,7 +11,7 @@ it("should return the only point it the path length is 1", () => {
 });
 
 it("should calculate center correctly for 3 points", () => {
-  const path: ReadonlyArray<Position> = [
+  const path: ReadonlyArray<Coordinates> = [
     { latitude: 0, longitude: 0 },
     { latitude: 0, longitude: 0 },
     { latitude: 30, longitude: 40 }

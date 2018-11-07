@@ -1,10 +1,10 @@
 import { google } from "google-maps";
 import * as React from "react";
-import { Position } from "../application/common_files/interfaces";
+import { Coordinates } from "../application/common_files/interfaces";
 declare var google: google;
 
 interface DefaultProps {
-  readonly center: Position;
+  readonly center: Coordinates;
   readonly zoom: number;
 }
 
@@ -22,7 +22,7 @@ const GoogleMapHoc = <P extends {}>(
 };
 
 interface SpecificProps {
-  readonly path: ReadonlyArray<Position>;
+  readonly path: ReadonlyArray<Coordinates>;
 }
 
 const InsideElement = (props: SpecificProps) => (

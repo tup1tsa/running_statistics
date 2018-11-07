@@ -41,6 +41,7 @@
     "react-redux": "^5.1.0",
     "react-router": "^4.3.1",
     "react-scripts-ts": "2.14.0",
+    "redux-thunk": "^2.3.0",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
     "typescript": "^2.8.1"

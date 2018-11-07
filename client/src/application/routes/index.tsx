@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Route, Switch } from "react-router";
 import { Message } from "../components/Message";
-import { Navigation } from "../components/Navigation";
+import PathWatcherContainer from "../reactContainers/PathWatcherContainer";
 
 const NoMatch = () => <div id="badUrl">404</div>;
 
@@ -11,7 +11,7 @@ const NoMatch = () => <div id="badUrl">404</div>;
 const routes = (
   <>
     <Switch>
-      <Route exact={true} path="/" component={Navigation} />
+      <Route exact={true} path="/" component={PathWatcherContainer} />
       <Route path="/message/:messageId/:isError" component={Message} />
       <Route component={NoMatch} />
     </Switch>

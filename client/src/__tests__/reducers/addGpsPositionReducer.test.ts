@@ -2,7 +2,7 @@ import {
   addGpsPosition,
   toggleSaving
 } from "../../application/actions/actionCreators";
-import { Position } from "../../application/common_files/interfaces";
+import { Coordinates } from "../../application/common_files/interfaces";
 import { addGpsPositionReducer } from "../../application/reducers/addGpsPositionReducer";
 
 const defaultState = {
@@ -94,7 +94,7 @@ it("should not save very close positions", () => {
 });
 
 it("should remove inaccurate middle position", () => {
-  const getDistanceMock = (start: Position, end: Position) =>
+  const getDistanceMock = (start: Coordinates, end: Coordinates) =>
     Math.abs(start.latitude - end.latitude) * 1000;
 
   const firstPosition = { latitude: 24, longitude: 79, time: 1000 };

@@ -1,4 +1,4 @@
-import { PositionResponse } from "../components/Path/PathWatcher";
+import { Position } from "../common_files/interfaces";
 
 export type RaceType = "walking" | "running" | "cycling";
 export interface StartRacePayload {
@@ -12,7 +12,7 @@ export interface StartRaceAction {
 
 export interface AddGpsPositionAction {
   readonly type: "ADD_GPS_POSITION";
-  readonly payload: PositionResponse;
+  readonly payload: Position;
 }
 
 export interface GpsErrorAction {
@@ -29,22 +29,9 @@ export interface StopGpsAction {
   readonly type: "STOP_GPS";
 }
 
-export interface SavingErrorAction {
-  readonly type: "SAVING_ERROR";
-  readonly error: true;
-  readonly payload: Error;
-}
-
-export interface ShowSavingMessageAction {
-  readonly type: "SHOW_SAVING_MESSAGE";
-  readonly payload: string;
-}
-
 export type AnyAction =
   | StartRaceAction
   | ToggleSavingAction
   | AddGpsPositionAction
   | GpsErrorAction
-  | SavingErrorAction
-  | ShowSavingMessageAction
   | StopGpsAction;

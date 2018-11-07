@@ -1,5 +1,5 @@
 import { AnyAction } from "../actions/actions";
-import { GeoLocation } from "../components/Path/PathWatcher";
+import { GeoLocation } from "../common_files/interfaces";
 
 export interface StopGpsReducerState {
   readonly gpsId: number;

@@ -10,14 +10,14 @@ import { OngoingRaceInfo } from "./OngoingRaceInfo";
 interface Props {
   readonly race: Race;
   readonly getRaceInfo: GetRaceInfoContainer;
-  readonly stopWatcher: () => Promise<{}>;
+  readonly stopWatcher: (race: Race) => void;
   readonly toLocaleTime: GetReadableDateContainer;
   readonly humanizeDuration: HumanizeDurationContainer;
 }
 
 export const PathWatcherView = (props: Props) => {
   const stopButton = (
-    <button className="blue" onClick={props.stopWatcher}>
+    <button className="blue" onClick={props.stopWatcher.bind(null, props.race)}>
       Finish
     </button>
   );

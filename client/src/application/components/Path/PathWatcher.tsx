@@ -2,40 +2,12 @@ import * as React from "react";
 import { PathWatcherViewFactory } from "../../../containers/components/Path/PathWatcherViewFactory";
 import { FinishRaceContainer } from "../../../containers/logic/finishRaceContainer";
 import {
+  GeoLocation,
   GetDistance,
-  Position,
   PositionInTime,
   Race
 } from "../../common_files/interfaces";
 import { IsMiddlePointAccurate } from "../../logic/path/isMiddlePointAccurate";
-
-export interface PositionResponse {
-  // date is used instead of number is UC Mini browser
-  readonly timestamp: number | Date;
-  readonly coords: Position;
-}
-
-export type SuccessWatchCallback = (position: PositionResponse) => void;
-
-export interface ErrorPosition {
-  readonly code: number;
-  readonly message: string;
-}
-
-export type ErrorWatchCallback = (error: PositionError) => void;
-
-export interface Options {
-  readonly enableHighAccuracy: boolean;
-}
-
-export interface GeoLocation {
-  clearWatch(watchId: number): void;
-  watchPosition(
-    successCallback: SuccessWatchCallback,
-    errorCallback?: ErrorWatchCallback,
-    options?: Options
-  ): number;
-}
 
 interface Props {
   readonly raceType: string;

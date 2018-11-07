@@ -6,10 +6,10 @@ import {
   withScriptjs,
   WithScriptjsProps
 } from "react-google-maps";
-import { Position } from "../../common_files/interfaces";
+import { Coordinates } from "../../common_files/interfaces";
 
 interface MapProps {
-  readonly center: Position;
+  readonly center: Coordinates;
   readonly zoom: number;
 }
 

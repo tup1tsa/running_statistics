@@ -6,8 +6,7 @@ import {
   GlobalState,
   rootReducer
 } from "../../application/reducers/rootReducer";
-import { savingErrorReducer } from "../../application/reducers/savingErrorReducer";
-import { showSavingMessageReducer } from "../../application/reducers/showSavingMessageReducer";
+
 import { startRaceReducer } from "../../application/reducers/startRaceReducer";
 import { toggleSavingReducer } from "../../application/reducers/toggleSavingReducer";
 import { addGpsPositionReducerContainer } from "./addGpsPositionReducerContainer";
@@ -24,8 +23,6 @@ const rootReducerContainer: RootReducerContainer = (state, action) =>
   rootReducer(state, action, [
     addGpsPositionReducerContainer,
     gpsErrorReducer,
-    savingErrorReducer,
-    showSavingMessageReducer,
     startRaceReducer,
     stopGpsReducerContainer,
     toggleSavingReducer

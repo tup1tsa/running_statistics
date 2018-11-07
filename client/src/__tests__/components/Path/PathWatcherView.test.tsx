@@ -48,6 +48,7 @@ describe("should render path view component correctly", () => {
     expect(buttons.length).toBe(1);
     buttons.simulate("click");
     expect(stopWatcherMock.mock.calls.length).toBe(1);
+    expect(stopWatcherMock.mock.calls[0][0]).toEqual(race);
   });
 
   it("should display race information correctly with only one position", () => {

@@ -2,6 +2,7 @@ import { SendRacesContainer } from "../../containers/logic/network/sendRacesCont
 import { DeleteRacesContainer } from "../../containers/logic/storage/deleteRacesContainer";
 import { FetchRacesContainer } from "../../containers/logic/storage/fetchRacesContainer";
 import { SaveRaceContainer } from "../../containers/logic/storage/saveRaceContainer";
+import { MESSAGES } from "../common_files/config";
 import { Race } from "../common_files/interfaces";
 import { ValidatePath } from "./storage/fetchRaces";
 
@@ -28,12 +29,12 @@ export const finishRace: FinishRace = async (
   );
   if (races.length === 0) {
     deleteRacesFromStorage();
-    throw new Error("There is nothing to save");
+    throw new Error(MESSAGES[4]);
   }
   const result = await sendRacesToServer(races);
   if (!result) {
-    throw new Error("Saving was unsuccessful");
+    throw new Error(MESSAGES[3]);
   }
   deleteRacesFromStorage();
-  return "Races were successfully saved";
+  return MESSAGES[1];
 };

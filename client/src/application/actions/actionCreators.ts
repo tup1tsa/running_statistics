@@ -1,9 +1,7 @@
-import { PositionResponse } from "../components/Path/PathWatcher";
+import { Position } from "../common_files/interfaces";
 import {
   AddGpsPositionAction,
   GpsErrorAction,
-  SavingErrorAction,
-  ShowSavingMessageAction,
   StartRaceAction,
   StartRacePayload,
   StopGpsAction,
@@ -13,9 +11,7 @@ import {
 export type ToggleSaving = () => ToggleSavingAction;
 export const toggleSaving: ToggleSaving = () => ({ type: "TOGGLE_SAVING" });
 
-export type AddGpsPosition = (
-  position: PositionResponse
-) => AddGpsPositionAction;
+export type AddGpsPosition = (position: Position) => AddGpsPositionAction;
 export const addGpsPosition: AddGpsPosition = position => ({
   type: "ADD_GPS_POSITION",
   payload: position
@@ -32,19 +28,6 @@ export type StartRace = (payload: StartRacePayload) => StartRaceAction;
 export const startRace: StartRace = payload => ({
   type: "START_RACE",
   payload
-});
-
-export type ShowSavingMessage = (message: string) => ShowSavingMessageAction;
-export const showSavingMessage: ShowSavingMessage = message => ({
-  type: "SHOW_SAVING_MESSAGE",
-  payload: message
-});
-
-export type SavingError = (error: Error) => SavingErrorAction;
-export const savingError: SavingError = error => ({
-  type: "SAVING_ERROR",
-  payload: error,
-  error: true
 });
 
 export type StopGps = () => StopGpsAction;

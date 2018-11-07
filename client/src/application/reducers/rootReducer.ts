@@ -10,8 +10,6 @@ export interface GlobalState {
   readonly positions: ReadonlyArray<PositionInTime>;
   readonly lastTimeCheck: number | null;
   readonly savingInProgress: boolean;
-  readonly savingError: string | null;
-  readonly savingSuccessMessage: string | null;
   readonly router: RouterState;
 }
 
@@ -28,8 +26,6 @@ export type RootReducer = (
 
 const defaultState: GlobalState = {
   gpsError: null,
-  savingError: null,
-  savingSuccessMessage: null,
   lastTimeCheck: null,
   raceInProgress: false,
   raceType: "running",

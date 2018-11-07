@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Position } from "../../../application/common_files/interfaces";
+import { Coordinates } from "../../../application/common_files/interfaces";
 import {
   MapWrapper,
   MapWrapperWithGoogleMap,
@@ -7,7 +7,7 @@ import {
 } from "../../../application/components/GoogleMap/MapWrapper";
 
 interface Props {
-  readonly center: Position;
+  readonly center: Coordinates;
   readonly zoom: number;
   readonly width: number;
   readonly height: number;

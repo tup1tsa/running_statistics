@@ -13,6 +13,6 @@ export const toggleSavingReducer: ToggleSavingReducer = (state, action) => {
   }
   return {
     raceInProgress: false,
-    savingInProgress: true
+    savingInProgress: !state.savingInProgress
   };
 };

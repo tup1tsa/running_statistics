@@ -1,4 +1,3 @@
-import { GeoLocationMock } from "../../__mocks__/GeoLocation";
 import {
   addGpsPosition,
   toggleSaving
@@ -18,13 +17,26 @@ it("should not change state if action is incorrect", () => {
   expect(toggleSavingReducer(defaultState, action)).toEqual(defaultState);
 });
 
-it("should call clear id with proper id and change state", () => {
+it("should turn on saving and turn off race in progress", () => {
   const action = toggleSaving();
-  const clearWatch = jest.fn();
-  const geoMock = new GeoLocationMock();
-  geoMock.clearWatch = clearWatch;
   expect(toggleSavingReducer(defaultState, action)).toEqual({
     raceInProgress: false,
     savingInProgress: true
+  });
+});
+
+it("should turn off saving and turn off race in progress", () => {
+  const action = toggleSaving();
+  expect(
+    toggleSavingReducer(
+      {
+        raceInProgress: true,
+        savingInProgress: true
+      },
+      action
+    )
+  ).toEqual({
+    raceInProgress: false,
+    savingInProgress: false
   });
 });

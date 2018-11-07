@@ -1,8 +1,5 @@
 import { Dispatch } from "redux";
-import {
-  GeoLocation,
-  PositionResponse
-} from "../../components/Path/PathWatcher";
+import { GeoLocation, Position } from "../../common_files/interfaces";
 import { addGpsPosition, gpsError, startRace } from "../actionCreators";
 import { RaceType } from "../actions";
 
@@ -15,7 +12,7 @@ export const startTrackingRace: StartTrackingRace = (
   raceType,
   geoLocation
 ) => dispatch => {
-  const successCallback = (position: PositionResponse) =>
+  const successCallback = (position: Position) =>
     dispatch(addGpsPosition(position));
   const errorCallback = (error: PositionError) => dispatch(gpsError(error));
   const options = {

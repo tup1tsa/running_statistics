@@ -1,12 +1,10 @@
 import * as React from "react";
 import { MESSAGES } from "../common_files/config";
+import { MessageUrlInput } from "../logic/parseMessageUrl";
 
 interface Props {
   readonly match: {
-    readonly params: {
-      readonly messageId: string;
-      readonly isError: "0" | "1";
-    };
+    readonly params: MessageUrlInput;
   };
 }
 

@@ -85,7 +85,7 @@ it("should delete races from local storage if they were successfully stored on s
     validatePath,
     sendRaces
   );
-  expect(success).toBe("Races were successfully saved");
+  expect(success).toBe("Race was saved successfully.");
   expect(deleteRaces.mock.calls.length).toBe(1);
   done();
 });
@@ -107,7 +107,7 @@ it("should not delete races from storage if saving was unsuccessful", async done
       sendRaces
     );
   } catch (err) {
-    expect(err.message).toBe("Saving was unsuccessful");
+    expect(err.message).toBe("Unexpected server error");
     expect(deleteRaces.mock.calls.length).toBe(0);
     done();
   }

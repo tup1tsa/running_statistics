@@ -1,7 +1,7 @@
 import { shallow } from "enzyme";
 import * as React from "react";
 import {
-  Position,
+  Coordinates,
   PositionInTime,
   Race
 } from "../../application/common_files/interfaces";
@@ -35,7 +35,7 @@ describe("races on map display", () => {
     type: "cycling",
     path: [...secondRace.path, ...thirdRacePath]
   };
-  const defaultCenter: Position = { latitude: 54, longitude: 17 };
+  const defaultCenter: Coordinates = { latitude: 54, longitude: 17 };
   const raceInfo = {
     distance: 12,
     timeSecs: 133,
@@ -88,7 +88,7 @@ describe("races on map display", () => {
   });
 
   it("should calculate center of the map correctly", () => {
-    const center: Position = { latitude: 44, longitude: 22 };
+    const center: Coordinates = { latitude: 44, longitude: 22 };
     const findCenter = jest.fn().mockReturnValue(center);
     const wrapper = shallow(
       <RacesOnMap {...defaultProps} findCenter={findCenter} />

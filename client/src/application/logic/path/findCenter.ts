@@ -1,6 +1,6 @@
-import { Position } from "../../common_files/interfaces";
+import { Coordinates } from "../../common_files/interfaces";
 
-export type FindCenter = (path: ReadonlyArray<Position>) => Position;
+export type FindCenter = (path: ReadonlyArray<Coordinates>) => Coordinates;
 
 export const findCenter: FindCenter = path => {
   const error = "path should contain at least one point";
