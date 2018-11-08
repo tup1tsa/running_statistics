@@ -11,7 +11,7 @@ it("should dispatch stop gps action before starting another one just in case", (
   const dispatch = jest.fn();
   const raceType: RaceType = "driving";
   startTrackingRace(raceType, geoLocation)(dispatch);
-  expect(dispatch.mock.calls.length).toBe(2);
+  expect(dispatch.mock.calls.length).toBe(3);
   expect(dispatch.mock.calls[0][0]).toEqual({
     type: "STOP_GPS"
   });
@@ -31,8 +31,20 @@ it("should dispatch sync start action", () => {
       gpsId: geoLocationMock.watchId === null ? 23 : geoLocationMock.watchId
     }
   };
-  expect(dispatch.mock.calls.length).toBe(2);
+  expect(dispatch.mock.calls.length).toBe(3);
   expect(dispatch.mock.calls[1][0]).toEqual(action);
+});
+
+it("should change url", () => {
+  const geoLocation = new GeoLocationMock();
+  const dispatch = jest.fn();
+  const raceType: RaceType = "driving";
+  startTrackingRace(raceType, geoLocation)(dispatch);
+  expect(dispatch.mock.calls.length).toBe(3);
+  expect(dispatch.mock.calls[2][0].payload).toEqual({
+    method: "push",
+    args: ["/race/driving"]
+  });
 });
 
 it("start race action should dispatch error action if gps threw", () => {
@@ -42,9 +54,10 @@ it("start race action should dispatch error action if gps threw", () => {
   const errorMessage = "bad weather for gps";
   geoLocationMock.sendError(errorMessage);
   // 1-st call is stopping gps, 2-nd — connecting to gps
-  // 3-rd — error handling
-  expect(dispatch.mock.calls.length).toBe(3);
-  expect(dispatch.mock.calls[2][0]).toEqual({
+  // 3-rd — changing url
+  // 4-th — error handling
+  expect(dispatch.mock.calls.length).toBe(4);
+  expect(dispatch.mock.calls[3][0]).toEqual({
     type: "GPS_ERROR",
     error: true,
     payload: geoLocationMock.lastError
@@ -68,13 +81,14 @@ it("should dispatch update position action on every update", () => {
   geoLocationMock.sendPosition(firstPosition);
   geoLocationMock.sendPosition(secondPosition);
   // 1-st call is stopping gps, 2-nd — connecting to gps
-  // 3-rd — first position, 4-th — second position
-  expect(dispatch.mock.calls.length).toBe(4);
-  expect(dispatch.mock.calls[2][0]).toEqual({
+  // 3-rd — changing url
+  // 4-rd — first position, 5-th — second position
+  expect(dispatch.mock.calls.length).toBe(5);
+  expect(dispatch.mock.calls[3][0]).toEqual({
     type: "ADD_GPS_POSITION",
     payload: firstPosition
   });
-  expect(dispatch.mock.calls[3][0]).toEqual({
+  expect(dispatch.mock.calls[4][0]).toEqual({
     type: "ADD_GPS_POSITION",
     payload: secondPosition
   });

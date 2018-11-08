@@ -1,6 +1,5 @@
 import * as React from "react";
 import { MapWrapperFactory } from "../../containers/components/GoogleMap/MapWrapperFactory";
-import { FinishedRaceInfoFactory } from "../../containers/components/Path/FinishedRaceInfoFactory";
 import { DivideRaceContainer } from "../../containers/logic/path/divideRaceContainer";
 import { GetRaceInfoContainer } from "../../containers/logic/path/getRaceInfoContainer";
 import { Race } from "../common_files/interfaces";
@@ -91,8 +90,6 @@ export class RacesOnMap extends React.Component<Props, State> {
         </button>
       </>
     );
-    const raceInfo = this.props.getRaceInfo(currentRace);
-    const lastPosition = currentRace.path[currentRace.path.length - 1];
     return (
       <div>
         <Map path={pathWithColors} {...mapProps} />
@@ -113,13 +110,7 @@ export class RacesOnMap extends React.Component<Props, State> {
           />
         </div>
         <div style={{ clear: "both" }} />
-        <FinishedRaceInfoFactory
-          totalDistance={raceInfo.distance}
-          totalTimeSecs={raceInfo.timeSecs}
-          avgSpeed={raceInfo.averageSpeed}
-          lastTimeCheck={lastPosition.time}
-          raceType={currentRace.type}
-        />
+        <div id="info">finished race info stub</div>
         {this.props.races.length > 1 ? buttons : null}
       </div>
     );

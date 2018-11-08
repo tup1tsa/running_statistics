@@ -1,3 +1,4 @@
+import { push } from "connected-react-router";
 import { Dispatch } from "redux";
 import {
   addGpsPosition,
@@ -29,4 +30,5 @@ export const startTrackingRace: StartTrackingRace = (
   );
   dispatch(stopGps());
   dispatch(startRace({ gpsId, raceType }));
+  dispatch(push(`/race/${raceType}`));
 };

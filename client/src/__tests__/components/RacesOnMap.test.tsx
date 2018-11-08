@@ -8,7 +8,6 @@ import {
 import { RacesOnMap } from "../../application/components/RacesOnMap";
 import { RaceViewerSlider } from "../../application/components/RaceViewerSlider";
 import { getRacePart } from "../../application/logic/path/getRacePart";
-import { FinishedRaceInfoFactory } from "../../containers/components/Path/FinishedRaceInfoFactory";
 
 describe("races on map display", () => {
   const firstRacePath: ReadonlyArray<PositionInTime> = [
@@ -74,17 +73,8 @@ describe("races on map display", () => {
   });
 
   it("should display information about races correctly", () => {
-    const info = (
-      <FinishedRaceInfoFactory
-        totalDistance={raceInfo.distance}
-        totalTimeSecs={raceInfo.timeSecs}
-        avgSpeed={raceInfo.averageSpeed}
-        lastTimeCheck={thirdRace.path[thirdRace.path.length - 1].time}
-        raceType={thirdRace.type}
-      />
-    );
     const wrapper = shallow(<RacesOnMap {...defaultProps} />);
-    expect(wrapper.contains(info)).toBe(true);
+    expect(wrapper.find("#info").length).toBe(1);
   });
 
   it("should calculate center of the map correctly", () => {

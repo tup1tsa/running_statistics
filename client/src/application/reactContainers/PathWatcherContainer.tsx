@@ -4,25 +4,39 @@ import {
   FinishRaceContainer,
   finishRaceContainer
 } from "../../containers/logic/finishRaceContainer";
-import { getRaceInfoContainer } from "../../containers/logic/path/getRaceInfoContainer";
-import { getReadableDateContainer } from "../../containers/logic/utilsContainers";
+import {
+  getRaceInfoContainer,
+  GetRaceInfoContainer
+} from "../../containers/logic/path/getRaceInfoContainer";
+import {
+  getReadableDateContainer,
+  GetReadableDateContainer,
+  HumanizeDurationContainer,
+  humanizeDurationContainer
+} from "../../containers/logic/utilsContainers";
 import {
   StopAndSaveRace,
   stopAndSaveRace
 } from "../actions/async/stopAndSaveRace";
 import { Race } from "../common_files/interfaces";
-import { PathWatcherView } from "../components/Path/PathWatcherView";
+import { PathWatcher } from "../components/Path/PathWatcher";
 import { SetMessageUrl, setMessageUrl } from "../logic/setMessageUrl";
-import { humanizeDuration } from "../logic/utils";
 import { GlobalState } from "../reducers/rootReducer";
 
-type MapStateToProps = (state: GlobalState) => { readonly race: Race };
+type MapStateToProps = (
+  state: GlobalState
+) => {
+  readonly race: Race;
+  readonly getRaceInfo: GetRaceInfoContainer;
+  readonly toLocaleTime: GetReadableDateContainer;
+  readonly humanizeDuration: HumanizeDurationContainer;
+};
 
 export const mapStateToProps: MapStateToProps = state => ({
   race: { type: state.raceType, path: state.positions },
   getRaceInfo: getRaceInfoContainer,
   toLocaleTime: getReadableDateContainer,
-  humanizeDuration
+  humanizeDuration: humanizeDurationContainer
 });
 
 type MapDispatchToPropsFactory = (
@@ -55,4 +69,4 @@ const mapDispatchToProps = mapDispatchToPropsFactory({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(PathWatcherView);
+)(PathWatcher);

@@ -1,7 +1,7 @@
 import { shallow } from "enzyme";
 import * as React from "react";
 import { OngoingRaceInfo } from "../../../application/components/Path/OngoingRaceInfo";
-import { PathWatcherView } from "../../../application/components/Path/PathWatcherView";
+import { PathWatcher } from "../../../application/components/Path/PathWatcher";
 
 describe("should render path view component correctly", () => {
   const defaultProps = {
@@ -20,7 +20,7 @@ describe("should render path view component correctly", () => {
   it("should render button and notification if no positions were fetched. Button should stop watcher", () => {
     const stopWatcherMock = jest.fn();
     const wrapper = shallow(
-      <PathWatcherView {...defaultProps} stopWatcher={stopWatcherMock} />
+      <PathWatcher {...defaultProps} stopWatcher={stopWatcherMock} />
     );
     const notification = <div>geo location is initializing</div>;
     expect(wrapper.contains(notification)).toBe(true);
@@ -38,7 +38,7 @@ describe("should render path view component correctly", () => {
     const race = { type: "running", path };
     const stopWatcherMock = jest.fn();
     const wrapper = shallow(
-      <PathWatcherView
+      <PathWatcher
         {...defaultProps}
         race={race}
         stopWatcher={stopWatcherMock}
@@ -57,7 +57,7 @@ describe("should render path view component correctly", () => {
     const getSpeedMock = jest.fn();
     const toLocaleTimeMock = jest.fn().mockReturnValue("7 pm");
     const wrapper = shallow(
-      <PathWatcherView
+      <PathWatcher
         {...defaultProps}
         race={race}
         toLocaleTime={toLocaleTimeMock}
@@ -90,7 +90,7 @@ describe("should render path view component correctly", () => {
       .fn()
       .mockReturnValue({ distance: 17, averageSpeed: 44, timeSecs: 117 });
     const wrapper = shallow(
-      <PathWatcherView
+      <PathWatcher
         {...defaultProps}
         race={race}
         getRaceInfo={getRaceInfo}

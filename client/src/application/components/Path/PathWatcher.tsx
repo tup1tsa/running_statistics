@@ -15,7 +15,7 @@ interface Props {
   readonly humanizeDuration: HumanizeDurationContainer;
 }
 
-export const PathWatcherView = (props: Props) => {
+export const PathWatcher = (props: Props) => {
   const stopButton = (
     <button className="blue" onClick={props.stopWatcher.bind(null, props.race)}>
       Finish
