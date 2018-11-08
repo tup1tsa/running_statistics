@@ -42,20 +42,3 @@ export interface Axios {
 export type GetPath = (positions: ReadonlyArray<PositionInTime>) => number;
 
 export type GetDistance = (start: Coordinates, end: Coordinates) => number;
-
-export interface Position {
-  readonly coords: Coordinates;
-  // date is used instead of number is UC Mini browser
-  readonly timestamp: number | Date;
-}
-
-export type SuccessCallback = (position: Position) => void;
-
-export interface GeoLocation {
-  watchPosition(
-    successCallback: SuccessCallback,
-    errorCallback?: PositionErrorCallback,
-    options?: PositionOptions
-  ): number;
-  clearWatch(id: number): void;
-}

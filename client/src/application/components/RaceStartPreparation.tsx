@@ -1,5 +1,4 @@
 import * as React from "react";
-import { PathWatcherFactory } from "../../containers/components/Path/PathWatcherFactory";
 import { FinishRaceContainer } from "../../containers/logic/finishRaceContainer";
 
 interface Props {
@@ -59,14 +58,6 @@ export class RaceStartPreparation extends React.Component<Props, State> {
         </div>
       );
     }
-    return (
-      <PathWatcherFactory
-        raceType={this.state.raceTypeChosen}
-        minimumDistanceDiff={this.props.minimumDistanceDiff}
-        delaySecs={this.props.delaySecs}
-        saveRace={this.props.saveRace}
-        setSaveResult={this.props.setSaveResult}
-      />
-    );
+    return <div id="pathwatcher" />;
   }
 }

@@ -6,7 +6,7 @@ import {
   toggleSaving
 } from "../../application/actions/actionCreators";
 import { RaceType } from "../../application/actions/actions";
-import { Position } from "../../application/common_files/interfaces";
+import { getTestPosition } from "../../application/common_files/testHelpers";
 
 it("should create start race action", () => {
   const raceType: RaceType = "running";
@@ -22,10 +22,11 @@ it("should create toggle saving action", () => {
 });
 
 it("should create add position action", () => {
-  const position: Position = {
-    coords: { latitude: 25, longitude: 52 },
+  const position = getTestPosition({
+    latitude: 25,
+    longitude: 52,
     timestamp: 5232
-  };
+  });
   expect(addGpsPosition(position)).toEqual({
     type: "ADD_GPS_POSITION",
     payload: position

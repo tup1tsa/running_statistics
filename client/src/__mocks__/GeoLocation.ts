@@ -1,6 +1,4 @@
-import { GeoLocation, Position } from "../application/common_files/interfaces";
-
-export class GeoLocationMock implements GeoLocation {
+export class GeoLocationMock implements Geolocation {
   public providedSuccessCallback: (position: Position) => void;
   public providedErrorCallback: PositionErrorCallback;
   public options: PositionOptions;
@@ -11,6 +9,7 @@ export class GeoLocationMock implements GeoLocation {
     providedWatchNumber: 0
   };
   public lastError?: PositionError;
+  public getCurrentPosition: any;
 
   public clearWatch(watchId: number) {
     this.providedErrorCallback = () => undefined;

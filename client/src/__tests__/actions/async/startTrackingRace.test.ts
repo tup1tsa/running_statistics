@@ -4,7 +4,7 @@ import {
   StartRaceAction
 } from "../../../application/actions/actions";
 import { startTrackingRace } from "../../../application/actions/async/startTrackingRace";
-import { Position } from "../../../application/common_files/interfaces";
+import { getTestPosition } from "../../../application/common_files/testHelpers";
 
 it("should dispatch sync start action", () => {
   const geoLocationMock = new GeoLocationMock();
@@ -43,14 +43,16 @@ it("should dispatch update position action on every update", () => {
   const geoLocationMock = new GeoLocationMock();
   const dispatch = jest.fn();
   startTrackingRace("walking", geoLocationMock)(dispatch);
-  const firstPosition: Position = {
-    coords: { latitude: 44, longitude: 32 },
+  const firstPosition: Position = getTestPosition({
+    latitude: 44,
+    longitude: 32,
     timestamp: 23
-  };
-  const secondPosition: Position = {
-    coords: { latitude: 12, longitude: 17 },
+  });
+  const secondPosition: Position = getTestPosition({
+    latitude: 12,
+    longitude: 17,
     timestamp: 553
-  };
+  });
   geoLocationMock.sendPosition(firstPosition);
   geoLocationMock.sendPosition(secondPosition);
   // 1-st call is connecting to gps and two calls for every position

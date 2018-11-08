@@ -3,6 +3,7 @@ import {
   toggleSaving
 } from "../../application/actions/actionCreators";
 import { Coordinates } from "../../application/common_files/interfaces";
+import { getTestPosition } from "../../application/common_files/testHelpers";
 import { addGpsPositionReducer } from "../../application/reducers/addGpsPositionReducer";
 
 const defaultState = {
@@ -29,10 +30,13 @@ it("should not change state if action is incorrect", () => {
 });
 
 it("should successfully save first position and remove gps error", () => {
-  const action = addGpsPosition({
-    coords: { latitude: 24, longitude: 44 },
-    timestamp: 2342434
-  });
+  const action = addGpsPosition(
+    getTestPosition({
+      latitude: 24,
+      longitude: 44,
+      timestamp: 2342434
+    })
+  );
   expect(
     addGpsPositionReducer(defaultState, action, defaultConfig, defaultFunctions)
   ).toEqual({
@@ -43,10 +47,12 @@ it("should successfully save first position and remove gps error", () => {
 });
 
 it("should convert date to timestamp when saving position", () => {
-  const action = addGpsPosition({
+  const position = {
     coords: { latitude: 24, longitude: 44 },
     timestamp: new Date(25000)
-  });
+  };
+  // @ts-ignore
+  const action = addGpsPosition(position);
   expect(
     addGpsPositionReducer(defaultState, action, defaultConfig, defaultFunctions)
   ).toEqual({
@@ -71,14 +77,21 @@ it("should not save very close positions", () => {
     gpsError: "some irrelevant error"
   };
 
-  const closePositionAction = addGpsPosition({
-    coords: { latitude: 12, longitude: -17 },
-    timestamp: 15000
-  });
-  const normalPositionAction = addGpsPosition({
-    coords: { latitude: 65, longitude: 34 },
-    timestamp: 35000
-  });
+  const closePositionAction = addGpsPosition(
+    getTestPosition({
+      latitude: 12,
+      longitude: -17,
+      timestamp: 15000
+    })
+  );
+
+  const normalPositionAction = addGpsPosition(
+    getTestPosition({
+      latitude: 65,
+      longitude: 34,
+      timestamp: 35000
+    })
+  );
 
   expect(
     addGpsPositionReducer(state, closePositionAction, defaultConfig, functions)
@@ -109,10 +122,13 @@ it("should remove inaccurate middle position", () => {
   };
   const functions = { ...defaultFunctions, getDistance: getDistanceMock };
 
-  const action = addGpsPosition({
-    coords: { latitude: 25, longitude: 79 },
-    timestamp: 35000
-  });
+  const action = addGpsPosition(
+    getTestPosition({
+      latitude: 25,
+      longitude: 79,
+      timestamp: 35000
+    })
+  );
 
   // third position is a geo location api error.
   // in this example position with latitude 77 will be corrected by the next position
@@ -128,14 +144,20 @@ it("should remove inaccurate middle position", () => {
 
 it("should not save very recent positions", () => {
   const savedPosition = { latitude: 24, longitude: 44, time: 1000 };
-  const recentPositionAction = addGpsPosition({
-    coords: { latitude: 42, longitude: 22 },
-    timestamp: 7000
-  });
-  const normalPositionAction = addGpsPosition({
-    coords: { latitude: 42, longitude: 22 },
-    timestamp: 12000
-  });
+  const recentPositionAction = addGpsPosition(
+    getTestPosition({
+      latitude: 42,
+      longitude: 22,
+      timestamp: 7000
+    })
+  );
+  const normalPositionAction = addGpsPosition(
+    getTestPosition({
+      latitude: 42,
+      longitude: 22,
+      timestamp: 12000
+    })
+  );
   const state = {
     positions: [savedPosition],
     lastTimeCheck: 1000,

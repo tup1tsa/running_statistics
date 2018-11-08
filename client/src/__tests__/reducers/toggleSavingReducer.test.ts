@@ -2,6 +2,7 @@ import {
   addGpsPosition,
   toggleSaving
 } from "../../application/actions/actionCreators";
+import { getTestPosition } from "../../application/common_files/testHelpers";
 import { toggleSavingReducer } from "../../application/reducers/toggleSavingReducer";
 
 const defaultState = {
@@ -10,10 +11,13 @@ const defaultState = {
 };
 
 it("should not change state if action is incorrect", () => {
-  const action = addGpsPosition({
-    coords: { latitude: 33, longitude: 32 },
-    timestamp: 33
-  });
+  const action = addGpsPosition(
+    getTestPosition({
+      latitude: 33,
+      longitude: 32,
+      timestamp: 33
+    })
+  );
   expect(toggleSavingReducer(defaultState, action)).toEqual(defaultState);
 });
 

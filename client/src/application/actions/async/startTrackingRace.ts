@@ -1,11 +1,10 @@
 import { Dispatch } from "redux";
-import { GeoLocation, Position } from "../../common_files/interfaces";
 import { addGpsPosition, gpsError, startRace } from "../actionCreators";
 import { RaceType } from "../actions";
 
 export type StartTrackingRace = (
   raceType: RaceType,
-  geoLocation: GeoLocation
+  geoLocation: Geolocation
 ) => (dispatch: Dispatch) => void;
 
 export const startTrackingRace: StartTrackingRace = (

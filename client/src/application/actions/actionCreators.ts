@@ -1,4 +1,3 @@
-import { Position } from "../common_files/interfaces";
 import {
   AddGpsPositionAction,
   GpsErrorAction,

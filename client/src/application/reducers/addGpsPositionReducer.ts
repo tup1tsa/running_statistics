@@ -34,7 +34,9 @@ export const addGpsPositionReducer: AddGpsPositionReducer = (
   const timeStamp =
     typeof positionResponse.timestamp === "number"
       ? positionResponse.timestamp
-      : positionResponse.timestamp.getTime();
+      : // timestamp should be a number, but it is Date in UC mini browser
+        // @ts-ignore
+        positionResponse.timestamp.getTime();
   const currentPosition: PositionInTime = {
     latitude: positionResponse.coords.latitude,
     longitude: positionResponse.coords.longitude,

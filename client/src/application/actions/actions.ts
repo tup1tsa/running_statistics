@@ -1,5 +1,3 @@
-import { Position } from "../common_files/interfaces";
-
 export type RaceType = "walking" | "running" | "cycling";
 export interface StartRacePayload {
   readonly raceType: RaceType;
