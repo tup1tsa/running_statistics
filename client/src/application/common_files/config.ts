@@ -17,6 +17,11 @@ export const raceSettings = {
     minSpeed: 7.5,
     maxSpeed: 50,
     maximumTimeBetweenPointsSecs: 30
+  },
+  driving: {
+    minSpeed: 10,
+    maxSpeed: 200,
+    maximumTimeBetweenPointsSecs: 30
   }
 };
 

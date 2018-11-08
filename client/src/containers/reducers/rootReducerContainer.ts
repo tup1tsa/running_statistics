@@ -32,7 +32,7 @@ export default (state: GlobalState, action: AnyAction): GlobalState => {
   const nextState = rootReducerContainer(state, action);
   return {
     ...nextState,
-    // for some reason connectRouter(history) return function which expects
+    // for some reason connectRouter(history) returns function which expects
     // router state and action, but it typed as it expects reducer
     // @ts-ignore
     router: connectRouter(history)(nextState.router, action)

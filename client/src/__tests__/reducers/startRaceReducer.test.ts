@@ -7,7 +7,8 @@ const defaultRaceType: RaceType = "walking";
 const defaultState = {
   raceInProgress: false,
   raceType: defaultRaceType,
-  gpsId: 44
+  gpsId: 44,
+  positions: []
 };
 
 it("should not change state if action is incorrect", () => {
@@ -26,6 +27,30 @@ it("should set proper fields in state", () => {
   expect(startRaceReducer(defaultState, action)).toEqual({
     raceInProgress: true,
     raceType: "running",
-    gpsId: 13
+    gpsId: 13,
+    positions: []
   });
+});
+
+it("should delete all tracked positions", () => {
+  const action: AnyAction = {
+    type: "START_RACE",
+    payload: {
+      raceType: "driving",
+      gpsId: 47
+    }
+  };
+  const state = {
+    ...defaultState,
+    raceInProgress: true,
+    gpsId: 39,
+    positions: [{ latitude: 13, longitude: 37, time: 2322 }]
+  };
+  const nextState = {
+    raceInProgress: true,
+    raceType: "driving",
+    gpsId: 47,
+    positions: []
+  };
+  expect(startRaceReducer(state, action)).toEqual(nextState);
 });

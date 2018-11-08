@@ -1,9 +1,11 @@
 import { AnyAction, RaceType } from "../actions/actions";
+import { PositionInTime } from "../common_files/interfaces";
 
 interface State {
   readonly raceInProgress: boolean;
   readonly raceType: RaceType;
   readonly gpsId: number;
+  readonly positions: ReadonlyArray<PositionInTime>;
 }
 
 export type StartRaceReducer = (state: State, action: AnyAction) => State;
@@ -15,6 +17,7 @@ export const startRaceReducer: StartRaceReducer = (state, action) => {
   return {
     raceInProgress: true,
     raceType: action.payload.raceType,
-    gpsId: action.payload.gpsId
+    gpsId: action.payload.gpsId,
+    positions: []
   };
 };

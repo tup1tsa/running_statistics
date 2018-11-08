@@ -1,5 +1,10 @@
 import { Dispatch } from "redux";
-import { addGpsPosition, gpsError, startRace } from "../actionCreators";
+import {
+  addGpsPosition,
+  gpsError,
+  startRace,
+  stopGps
+} from "../actionCreators";
 import { RaceType } from "../actions";
 
 export type StartTrackingRace = (
@@ -22,5 +27,6 @@ export const startTrackingRace: StartTrackingRace = (
     errorCallback,
     options
   );
+  dispatch(stopGps());
   dispatch(startRace({ gpsId, raceType }));
 };

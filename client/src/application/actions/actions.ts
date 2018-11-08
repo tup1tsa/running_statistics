@@ -1,4 +1,4 @@
-export type RaceType = "walking" | "running" | "cycling";
+export type RaceType = "walking" | "running" | "cycling" | "driving";
 export interface StartRacePayload {
   readonly raceType: RaceType;
   readonly gpsId: number;
