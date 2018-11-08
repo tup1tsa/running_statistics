@@ -9,8 +9,8 @@ import {
   GetRaceInfoContainer
 } from "../../containers/logic/path/getRaceInfoContainer";
 import {
-  getReadableDateContainer,
-  GetReadableDateContainer,
+  GetLocalTimeContainer,
+  getLocalTimeContainer,
   HumanizeDurationContainer,
   humanizeDurationContainer
 } from "../../containers/logic/utilsContainers";
@@ -28,14 +28,16 @@ type MapStateToProps = (
 ) => {
   readonly race: Race;
   readonly getRaceInfo: GetRaceInfoContainer;
-  readonly toLocaleTime: GetReadableDateContainer;
+  readonly toLocaleTime: GetLocalTimeContainer;
   readonly humanizeDuration: HumanizeDurationContainer;
 };
 
 export const mapStateToProps: MapStateToProps = state => ({
   race: { type: state.raceType, path: state.positions },
   getRaceInfo: getRaceInfoContainer,
-  toLocaleTime: getReadableDateContainer,
+  // todo: use custom function to show how long ago last gps check was
+  // e.g, 5 mins ago or 12 secs ago
+  toLocaleTime: getLocalTimeContainer,
   humanizeDuration: humanizeDurationContainer
 });
 
