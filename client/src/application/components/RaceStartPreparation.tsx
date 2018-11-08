@@ -1,63 +1,39 @@
 import * as React from "react";
-import { FinishRaceContainer } from "../../containers/logic/finishRaceContainer";
+import { RaceType } from "../actions/actions";
 
-interface Props {
-  readonly minimumDistanceDiff: number;
-  readonly delaySecs: number;
-  readonly saveRace: FinishRaceContainer;
-  readonly setSaveResult: (message: string) => void;
+export interface RaceStartPreparationProps {
+  readonly startTrackingRace: (race: RaceType) => void;
 }
 
-interface State {
-  readonly raceTypeChosen?: string;
-}
-
-export class RaceStartPreparation extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {};
-
-    this.startWatcher = this.startWatcher.bind(this);
-  }
-
-  public startWatcher(type: string) {
-    this.setState({ raceTypeChosen: type });
-  }
-
-  public render() {
-    if (!this.state.raceTypeChosen) {
-      return (
-        <div>
-          <button
-            className="blue"
-            id="start_running"
-            onClick={this.startWatcher.bind(null, "running")}
-          >
-            Running
-          </button>
-          <button
-            className="blue"
-            id="start_walking"
-            onClick={this.startWatcher.bind(null, "walking")}
-          >
-            Walking
-          </button>
-          <button
-            className="blue"
-            id="start_cycling"
-            onClick={this.startWatcher.bind(null, "cycling")}
-          >
-            Cycling
-          </button>
-          <button
-            className="green back"
-            onClick={this.props.setSaveResult.bind(null, "")}
-          >
-            Back
-          </button>
-        </div>
-      );
-    }
-    return <div id="pathwatcher" />;
-  }
-}
+export const RaceStartPreparation = (props: RaceStartPreparationProps) => (
+  <div>
+    <button
+      className="blue"
+      id="start_walking"
+      onClick={props.startTrackingRace.bind(null, "walking")}
+    >
+      Walking
+    </button>
+    <button
+      className="blue"
+      id="start_running"
+      onClick={props.startTrackingRace.bind(null, "running")}
+    >
+      Running
+    </button>
+    <button
+      className="blue"
+      id="start_cycling"
+      onClick={props.startTrackingRace.bind(null, "cycling")}
+    >
+      Cycling
+    </button>
+    <button
+      className="blue"
+      id="start_driving"
+      onClick={props.startTrackingRace.bind(null, "driving")}
+    >
+      Driving
+    </button>
+  </div>
+);
