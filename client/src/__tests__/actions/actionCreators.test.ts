@@ -33,6 +33,18 @@ it("should create add position action", () => {
   });
 });
 
+it("should create add position and pass payload even if position is specified in prototype", () => {
+  const protoPosition = getTestPosition({
+    latitude: 12,
+    longitude: 12,
+    timestamp: 55
+  });
+  const currentPosition = {} as Position;
+  // @ts-ignore
+  currentPosition.__proto__ = protoPosition;
+  expect(addGpsPosition(currentPosition).payload).toEqual(protoPosition);
+});
+
 it("should create gps error action", () => {
   const error: PositionError = {
     message: "gps error",

@@ -13,7 +13,18 @@ export const toggleSaving: ToggleSaving = () => ({ type: "TOGGLE_SAVING" });
 export type AddGpsPosition = (position: Position) => AddGpsPositionAction;
 export const addGpsPosition: AddGpsPosition = position => ({
   type: "ADD_GPS_POSITION",
-  payload: position
+  payload: {
+    timestamp: position.timestamp,
+    coords: {
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude,
+      altitude: position.coords.altitude,
+      accuracy: position.coords.accuracy,
+      altitudeAccuracy: position.coords.altitudeAccuracy,
+      heading: position.coords.heading,
+      speed: position.coords.speed
+    }
+  }
 });
 
 export type GpsError = (error: PositionError) => GpsErrorAction;
