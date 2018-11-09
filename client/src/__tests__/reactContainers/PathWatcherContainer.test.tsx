@@ -18,6 +18,7 @@ export const testGlobalState = () => {
     positions: [],
     savingInProgress: false,
     racesAreBeingDownloaded: false,
+    downloadedRaces: [],
     router: {
       location: {
         pathname: "",

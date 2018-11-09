@@ -1,6 +1,6 @@
 import { RouterState } from "connected-react-router";
 import { AnyAction, RaceType } from "../actions/actions";
-import { PositionInTime } from "../common_files/interfaces";
+import { PositionInTime, Race } from "../common_files/interfaces";
 
 export interface GlobalState {
   readonly raceInProgress: boolean;
@@ -12,6 +12,7 @@ export interface GlobalState {
   readonly savingInProgress: boolean;
   readonly router: RouterState;
   readonly racesAreBeingDownloaded: boolean;
+  readonly downloadedRaces: ReadonlyArray<Race>;
 }
 
 export type Reducer = (
@@ -34,6 +35,7 @@ const defaultState: GlobalState = {
   positions: [],
   savingInProgress: false,
   racesAreBeingDownloaded: false,
+  downloadedRaces: [],
   router: {
     location: {
       pathname: "",
