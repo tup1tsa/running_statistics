@@ -1,34 +1,27 @@
-import { push } from "connected-react-router";
 import { Dispatch } from "redux";
 import { FinishRaceContainer } from "../../../containers/logic/finishRaceContainer";
-import { MESSAGES } from "../../common_files/config";
+import { ShowMessageContainer } from "../../../containers/logic/routing/showMessageContainer";
 import { Race } from "../../common_files/interfaces";
-import { SetMessageUrl } from "../../logic/setMessageUrl";
 import { stopGps, toggleSaving } from "../actionCreators";
 
 export type StopAndSaveRace = (
   race: Race,
   finishRace: FinishRaceContainer,
-  setMessageUrl: SetMessageUrl
+  showMessage: ShowMessageContainer
 ) => (dispatch: Dispatch) => void;
 export const stopAndSaveRace: StopAndSaveRace = (
   race,
   finishRace,
-  setMessageUrl
+  showMessage
 ) => async dispatch => {
   dispatch(stopGps());
   dispatch(toggleSaving());
   try {
     const message = await finishRace(race);
     dispatch(toggleSaving());
-    const url = setMessageUrl({ message, isError: false }, MESSAGES);
-    dispatch(push(url));
+    showMessage(message, false);
   } catch (err) {
     dispatch(toggleSaving());
-    const url = setMessageUrl(
-      { message: err.message, isError: true },
-      MESSAGES
-    );
-    dispatch(push(url));
+    showMessage(err.message, true);
   }
 };

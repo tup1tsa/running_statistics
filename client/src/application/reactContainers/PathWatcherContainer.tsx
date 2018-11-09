@@ -9,6 +9,10 @@ import {
   GetRaceInfoContainer
 } from "../../containers/logic/path/getRaceInfoContainer";
 import {
+  ShowMessageContainer,
+  showMessageContainer
+} from "../../containers/logic/routing/showMessageContainer";
+import {
   GetLocalTimeContainer,
   getLocalTimeContainer,
   HumanizeDurationContainer,
@@ -20,7 +24,6 @@ import {
 } from "../actions/async/stopAndSaveRace";
 import { Race } from "../common_files/interfaces";
 import { PathWatcher } from "../components/Path/PathWatcher";
-import { SetMessageUrl, setMessageUrl } from "../logic/setMessageUrl";
 import { GlobalState } from "../reducers/rootReducer";
 
 type MapStateToProps = (
@@ -45,7 +48,7 @@ type MapDispatchToPropsFactory = (
   functions: {
     readonly stopAndSaveRace: StopAndSaveRace;
     readonly finishRace: FinishRaceContainer;
-    readonly setMessageUrl: SetMessageUrl;
+    readonly showMessage: ShowMessageContainer;
   }
 ) => (
   dispatch: Dispatch
@@ -58,14 +61,14 @@ export const mapDispatchToPropsFactory: MapDispatchToPropsFactory = functions =>
     functions.stopAndSaveRace(
       race,
       functions.finishRace,
-      functions.setMessageUrl
+      functions.showMessage
     )(dispatch)
 });
 
 const mapDispatchToProps = mapDispatchToPropsFactory({
   stopAndSaveRace,
   finishRace: finishRaceContainer,
-  setMessageUrl
+  showMessage: showMessageContainer
 });
 
 export default connect(

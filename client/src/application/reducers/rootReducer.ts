@@ -11,6 +11,7 @@ export interface GlobalState {
   readonly lastTimeCheck: number | null;
   readonly savingInProgress: boolean;
   readonly router: RouterState;
+  readonly racesAreBeingDownloaded: boolean;
 }
 
 export type Reducer = (
@@ -32,6 +33,7 @@ const defaultState: GlobalState = {
   gpsId: 0,
   positions: [],
   savingInProgress: false,
+  racesAreBeingDownloaded: false,
   router: {
     location: {
       pathname: "",

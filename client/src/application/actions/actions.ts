@@ -1,3 +1,5 @@
+import { Race } from "../common_files/interfaces";
+
 export type RaceType = "walking" | "running" | "cycling" | "driving";
 export interface StartRacePayload {
   readonly raceType: RaceType;
@@ -27,9 +29,20 @@ export interface StopGpsAction {
   readonly type: "STOP_GPS";
 }
 
+export interface StartRacesDownloadAction {
+  readonly type: "START_RACES_DOWNLOAD";
+}
+
+export interface SetRacesAction {
+  readonly type: "SET_RACES";
+  readonly payload: ReadonlyArray<Race>;
+}
+
 export type AnyAction =
   | StartRaceAction
   | ToggleSavingAction
   | AddGpsPositionAction
   | GpsErrorAction
-  | StopGpsAction;
+  | StopGpsAction
+  | StartRacesDownloadAction
+  | SetRacesAction;

@@ -32,12 +32,11 @@ export const MapWrapper = <P extends {}>(
     lat: props.center.latitude,
     lng: props.center.longitude
   };
-  // todo: fix it
-  // @ts-ignore
-  const child = <WrappedComponent {...props} />;
+  const wrappedComponentProps = props as P;
+  // wrapped component props include map props too, but it doesn't matter
   return (
     <GoogleMap defaultCenter={center} defaultZoom={props.zoom}>
-      {child}
+      <WrappedComponent {...wrappedComponentProps} />
     </GoogleMap>
   );
 };

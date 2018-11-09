@@ -1,8 +1,11 @@
+import { Race } from "../common_files/interfaces";
 import {
   AddGpsPositionAction,
   GpsErrorAction,
+  SetRacesAction,
   StartRaceAction,
   StartRacePayload,
+  StartRacesDownloadAction,
   StopGpsAction,
   ToggleSavingAction
 } from "./actions";
@@ -42,3 +45,14 @@ export const startRace: StartRace = payload => ({
 
 export type StopGps = () => StopGpsAction;
 export const stopGps: StopGps = () => ({ type: "STOP_GPS" });
+
+export type StartRacesDownload = () => StartRacesDownloadAction;
+export const startRacesDownload: StartRacesDownload = () => ({
+  type: "START_RACES_DOWNLOAD"
+});
+
+export type SetRaces = (races: ReadonlyArray<Race>) => SetRacesAction;
+export const setRaces: SetRaces = races => ({
+  type: "SET_RACES",
+  payload: races
+});

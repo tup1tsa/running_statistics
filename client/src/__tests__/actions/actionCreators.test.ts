@@ -1,7 +1,9 @@
 import {
   addGpsPosition,
   gpsError,
+  setRaces,
   startRace,
+  startRacesDownload,
   stopGps,
   toggleSaving
 } from "../../application/actions/actionCreators";
@@ -62,4 +64,18 @@ it("should create gps error action", () => {
 
 it("should create stop gps action", () => {
   expect(stopGps()).toEqual({ type: "STOP_GPS" });
+});
+
+it("should create start races download action", () => {
+  expect(startRacesDownload()).toEqual({
+    type: "START_RACES_DOWNLOAD"
+  });
+});
+
+it("should create set races action", () => {
+  const races = [{ type: "walking", path: [] }];
+  expect(setRaces(races)).toEqual({
+    type: "SET_RACES",
+    payload: races
+  });
 });
