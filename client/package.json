@@ -54,5 +54,6 @@
     "test:debug": "react-scripts-ts --inspect-brk test --runInBand --env=jsdom",
     "eject": "react-scripts-ts eject"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "proxy": "http://localhost:3007"
 }

@@ -1,8 +1,7 @@
 import { setRaces, stopGps } from "../../application/actions/actionCreators";
 import { setRacesReducer } from "../../application/reducers/setRacesReducer";
-import { StartRacesDownloadReducerState } from "../../application/reducers/startRacesDownloadReducer";
 
-const defaultState: StartRacesDownloadReducerState = {
+const defaultState = {
   racesAreBeingDownloaded: true,
   downloadedRaces: []
 };

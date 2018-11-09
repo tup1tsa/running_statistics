@@ -1,13 +1,13 @@
 import {
   addGpsPosition,
+  decrementRace,
   gpsError,
+  incrementRace,
   setRaces,
   startRace,
   startRacesDownload,
   stopGps,
-  toggleSaving,
-  incrementRace,
-  decrementRace
+  toggleSaving
 } from "../../application/actions/actionCreators";
 import { RaceType } from "../../application/actions/actions";
 import { getTestPosition } from "../../application/common_files/testHelpers";

@@ -18,7 +18,6 @@ export const testGlobalState = () => {
     positions: [],
     savingInProgress: false,
     racesAreBeingDownloaded: false,
-    downloadedRaces: [],
     currentRaceIndex: 0,
     partialRaceStart: 0,
     partialRaceFinish: 1,

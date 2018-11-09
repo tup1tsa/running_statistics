@@ -1,8 +1,6 @@
 import { AnyAction } from "../actions/actions";
-import { Race } from "../common_files/interfaces";
 
 export interface StartRacesDownloadReducerState {
-  readonly downloadedRaces: ReadonlyArray<Race>;
   readonly racesAreBeingDownloaded: boolean;
 }
 
@@ -19,7 +17,6 @@ export const startRacesDownloadReducer: StartRacesDownloadReducer = (
     return state;
   }
   return {
-    racesAreBeingDownloaded: true,
-    downloadedRaces: []
+    racesAreBeingDownloaded: true
   };
 };

@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router";
 import { Message } from "../components/Message";
 import PathWatcherContainer from "../reactContainers/PathWatcherContainer";
 import RaceStartPreparationContainer from "../reactContainers/RaceStartPreparationContainer";
+import RaceViewerContainer from "../reactContainers/RaceViewerContainer";
 
 const NoMatch = () => <div id="badUrl">404</div>;
 
@@ -15,6 +16,7 @@ const routes = (
       <Route path="/startRace" component={RaceStartPreparationContainer} />
       <Route path="/race/:raceType" component={PathWatcherContainer} />
       <Route path="/message/:messageId/:isError" component={Message} />
+      <Route path="/detailedRaceStats" component={RaceViewerContainer} />
       <Route component={NoMatch} />
     </Switch>
   </>

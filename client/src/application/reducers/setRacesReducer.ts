@@ -1,10 +1,12 @@
 import { AnyAction } from "../actions/actions";
-import { StartRacesDownloadReducerState } from "./startRacesDownloadReducer";
+import { Race } from "../common_files/interfaces";
 
-export type SetRacesReducer = (
-  state: StartRacesDownloadReducerState,
-  action: AnyAction
-) => StartRacesDownloadReducerState;
+interface State {
+  readonly racesAreBeingDownloaded: boolean;
+  readonly downloadedRaces?: ReadonlyArray<Race>;
+}
+
+export type SetRacesReducer = (state: State, action: AnyAction) => State;
 
 export const setRacesReducer: SetRacesReducer = (state, action) => {
   if (action.type !== "SET_RACES") {
