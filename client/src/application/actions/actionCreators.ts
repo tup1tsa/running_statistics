@@ -1,7 +1,9 @@
 import { Race } from "../common_files/interfaces";
 import {
   AddGpsPositionAction,
+  DecrementRaceAction,
   GpsErrorAction,
+  IncrementRaceAction,
   SetRacesAction,
   StartRaceAction,
   StartRacePayload,
@@ -55,4 +57,14 @@ export type SetRaces = (races: ReadonlyArray<Race>) => SetRacesAction;
 export const setRaces: SetRaces = races => ({
   type: "SET_RACES",
   payload: races
+});
+
+export type IncrementRace = () => IncrementRaceAction;
+export const incrementRace: IncrementRace = () => ({
+  type: "INCREMENT_RACE"
+});
+
+export type DecrementRace = () => DecrementRaceAction;
+export const decrementRace: DecrementRace = () => ({
+  type: "DECREMENT_RACE"
 });

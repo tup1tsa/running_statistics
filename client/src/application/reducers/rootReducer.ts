@@ -13,6 +13,9 @@ export interface GlobalState {
   readonly router: RouterState;
   readonly racesAreBeingDownloaded: boolean;
   readonly downloadedRaces: ReadonlyArray<Race>;
+  readonly currentRaceIndex: number;
+  readonly partialRaceStart: number;
+  readonly partialRaceFinish: number;
 }
 
 export type Reducer = (
@@ -36,6 +39,9 @@ const defaultState: GlobalState = {
   savingInProgress: false,
   racesAreBeingDownloaded: false,
   downloadedRaces: [],
+  currentRaceIndex: 0,
+  partialRaceStart: 0,
+  partialRaceFinish: 1,
   router: {
     location: {
       pathname: "",

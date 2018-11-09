@@ -6,7 +6,6 @@ import { Race } from "../common_files/interfaces";
 import { FindCenter } from "../logic/path/findCenter";
 import { GetRacePart } from "../logic/path/getRacePart";
 import { SparsePolyline } from "./GoogleMap/SparsePolyline";
-import { RaceViewerSlider } from "./RaceViewerSlider";
 
 interface State {
   readonly currentRaceIndex: number;
@@ -100,15 +99,7 @@ export class RacesOnMap extends React.Component<Props, State> {
             width: "5%",
             height: this.props.size.height / 5
           }}
-        >
-          <RaceViewerSlider
-            handleChange={this.handleSliderChange}
-            defaults={{
-              startSliderValue: 0,
-              finishSliderValue: 100
-            }}
-          />
-        </div>
+        />
         <div style={{ clear: "both" }} />
         <div id="info">finished race info stub</div>
         {this.props.races.length > 1 ? buttons : null}

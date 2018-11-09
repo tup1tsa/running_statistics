@@ -5,7 +5,9 @@ import {
   startRace,
   startRacesDownload,
   stopGps,
-  toggleSaving
+  toggleSaving,
+  incrementRace,
+  decrementRace
 } from "../../application/actions/actionCreators";
 import { RaceType } from "../../application/actions/actions";
 import { getTestPosition } from "../../application/common_files/testHelpers";
@@ -77,5 +79,17 @@ it("should create set races action", () => {
   expect(setRaces(races)).toEqual({
     type: "SET_RACES",
     payload: races
+  });
+});
+
+it("should create increment race action", () => {
+  expect(incrementRace()).toEqual({
+    type: "INCREMENT_RACE"
+  });
+});
+
+it("should create decrement race action", () => {
+  expect(decrementRace()).toEqual({
+    type: "DECREMENT_RACE"
   });
 });

@@ -1,3 +1,5 @@
+import { Race } from "./interfaces";
+
 interface PositionOptions {
   readonly latitude: number;
   readonly longitude: number;
@@ -18,3 +20,29 @@ export const getTestPosition: GetTestPosition = options => ({
   },
   timestamp: options.timestamp
 });
+
+type GetTestRaces = () => ReadonlyArray<Race>;
+
+export const getTestRaces: GetTestRaces = () => [
+  {
+    type: "running",
+    path: [
+      { latitude: 44, longitude: 44, time: 117 },
+      { latitude: 44.002, longitude: 44.002, time: 222 }
+    ]
+  },
+  {
+    type: "walking",
+    path: [
+      { latitude: 44.002, longitude: 44.002, time: 222 },
+      { latitude: 44.005, longitude: 44.002, time: 444 }
+    ]
+  },
+  {
+    type: "cycling",
+    path: [
+      { latitude: 44.005, longitude: 44.002, time: 444 },
+      { latitude: 44.007, longitude: 44.007, time: 666 }
+    ]
+  }
+];

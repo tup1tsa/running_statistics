@@ -38,6 +38,14 @@ export interface SetRacesAction {
   readonly payload: ReadonlyArray<Race>;
 }
 
+export interface IncrementRaceAction {
+  readonly type: "INCREMENT_RACE";
+}
+
+export interface DecrementRaceAction {
+  readonly type: "DECREMENT_RACE";
+}
+
 export type AnyAction =
   | StartRaceAction
   | ToggleSavingAction
@@ -45,4 +53,6 @@ export type AnyAction =
   | GpsErrorAction
   | StopGpsAction
   | StartRacesDownloadAction
-  | SetRacesAction;
+  | SetRacesAction
+  | IncrementRaceAction
+  | DecrementRaceAction;
