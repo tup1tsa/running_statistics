@@ -1,12 +1,12 @@
-import * as dotenv from "dotenv";
-import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as compression from "compression";
+import * as dotenv from "dotenv";
+import * as express from "express";
+import { Race } from "../client/src/application/common_files/interfaces";
 import {
   fetchRacesContainer,
   saveRacesContainer
 } from "./containers/database/queriesContainers";
-import { Race } from "../client/src/application/common_files/interfaces";
 
 dotenv.load();
 

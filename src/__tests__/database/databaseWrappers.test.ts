@@ -1,14 +1,17 @@
-jest.mock('mongodb');
-import { MongoClient } from 'mongodb';
-import { connect, disconnect, runQuery } from '../../server/database/databaseWrappers';
+jest.mock("mongodb");
+import { MongoClient } from "mongodb";
+import {
+  connect,
+  disconnect,
+  runQuery
+} from "../../server/database/databaseWrappers";
 
-describe('database logic', () => {
-
+describe("database logic", () => {
   const db = {};
   let clientInstance: MongoClient;
   const Client = MongoClient;
-  const uri = 'db uri';
-  const dbName = 'db name';
+  const uri = "db uri";
+  const dbName = "db name";
 
   beforeEach(() => {
     clientInstance = new MongoClient(uri);
@@ -19,10 +22,13 @@ describe('database logic', () => {
     MongoClient.connect = Client.connect;
   });
 
-  it('should connect and return db and client instances', async (done) => {
+  it("should connect and return db and client instances", async done => {
     const connectMock = jest.fn().mockResolvedValue(clientInstance);
     MongoClient.connect = connectMock;
-    const result = await connect(uri, name);
+    const result = await connect(
+      uri,
+      name
+    );
     expect(connectMock.mock.calls.length).toBe(1);
     expect(connectMock.mock.calls[0][0]).toBe(uri);
     expect(result.clientInstance).toEqual(clientInstance);
@@ -30,7 +36,7 @@ describe('database logic', () => {
     done();
   });
 
-  it('should disconnect', async (done) => {
+  it("should disconnect", async done => {
     const closeMock = jest.fn();
     clientInstance.close = closeMock;
     await disconnect(clientInstance);
@@ -38,16 +44,17 @@ describe('database logic', () => {
     done();
   });
 
-  it('should catch connection, close and query errors', async (done) => {
+  it("should catch connection, close and query errors", async done => {
     const errors = {
-      connection: 'connection error',
-      close: 'close error',
-      query: 'query error'
+      connection: "connection error",
+      close: "close error",
+      query: "query error"
     };
-    let connectMock = jest.fn()
-      .mockRejectedValueOnce(errors.connection);
+    let connectMock = jest.fn().mockRejectedValueOnce(errors.connection);
     MongoClient.connect = connectMock;
-    await expect(runQuery(uri, dbName, jest.fn())).rejects.toBe(errors.connection);
+    await expect(runQuery(uri, dbName, jest.fn())).rejects.toBe(
+      errors.connection
+    );
 
     const badQuery = jest.fn().mockRejectedValueOnce(errors.query);
     connectMock = jest.fn().mockResolvedValue(clientInstance);
@@ -59,8 +66,8 @@ describe('database logic', () => {
     done();
   });
 
-  it('run query should return query result', async (done) => {
-    const queryResult = {insertedCount: 1};
+  it("run query should return query result", async done => {
+    const queryResult = { insertedCount: 1 };
     const connectMock = jest.fn().mockResolvedValueOnce(clientInstance);
     const query = jest.fn().mockResolvedValueOnce(queryResult);
     MongoClient.connect = connectMock;
@@ -69,5 +76,4 @@ describe('database logic', () => {
     expect(query.mock.calls[0][0]).toEqual(db);
     done();
   });
-
 });
