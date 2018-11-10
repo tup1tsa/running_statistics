@@ -16,6 +16,7 @@ import { getRacePart } from "../logic/path/getRacePart";
 import { SortRacesByDate } from "../logic/path/sortRacesByDate";
 import { sortRacesByDate } from "../logic/path/sortRacesByDate";
 import { SparsePolyline } from "./GoogleMap/SparsePolyline";
+import FinishedRaceInfo from "./Path/FinishedRaceInfo";
 
 export interface RacesOnMapStateProps {
   readonly races: ReadonlyArray<Race>;
@@ -92,7 +93,7 @@ export const RacesOnMapFactory = (props: FactoryProps) => {
         }}
       />
       <div style={{ clear: "both" }} />
-      <div id="info">finished race info stub</div>
+      <FinishedRaceInfo race={currentRace} />
       {props.races.length > 1 ? buttons : null}
     </div>
   );

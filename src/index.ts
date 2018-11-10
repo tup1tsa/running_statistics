@@ -23,6 +23,7 @@ app.use(express.static("client/build"));
 app.post("/saveRaces", async (req, res) => {
   const races = req.body;
   try {
+    // todo: why there are no validation?Races can by anything
     await saveRacesContainer(races);
   } catch (e) {
     res.status(500).end(JSON.stringify(e));

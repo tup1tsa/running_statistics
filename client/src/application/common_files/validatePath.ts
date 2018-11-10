@@ -1,8 +1,7 @@
 import { PositionInTime } from "./interfaces";
 
-// tslint:disable-next-line no-any
 export const validatePath = (
-  path: any
+  path: unknown
 ): path is ReadonlyArray<PositionInTime> => {
   if (!Array.isArray(path)) {
     return false;

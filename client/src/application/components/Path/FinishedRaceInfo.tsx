@@ -13,7 +13,6 @@ import { Race } from "../../common_files/interfaces";
 import { RaceInformation } from "./RaceInformation";
 
 interface FactoryProps {
-  readonly lastTimeCheck: number;
   readonly race: Race;
   readonly getRaceInfo: GetRaceInfoContainer;
   readonly toLocaleDate: GetReadableDateContainer;
@@ -22,14 +21,13 @@ interface FactoryProps {
 
 interface Props {
   readonly race: Race;
-  readonly lastTimeCheck: number;
 }
 
 export const FinishedRaceInfoFactory = (props: FactoryProps) => {
   const raceInfo = props.getRaceInfo(props.race);
   return (
     <ul>
-      <li>Date: {props.toLocaleDate(props.lastTimeCheck)}</li>
+      <li>Date: {props.toLocaleDate(props.race.path[0].time)}</li>
       <li>Race type: {props.race.type}</li>
       <RaceInformation
         totalDistance={raceInfo.distance}

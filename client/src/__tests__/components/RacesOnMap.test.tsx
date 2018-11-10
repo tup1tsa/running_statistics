@@ -5,6 +5,7 @@ import {
   PositionInTime,
   Race
 } from "../../application/common_files/interfaces";
+import FinishedRaceInfo from "../../application/components/Path/FinishedRaceInfo";
 import { RacesOnMapFactory } from "../../application/components/RacesOnMap";
 import { getRacePart } from "../../application/logic/path/getRacePart";
 import { sortRacesByDate } from "../../application/logic/path/sortRacesByDate";
@@ -74,7 +75,8 @@ it("should not render next and previous races buttons if it`s the only race", ()
 
 it("should display information about races correctly", () => {
   const wrapper = shallow(<RacesOnMapFactory {...defaultProps} />);
-  expect(wrapper.find("#info").length).toBe(1);
+  const info = <FinishedRaceInfo race={defaultProps.races[0]} />;
+  expect(wrapper.contains(info)).toBe(true);
 });
 
 it("should calculate center of the map correctly", () => {

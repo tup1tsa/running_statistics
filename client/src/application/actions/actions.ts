@@ -1,3 +1,4 @@
+import { LocationChangeAction } from "connected-react-router";
 import { Race } from "../common_files/interfaces";
 
 export type RaceType = "walking" | "running" | "cycling" | "driving";
@@ -47,6 +48,7 @@ export interface DecrementRaceAction {
 }
 
 export type AnyAction =
+  | LocationChangeAction
   | StartRaceAction
   | ToggleSavingAction
   | AddGpsPositionAction

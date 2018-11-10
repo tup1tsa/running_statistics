@@ -9,8 +9,7 @@ const defaultProps = {
     timeSecs: 322,
     averageSpeed: 412.32
   }),
-  lastTimeCheck: 12,
-  race: { type: "walking", path: [] },
+  race: { type: "walking", path: [{ latitude: 23, longitude: 17, time: 522 }] },
   toLocaleDate: jest.fn(),
   humanizeDuration: jest.fn()
 };
@@ -41,6 +40,6 @@ it("should render its own data correctly", () => {
   );
   expect(wrapper.contains(<li>Race type: walking</li>)).toBe(true);
   expect(toLocaleDate.mock.calls.length).toBe(1);
-  expect(toLocaleDate.mock.calls[0][0]).toBe(defaultProps.lastTimeCheck);
+  expect(toLocaleDate.mock.calls[0][0]).toBe(defaultProps.race.path[0].time);
   expect(wrapper.contains(<li>Date: 24/12/18 3 pm</li>)).toBe(true);
 });

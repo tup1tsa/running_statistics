@@ -15,12 +15,12 @@ import { toggleSavingReducer } from "../../application/reducers/toggleSavingRedu
 import { addGpsPositionReducerContainer } from "./addGpsPositionReducerContainer";
 import { stopGpsReducerContainer } from "./stopGpsReducerContainer";
 
+export const history = createBrowserHistory();
+
 export type RootReducerContainer = (
   state: GlobalState,
   action: AnyAction
 ) => GlobalState;
-
-export const history = createBrowserHistory();
 
 const rootReducerContainer: RootReducerContainer = (state, action) =>
   rootReducer(state, action, [
@@ -36,12 +36,8 @@ const rootReducerContainer: RootReducerContainer = (state, action) =>
   ]);
 
 export default (state: GlobalState, action: AnyAction): GlobalState => {
-  const nextState = rootReducerContainer(state, action);
-  return {
-    ...nextState,
-    // for some reason connectRouter(history) returns function which expects
-    // router state and action, but it typed as it expects reducer
-    // @ts-ignore
-    router: connectRouter(history)(nextState.router, action)
-  };
+  if (action.type !== "@@router/LOCATION_CHANGE") {
+    return rootReducerContainer(state, action);
+  }
+  return { ...state, router: connectRouter(history)(state.router, action) };
 };
