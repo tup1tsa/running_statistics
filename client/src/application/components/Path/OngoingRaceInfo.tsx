@@ -1,29 +1,52 @@
 import * as React from "react";
 import {
-  GetReadableDateContainer,
-  HumanizeDurationContainer
+  GetRaceInfoContainer,
+  getRaceInfoContainer
+} from "../../../containers/logic/path/getRaceInfoContainer";
+import {
+  GetLocalTimeContainer,
+  getLocalTimeContainer,
+  HumanizeDurationContainer,
+  humanizeDurationContainer
 } from "../../../containers/logic/utilsContainers";
+import { Race } from "../../common_files/interfaces";
 import { RaceInformation } from "./RaceInformation";
 
-interface Props {
-  readonly totalDistance: number;
-  readonly totalTimeSecs: number;
-  readonly avgSpeed: number;
+interface StateProps {
+  readonly race: Race;
   readonly lastTimeCheck: number;
-  readonly toLocaleTime: GetReadableDateContainer;
-  readonly raceType: string;
-  readonly humanizeDuration: HumanizeDurationContainer;
 }
 
-export const OngoingRaceInfo = (props: Props) => (
-  <ul>
-    <li>Last time check was at {props.toLocaleTime(props.lastTimeCheck)}</li>
-    <li>{props.raceType} is in progress</li>
-    <RaceInformation
-      totalDistance={props.totalDistance}
-      totalTimeSecs={props.totalTimeSecs}
-      avgSpeed={props.avgSpeed}
-      humanizeDuration={props.humanizeDuration}
-    />
-  </ul>
+type AllProps = StateProps & {
+  readonly getRaceInfo: GetRaceInfoContainer;
+  readonly toLocaleTime: GetLocalTimeContainer;
+  readonly humanizeDuration: HumanizeDurationContainer;
+};
+
+export const OngoingRaceInfoFactory = (props: AllProps) => {
+  const raceInfo = props.getRaceInfo(props.race);
+  const [firstLetter, ...otherLetters] = props.race.type.split("");
+  const raceTypeUppercase = firstLetter.toUpperCase() + otherLetters.join("");
+  return (
+    <ul>
+      <li>Last time check was at {props.toLocaleTime(props.lastTimeCheck)}</li>
+      <li>{raceTypeUppercase} is in progress</li>
+      <RaceInformation
+        totalDistance={raceInfo.distance}
+        totalTimeSecs={raceInfo.timeSecs}
+        avgSpeed={raceInfo.averageSpeed}
+        humanizeDuration={props.humanizeDuration}
+      />
+      <li>Current speed: {raceInfo.averageSpeed} km/h</li>
+    </ul>
+  );
+};
+
+export default (props: StateProps) => (
+  <OngoingRaceInfoFactory
+    {...props}
+    toLocaleTime={getLocalTimeContainer}
+    humanizeDuration={humanizeDurationContainer}
+    getRaceInfo={getRaceInfoContainer}
+  />
 );

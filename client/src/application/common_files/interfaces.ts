@@ -42,3 +42,5 @@ export interface Axios {
 export type GetPath = (positions: ReadonlyArray<PositionInTime>) => number;
 
 export type GetDistance = (start: Coordinates, end: Coordinates) => number;
+
+export type GetSpeed = (start: Coordinates, end: Coordinates) => number;

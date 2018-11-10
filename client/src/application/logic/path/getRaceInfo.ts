@@ -1,23 +1,26 @@
 import { DivideRaceContainer } from "../../../containers/logic/path/divideRaceContainer";
-import { GetPath, Race } from "../../common_files/interfaces";
+import { GetPath, GetSpeed, Race } from "../../common_files/interfaces";
 import { GetActiveParts } from "./getActiveParts";
 
 export type GetRaceInfo = (
   race: Race,
   divideRace: DivideRaceContainer,
   getPath: GetPath,
-  getActiveParts: GetActiveParts
+  getActiveParts: GetActiveParts,
+  getSpeed: GetSpeed
 ) => {
   readonly distance: number;
   readonly averageSpeed: number;
   readonly timeSecs: number;
+  readonly currentSpeed: number;
 };
 
 export const getRaceInfo: GetRaceInfo = (
   race,
   divideRaceFunc,
   getPath,
-  getParts
+  getParts,
+  getSpeed
 ) => {
   const dividedPath = divideRaceFunc(race);
   const activeParts = getParts(dividedPath).filter(
@@ -27,7 +30,8 @@ export const getRaceInfo: GetRaceInfo = (
     return {
       averageSpeed: 0,
       distance: 0,
-      timeSecs: 0
+      timeSecs: 0,
+      currentSpeed: 0
     };
   }
   const data = activeParts
@@ -47,9 +51,17 @@ export const getRaceInfo: GetRaceInfo = (
     });
   const totalDistanceKms = data.distance / 1000;
   const timeDiffHours = data.timeSecs / 60 / 60;
+  let currentSpeed = 0;
+  if (race.path.length > 1) {
+    const length = race.path.length;
+    const lastPosition = race.path[length - 1];
+    const beforeLastPosition = race.path[length - 2];
+    currentSpeed = getSpeed(beforeLastPosition, lastPosition);
+  }
   return {
     timeSecs: data.timeSecs,
     distance: data.distance,
-    averageSpeed: totalDistanceKms / timeDiffHours
+    averageSpeed: totalDistanceKms / timeDiffHours,
+    currentSpeed
   };
 };

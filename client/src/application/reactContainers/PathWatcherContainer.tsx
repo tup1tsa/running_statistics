@@ -5,19 +5,9 @@ import {
   finishRaceContainer
 } from "../../containers/logic/finishRaceContainer";
 import {
-  getRaceInfoContainer,
-  GetRaceInfoContainer
-} from "../../containers/logic/path/getRaceInfoContainer";
-import {
   ShowMessageContainer,
   showMessageContainer
 } from "../../containers/logic/routing/showMessageContainer";
-import {
-  GetLocalTimeContainer,
-  getLocalTimeContainer,
-  HumanizeDurationContainer,
-  humanizeDurationContainer
-} from "../../containers/logic/utilsContainers";
 import {
   StopAndSaveRace,
   stopAndSaveRace
@@ -30,18 +20,10 @@ type MapStateToProps = (
   state: GlobalState
 ) => {
   readonly race: Race;
-  readonly getRaceInfo: GetRaceInfoContainer;
-  readonly toLocaleTime: GetLocalTimeContainer;
-  readonly humanizeDuration: HumanizeDurationContainer;
 };
 
 export const mapStateToProps: MapStateToProps = state => ({
-  race: { type: state.raceType, path: state.positions },
-  getRaceInfo: getRaceInfoContainer,
-  // todo: use custom function to show how long ago last gps check was
-  // e.g, 5 mins ago or 12 secs ago
-  toLocaleTime: getLocalTimeContainer,
-  humanizeDuration: humanizeDurationContainer
+  race: { type: state.raceType, path: state.positions }
 });
 
 type MapDispatchToPropsFactory = (

@@ -1,29 +1,51 @@
 import * as React from "react";
 import {
+  GetRaceInfoContainer,
+  getRaceInfoContainer
+} from "../../../containers/logic/path/getRaceInfoContainer";
+import {
   GetReadableDateContainer,
-  HumanizeDurationContainer
+  getReadableDateContainer,
+  HumanizeDurationContainer,
+  humanizeDurationContainer
 } from "../../../containers/logic/utilsContainers";
+import { Race } from "../../common_files/interfaces";
 import { RaceInformation } from "./RaceInformation";
 
-interface Props {
-  readonly totalDistance: number;
-  readonly totalTimeSecs: number;
-  readonly avgSpeed: number;
+interface FactoryProps {
   readonly lastTimeCheck: number;
-  readonly raceType: string;
+  readonly race: Race;
+  readonly getRaceInfo: GetRaceInfoContainer;
   readonly toLocaleDate: GetReadableDateContainer;
   readonly humanizeDuration: HumanizeDurationContainer;
 }
 
-export const FinishedRaceInfo = (props: Props) => (
-  <ul>
-    <li>Date: {props.toLocaleDate(props.lastTimeCheck)}</li>
-    <li>Race type: {props.raceType}</li>
-    <RaceInformation
-      totalDistance={props.totalDistance}
-      totalTimeSecs={props.totalTimeSecs}
-      avgSpeed={props.avgSpeed}
-      humanizeDuration={props.humanizeDuration}
-    />
-  </ul>
+interface Props {
+  readonly race: Race;
+  readonly lastTimeCheck: number;
+}
+
+export const FinishedRaceInfoFactory = (props: FactoryProps) => {
+  const raceInfo = props.getRaceInfo(props.race);
+  return (
+    <ul>
+      <li>Date: {props.toLocaleDate(props.lastTimeCheck)}</li>
+      <li>Race type: {props.race.type}</li>
+      <RaceInformation
+        totalDistance={raceInfo.distance}
+        totalTimeSecs={raceInfo.timeSecs}
+        avgSpeed={raceInfo.averageSpeed}
+        humanizeDuration={props.humanizeDuration}
+      />
+    </ul>
+  );
+};
+
+export default (props: Props) => (
+  <FinishedRaceInfoFactory
+    {...props}
+    toLocaleDate={getReadableDateContainer}
+    humanizeDuration={humanizeDurationContainer}
+    getRaceInfo={getRaceInfoContainer}
+  />
 );

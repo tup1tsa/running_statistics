@@ -1,18 +1,10 @@
 import * as React from "react";
-import { GetRaceInfoContainer } from "../../../containers/logic/path/getRaceInfoContainer";
-import {
-  GetReadableDateContainer,
-  HumanizeDurationContainer
-} from "../../../containers/logic/utilsContainers";
 import { Race } from "../../common_files/interfaces";
-import { OngoingRaceInfo } from "./OngoingRaceInfo";
+import OngoingRaceInfo from "./OngoingRaceInfo";
 
 interface Props {
   readonly race: Race;
-  readonly getRaceInfo: GetRaceInfoContainer;
   readonly stopWatcher: (race: Race) => void;
-  readonly toLocaleTime: GetReadableDateContainer;
-  readonly humanizeDuration: HumanizeDurationContainer;
 }
 
 export const PathWatcher = (props: Props) => {
@@ -30,22 +22,9 @@ export const PathWatcher = (props: Props) => {
     );
   }
   const lastPosition = props.race.path[props.race.path.length - 1];
-  const raceInfo = props.getRaceInfo(props.race);
-  const raceTypeUpperCase = props.race.type
-    .split("")
-    .map((letter, index) => (index === 0 ? letter.toUpperCase() : letter))
-    .join("");
   return (
     <div>
-      <OngoingRaceInfo
-        humanizeDuration={props.humanizeDuration}
-        raceType={raceTypeUpperCase}
-        lastTimeCheck={lastPosition.time}
-        totalDistance={raceInfo.distance}
-        totalTimeSecs={raceInfo.timeSecs}
-        avgSpeed={raceInfo.averageSpeed}
-        toLocaleTime={props.toLocaleTime}
-      />
+      <OngoingRaceInfo race={props.race} lastTimeCheck={lastPosition.time} />
       {stopButton}
     </div>
   );

@@ -1,4 +1,3 @@
-import * as GeoLib from "geolib";
 import { AnyAction } from "../../application/actions/actions";
 import {
   delayBetweenGeoCalls,
@@ -8,6 +7,7 @@ import {
   addGpsPositionReducer,
   AddGpsPositionReducerState
 } from "../../application/reducers/addGpsPositionReducer";
+import { getDistance } from "../geoLibHelpers";
 import { isMiddlePointAccurateContainer } from "../logic/path/isMiddlePointAccurateContainer";
 
 export type AddGpsPositionReducerContainer = (
@@ -28,6 +28,6 @@ export const addGpsPositionReducerContainer: AddGpsPositionReducerContainer = (
     },
     {
       isMiddlePointAccurate: isMiddlePointAccurateContainer,
-      getDistance: GeoLib.getDistance
+      getDistance
     }
   );

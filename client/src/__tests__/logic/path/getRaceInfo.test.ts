@@ -6,6 +6,12 @@ import { getActiveParts } from "../../../application/logic/path/getActiveParts";
 import { getRaceInfo } from "../../../application/logic/path/getRaceInfo";
 
 it("should return zeroes if path is empty", () => {
+  const speed = {
+    averageSpeed: 0,
+    currentSpeed: 0,
+    distance: 0,
+    timeSecs: 0
+  };
   const path: ReadonlyArray<PositionInTime> = [
     { latitude: 11, longitude: 11, time: 22 }
   ];
@@ -15,23 +21,18 @@ it("should return zeroes if path is empty", () => {
     .fn()
     .mockReturnValueOnce([{ active: true, path: [] }])
     .mockReturnValueOnce([{ active: true, path }]);
-  const getPath = jest.fn();
   expect(
-    getRaceInfo(emptyRace, divideRaceMock, getPath, getActiveParts)
-  ).toEqual({
-    averageSpeed: 0,
-    distance: 0,
-    timeSecs: 0
-  });
-  expect(getPath.mock.calls.length).toBe(0);
+    getRaceInfo(emptyRace, divideRaceMock, jest.fn(), getActiveParts, jest.fn())
+  ).toEqual(speed);
   expect(
-    getRaceInfo(almostEmptyRace, divideRaceMock, getPath, getActiveParts)
-  ).toEqual({
-    averageSpeed: 0,
-    distance: 0,
-    timeSecs: 0
-  });
-  expect(getPath.mock.calls.length).toBe(0);
+    getRaceInfo(
+      almostEmptyRace,
+      divideRaceMock,
+      jest.fn(),
+      getActiveParts,
+      jest.fn()
+    )
+  ).toEqual(speed);
 });
 
 it("should calculate all data correctly", () => {
@@ -52,15 +53,21 @@ it("should calculate all data correctly", () => {
     { active: true, path: secondPart }
   ];
   const divideRaceMock = jest.fn().mockReturnValue(dividedRace);
+  const getSpeed = jest.fn().mockReturnValue(24);
   const getPath = jest
     .fn()
     .mockReturnValueOnce(10)
     .mockReturnValueOnce(10);
   // 20 metres per 2 secs = 10m/s or 36 km/h
-  expect(getRaceInfo(race, divideRaceMock, getPath, getActiveParts)).toEqual({
+  expect(
+    getRaceInfo(race, divideRaceMock, getPath, getActiveParts, getSpeed)
+  ).toEqual({
     averageSpeed: 36,
     distance: 20,
-    timeSecs: 2
+    timeSecs: 2,
+    currentSpeed: 24
   });
   expect(getPath.mock.calls.length).toBe(2);
+  expect(getSpeed.mock.calls.length).toBe(1);
+  expect(getSpeed.mock.calls[0]).toEqual(secondPart);
 });
