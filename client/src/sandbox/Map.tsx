@@ -1,7 +1,6 @@
 import * as React from "react";
 import Polyline from "react-google-maps/lib/components/Polyline";
-import { MapWrapperFactory } from "../containers/components/GoogleMap/MapWrapperFactory";
-
+import MapWrapper from "../application/components/GoogleMap/MapWrapper";
 const path = [{ lat: 48, lng: 23 }, { lat: 48.12, lng: 23.12 }];
 const InnerElement = () => <Polyline path={path} />;
 const props = {
@@ -13,6 +12,6 @@ const props = {
   width: 400,
   height: 400
 };
-const MapSandbox = MapWrapperFactory(InnerElement);
+const MapSandbox = MapWrapper(InnerElement);
 
 export const Map = <MapSandbox {...props} />;

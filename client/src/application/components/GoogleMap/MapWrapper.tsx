@@ -25,6 +25,13 @@ interface ScriptProps {
   };
 }
 
+interface ContainerProps {
+  readonly center: Coordinates;
+  readonly zoom: number;
+  readonly width: number;
+  readonly height: number;
+}
+
 export const MapWrapper = <P extends {}>(
   WrappedComponent: React.ComponentType<P>
 ) => (props: P & MapProps) => {
@@ -88,5 +95,22 @@ export const MapWrapperWithScript = <P extends {}>(
       googleMapURL={url}
       loadingElement={<div style={{ height: "100%" }} />}
     />
+  );
+};
+
+export default <P extends {}>(WrappedComponent: React.ComponentType<P>) => {
+  const MapComponent = MapWrapper(WrappedComponent);
+  const MapComponentWithGoogleMap = MapWrapperWithGoogleMap(MapComponent);
+  const secretKey = process.env.REACT_APP_GOOGLE_MAPS_KEY;
+  const scriptProps = {
+    googleMapDefaultUrl:
+      "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places",
+    processEnv: {
+      REACT_APP_GOOGLE_MAPS_KEY: secretKey
+    }
+  };
+  const ComponentWithScript = MapWrapperWithScript(MapComponentWithGoogleMap);
+  return (props: ContainerProps & P) => (
+    <ComponentWithScript {...scriptProps} {...props} />
   );
 };

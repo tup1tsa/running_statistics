@@ -1,7 +1,6 @@
 import * as React from "react";
-import { MapWrapperFactory } from "../../containers/components/GoogleMap/MapWrapperFactory";
-import { DivideRaceContainer } from "../../containers/logic/path/divideRaceContainer";
 import { divideRaceContainer } from "../../containers/logic/path/divideRaceContainer";
+import { DivideRaceContainer } from "../../containers/logic/path/divideRaceContainer";
 import { GetRaceInfoContainer } from "../../containers/logic/path/getRaceInfoContainer";
 import { getRaceInfoContainer } from "../../containers/logic/path/getRaceInfoContainer";
 import { Race } from "../common_files/interfaces";
@@ -15,6 +14,7 @@ import { GetRacePart } from "../logic/path/getRacePart";
 import { getRacePart } from "../logic/path/getRacePart";
 import { SortRacesByDate } from "../logic/path/sortRacesByDate";
 import { sortRacesByDate } from "../logic/path/sortRacesByDate";
+import MapWrapper from "./GoogleMap/MapWrapper";
 import { SparsePolyline } from "./GoogleMap/SparsePolyline";
 import FinishedRaceInfo from "./Path/FinishedRaceInfo";
 
@@ -70,7 +70,7 @@ export const RacesOnMapFactory = (props: FactoryProps) => {
     center: props.findCenter(currentRace.path),
     zoom: 12
   };
-  const Map = MapWrapperFactory(SparsePolyline);
+  const Map = MapWrapper(SparsePolyline);
   const buttons = (
     <>
       <button type="button" id="previous_race" onClick={props.decrementRace}>
