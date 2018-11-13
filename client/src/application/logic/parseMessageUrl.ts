@@ -9,18 +9,18 @@ export interface MessageUrlInput {
 }
 
 export type ParseMessageUrl = (
-  messageUrlInput: MessageUrlInput,
+  urlInput: MessageUrlInput,
   messages: ReadonlyArray<string>
 ) => MessageData;
 
-export const parseMessageUrl: ParseMessageUrl = (messageUrlInput, messages) => {
-  const isError = messageUrlInput.isError === "1";
-  const messageId = Math.abs(parseInt(messageUrlInput.messageId, 10));
+export const parseMessageUrl: ParseMessageUrl = (urlInput, messages) => {
+  const isError = urlInput.isError === "1";
+  const messageId = Math.abs(parseInt(urlInput.messageId, 10));
   if (Number.isNaN(messageId)) {
     return { isError, message: messages[0] };
   }
   return {
-    isError: messageUrlInput.isError === "1",
+    isError: urlInput.isError === "1",
     message:
       messages[messageId] === undefined ? messages[0] : messages[messageId]
   };

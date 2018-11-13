@@ -52,7 +52,7 @@ it("should pass proper stop watcher handler", async done => {
   const functions = {
     stopAndSaveRace,
     finishRace: jest.fn().mockResolvedValue(MESSAGES[1]),
-    showMessage: jest.fn()
+    setMessageUrl: jest.fn()
   };
   const props = mapDispatchToPropsFactory(functions)(dispatch);
   const race: Race = {
@@ -60,7 +60,7 @@ it("should pass proper stop watcher handler", async done => {
     path: [{ latitude: 12, longitude: 32, time: 44 }]
   };
   await props.stopWatcher(race);
-  expect(dispatch.mock.calls.length).toBe(3);
+  expect(dispatch.mock.calls.length).toBe(4);
   expect(functions.finishRace.mock.calls.length).toBe(1);
   expect(functions.finishRace.mock.calls[0][0]).toBe(race);
   done();

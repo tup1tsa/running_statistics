@@ -1,16 +1,17 @@
+import { push } from "connected-react-router";
 import { Dispatch } from "redux";
 import { DownloadRacesContainer } from "../../../containers/logic/network/downloadRacesContainer";
-import { ShowMessageContainer } from "../../../containers/logic/routing/showMessageContainer";
+import { SetMessageUrlContainer } from "../../../containers/logic/setMessageUrlContainer";
 import { setRaces, startRacesDownload } from "../actionCreators";
 
 export type DownloadAllRaces = (
   downloadRaces: DownloadRacesContainer,
-  showMessage: ShowMessageContainer
+  setMessageUrl: SetMessageUrlContainer
 ) => (dispatch: Dispatch) => void;
 
 export const downloadAllRaces: DownloadAllRaces = (
   downloadRaces,
-  showMessage
+  setMessageUrl
 ) => async dispatch => {
   dispatch(startRacesDownload());
   try {
@@ -18,6 +19,6 @@ export const downloadAllRaces: DownloadAllRaces = (
     dispatch(setRaces(races));
   } catch (err) {
     dispatch(setRaces([]));
-    showMessage(err.message, true);
+    dispatch(push(setMessageUrl({ message: err.message, isError: true })));
   }
 };

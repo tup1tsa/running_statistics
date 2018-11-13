@@ -5,9 +5,9 @@ import {
   finishRaceContainer
 } from "../../containers/logic/finishRaceContainer";
 import {
-  ShowMessageContainer,
-  showMessageContainer
-} from "../../containers/logic/routing/showMessageContainer";
+  SetMessageUrlContainer,
+  setMessageUrlContainer
+} from "../../containers/logic/setMessageUrlContainer";
 import {
   StopAndSaveRace,
   stopAndSaveRace
@@ -30,7 +30,7 @@ type MapDispatchToPropsFactory = (
   functions: {
     readonly stopAndSaveRace: StopAndSaveRace;
     readonly finishRace: FinishRaceContainer;
-    readonly showMessage: ShowMessageContainer;
+    readonly setMessageUrl: SetMessageUrlContainer;
   }
 ) => (
   dispatch: Dispatch
@@ -43,14 +43,14 @@ export const mapDispatchToPropsFactory: MapDispatchToPropsFactory = functions =>
     functions.stopAndSaveRace(
       race,
       functions.finishRace,
-      functions.showMessage
+      functions.setMessageUrl
     )(dispatch)
 });
 
 const mapDispatchToProps = mapDispatchToPropsFactory({
   stopAndSaveRace,
   finishRace: finishRaceContainer,
-  showMessage: showMessageContainer
+  setMessageUrl: setMessageUrlContainer
 });
 
 export default connect(

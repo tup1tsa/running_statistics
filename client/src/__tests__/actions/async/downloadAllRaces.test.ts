@@ -30,15 +30,21 @@ it("should dispatch download races error and change url", async done => {
   const error = new Error(errorMessage);
   const downloadRaces = jest.fn().mockRejectedValue(error);
   const dispatch = jest.fn();
-  const showMessage = jest.fn();
-  await downloadAllRaces(downloadRaces, showMessage)(dispatch);
-  expect(dispatch.mock.calls.length).toBe(2);
+  const setMessage = jest.fn().mockReturnValue("new url");
+  await downloadAllRaces(downloadRaces, setMessage)(dispatch);
+  expect(dispatch.mock.calls.length).toBe(3);
   expect(dispatch.mock.calls[1][0]).toEqual({
     type: "SET_RACES",
     payload: []
   });
-  expect(showMessage.mock.calls.length).toBe(1);
-  expect(showMessage.mock.calls[0][0]).toBe(errorMessage);
-  expect(showMessage.mock.calls[0][1]).toBe(true);
+  expect(dispatch.mock.calls[2][0].payload).toEqual({
+    args: ["new url"],
+    method: "push"
+  });
+  expect(setMessage.mock.calls.length).toBe(1);
+  expect(setMessage.mock.calls[0][0]).toEqual({
+    isError: true,
+    message: errorMessage
+  });
   done();
 });
