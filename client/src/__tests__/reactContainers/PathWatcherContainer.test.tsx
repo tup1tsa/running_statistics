@@ -39,11 +39,15 @@ it("should pass race to props", () => {
   const state: GlobalState = {
     ...testGlobalState(),
     raceType: "running",
-    positions: [position]
+    positions: [position],
+    raceInProgress: true
   };
-  expect(mapStateToProps(state).race).toEqual({
-    type: "running",
-    path: [position]
+  expect(mapStateToProps(state)).toEqual({
+    race: {
+      type: "running",
+      path: [position]
+    },
+    raceInProgress: true
   });
 });
 

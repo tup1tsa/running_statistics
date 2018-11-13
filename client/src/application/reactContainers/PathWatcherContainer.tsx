@@ -20,9 +20,11 @@ type MapStateToProps = (
   state: GlobalState
 ) => {
   readonly race: Race;
+  readonly raceInProgress: boolean;
 };
 
 export const mapStateToProps: MapStateToProps = state => ({
+  raceInProgress: state.raceInProgress,
   race: { type: state.raceType, path: state.positions }
 });
 

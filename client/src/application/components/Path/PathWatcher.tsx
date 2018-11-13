@@ -4,10 +4,14 @@ import OngoingRaceInfo from "./OngoingRaceInfo";
 
 interface Props {
   readonly race: Race;
+  readonly raceInProgress: boolean;
   readonly stopWatcher: (race: Race) => void;
 }
 
 export const PathWatcher = (props: Props) => {
+  if (!props.raceInProgress) {
+    return <div>There is no race in progress</div>;
+  }
   const stopButton = (
     <button className="blue" onClick={props.stopWatcher.bind(null, props.race)}>
       Finish
