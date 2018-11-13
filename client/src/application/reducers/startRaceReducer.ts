@@ -6,6 +6,7 @@ interface State {
   readonly raceType: RaceType;
   readonly gpsId: number;
   readonly positions: ReadonlyArray<PositionInTime>;
+  readonly lastTimeCheck: null | number;
 }
 
 export type StartRaceReducer = (state: State, action: AnyAction) => State;
@@ -18,6 +19,7 @@ export const startRaceReducer: StartRaceReducer = (state, action) => {
     raceInProgress: true,
     raceType: action.payload.raceType,
     gpsId: action.payload.gpsId,
-    positions: []
+    positions: [],
+    lastTimeCheck: null
   };
 };

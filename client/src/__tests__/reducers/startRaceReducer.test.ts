@@ -8,7 +8,8 @@ const defaultState = {
   raceInProgress: false,
   raceType: defaultRaceType,
   gpsId: 44,
-  positions: []
+  positions: [],
+  lastTimeCheck: 1302
 };
 
 it("should not change state if action is incorrect", () => {
@@ -28,6 +29,7 @@ it("should set proper fields in state", () => {
     raceInProgress: true,
     raceType: "running",
     gpsId: 13,
+    lastTimeCheck: null,
     positions: []
   });
 });
@@ -50,7 +52,8 @@ it("should delete all tracked positions", () => {
     raceInProgress: true,
     raceType: "driving",
     gpsId: 47,
-    positions: []
+    positions: [],
+    lastTimeCheck: null
   };
   expect(startRaceReducer(state, action)).toEqual(nextState);
 });

@@ -40,7 +40,7 @@ const defaultState: GlobalState = {
   racesAreBeingDownloaded: false,
   currentRaceIndex: 0,
   partialRaceStart: 0,
-  partialRaceFinish: 1,
+  partialRaceFinish: 100,
   router: {
     location: {
       pathname: "",
