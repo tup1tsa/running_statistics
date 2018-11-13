@@ -47,6 +47,11 @@ export interface DecrementRaceAction {
   readonly type: "DECREMENT_RACE";
 }
 
+export interface ChangeRaceTypeAction {
+  readonly type: "CHANGE_RACE_TYPE";
+  readonly payload: RaceType;
+}
+
 export type AnyAction =
   | LocationChangeAction
   | StartRaceAction
@@ -57,4 +62,5 @@ export type AnyAction =
   | StartRacesDownloadAction
   | SetRacesAction
   | IncrementRaceAction
-  | DecrementRaceAction;
+  | DecrementRaceAction
+  | ChangeRaceTypeAction;

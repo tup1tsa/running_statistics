@@ -1,4 +1,16 @@
-import { mapDispatchToProps } from "../../application/reactContainers/NavigationContainer";
+import {
+  mapDispatchToProps,
+  mapStateToProps
+} from "../../application/reactContainers/NavigationContainer";
+import { testGlobalState } from "./PathWatcherContainer.test";
+
+it("should pass correct state to props", () => {
+  const state = testGlobalState();
+  expect(mapStateToProps(state)).toEqual({
+    raceType: state.raceType,
+    raceInProgress: state.raceInProgress
+  });
+});
 
 it("should dispatch correct action on startRaceBlock call", () => {
   const dispatch = jest.fn();
@@ -29,3 +41,21 @@ it("should dispatch correct action on overall race stats call", () => {
     args: ["/overallRaceStats"]
   });
 });
+
+it(
+  "should dispatch correct url change action and change race type" +
+    " on current race block call",
+  () => {
+    const dispatch = jest.fn();
+    mapDispatchToProps(dispatch).currentRaceBlock("walking");
+    expect(dispatch.mock.calls.length).toBe(2);
+    expect(dispatch.mock.calls[0][0]).toEqual({
+      type: "CHANGE_RACE_TYPE",
+      payload: "walking"
+    });
+    expect(dispatch.mock.calls[1][0].payload).toEqual({
+      method: "push",
+      args: ["/race/walking"]
+    });
+  }
+);

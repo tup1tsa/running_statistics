@@ -1,6 +1,7 @@
 import { connectRouter } from "connected-react-router";
 import { createBrowserHistory } from "history";
 import { AnyAction } from "../../application/actions/actions";
+import { changeRaceTypeReducer } from "../../application/reducers/changeRaceTypeReducer";
 import { decrementRaceReducer } from "../../application/reducers/decrementRaceReducer";
 import { gpsErrorReducer } from "../../application/reducers/gpsErrorReducer";
 import { incrementRaceReducer } from "../../application/reducers/incrementRaceReducer";
@@ -32,7 +33,8 @@ const rootReducerContainer: RootReducerContainer = (state, action) =>
     startRaceReducer,
     startRacesDownloadReducer,
     stopGpsReducerContainer,
-    toggleSavingReducer
+    toggleSavingReducer,
+    changeRaceTypeReducer
   ]);
 
 export default (state: GlobalState, action: AnyAction): GlobalState => {

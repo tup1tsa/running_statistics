@@ -1,5 +1,6 @@
 import {
   addGpsPosition,
+  changeRaceType,
   decrementRace,
   gpsError,
   incrementRace,
@@ -37,17 +38,21 @@ it("should create add position action", () => {
   });
 });
 
-it("should create add position and pass payload even if position is specified in prototype", () => {
-  const protoPosition = getTestPosition({
-    latitude: 12,
-    longitude: 12,
-    timestamp: 55
-  });
-  const currentPosition = {} as Position;
-  // @ts-ignore
-  currentPosition.__proto__ = protoPosition;
-  expect(addGpsPosition(currentPosition).payload).toEqual(protoPosition);
-});
+it(
+  "should create add position and pass payload even if position " +
+    "is specified in prototype",
+  () => {
+    const protoPosition = getTestPosition({
+      latitude: 12,
+      longitude: 12,
+      timestamp: 55
+    });
+    const currentPosition = {} as Position;
+    // @ts-ignore
+    currentPosition.__proto__ = protoPosition;
+    expect(addGpsPosition(currentPosition).payload).toEqual(protoPosition);
+  }
+);
 
 it("should create gps error action", () => {
   const error: PositionError = {
@@ -91,5 +96,12 @@ it("should create increment race action", () => {
 it("should create decrement race action", () => {
   expect(decrementRace()).toEqual({
     type: "DECREMENT_RACE"
+  });
+});
+
+it("should create change race type action", () => {
+  expect(changeRaceType("walking")).toEqual({
+    type: "CHANGE_RACE_TYPE",
+    payload: "walking"
   });
 });

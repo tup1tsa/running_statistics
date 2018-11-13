@@ -1,9 +1,11 @@
 import { Race } from "../common_files/interfaces";
 import {
   AddGpsPositionAction,
+  ChangeRaceTypeAction,
   DecrementRaceAction,
   GpsErrorAction,
   IncrementRaceAction,
+  RaceType,
   SetRacesAction,
   StartRaceAction,
   StartRacePayload,
@@ -67,4 +69,10 @@ export const incrementRace: IncrementRace = () => ({
 export type DecrementRace = () => DecrementRaceAction;
 export const decrementRace: DecrementRace = () => ({
   type: "DECREMENT_RACE"
+});
+
+export type ChangeRaceType = (raceType: RaceType) => ChangeRaceTypeAction;
+export const changeRaceType: ChangeRaceType = raceType => ({
+  type: "CHANGE_RACE_TYPE",
+  payload: raceType
 });
