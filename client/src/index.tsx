@@ -3,22 +3,23 @@ import "core-js/es6/set";
 import "raf/polyfill";
 
 import { routerMiddleware } from "connected-react-router";
+import { createBrowserHistory } from "history";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { applyMiddleware, compose, createStore } from "redux";
 import App from "./application/components/App";
-import rootReducerContainer, {
-  history
-} from "./containers/reducers/rootReducerContainer";
+import rootReducerContainer from "./containers/reducers/rootReducerContainer";
 import "./index.css";
 import registerServiceWorker from "./registerServiceWorker";
+
+const history = createBrowserHistory();
 
 const composeEnhancer: typeof compose =
   (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
-  rootReducerContainer,
+  rootReducerContainer(history),
   composeEnhancer(applyMiddleware(routerMiddleware(history)))
 );
 

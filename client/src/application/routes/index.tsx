@@ -13,7 +13,11 @@ const routes = (
   <>
     <Switch>
       <Route exact={true} path="/" component={EmptyPage} />
-      <Route path="/startRace" component={RaceStartPreparationContainer} />
+      <Route
+        exact={true}
+        path="/startRace"
+        component={RaceStartPreparationContainer}
+      />
       <Route path="/race/:raceType" component={PathWatcherContainer} />
       <Route path="/message/:messageId/:isError" component={Message} />
       <Route path="/detailedRaceStats" component={RaceViewerContainer} />

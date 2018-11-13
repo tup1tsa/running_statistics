@@ -9,7 +9,7 @@ import rootReducerContainer from "../../containers/reducers/rootReducerContainer
 it("renders without crashing", () => {
   const div = document.createElement("div");
   const history = createBrowserHistory();
-  const store = createStore(rootReducerContainer);
+  const store = createStore(rootReducerContainer(history));
   ReactDOM.render(
     <Provider store={store}>
       <App history={history} />

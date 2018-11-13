@@ -1,4 +1,5 @@
 import { mount } from "enzyme";
+import { createBrowserHistory } from "history";
 import * as React from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router";
@@ -9,7 +10,7 @@ import RaceStartPreparationContainer from "../../application/reactContainers/Rac
 import Routes from "../../application/routes";
 import rootReducerContainer from "../../containers/reducers/rootReducerContainer";
 
-const store = createStore(rootReducerContainer);
+const store = createStore(rootReducerContainer(createBrowserHistory()));
 
 it("invalid path should return 404", () => {
   const wrapper = mount(

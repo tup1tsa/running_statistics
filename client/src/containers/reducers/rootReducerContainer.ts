@@ -1,5 +1,5 @@
 import { connectRouter } from "connected-react-router";
-import { createBrowserHistory } from "history";
+import { History } from "history";
 import { AnyAction } from "../../application/actions/actions";
 import { changeRaceTypeReducer } from "../../application/reducers/changeRaceTypeReducer";
 import { decrementRaceReducer } from "../../application/reducers/decrementRaceReducer";
@@ -16,9 +16,7 @@ import { toggleSavingReducer } from "../../application/reducers/toggleSavingRedu
 import { addGpsPositionReducerContainer } from "./addGpsPositionReducerContainer";
 import { stopGpsReducerContainer } from "./stopGpsReducerContainer";
 
-export const history = createBrowserHistory();
-
-export type RootReducerContainer = (
+type RootReducerContainer = (
   state: GlobalState,
   action: AnyAction
 ) => GlobalState;
@@ -37,7 +35,10 @@ const rootReducerContainer: RootReducerContainer = (state, action) =>
     changeRaceTypeReducer
   ]);
 
-export default (state: GlobalState, action: AnyAction): GlobalState => {
+export default (history: History) => (
+  state: GlobalState,
+  action: AnyAction
+): GlobalState => {
   if (action.type !== "@@router/LOCATION_CHANGE") {
     return rootReducerContainer(state, action);
   }
