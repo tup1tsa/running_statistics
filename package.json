@@ -11,8 +11,8 @@
     "start": "node dist/src/index.js",
     "postinstall": "tsc && cd client && npm install && npm run build",
     "debug": "nodemon --watch 'dist/'  --inspect-brk dist/server.js",
-    "test": "jest --watch dist --colors",
-    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watch src"
+    "test": "node scripts/test.js -c config/jest/commonConfig.js --colors --watch",
+    "test:debug": "node --inspect-brk scripts/test.js --runInBand -c config/jest/commonConfig.js"
   },
   "repository": {
     "type": "git",
@@ -39,6 +39,7 @@
     "jest": "^23.6.0",
     "moment": "^2.22.2",
     "mongodb": "^3.1.9",
+    "ts-jest": "^23.10.4",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
     "typescript": "^3.1.6"
