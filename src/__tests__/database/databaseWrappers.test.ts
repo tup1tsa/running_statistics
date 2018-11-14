@@ -30,6 +30,7 @@ it("should connect and return db and client instances", async done => {
   );
   expect(connectMock.mock.calls.length).toBe(1);
   expect(connectMock.mock.calls[0][0]).toBe(uri);
+  expect(connectMock.mock.calls[0][1]).toEqual({ useNewUrlParser: true });
   expect(result.clientInstance).toEqual(clientInstance);
   expect(result.db).toEqual(db);
   done();

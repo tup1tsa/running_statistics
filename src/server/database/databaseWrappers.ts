@@ -2,13 +2,21 @@ import { Db, MongoClient } from "mongodb";
 // MongoClient is used directly here because of problems with static 'connect' method
 // if you pass client: MongoClient as dependency in functions -> typescript would think
 // that client is an instance of MongoClient, not MongoClient class itself
-// Db interface is used for simplification (it would be very tedious to make interface
-// of mongodb manually)
 
 export type Query<T> = (db: Db) => Promise<T>;
 
-export const connect = async (uri: string, dbName: string) => {
-  const clientInstance = await MongoClient.connect(uri);
+export interface Connection {
+  readonly clientInstance: MongoClient;
+  readonly db: Db;
+}
+
+type Connect = (uri: string, dbName: string) => Promise<Connection>;
+
+export const connect: Connect = async (uri, dbName) => {
+  const clientInstance = await MongoClient.connect(
+    uri,
+    { useNewUrlParser: true }
+  );
   return {
     clientInstance,
     db: clientInstance.db(dbName)
