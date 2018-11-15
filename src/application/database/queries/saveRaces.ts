@@ -1,6 +1,6 @@
+import { Query } from "mongo-wrappers";
 import { InsertWriteOpResult } from "mongodb";
 import { Race } from "../../../../client/src/application/common_files/interfaces";
-import { Query } from "../databaseWrappers";
 
 type SaveRaces = (
   collectionName: string,

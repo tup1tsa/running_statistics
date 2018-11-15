@@ -1,7 +1,5 @@
-import { Connection } from "../../../server/database/databaseWrappers";
-import { fetchRaces } from "../../../server/database/queries/fetchRaces";
-import { closeTestDb } from "../../../testHelpers/closeTestDb";
-import { prepareTestDb } from "../../../testHelpers/prepareTestDb";
+import { closeTestDb, Connection, prepareTestDb } from "mongo-wrappers";
+import { fetchRaces } from "../../../application/database/queries/fetchRaces";
 
 let connection: Connection;
 

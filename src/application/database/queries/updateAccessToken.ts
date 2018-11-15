@@ -1,5 +1,5 @@
+import { Query } from "mongo-wrappers";
 import { UpdateWriteOpResult } from "mongodb";
-import { Query } from "../databaseWrappers";
 import { UserInfo } from "./saveNewUser";
 
 type UpdateAccessToken = (

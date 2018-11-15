@@ -1,5 +1,5 @@
+import { Query } from "mongo-wrappers";
 import { InsertOneWriteOpResult } from "mongodb";
-import { Query } from "../databaseWrappers";
 
 export interface UserInfo {
   readonly name: string;

@@ -1,8 +1,6 @@
-import { Connection } from "../../../server/database/databaseWrappers";
-import { UserInfo } from "../../../server/database/queries/saveNewUser";
-import { updateAccessToken } from "../../../server/database/queries/updateAccessToken";
-import { closeTestDb } from "../../../testHelpers/closeTestDb";
-import { prepareTestDb } from "../../../testHelpers/prepareTestDb";
+import { closeTestDb, Connection, prepareTestDb } from "mongo-wrappers";
+import { UserInfo } from "../../../application/database/queries/saveNewUser";
+import { updateAccessToken } from "../../../application/database/queries/updateAccessToken";
 
 let connection: Connection;
 

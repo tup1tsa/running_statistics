@@ -1,10 +1,8 @@
-import { Connection } from "../../../server/database/databaseWrappers";
+import { closeTestDb, Connection, prepareTestDb } from "mongo-wrappers";
 import {
   saveNewUser,
   UserInfo
-} from "../../../server/database/queries/saveNewUser";
-import { closeTestDb } from "../../../testHelpers/closeTestDb";
-import { prepareTestDb } from "../../../testHelpers/prepareTestDb";
+} from "../../../application/database/queries/saveNewUser";
 
 let connection: Connection;
 

@@ -1,5 +1,5 @@
+import { Query } from "mongo-wrappers";
 import { Race } from "../../../../client/src/application/common_files/interfaces";
-import { Query } from "../databaseWrappers";
 
 type FetchRaces = (collectionName: string) => Query<ReadonlyArray<Race>>;
 
