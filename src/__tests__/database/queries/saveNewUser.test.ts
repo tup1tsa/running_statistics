@@ -1,8 +1,10 @@
+import * as _ from "lodash";
 import { closeTestDb, Connection, prepareTestDb } from "mongo-wrappers";
 import {
   saveNewUser,
   UserInfo
 } from "../../../application/database/queries/saveNewUser";
+import { getTestConfig } from "../../../testHelpers/getTestConfig";
 
 let connection: Connection;
 
@@ -17,13 +19,16 @@ afterAll(async done => {
 });
 
 it("should save new user correctly", async done => {
-  const collectionName = "users";
+  const collectionName = "saveUsers";
+  const config = getTestConfig({
+    collection: { key: "users", value: collectionName }
+  });
   const userInfo: UserInfo = {
     name: "Vanya",
     email: "fancy@gmail.com",
     passwordHash: "very long password hash"
   };
-  await saveNewUser(collectionName, userInfo)(connection.db);
+  await saveNewUser(config, userInfo)(connection.db);
   const cursor = await connection.db.collection(collectionName).find();
   const docs = await cursor.toArray();
   expect(docs.length).toBe(1);

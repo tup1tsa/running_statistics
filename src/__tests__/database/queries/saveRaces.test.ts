@@ -1,5 +1,6 @@
 import { closeTestDb, Connection, prepareTestDb } from "mongo-wrappers";
 import { saveRaces } from "../../../application/database/queries/saveRaces";
+import { getTestConfig } from "../../../testHelpers/getTestConfig";
 
 let connection: Connection;
 
@@ -15,6 +16,9 @@ afterAll(async done => {
 
 it("should save races correctly", async done => {
   const collectionName = "saveRaces";
+  const config = getTestConfig({
+    collection: { key: "races", value: collectionName }
+  });
   const race = {
     type: "running",
     path: [
@@ -22,7 +26,7 @@ it("should save races correctly", async done => {
       { latitude: 17, longitude: 23, time: 323 }
     ]
   };
-  const query = saveRaces(collectionName, [race]);
+  const query = saveRaces(config, [race]);
   await query(connection.db);
   const cursor = await connection.db.collection(collectionName).find();
   const docs = await cursor.toArray();

@@ -1,19 +1,20 @@
 import { Query } from "mongo-wrappers";
 import { UpdateWriteOpResult } from "mongodb";
+import { Config } from "../../config";
 import { UserInfo } from "./saveNewUser";
 
 type UpdateAccessToken = (
-  collectionName: string,
+  config: Config,
   userInfo: UserInfo,
   token: string
 ) => Query<UpdateWriteOpResult>;
 
 export const updateAccessToken: UpdateAccessToken = (
-  collectionName,
+  config,
   userInfo,
   token
 ) => async db => {
-  const collection = db.collection(collectionName);
+  const collection = db.collection(config.collections.users);
   return collection.updateOne(
     {
       email: userInfo.email,

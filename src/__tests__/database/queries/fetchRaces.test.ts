@@ -1,5 +1,7 @@
+import * as _ from "lodash";
 import { closeTestDb, Connection, prepareTestDb } from "mongo-wrappers";
 import { fetchRaces } from "../../../application/database/queries/fetchRaces";
+import { getTestConfig } from "../../../testHelpers/getTestConfig";
 
 let connection: Connection;
 
@@ -14,7 +16,9 @@ afterAll(async done => {
 });
 
 it("should fetch races correctly", async done => {
-  const collectionName = "fetchRaces";
+  const config = getTestConfig({
+    collection: { key: "races", value: "fetchRaces" }
+  });
   const race = {
     type: "walking",
     path: [
@@ -22,8 +26,8 @@ it("should fetch races correctly", async done => {
       { latitude: 17, longitude: 23, time: 323 }
     ]
   };
-  await connection.db.collection(collectionName).insertOne(race);
-  const races = await fetchRaces(collectionName)(connection.db);
+  await connection.db.collection("fetchRaces").insertOne(race);
+  const races = await fetchRaces(config)(connection.db);
   expect(races).toEqual([race]);
   done();
 });
