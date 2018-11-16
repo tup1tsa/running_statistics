@@ -3,10 +3,8 @@ import * as compression from "compression";
 import * as dotenv from "dotenv";
 import * as express from "express";
 import { Race } from "../client/src/application/common_files/interfaces";
-import {
-  fetchRacesContainer,
-  saveRacesContainer
-} from "./containers/database/queriesContainers";
+import { fetchRacesContainer } from "./containers/database/queries/fetchRacesContainer";
+import { saveRacesContainer } from "./containers/database/queries/saveRacesContainer";
 
 dotenv.load();
 
