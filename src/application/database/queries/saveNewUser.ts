@@ -1,6 +1,6 @@
 import { Query } from "mongo-wrappers";
 import { InsertOneWriteOpResult } from "mongodb";
-import { Config } from "../../config";
+import { GetConfig } from "../../config";
 
 export interface UserInfo {
   readonly name: string;
@@ -9,9 +9,9 @@ export interface UserInfo {
 }
 
 type SaveNewUser = (
-  config: Config,
+  getConfig: GetConfig,
   userInfo: UserInfo
 ) => Query<InsertOneWriteOpResult>;
 
-export const saveNewUser: SaveNewUser = (config, userInfo) => async db =>
-  db.collection(config.collections.users).insertOne(userInfo);
+export const saveNewUser: SaveNewUser = (getConfig, userInfo) => async db =>
+  db.collection(getConfig().collections.users).insertOne(userInfo);

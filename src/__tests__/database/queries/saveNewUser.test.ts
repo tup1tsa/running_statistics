@@ -4,7 +4,6 @@ import {
   saveNewUser,
   UserInfo
 } from "../../../application/database/queries/saveNewUser";
-import { getTestConfig } from "../../../testHelpers/getTestConfig";
 
 let connection: Connection;
 
@@ -20,15 +19,15 @@ afterAll(async done => {
 
 it("should save new user correctly", async done => {
   const collectionName = "saveUsers";
-  const config = getTestConfig({
-    collection: { key: "users", value: collectionName }
-  });
+  const getConfig = jest
+    .fn()
+    .mockReturnValue({ collections: { users: collectionName } });
   const userInfo: UserInfo = {
     name: "Vanya",
     email: "fancy@gmail.com",
     passwordHash: "very long password hash"
   };
-  await saveNewUser(config, userInfo)(connection.db);
+  await saveNewUser(getConfig, userInfo)(connection.db);
   const cursor = await connection.db.collection(collectionName).find();
   const docs = await cursor.toArray();
   expect(docs.length).toBe(1);

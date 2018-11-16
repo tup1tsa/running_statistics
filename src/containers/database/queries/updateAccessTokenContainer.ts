@@ -1,6 +1,6 @@
 import { runQueryContainer } from "mongo-wrappers";
 import { UpdateWriteOpResult } from "mongodb";
-import { appConfig } from "../../../application/config";
+import { getConfig } from "../../../application/config";
 import { UserInfo } from "../../../application/database/queries/saveNewUser";
 import { updateAccessToken } from "../../../application/database/queries/updateAccessToken";
 
@@ -12,4 +12,4 @@ type UpdateAccessTokenContainer = (
 export const updateAccessTokenContainer: UpdateAccessTokenContainer = async (
   userInfo,
   token
-) => runQueryContainer(updateAccessToken(appConfig, userInfo, token));
+) => runQueryContainer(updateAccessToken(getConfig, userInfo, token));

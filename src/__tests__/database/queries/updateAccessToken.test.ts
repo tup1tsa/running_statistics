@@ -1,7 +1,6 @@
 import { closeTestDb, Connection, prepareTestDb } from "mongo-wrappers";
 import { UserInfo } from "../../../application/database/queries/saveNewUser";
 import { updateAccessToken } from "../../../application/database/queries/updateAccessToken";
-import { getTestConfig } from "../../../testHelpers/getTestConfig";
 
 let connection: Connection;
 
@@ -17,8 +16,8 @@ afterAll(async done => {
 
 it("should create and save new user access token", async done => {
   const collectionName = "token1";
-  const config = getTestConfig({
-    collection: { key: "users", value: collectionName }
+  const getConfig = jest.fn().mockReturnValue({
+    collections: { users: collectionName }
   });
   const userInfo: UserInfo = {
     name: "Sasha",
@@ -27,7 +26,7 @@ it("should create and save new user access token", async done => {
   };
   const accessToken = "access token!";
   await connection.db.collection(collectionName).insertOne(userInfo);
-  await updateAccessToken(config, userInfo, accessToken)(connection.db);
+  await updateAccessToken(getConfig, userInfo, accessToken)(connection.db);
   const cursor = await connection.db.collection(collectionName).find();
   const docs = await cursor.toArray();
   expect(docs.length).toBe(1);
@@ -37,8 +36,8 @@ it("should create and save new user access token", async done => {
 
 it("should not update access token if user info is incorrect", async done => {
   const collectionName = "token2";
-  const config = getTestConfig({
-    collection: { key: "users", value: collectionName }
+  const getConfig = jest.fn().mockReturnValue({
+    collections: { users: collectionName }
   });
   const userInfo: UserInfo = {
     name: "Sasha",
@@ -48,7 +47,7 @@ it("should not update access token if user info is incorrect", async done => {
   const accessToken = "access token!";
   await connection.db.collection(collectionName).insertOne(userInfo);
   await updateAccessToken(
-    config,
+    getConfig,
     { ...userInfo, email: "random@gmail.com" },
     accessToken
   )(connection.db);
@@ -61,8 +60,8 @@ it("should not update access token if user info is incorrect", async done => {
 
 it("should update existent access token", async done => {
   const collectionName = "token3";
-  const config = getTestConfig({
-    collection: { key: "users", value: collectionName }
+  const getConfig = jest.fn().mockReturnValue({
+    collections: { users: collectionName }
   });
   const userInfo = {
     name: "Sasha",
@@ -72,7 +71,7 @@ it("should update existent access token", async done => {
   };
   const accessToken = "access token!";
   await connection.db.collection(collectionName).insertOne(userInfo);
-  await updateAccessToken(config, userInfo, accessToken)(connection.db);
+  await updateAccessToken(getConfig, userInfo, accessToken)(connection.db);
   const cursor = await connection.db.collection(collectionName).find();
   const docs = await cursor.toArray();
   expect(docs.length).toBe(1);

@@ -5,9 +5,11 @@ export interface Config {
   };
 }
 
-export const appConfig: Config = {
+export type GetConfig = () => Config;
+
+export const getConfig: GetConfig = () => ({
   collections: {
     races: "races",
     users: "users"
   }
-};
+});

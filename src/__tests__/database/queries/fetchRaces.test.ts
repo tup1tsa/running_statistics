@@ -1,7 +1,6 @@
 import * as _ from "lodash";
 import { closeTestDb, Connection, prepareTestDb } from "mongo-wrappers";
 import { fetchRaces } from "../../../application/database/queries/fetchRaces";
-import { getTestConfig } from "../../../testHelpers/getTestConfig";
 
 let connection: Connection;
 
@@ -16,8 +15,8 @@ afterAll(async done => {
 });
 
 it("should fetch races correctly", async done => {
-  const config = getTestConfig({
-    collection: { key: "races", value: "fetchRaces" }
+  const getConfig = jest.fn().mockReturnValue({
+    collections: { races: "fetchRaces" }
   });
   const race = {
     type: "walking",
@@ -27,7 +26,7 @@ it("should fetch races correctly", async done => {
     ]
   };
   await connection.db.collection("fetchRaces").insertOne(race);
-  const races = await fetchRaces(config)(connection.db);
+  const races = await fetchRaces(getConfig)(connection.db);
   expect(races).toEqual([race]);
   done();
 });

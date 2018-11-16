@@ -1,6 +1,5 @@
 import { closeTestDb, Connection, prepareTestDb } from "mongo-wrappers";
 import { saveRaces } from "../../../application/database/queries/saveRaces";
-import { getTestConfig } from "../../../testHelpers/getTestConfig";
 
 let connection: Connection;
 
@@ -16,8 +15,8 @@ afterAll(async done => {
 
 it("should save races correctly", async done => {
   const collectionName = "saveRaces";
-  const config = getTestConfig({
-    collection: { key: "races", value: collectionName }
+  const getConfig = jest.fn().mockReturnValue({
+    collections: { races: collectionName }
   });
   const race = {
     type: "running",
@@ -26,7 +25,7 @@ it("should save races correctly", async done => {
       { latitude: 17, longitude: 23, time: 323 }
     ]
   };
-  const query = saveRaces(config, [race]);
+  const query = saveRaces(getConfig, [race]);
   await query(connection.db);
   const cursor = await connection.db.collection(collectionName).find();
   const docs = await cursor.toArray();
