@@ -1,11 +1,11 @@
 import { runQueryContainer } from "mongo-wrappers";
 import { UpdateWriteOpResult } from "mongodb";
 import { getConfig } from "../../../application/config";
-import { UserInfo } from "../../../application/database/queries/saveNewUser";
+import { UserInfoHashed } from "../../../application/database/queries/saveNewUser";
 import { updateAccessToken } from "../../../application/database/queries/updateAccessToken";
 
 type UpdateAccessTokenContainer = (
-  userInfo: UserInfo,
+  userInfo: UserInfoHashed,
   token: string
 ) => Promise<UpdateWriteOpResult>;
 

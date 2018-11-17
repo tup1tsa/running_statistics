@@ -1,5 +1,6 @@
 import * as crypto from "crypto";
-import { hashUserInfo, UserInfo } from "../application/hashUserInfo";
+import { UserInfo } from "../../client/src/application/common_files/interfaces";
+import { hashUserInfo } from "../application/hashUserInfo";
 
 it("should hash info properly", async done => {
   const salt = jest.fn().mockReturnValue("super unique salt");

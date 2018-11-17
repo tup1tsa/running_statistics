@@ -1,5 +1,5 @@
 import { closeTestDb, Connection, prepareTestDb } from "mongo-wrappers";
-import { UserInfo } from "../../../application/database/queries/saveNewUser";
+import { UserInfoHashed } from "../../../application/database/queries/saveNewUser";
 import { updateAccessToken } from "../../../application/database/queries/updateAccessToken";
 
 let connection: Connection;
@@ -14,15 +14,21 @@ afterAll(async done => {
   done();
 });
 
+const defaultUserInfo: UserInfoHashed = {
+  name: "Sasha",
+  email: "some@gmail.com",
+  passwordHash: "some hasherino",
+  salt: "",
+  accessToken: ""
+};
+
 it("should create and save new user access token", async done => {
   const collectionName = "token1";
   const getConfig = jest.fn().mockReturnValue({
     collections: { users: collectionName }
   });
-  const userInfo: UserInfo = {
-    name: "Sasha",
-    email: "some@gmail.com",
-    passwordHash: "some hasherino"
+  const userInfo: UserInfoHashed = {
+    ...defaultUserInfo
   };
   const accessToken = "access token!";
   await connection.db.collection(collectionName).insertOne(userInfo);
@@ -39,16 +45,14 @@ it("should not update access token if user info is incorrect", async done => {
   const getConfig = jest.fn().mockReturnValue({
     collections: { users: collectionName }
   });
-  const userInfo: UserInfo = {
-    name: "Sasha",
-    email: "another@gmail.com",
-    passwordHash: "some hasherino"
+  const userInfo = {
+    ...defaultUserInfo
   };
   const accessToken = "access token!";
   await connection.db.collection(collectionName).insertOne(userInfo);
   await updateAccessToken(
     getConfig,
-    { ...userInfo, email: "random@gmail.com" },
+    { ...defaultUserInfo, email: "random@gmail.com" },
     accessToken
   )(connection.db);
   const cursor = await connection.db.collection(collectionName).find();
@@ -64,10 +68,7 @@ it("should update existent access token", async done => {
     collections: { users: collectionName }
   });
   const userInfo = {
-    name: "Sasha",
-    email: "another@gmail.com",
-    passwordHash: "some hasherino",
-    accessToken: "117asb"
+    ...defaultUserInfo
   };
   const accessToken = "access token!";
   await connection.db.collection(collectionName).insertOne(userInfo);

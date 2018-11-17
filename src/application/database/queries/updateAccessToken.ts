@@ -1,11 +1,11 @@
 import { Query } from "mongo-wrappers";
 import { UpdateWriteOpResult } from "mongodb";
 import { GetConfig } from "../../config";
-import { UserInfo } from "./saveNewUser";
+import { UserInfoHashed } from "./saveNewUser";
 
 type UpdateAccessToken = (
   getConfig: GetConfig,
-  userInfo: UserInfo,
+  userInfo: UserInfoHashed,
   token: string
 ) => Query<UpdateWriteOpResult>;
 

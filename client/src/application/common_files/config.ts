@@ -33,5 +33,7 @@ export const MESSAGES = [
   "Race was saved successfully.",
   "There is no internet connection.",
   "Unexpected server error",
-  "There is nothing to save"
+  "There is nothing to save",
+  "User info is invalid",
+  "User with that name or email already exists"
 ];

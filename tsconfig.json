@@ -14,5 +14,5 @@
     "sourceMap": false,
     "outDir": "dist"
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "client/src/common_files/**/*"]
 }

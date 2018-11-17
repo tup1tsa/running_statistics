@@ -3,11 +3,11 @@ import { InsertOneWriteOpResult } from "mongodb";
 import { getConfig } from "../../../application/config";
 import {
   saveNewUser,
-  UserInfo
+  UserInfoHashed
 } from "../../../application/database/queries/saveNewUser";
 
-type SaveNewUserContainer = (
-  userInfo: UserInfo
+export type SaveNewUserContainer = (
+  userInfo: UserInfoHashed
 ) => Promise<InsertOneWriteOpResult>;
 
 export const saveNewUserContainer: SaveNewUserContainer = async userInfo =>

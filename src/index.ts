@@ -6,6 +6,7 @@ import * as express from "express";
 import { Race } from "../client/src/application/common_files/interfaces";
 import { fetchRacesContainer } from "./containers/database/queries/fetchRacesContainer";
 import { saveRacesContainer } from "./containers/database/queries/saveRacesContainer";
+import { regularRegistrationContainer } from "./containers/routes/regularRegistationContainer";
 
 dotenv.load();
 
@@ -18,6 +19,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static("client/build"));
+
+app.post("/registration", regularRegistrationContainer);
 
 // todo: add some kind of tests here (probably integration)
 app.post("/saveRaces", async (req, res) => {
