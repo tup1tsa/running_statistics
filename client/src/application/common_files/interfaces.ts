@@ -39,6 +39,12 @@ export interface Axios {
   post(url: string, data?: any): Promise<Response>;
 }
 
+export interface UserInfo {
+  readonly name: string;
+  readonly email: string;
+  readonly password: string;
+}
+
 export type GetPath = (positions: ReadonlyArray<PositionInTime>) => number;
 
 export type GetDistance = (start: Coordinates, end: Coordinates) => number;
