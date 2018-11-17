@@ -1,5 +1,6 @@
 import * as bodyParser from "body-parser";
 import * as compression from "compression";
+import * as cookieParser from "cookie-parser";
 import * as dotenv from "dotenv";
 import * as express from "express";
 import { Race } from "../client/src/application/common_files/interfaces";
@@ -12,6 +13,7 @@ const PORT = process.env.PORT || 3007;
 const app = express();
 
 app.use(compression());
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

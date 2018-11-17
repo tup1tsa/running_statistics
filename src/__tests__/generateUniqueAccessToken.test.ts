@@ -5,12 +5,12 @@ it("should generate unique access token", async done => {
     .fn()
     .mockResolvedValueOnce(false)
     .mockResolvedValueOnce(true);
-  const generateAccessToken = jest
+  const createSalt = jest
     .fn()
     .mockReturnValueOnce("hey")
     .mockReturnValueOnce("way");
   const token = await generateUniqueAccessToken(
-    generateAccessToken,
+    createSalt,
     isAccessTokenUnique
   );
   expect(token).toBe("way");

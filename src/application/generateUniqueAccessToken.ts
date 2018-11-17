@@ -1,8 +1,8 @@
 import { IsAccessTokenUniqueContainer } from "../containers/database/queries/isAccessTokenUniqueContainer";
-import { GenerateAccessToken } from "./generateAccessToken";
+import { CreateSalt } from "./createSalt";
 
 export type GenerateUniqueAccessToken = (
-  generateAccessToken: GenerateAccessToken,
+  generateAccessToken: CreateSalt,
   isAccessTokenUnique: IsAccessTokenUniqueContainer
 ) => Promise<string>;
 
