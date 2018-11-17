@@ -34,3 +34,35 @@ it("should save new user correctly", async done => {
   expect(docs[0]).toEqual(userInfo);
   done();
 });
+
+it("should throw if name or email is already in use", async done => {
+  const collectionName = "uniqueUsers";
+  const getConfig = jest
+    .fn()
+    .mockReturnValue({ collections: { users: collectionName } });
+  const users: UserInfo[] = [
+    {
+      name: "Vanya",
+      email: "fancy@gmail.com",
+      passwordHash: "very long password hash"
+    },
+    {
+      name: "Cristina",
+      email: "fancy@gmail.com",
+      passwordHash: "very long password hash"
+    },
+    {
+      name: "Vanya",
+      email: "different@gmail.com",
+      passwordHash: "very long password hash"
+    }
+  ];
+  await saveNewUser(getConfig, users[0])(connection.db);
+  await expect(
+    saveNewUser(getConfig, users[1])(connection.db)
+  ).rejects.toThrow();
+  await expect(
+    saveNewUser(getConfig, users[1])(connection.db)
+  ).rejects.toThrow();
+  done();
+});

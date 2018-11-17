@@ -13,5 +13,9 @@ type SaveNewUser = (
   userInfo: UserInfo
 ) => Query<InsertOneWriteOpResult>;
 
-export const saveNewUser: SaveNewUser = (getConfig, userInfo) => async db =>
-  db.collection(getConfig().collections.users).insertOne(userInfo);
+export const saveNewUser: SaveNewUser = (getConfig, userInfo) => async db => {
+  const collection = db.collection(getConfig().collections.users);
+  await collection.createIndex({ name: 1 }, { unique: true });
+  await collection.createIndex({ email: 1 }, { unique: true });
+  return collection.insertOne(userInfo);
+};
