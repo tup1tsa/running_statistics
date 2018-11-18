@@ -5,19 +5,23 @@ import { GetConfig, getConfig } from "../../config";
 
 type SaveRacesFactory = (
   getConfig: GetConfig,
-  races: ReadonlyArray<Race>
+  races: ReadonlyArray<Race>,
+  userId: string
 ) => Query<InsertWriteOpResult>;
-type SaveRaces = (races: ReadonlyArray<Race>) => Promise<InsertWriteOpResult>;
+export type SaveRaces = (
+  races: ReadonlyArray<Race>,
+  userId: string
+) => Promise<InsertWriteOpResult>;
 
 export const saveRacesFactory: SaveRacesFactory = (
   getConfigFunc,
-  races
+  races,
+  userId
 ) => db => {
   const collection = db.collection(getConfigFunc().collections.races);
-  // @ts-ignore
-  // todo: fix
-  return collection.insertMany(races);
+  const racesWithUserId = races.map(race => ({ ...race, userId }));
+  return collection.insertMany(racesWithUserId);
 };
 
-export const saveRaces: SaveRaces = races =>
-  runQueryContainer(saveRacesFactory(getConfig, races));
+export const saveRaces: SaveRaces = (races, userId) =>
+  runQueryContainer(saveRacesFactory(getConfig, races, userId));

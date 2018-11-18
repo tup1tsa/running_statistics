@@ -4,9 +4,10 @@ import * as cookieParser from "cookie-parser";
 import * as express from "express";
 import { Race } from "../client/src/application/common_files/interfaces";
 import { fetchRaces } from "./application/database/queries/fetchRaces";
-import { saveRaces } from "./application/database/queries/saveRaces";
+import { checkAccess } from "./application/routes/checkAccess";
 import { regularLogin } from "./application/routes/regularLogin";
 import { regularRegistration } from "./application/routes/regularRegistation";
+import { saveRacesRoute } from "./application/routes/saveRacesRoute";
 
 const PORT = process.env.PORT || 3007;
 const app = express();
@@ -20,20 +21,7 @@ app.use(express.static("client/build"));
 
 app.post("/registration", regularRegistration);
 app.post("/login", regularLogin);
-
-// todo: add some kind of tests here (probably integration)
-app.post("/saveRaces", async (req, res) => {
-  const races = req.body;
-  try {
-    // todo: why there are no validation?Races can by anything
-    await saveRaces(races);
-  } catch (e) {
-    res.status(500).end(JSON.stringify(e));
-    return;
-  }
-  const response = { saved: true };
-  res.status(200).end(JSON.stringify(response));
-});
+app.post("/saveRaces", checkAccess, saveRacesRoute);
 
 app.post("/fetchRaces", async (req, res) => {
   let races: ReadonlyArray<Race> = [];

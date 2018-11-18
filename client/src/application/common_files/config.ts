@@ -36,5 +36,6 @@ export const MESSAGES = [
   "There is nothing to save",
   "User info is invalid",
   "User with that name or email already exists",
-  "Email or password are incorrect"
+  "Email or password are incorrect",
+  "Races are not valid"
 ];

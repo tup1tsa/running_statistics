@@ -19,17 +19,19 @@ it("should save races correctly", async done => {
     collections: { races: collectionName }
   });
   const race = {
+    _id: "23",
     type: "running",
     path: [
       { latitude: 42, longitude: 44, time: 323 },
       { latitude: 17, longitude: 23, time: 323 }
     ]
   };
-  const query = saveRacesFactory(getConfig, [race]);
+  const userId = "aba125457854124521527854";
+  const query = saveRacesFactory(getConfig, [race], userId);
   await query(connection.db);
   const cursor = await connection.db.collection(collectionName).find();
   const docs = await cursor.toArray();
   expect(docs.length).toBe(1);
-  expect(docs[0]).toEqual(race);
+  expect(docs[0]).toEqual({ ...race, userId });
   done();
 });
