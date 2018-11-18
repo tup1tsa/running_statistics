@@ -13,6 +13,7 @@ export const getRequestReponse = () => {
   const end = jest.fn();
   const cookie = jest.fn();
   const status = jest.fn().mockReturnValue(response);
+  const next = jest.fn();
 
   request.cookies = {};
   request.body = {};
@@ -27,7 +28,8 @@ export const getRequestReponse = () => {
     response,
     end,
     cookie,
-    status
+    status,
+    next
   };
 };
 

@@ -1,15 +1,20 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import {
   FindUserByToken,
   findUserByToken
 } from "../database/queries/findUserByToken";
 
-type CheckAccess = (req: Request, res: Response) => Promise<void>;
+type CheckAccess = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => Promise<void>;
 type CheckAccessFactory = (findUserByToken: FindUserByToken) => CheckAccess;
 
 export const checkAccessFactory: CheckAccessFactory = findUserByTokenFunc => async (
   req,
-  res
+  res,
+  next
 ) => {
   const user = await findUserByTokenFunc(req.cookies.accessToken);
   if (user === null) {
@@ -17,7 +22,8 @@ export const checkAccessFactory: CheckAccessFactory = findUserByTokenFunc => asy
     return;
   }
   res.locals.userId = user._id;
+  next();
 };
 
-export const checkAccess: CheckAccess = (req, res) =>
-  checkAccessFactory(findUserByToken)(req, res);
+export const checkAccess: CheckAccess = (req, res, next) =>
+  checkAccessFactory(findUserByToken)(req, res, next);
