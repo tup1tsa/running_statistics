@@ -35,5 +35,6 @@ export const MESSAGES = [
   "Unexpected server error",
   "There is nothing to save",
   "User info is invalid",
-  "User with that name or email already exists"
+  "User with that name or email already exists",
+  "Email or password are incorrect"
 ];

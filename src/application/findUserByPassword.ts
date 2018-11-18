@@ -5,7 +5,7 @@ import {
 } from "./database/queries/findUserByEmail";
 import { UserInfoHashed } from "./database/queries/saveNewUser";
 
-type FindUserByPassword = (
+export type FindUserByPassword = (
   email: string,
   password: string
 ) => Promise<UserInfoHashed | null>;
