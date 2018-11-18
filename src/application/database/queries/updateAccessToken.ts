@@ -1,20 +1,24 @@
-import { Query } from "mongo-wrappers";
+import { Query, runQueryContainer } from "mongo-wrappers";
 import { UpdateWriteOpResult } from "mongodb";
-import { GetConfig } from "../../config";
+import { GetConfig, getConfig } from "../../config";
 import { UserInfoHashed } from "./saveNewUser";
 
-type UpdateAccessToken = (
+type UpdateAccessTokenFactory = (
   getConfig: GetConfig,
   userInfo: UserInfoHashed,
   token: string
 ) => Query<UpdateWriteOpResult>;
+type UpdateAccessToken = (
+  userInfo: UserInfoHashed,
+  token: string
+) => Promise<UpdateWriteOpResult>;
 
-export const updateAccessToken: UpdateAccessToken = (
-  getConfig,
+export const updateAccessTokenFactory: UpdateAccessTokenFactory = (
+  getConfigFunc,
   userInfo,
   token
 ) => async db => {
-  const collection = db.collection(getConfig().collections.users);
+  const collection = db.collection(getConfigFunc().collections.users);
   return collection.updateOne(
     {
       email: userInfo.email,
@@ -23,3 +27,6 @@ export const updateAccessToken: UpdateAccessToken = (
     { $set: { accessToken: token } }
   );
 };
+
+export const updateAccessToken: UpdateAccessToken = (userInfo, token) =>
+  runQueryContainer(updateAccessTokenFactory(getConfig, userInfo, token));

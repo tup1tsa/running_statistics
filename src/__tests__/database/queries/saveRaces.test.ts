@@ -1,5 +1,5 @@
 import { closeTestDb, Connection, prepareTestDb } from "mongo-wrappers";
-import { saveRaces } from "../../../application/database/queries/saveRaces";
+import { saveRacesFactory } from "../../../application/database/queries/saveRaces";
 
 let connection: Connection;
 
@@ -25,12 +25,11 @@ it("should save races correctly", async done => {
       { latitude: 17, longitude: 23, time: 323 }
     ]
   };
-  const query = saveRaces(getConfig, [race]);
+  const query = saveRacesFactory(getConfig, [race]);
   await query(connection.db);
   const cursor = await connection.db.collection(collectionName).find();
   const docs = await cursor.toArray();
   expect(docs.length).toBe(1);
   expect(docs[0]).toEqual(race);
-
   done();
 });

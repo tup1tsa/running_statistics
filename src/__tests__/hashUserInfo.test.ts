@@ -1,16 +1,18 @@
 import * as crypto from "crypto";
-import { UserInfo } from "../../client/src/application/common_files/interfaces";
-import { hashUserInfo } from "../application/hashUserInfo";
+import { RegularRegistrationInfo } from "../../client/src/application/common_files/interfaces";
+import { hashUserInfoFactory } from "../application/hashUserInfo";
 
 it("should hash info properly", async done => {
   const salt = jest.fn().mockReturnValue("super unique salt");
-  const generateUniqueToekn = jest.fn().mockResolvedValue("unique token");
-  const userInfo: UserInfo = {
+  const generateUniqueToken = jest.fn().mockResolvedValue("unique token");
+  const userInfo: RegularRegistrationInfo = {
     name: "Sasha",
     email: "any@gmail.com",
     password: "abcda"
   };
-  const hashedInfo = await hashUserInfo(userInfo, salt, generateUniqueToekn);
+  const hashedInfo = await hashUserInfoFactory(salt, generateUniqueToken)(
+    userInfo
+  );
   const hashedPassword = crypto
     .createHash("sha512")
     .update("super unique salt")

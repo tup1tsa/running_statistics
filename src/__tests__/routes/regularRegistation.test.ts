@@ -1,9 +1,11 @@
 import { Request, Response } from "express";
 import { MESSAGES } from "../../../client/src/application/common_files/config";
-import { UserInfo } from "../../../client/src/application/common_files/interfaces";
-import { regularRegistration } from "../../application/routes/regularRegistation";
+import { RegularRegistrationInfo } from "../../../client/src/application/common_files/interfaces";
+import { regularRegistrationFactory } from "../../application/routes/regularRegistation";
 
-const successValidator = (userInfo: UserInfo): userInfo is UserInfo => true;
+const successValidator = (
+  userInfo: RegularRegistrationInfo
+): userInfo is RegularRegistrationInfo => true;
 
 export const getRequestReponse = () => {
   const request = {} as Request;
@@ -30,14 +32,12 @@ export const getRequestReponse = () => {
 it("should send invalid data error if data is not valid", async done => {
   const { request, response, end, status } = getRequestReponse();
   const validatorMock = jest.fn().mockReturnValue(false);
-  await regularRegistration(
-    request,
-    response,
+  await regularRegistrationFactory(
     // @ts-ignore
     validatorMock,
     jest.fn(),
     jest.fn()
-  );
+  )(request, response);
   expect(status.mock.calls.length).toBe(1);
   expect(status.mock.calls[0][0]).toBe(403);
   expect(end.mock.calls.length).toBe(1);
@@ -49,12 +49,9 @@ it("should send unexpected error if hash user info threw", async done => {
   // it should not happen but just in case
   const { request, response, end, status } = getRequestReponse();
   const hashUserInfo = jest.fn().mockRejectedValue("some error");
-  await regularRegistration(
+  await regularRegistrationFactory(successValidator, hashUserInfo, jest.fn())(
     request,
-    response,
-    successValidator,
-    hashUserInfo,
-    jest.fn()
+    response
   );
   expect(status.mock.calls.length).toBe(1);
   expect(status.mock.calls[0][0]).toBe(500);
@@ -66,12 +63,9 @@ it("should send unexpected error if hash user info threw", async done => {
 it("should send 409 error if user already exists", async done => {
   const { request, response, end, status } = getRequestReponse();
   const saveUser = jest.fn().mockRejectedValue("already exist");
-  await regularRegistration(
+  await regularRegistrationFactory(successValidator, jest.fn(), saveUser)(
     request,
-    response,
-    successValidator,
-    jest.fn(),
-    saveUser
+    response
   );
   expect(status.mock.calls.length).toBe(1);
   expect(status.mock.calls[0][0]).toBe(409);
@@ -86,12 +80,9 @@ it("user info should be passed to hash method correctly", async done => {
   request.body.email = "some@gmail.com";
   request.body.password = "secret";
   const hashInfoMock = jest.fn().mockResolvedValue({ accessToken: "as" });
-  await regularRegistration(
+  await regularRegistrationFactory(successValidator, hashInfoMock, jest.fn())(
     request,
-    response,
-    successValidator,
-    hashInfoMock,
-    jest.fn()
+    response
   );
   expect(hashInfoMock.mock.calls.length).toBe(1);
   expect(hashInfoMock.mock.calls[0][0]).toEqual({
@@ -106,12 +97,9 @@ it("should set correct cookie on success registration", async done => {
   const { request, response, end, status, cookie } = getRequestReponse();
   const hashUserInfo = jest.fn().mockReturnValue({ accessToken: "abc32" });
   const saveUser = jest.fn().mockResolvedValue("");
-  await regularRegistration(
+  await regularRegistrationFactory(successValidator, hashUserInfo, saveUser)(
     request,
-    response,
-    successValidator,
-    hashUserInfo,
-    saveUser
+    response
   );
   expect(status.mock.calls[0][0]).toBe(200);
   expect(end.mock.calls[0][0]).toBe(undefined);

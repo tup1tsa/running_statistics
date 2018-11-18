@@ -1,37 +1,31 @@
 import { Request, Response } from "express";
 import { MESSAGES } from "../../../client/src/application/common_files/config";
-import { ValidateUserInfo } from "../../../client/src/application/common_files/validateUserInfo";
-import { SaveNewUserContainer } from "../../containers/database/queries/saveNewUserContainer";
-import { HashUserInfoContainer } from "../../containers/hashUserInfoContainer";
-import { UserInfoHashed } from "../database/queries/saveNewUser";
+import {
+  ValidateUserInfo,
+  validateUserInfo
+} from "../../../client/src/application/common_files/validators/validateUserInfo";
+import { SaveNewUser, UserInfoHashed } from "../database/queries/saveNewUser";
+import { HashUserInfo, hashUserInfo } from "../hashUserInfo";
 
-type RegularRegistration = (
-  req: Request,
-  res: Response,
+type RegularRegistration = (req: Request, res: Response) => Promise<void>;
+type RegularRegistrationFactory = (
   validateUserInfo: ValidateUserInfo,
-  hashUserInfo: HashUserInfoContainer,
-  saveNewUser: SaveNewUserContainer
-) => Promise<void>;
+  hashUserInfo: HashUserInfo,
+  saveNewUser: SaveNewUser
+) => RegularRegistration;
 
-export const regularRegistration: RegularRegistration = async (
-  req,
-  res,
-  validateUserInfo,
-  hashUserInfo,
+export const regularRegistrationFactory: RegularRegistrationFactory = (
+  validateUserInfoFunc,
+  hashUserInfoFunc,
   saveNewUser
-) => {
-  const userInfo = {
-    name: req.body.name,
-    password: req.body.password,
-    email: req.body.email
-  };
-  if (!validateUserInfo(userInfo)) {
+) => async (req, res) => {
+  if (!validateUserInfoFunc(req.body)) {
     res.status(403).end(JSON.stringify(MESSAGES[5]));
     return;
   }
   let hashedInfo: UserInfoHashed;
   try {
-    hashedInfo = await hashUserInfo(userInfo);
+    hashedInfo = await hashUserInfoFunc(req.body);
   } catch (e) {
     res.status(500).end(JSON.stringify(MESSAGES[0]));
     return;
@@ -47,3 +41,9 @@ export const regularRegistration: RegularRegistration = async (
   });
   res.status(200).end();
 };
+
+export const regularRegistration: RegularRegistration = (req, res) =>
+  regularRegistrationFactory(validateUserInfo, hashUserInfo, SaveNewUser)(
+    req,
+    res
+  );

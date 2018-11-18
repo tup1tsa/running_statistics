@@ -1,4 +1,4 @@
-import { generateUniqueAccessToken } from "../application/generateUniqueAccessToken";
+import { generateUniqueAccessTokenFactory } from "../application/generateUniqueAccessToken";
 
 it("should generate unique access token", async done => {
   const isAccessTokenUnique = jest
@@ -9,10 +9,10 @@ it("should generate unique access token", async done => {
     .fn()
     .mockReturnValueOnce("hey")
     .mockReturnValueOnce("way");
-  const token = await generateUniqueAccessToken(
+  const token = await generateUniqueAccessTokenFactory(
     createSalt,
     isAccessTokenUnique
-  );
+  )();
   expect(token).toBe("way");
   done();
 });

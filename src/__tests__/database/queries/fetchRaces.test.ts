@@ -1,6 +1,6 @@
 import * as _ from "lodash";
 import { closeTestDb, Connection, prepareTestDb } from "mongo-wrappers";
-import { fetchRaces } from "../../../application/database/queries/fetchRaces";
+import { fetchRacesFactory } from "../../../application/database/queries/fetchRaces";
 
 let connection: Connection;
 
@@ -16,7 +16,7 @@ afterAll(async done => {
 
 it("should fetch races correctly", async done => {
   const getConfig = jest.fn().mockReturnValue({
-    collections: { races: "fetchRaces" }
+    collections: { races: "fetchRacesFactory" }
   });
   const race = {
     type: "walking",
@@ -25,8 +25,8 @@ it("should fetch races correctly", async done => {
       { latitude: 17, longitude: 23, time: 323 }
     ]
   };
-  await connection.db.collection("fetchRaces").insertOne(race);
-  const races = await fetchRaces(getConfig)(connection.db);
+  await connection.db.collection("fetchRacesFactory").insertOne(race);
+  const races = await fetchRacesFactory(getConfig)(connection.db);
   expect(races).toEqual([race]);
   done();
 });

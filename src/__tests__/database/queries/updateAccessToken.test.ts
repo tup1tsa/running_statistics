@@ -1,6 +1,6 @@
 import { closeTestDb, Connection, prepareTestDb } from "mongo-wrappers";
 import { UserInfoHashed } from "../../../application/database/queries/saveNewUser";
-import { updateAccessToken } from "../../../application/database/queries/updateAccessToken";
+import { updateAccessTokenFactory } from "../../../application/database/queries/updateAccessToken";
 
 let connection: Connection;
 
@@ -32,7 +32,9 @@ it("should create and save new user access token", async done => {
   };
   const accessToken = "access token!";
   await connection.db.collection(collectionName).insertOne(userInfo);
-  await updateAccessToken(getConfig, userInfo, accessToken)(connection.db);
+  await updateAccessTokenFactory(getConfig, userInfo, accessToken)(
+    connection.db
+  );
   const cursor = await connection.db.collection(collectionName).find();
   const docs = await cursor.toArray();
   expect(docs.length).toBe(1);
@@ -50,7 +52,7 @@ it("should not update access token if user info is incorrect", async done => {
   };
   const accessToken = "access token!";
   await connection.db.collection(collectionName).insertOne(userInfo);
-  await updateAccessToken(
+  await updateAccessTokenFactory(
     getConfig,
     { ...defaultUserInfo, email: "random@gmail.com" },
     accessToken
@@ -72,7 +74,9 @@ it("should update existent access token", async done => {
   };
   const accessToken = "access token!";
   await connection.db.collection(collectionName).insertOne(userInfo);
-  await updateAccessToken(getConfig, userInfo, accessToken)(connection.db);
+  await updateAccessTokenFactory(getConfig, userInfo, accessToken)(
+    connection.db
+  );
   const cursor = await connection.db.collection(collectionName).find();
   const docs = await cursor.toArray();
   expect(docs.length).toBe(1);

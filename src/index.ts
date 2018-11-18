@@ -4,9 +4,9 @@ import * as cookieParser from "cookie-parser";
 import * as dotenv from "dotenv";
 import * as express from "express";
 import { Race } from "../client/src/application/common_files/interfaces";
-import { fetchRacesContainer } from "./containers/database/queries/fetchRacesContainer";
-import { saveRacesContainer } from "./containers/database/queries/saveRacesContainer";
-import { regularRegistrationContainer } from "./containers/routes/regularRegistationContainer";
+import { fetchRaces } from "./application/database/queries/fetchRaces";
+import { saveRaces } from "./application/database/queries/saveRaces";
+import { regularRegistration } from "./application/routes/regularRegistation";
 
 dotenv.load();
 
@@ -20,14 +20,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static("client/build"));
 
-app.post("/registration", regularRegistrationContainer);
+app.post("/registration", regularRegistration);
 
 // todo: add some kind of tests here (probably integration)
 app.post("/saveRaces", async (req, res) => {
   const races = req.body;
   try {
     // todo: why there are no validation?Races can by anything
-    await saveRacesContainer(races);
+    await saveRaces(races);
   } catch (e) {
     res.status(500).end(JSON.stringify(e));
     return;
@@ -39,7 +39,7 @@ app.post("/saveRaces", async (req, res) => {
 app.post("/fetchRaces", async (req, res) => {
   let races: ReadonlyArray<Race> = [];
   try {
-    races = await fetchRacesContainer();
+    races = await fetchRaces();
   } catch (e) {
     res.status(500).end(JSON.stringify(e));
   }

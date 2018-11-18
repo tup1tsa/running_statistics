@@ -1,6 +1,6 @@
-import { Query } from "mongo-wrappers";
+import { Query, runQueryContainer } from "mongo-wrappers";
 import { InsertOneWriteOpResult } from "mongodb";
-import { GetConfig } from "../../config";
+import { GetConfig, getConfig } from "../../config";
 
 export interface UserInfoHashed {
   readonly name: string;
@@ -10,15 +10,24 @@ export interface UserInfoHashed {
   readonly accessToken: string;
 }
 
-type SaveNewUser = (
+type SaveNewUserFactory = (
   getConfig: GetConfig,
   userInfo: UserInfoHashed
 ) => Query<InsertOneWriteOpResult>;
+export type SaveNewUser = (
+  userInfo: UserInfoHashed
+) => Promise<InsertOneWriteOpResult>;
 
-export const saveNewUser: SaveNewUser = (getConfig, userInfo) => async db => {
-  const collection = db.collection(getConfig().collections.users);
+export const saveNewUserFactory: SaveNewUserFactory = (
+  getConfigFunc,
+  userInfo
+) => async db => {
+  const collection = db.collection(getConfigFunc().collections.users);
   await collection.createIndex({ name: 1 }, { unique: true });
   await collection.createIndex({ email: 1 }, { unique: true });
   await collection.createIndex({ accessToken: 1 }, { unique: true });
   return collection.insertOne(userInfo);
 };
+
+export const SaveNewUser: SaveNewUser = userInfo =>
+  runQueryContainer(saveNewUserFactory(getConfig, userInfo));

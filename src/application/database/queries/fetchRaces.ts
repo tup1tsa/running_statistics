@@ -1,11 +1,17 @@
-import { Query } from "mongo-wrappers";
+import { Query, runQueryContainer } from "mongo-wrappers";
 import { Race } from "../../../../client/src/application/common_files/interfaces";
-import { GetConfig } from "../../config";
+import { GetConfig, getConfig } from "../../config";
 
-type FetchRaces = (getConfig: GetConfig) => Query<ReadonlyArray<Race>>;
+type FetchRaces = () => Promise<ReadonlyArray<Race>>;
+type FetchRacesFactory = (
+  getConfigFunc: GetConfig
+) => Query<ReadonlyArray<Race>>;
 
-export const fetchRaces: FetchRaces = getConfig => async db => {
-  const collection = db.collection(getConfig().collections.races);
+export const fetchRacesFactory: FetchRacesFactory = getConfigFunc => async db => {
+  const collection = db.collection(getConfigFunc().collections.races);
   const cursor = await collection.find();
   return await cursor.toArray();
 };
+
+export const fetchRaces: FetchRaces = () =>
+  runQueryContainer(fetchRacesFactory(getConfig));

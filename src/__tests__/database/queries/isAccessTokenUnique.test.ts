@@ -1,5 +1,5 @@
 import { closeTestDb, Connection, prepareTestDb } from "mongo-wrappers";
-import { isAccessTokenUnique } from "../../../application/database/queries/isAccessTokenUnique";
+import { isAccessTokenUniqueFactory } from "../../../application/database/queries/isAccessTokenUnique";
 
 let connection: Connection;
 
@@ -34,7 +34,9 @@ it("should return true if  this token is unique", async done => {
     .fn()
     .mockReturnValue({ collections: { users: collectionName } });
   await connection.db.collection(collectionName).insertMany(users);
-  const result = await isAccessTokenUnique(getConfig, "ba223")(connection.db);
+  const result = await isAccessTokenUniqueFactory(getConfig, "ba223")(
+    connection.db
+  );
   expect(result).toBe(true);
   done();
 });
@@ -45,9 +47,10 @@ it("should return false if token is not unique", async done => {
     .fn()
     .mockReturnValue({ collections: { users: collectionName } });
   await connection.db.collection(collectionName).insertMany(users);
-  const result = await isAccessTokenUnique(getConfig, users[0].accessToken)(
-    connection.db
-  );
+  const result = await isAccessTokenUniqueFactory(
+    getConfig,
+    users[0].accessToken
+  )(connection.db);
   expect(result).toBe(false);
   done();
 });

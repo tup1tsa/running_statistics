@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import { closeTestDb, Connection, prepareTestDb } from "mongo-wrappers";
 import {
-  saveNewUser,
+  saveNewUserFactory,
   UserInfoHashed
 } from "../../../application/database/queries/saveNewUser";
 
@@ -29,7 +29,7 @@ it("should save new user correctly", async done => {
     salt: "some salt",
     accessToken: "any token"
   };
-  await saveNewUser(getConfig, userInfo)(connection.db);
+  await saveNewUserFactory(getConfig, userInfo)(connection.db);
   const cursor = await connection.db.collection(collectionName).find();
   const docs = await cursor.toArray();
   expect(docs.length).toBe(1);
@@ -72,15 +72,15 @@ it("should throw if name, email or token is already in use", async done => {
       accessToken: "access token"
     }
   ];
-  await saveNewUser(getConfig, users[0])(connection.db);
+  await saveNewUserFactory(getConfig, users[0])(connection.db);
   await expect(
-    saveNewUser(getConfig, users[1])(connection.db)
+    saveNewUserFactory(getConfig, users[1])(connection.db)
   ).rejects.toThrow();
   await expect(
-    saveNewUser(getConfig, users[2])(connection.db)
+    saveNewUserFactory(getConfig, users[2])(connection.db)
   ).rejects.toThrow();
   await expect(
-    saveNewUser(getConfig, users[3])(connection.db)
+    saveNewUserFactory(getConfig, users[3])(connection.db)
   ).rejects.toThrow();
   done();
 });

@@ -1,16 +1,23 @@
-import { Query } from "mongo-wrappers";
+import { Query, runQueryContainer } from "mongo-wrappers";
 import { InsertWriteOpResult } from "mongodb";
 import { Race } from "../../../../client/src/application/common_files/interfaces";
-import { GetConfig } from "../../config";
+import { GetConfig, getConfig } from "../../config";
 
-type SaveRaces = (
+type SaveRacesFactory = (
   getConfig: GetConfig,
   races: ReadonlyArray<Race>
 ) => Query<InsertWriteOpResult>;
+type SaveRaces = (races: ReadonlyArray<Race>) => Promise<InsertWriteOpResult>;
 
-export const saveRaces: SaveRaces = (getConfig, races) => db => {
-  const collection = db.collection(getConfig().collections.races);
+export const saveRacesFactory: SaveRacesFactory = (
+  getConfigFunc,
+  races
+) => db => {
+  const collection = db.collection(getConfigFunc().collections.races);
   // @ts-ignore
   // todo: fix
   return collection.insertMany(races);
 };
+
+export const saveRaces: SaveRaces = races =>
+  runQueryContainer(saveRacesFactory(getConfig, races));

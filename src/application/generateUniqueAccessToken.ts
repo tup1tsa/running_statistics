@@ -1,19 +1,31 @@
-import { IsAccessTokenUniqueContainer } from "../containers/database/queries/isAccessTokenUniqueContainer";
-import { CreateSalt } from "./createSalt";
+import { CreateSalt, createSalt } from "./createSalt";
+import {
+  isAccessTokenUnique,
+  IsAccessTokenUnique
+} from "./database/queries/isAccessTokenUnique";
 
-export type GenerateUniqueAccessToken = (
+export type GenerateUniqueAccessToken = () => Promise<string>;
+type GenerateUniqueAccessTokenFactory = (
   generateAccessToken: CreateSalt,
-  isAccessTokenUnique: IsAccessTokenUniqueContainer
-) => Promise<string>;
+  isAccessTokenUnique: IsAccessTokenUnique
+) => GenerateUniqueAccessToken;
 
-export const generateUniqueAccessToken: GenerateUniqueAccessToken = async (
+export const generateUniqueAccessTokenFactory: GenerateUniqueAccessTokenFactory = (
   generateAccessToken,
-  isAccessTokenUnique
-) => {
+  isAccessTokenUniqueFunc
+) => async () => {
   const token = generateAccessToken();
-  const isUnique = await isAccessTokenUnique(token);
+  const isUnique = await isAccessTokenUniqueFunc(token);
   if (isUnique) {
     return token;
   }
-  return generateUniqueAccessToken(generateAccessToken, isAccessTokenUnique);
+  return generateUniqueAccessTokenFactory(
+    generateAccessToken,
+    isAccessTokenUniqueFunc
+  )();
 };
+
+export const generateUniqueAccessToken: GenerateUniqueAccessToken = generateUniqueAccessTokenFactory(
+  createSalt,
+  isAccessTokenUnique
+);
