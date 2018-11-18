@@ -14,7 +14,9 @@ export const getRequestReponse = () => {
   const cookie = jest.fn();
   const status = jest.fn().mockReturnValue(response);
 
+  request.cookies = {};
   request.body = {};
+  response.locals = {};
 
   response.end = end;
   response.cookie = cookie;

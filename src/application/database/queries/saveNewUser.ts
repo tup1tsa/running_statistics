@@ -3,6 +3,7 @@ import { InsertOneWriteOpResult } from "mongodb";
 import { GetConfig, getConfig } from "../../config";
 
 export interface UserInfoHashed {
+  readonly _id?: string;
   readonly name: string;
   readonly email: string;
   readonly passwordHash: string;

@@ -2,7 +2,7 @@ import { Query, runQueryContainer } from "mongo-wrappers";
 import { GetConfig, getConfig } from "../../config";
 import { UserInfoHashed } from "./saveNewUser";
 
-type FindUserByToken = (token: string) => Promise<UserInfoHashed | null>;
+export type FindUserByToken = (token: string) => Promise<UserInfoHashed | null>;
 type FindUserByTokenFactory = (
   getConfig: GetConfig,
   token: string
