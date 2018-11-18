@@ -39,8 +39,13 @@ export interface Axios {
   post(url: string, data?: any): Promise<Response>;
 }
 
-export interface UserInfo {
+export interface RegularRegistrationInfo {
   readonly name: string;
+  readonly email: string;
+  readonly password: string;
+}
+
+export interface RegularLoginInfo {
   readonly email: string;
   readonly password: string;
 }

@@ -1,5 +1,5 @@
 import { Race } from "../../application/common_files/interfaces";
-import { validatePath } from "../../application/common_files/validatePath";
+import { validatePath } from "../../application/common_files/validators/validatePath";
 import { finishRace } from "../../application/logic/finishRace";
 import { sendRacesContainer } from "./network/sendRacesContainer";
 import { deleteRacesContainer } from "./storage/deleteRacesContainer";

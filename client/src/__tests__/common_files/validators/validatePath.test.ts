@@ -1,5 +1,5 @@
-import { PositionInTime } from "../../application/common_files/interfaces";
-import { validatePath } from "../../application/common_files/validatePath";
+import { PositionInTime } from "../../../application/common_files/interfaces";
+import { validatePath } from "../../../application/common_files/validators/validatePath";
 
 it("path should be an array", () => {
   expect(validatePath("asd")).toBe(false);

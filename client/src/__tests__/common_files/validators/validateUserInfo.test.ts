@@ -1,7 +1,7 @@
-import { UserInfo } from "../../application/common_files/interfaces";
-import { validateUserInfo } from "../../application/common_files/validateUserInfo";
+import { RegularRegistrationInfo } from "../../../application/common_files/interfaces";
+import { validateUserInfo } from "../../../application/common_files/validators/validateUserInfo";
 
-const validInfo: UserInfo = {
+const validInfo: RegularRegistrationInfo = {
   name: "some name",
   email: "some@gmail.com",
   password: "bacad"

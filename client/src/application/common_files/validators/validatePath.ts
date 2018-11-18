@@ -1,4 +1,4 @@
-import { PositionInTime } from "./interfaces";
+import { PositionInTime } from "../interfaces";
 
 export const validatePath = (
   path: unknown

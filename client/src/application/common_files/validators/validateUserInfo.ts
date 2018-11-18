@@ -1,11 +1,13 @@
 import * as Ajv from "ajv";
-import { UserInfo } from "./interfaces";
+import { RegularRegistrationInfo } from "../interfaces";
 
-export type ValidateUserInfo = (userInfo: unknown) => userInfo is UserInfo;
+export type ValidateUserInfo = (
+  userInfo: unknown
+) => userInfo is RegularRegistrationInfo;
 
 export const validateUserInfo: ValidateUserInfo = (
   userInfo
-): userInfo is UserInfo => {
+): userInfo is RegularRegistrationInfo => {
   const validator = new Ajv();
   const schema = {
     type: "object",
