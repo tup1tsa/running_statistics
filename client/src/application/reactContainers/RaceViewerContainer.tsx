@@ -1,7 +1,5 @@
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { downloadRacesContainer } from "../../containers/logic/network/downloadRacesContainer";
-import { setMessageUrlContainer } from "../../containers/logic/setMessageUrlContainer";
 import { decrementRace, incrementRace } from "../actions/actionCreators";
 import { downloadAllRaces } from "../actions/async/downloadAllRaces";
 import {
@@ -13,6 +11,8 @@ import {
   RaceViewerDispatchProps,
   RaceViewerStateProps
 } from "../components/RaceViewer";
+import { downloadRaces } from "../logic/network/downloadRaces";
+import { setMessageUrl } from "../logic/setMessageUrl";
 import { GlobalState } from "../reducers/rootReducer";
 
 type MapStateToProps = (
@@ -35,7 +35,7 @@ type MapDispatchToProps = (
 ) => RaceViewerDispatchProps & RacesOnMapDispatchProps;
 export const mapDispatchToProps: MapDispatchToProps = dispatch => ({
   startDownloadingRaces: () =>
-    downloadAllRaces(downloadRacesContainer, setMessageUrlContainer)(dispatch),
+    downloadAllRaces(downloadRaces, setMessageUrl)(dispatch),
   incrementRace: () => dispatch(incrementRace()),
   decrementRace: () => dispatch(decrementRace())
 });

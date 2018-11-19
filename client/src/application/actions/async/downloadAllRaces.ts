@@ -1,12 +1,12 @@
 import { push } from "connected-react-router";
 import { Dispatch } from "redux";
-import { DownloadRacesContainer } from "../../../containers/logic/network/downloadRacesContainer";
-import { SetMessageUrlContainer } from "../../../containers/logic/setMessageUrlContainer";
+import { DownloadRaces } from "../../logic/network/downloadRaces";
+import { SetMessageUrl } from "../../logic/setMessageUrl";
 import { setRaces, startRacesDownload } from "../actionCreators";
 
 export type DownloadAllRaces = (
-  downloadRaces: DownloadRacesContainer,
-  setMessageUrl: SetMessageUrlContainer
+  downloadRaces: DownloadRaces,
+  setMessageUrl: SetMessageUrl
 ) => (dispatch: Dispatch) => void;
 
 export const downloadAllRaces: DownloadAllRaces = (

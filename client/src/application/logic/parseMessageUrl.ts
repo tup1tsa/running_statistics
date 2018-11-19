@@ -1,3 +1,5 @@
+import { MESSAGES } from "../common_files/config";
+
 export interface MessageData {
   readonly message: string;
   readonly isError: boolean;
@@ -8,12 +10,12 @@ export interface MessageUrlInput {
   readonly isError: "0" | "1";
 }
 
-export type ParseMessageUrl = (
-  urlInput: MessageUrlInput,
+export type ParseMessageUrl = (urlInput: MessageUrlInput) => MessageData;
+type ParseMessageUrlFactory = (
   messages: ReadonlyArray<string>
-) => MessageData;
+) => ParseMessageUrl;
 
-export const parseMessageUrl: ParseMessageUrl = (urlInput, messages) => {
+export const parseMessageUrlFactory: ParseMessageUrlFactory = messages => urlInput => {
   const isError = urlInput.isError === "1";
   const messageId = Math.abs(parseInt(urlInput.messageId, 10));
   if (Number.isNaN(messageId)) {
@@ -25,3 +27,6 @@ export const parseMessageUrl: ParseMessageUrl = (urlInput, messages) => {
       messages[messageId] === undefined ? messages[0] : messages[messageId]
   };
 };
+
+export const parseMessageUrl: ParseMessageUrl = urlInput =>
+  parseMessageUrlFactory(MESSAGES)(urlInput);

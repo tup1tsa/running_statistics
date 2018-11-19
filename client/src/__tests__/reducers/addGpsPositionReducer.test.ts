@@ -4,7 +4,7 @@ import {
 } from "../../application/actions/actionCreators";
 import { Coordinates } from "../../application/common_files/interfaces";
 import { getTestPosition } from "../../application/common_files/testHelpers";
-import { addGpsPositionReducer } from "../../application/reducers/addGpsPositionReducer";
+import { addGpsPositionReducerFactory } from "../../application/reducers/addGpsPositionReducer";
 
 const defaultState = {
   positions: [],
@@ -25,7 +25,10 @@ const defaultFunctions = {
 it("should not change state if action is incorrect", () => {
   const action = toggleSaving();
   expect(
-    addGpsPositionReducer(defaultState, action, defaultConfig, defaultFunctions)
+    addGpsPositionReducerFactory(defaultConfig, defaultFunctions)(
+      defaultState,
+      action
+    )
   ).toEqual(defaultState);
 });
 
@@ -38,7 +41,10 @@ it("should successfully save first position and remove gps error", () => {
     })
   );
   expect(
-    addGpsPositionReducer(defaultState, action, defaultConfig, defaultFunctions)
+    addGpsPositionReducerFactory(defaultConfig, defaultFunctions)(
+      defaultState,
+      action
+    )
   ).toEqual({
     positions: [{ latitude: 24, longitude: 44, time: 2342434 }],
     lastTimeCheck: 2342434,
@@ -54,7 +60,10 @@ it("should convert date to timestamp when saving position", () => {
   // @ts-ignore
   const action = addGpsPosition(position);
   expect(
-    addGpsPositionReducer(defaultState, action, defaultConfig, defaultFunctions)
+    addGpsPositionReducerFactory(defaultConfig, defaultFunctions)(
+      defaultState,
+      action
+    )
   ).toEqual({
     positions: [{ latitude: 24, longitude: 44, time: 25000 }],
     lastTimeCheck: 25000,
@@ -94,10 +103,16 @@ it("should not save very close positions", () => {
   );
 
   expect(
-    addGpsPositionReducer(state, closePositionAction, defaultConfig, functions)
+    addGpsPositionReducerFactory(defaultConfig, functions)(
+      state,
+      closePositionAction
+    )
   ).toEqual({ ...state, lastTimeCheck: 15000, gpsError: null });
   expect(
-    addGpsPositionReducer(state, normalPositionAction, defaultConfig, functions)
+    addGpsPositionReducerFactory(defaultConfig, functions)(
+      state,
+      normalPositionAction
+    )
   ).toEqual({
     positions: [savedPosition, { latitude: 65, longitude: 34, time: 35000 }],
     lastTimeCheck: 35000,
@@ -134,7 +149,7 @@ it("should remove inaccurate middle position", () => {
   // in this example position with latitude 77 will be corrected by the next position
   // with latitude of 25 (which is much closer to the previous positions)
   expect(
-    addGpsPositionReducer(state, action, defaultConfig, functions)
+    addGpsPositionReducerFactory(defaultConfig, functions)(state, action)
   ).toEqual({
     positions: [firstPosition, secondPosition, fourthPosition],
     lastTimeCheck: 35000,
@@ -164,11 +179,9 @@ it("should not save very recent positions", () => {
     gpsError: "some error"
   };
   expect(
-    addGpsPositionReducer(
+    addGpsPositionReducerFactory(defaultConfig, defaultFunctions)(
       state,
-      recentPositionAction,
-      defaultConfig,
-      defaultFunctions
+      recentPositionAction
     )
   ).toEqual({
     positions: [savedPosition],
@@ -176,11 +189,9 @@ it("should not save very recent positions", () => {
     gpsError: null
   });
   expect(
-    addGpsPositionReducer(
+    addGpsPositionReducerFactory(defaultConfig, defaultFunctions)(
       state,
-      normalPositionAction,
-      defaultConfig,
-      defaultFunctions
+      normalPositionAction
     )
   ).toEqual({
     positions: [savedPosition, { latitude: 42, longitude: 22, time: 12000 }],

@@ -1,15 +1,11 @@
 import * as React from "react";
-import {
-  GetRaceInfoContainer,
-  getRaceInfoContainer
-} from "../../../containers/logic/path/getRaceInfoContainer";
-import {
-  GetLocalTimeContainer,
-  getLocalTimeContainer,
-  HumanizeDurationContainer,
-  humanizeDurationContainer
-} from "../../../containers/logic/utilsContainers";
 import { Race } from "../../common_files/interfaces";
+import { GetRaceInfo, getRaceInfo } from "../../logic/path/getRaceInfo";
+import { GetLocalTime, getLocalTime } from "../../logic/time/getLocalTime";
+import {
+  HumanizeDuration,
+  humanizeDuration
+} from "../../logic/time/humanizeDuration";
 import { RaceInformation } from "./RaceInformation";
 
 interface StateProps {
@@ -18,9 +14,9 @@ interface StateProps {
 }
 
 type AllProps = StateProps & {
-  readonly getRaceInfo: GetRaceInfoContainer;
-  readonly toLocaleTime: GetLocalTimeContainer;
-  readonly humanizeDuration: HumanizeDurationContainer;
+  readonly getRaceInfo: GetRaceInfo;
+  readonly toLocaleTime: GetLocalTime;
+  readonly humanizeDuration: HumanizeDuration;
 };
 
 export const OngoingRaceInfoFactory = (props: AllProps) => {
@@ -45,8 +41,8 @@ export const OngoingRaceInfoFactory = (props: AllProps) => {
 export default (props: StateProps) => (
   <OngoingRaceInfoFactory
     {...props}
-    toLocaleTime={getLocalTimeContainer}
-    humanizeDuration={humanizeDurationContainer}
-    getRaceInfo={getRaceInfoContainer}
+    toLocaleTime={getLocalTime}
+    humanizeDuration={humanizeDuration}
+    getRaceInfo={getRaceInfo}
   />
 );

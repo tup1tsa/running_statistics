@@ -9,7 +9,7 @@ import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { applyMiddleware, compose, createStore } from "redux";
 import App from "./application/components/App";
-import rootReducerContainer from "./containers/reducers/rootReducerContainer";
+import { rootReducer } from "./application/reducers/rootReducer";
 import "./index.css";
 import registerServiceWorker from "./registerServiceWorker";
 
@@ -19,7 +19,7 @@ const composeEnhancer: typeof compose =
   (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
-  rootReducerContainer(history),
+  rootReducer(history),
   composeEnhancer(applyMiddleware(routerMiddleware(history)))
 );
 

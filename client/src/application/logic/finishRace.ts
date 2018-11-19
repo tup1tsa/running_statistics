@@ -1,31 +1,33 @@
-import { SendRacesContainer } from "../../containers/logic/network/sendRacesContainer";
-import { DeleteRacesContainer } from "../../containers/logic/storage/deleteRacesContainer";
-import { FetchRacesContainer } from "../../containers/logic/storage/fetchRacesContainer";
-import { SaveRaceContainer } from "../../containers/logic/storage/saveRaceContainer";
 import { MESSAGES } from "../common_files/config";
 import { Race } from "../common_files/interfaces";
-import { ValidatePath } from "./storage/fetchRaces";
+import {
+  ValidatePath,
+  validatePath
+} from "../common_files/validators/validatePath";
+import { SendRaces, sendRaces } from "./network/sendRaces";
+import { DeleteRaces, deleteRaces } from "./storage/deleteRaces";
+import { FetchRaces, fetchRaces } from "./storage/fetchRaces";
+import { SaveRace, saveRace } from "./storage/saveRace";
 
-export type FinishRace = (
-  race: Race,
-  saveRaceToStorage: SaveRaceContainer,
-  fetchRacesFromStorage: FetchRacesContainer,
-  deleteRacesFromStorage: DeleteRacesContainer,
+export type FinishRace = (race: Race) => Promise<string>;
+type FinishRaceFactory = (
+  saveRaceToStorage: SaveRace,
+  fetchRacesFromStorage: FetchRaces,
+  deleteRacesFromStorage: DeleteRaces,
   validatePath: ValidatePath,
-  sendRacesToServer: SendRacesContainer
-) => Promise<string>;
+  sendRacesToServer: SendRaces
+) => FinishRace;
 
-export const finishRace: FinishRace = async (
-  race,
+export const finishRaceFactory: FinishRaceFactory = (
   saveRaceToStorage,
   fetchRacesFromStorage,
   deleteRacesFromStorage,
-  validatePath,
+  validatePathFunc,
   sendRacesToServer
-) => {
+) => async race => {
   saveRaceToStorage(race);
   const races = fetchRacesFromStorage().filter(currentRace =>
-    validatePath(currentRace.path)
+    validatePathFunc(currentRace.path)
   );
   if (races.length === 0) {
     deleteRacesFromStorage();
@@ -38,3 +40,8 @@ export const finishRace: FinishRace = async (
   deleteRacesFromStorage();
   return MESSAGES[1];
 };
+
+export const finishRace: FinishRace = race =>
+  finishRaceFactory(saveRace, fetchRaces, deleteRaces, validatePath, sendRaces)(
+    race
+  );

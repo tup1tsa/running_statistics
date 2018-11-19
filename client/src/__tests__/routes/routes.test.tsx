@@ -7,10 +7,10 @@ import { createStore } from "redux";
 import { Message } from "../../application/components/Message";
 import PathWatcherContainer from "../../application/reactContainers/PathWatcherContainer";
 import RaceStartPreparationContainer from "../../application/reactContainers/RaceStartPreparationContainer";
+import { rootReducer } from "../../application/reducers/rootReducer";
 import Routes from "../../application/routes";
-import rootReducerContainer from "../../containers/reducers/rootReducerContainer";
 
-const store = createStore(rootReducerContainer(createBrowserHistory()));
+const store = createStore(rootReducer(createBrowserHistory()));
 
 it("invalid path should return 404", () => {
   const wrapper = mount(

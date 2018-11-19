@@ -1,6 +1,14 @@
-import { IsMiddlePointAccurateContainer } from "../../containers/logic/path/isMiddlePointAccurateContainer";
 import { AnyAction } from "../actions/actions";
+import {
+  delayBetweenGeoCalls,
+  minimumDistanceDiffBetweenPositions
+} from "../common_files/config";
 import { GetDistance, PositionInTime } from "../common_files/interfaces";
+import { getDistance } from "../logic/geoLibHelpers";
+import {
+  IsMiddlePointAccurate,
+  isMiddlePointAccurate
+} from "../logic/path/isMiddlePointAccurate";
 
 export interface AddGpsPositionReducerState {
   readonly positions: ReadonlyArray<PositionInTime>;
@@ -10,23 +18,23 @@ export interface AddGpsPositionReducerState {
 
 export type AddGpsPositionReducer = (
   state: AddGpsPositionReducerState,
-  action: AnyAction,
+  action: AnyAction
+) => AddGpsPositionReducerState;
+type AddGpsPositionReducerFactory = (
   config: {
     readonly delayBetweenCallsMs: number;
     readonly minimumDistanceDiffMetres: number;
   },
   functions: {
     readonly getDistance: GetDistance;
-    readonly isMiddlePointAccurate: IsMiddlePointAccurateContainer;
+    readonly isMiddlePointAccurate: IsMiddlePointAccurate;
   }
-) => AddGpsPositionReducerState;
+) => AddGpsPositionReducer;
 
-export const addGpsPositionReducer: AddGpsPositionReducer = (
-  state,
-  action,
+export const addGpsPositionReducerFactory: AddGpsPositionReducerFactory = (
   config,
   functions
-) => {
+) => (state, action) => {
   if (action.type !== "ADD_GPS_POSITION") {
     return state;
   }
@@ -90,3 +98,15 @@ export const addGpsPositionReducer: AddGpsPositionReducer = (
     positions: [...state.positions, currentPosition]
   };
 };
+
+export const addGpsPositionReducer: AddGpsPositionReducer = (state, action) =>
+  addGpsPositionReducerFactory(
+    {
+      delayBetweenCallsMs: delayBetweenGeoCalls,
+      minimumDistanceDiffMetres: minimumDistanceDiffBetweenPositions
+    },
+    {
+      isMiddlePointAccurate,
+      getDistance
+    }
+  )(state, action);

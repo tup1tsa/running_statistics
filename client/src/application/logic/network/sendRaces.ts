@@ -1,13 +1,16 @@
-import { Axios, Race, Response } from "../../common_files/interfaces";
+import Axios from "axios";
+import {
+  Axios as AxiosInterface,
+  Race,
+  Response
+} from "../../common_files/interfaces";
 
 // todo: implement request cancel after timeout from axios documentation
 
-export type SendRaces = (
-  races: ReadonlyArray<Race>,
-  axios: Axios
-) => Promise<boolean>;
+export type SendRaces = (races: ReadonlyArray<Race>) => Promise<boolean>;
+type SendRacesFactory = (axios: AxiosInterface) => SendRaces;
 
-export const sendRaces: SendRaces = async (races, axios) => {
+export const sendRacesFactory: SendRacesFactory = axios => async races => {
   if (races.length === 0) {
     return false;
   }
@@ -23,3 +26,5 @@ export const sendRaces: SendRaces = async (races, axios) => {
     response.status === 200 && response.data && response.data.saved === true
   );
 };
+
+export const sendRaces: SendRaces = sendRacesFactory(Axios);

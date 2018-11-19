@@ -22,6 +22,7 @@ it("should fail if any race path is invalid", () => {
     .fn()
     .mockReturnValueOnce(true)
     .mockReturnValueOnce(false);
+  // @ts-ignore
   expect(validateRacesFactory(validator)(races)).toBe(false);
 });
 

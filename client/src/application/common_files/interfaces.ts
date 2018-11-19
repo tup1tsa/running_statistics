@@ -55,3 +55,20 @@ export type GetPath = (positions: ReadonlyArray<PositionInTime>) => number;
 export type GetDistance = (start: Coordinates, end: Coordinates) => number;
 
 export type GetSpeed = (start: Coordinates, end: Coordinates) => number;
+
+export interface MomentInterface {
+  duration(
+    timeMs: number
+  ): {
+    readonly humanize: () => string;
+  };
+  (timestamp: number): {
+    format(type: string): string;
+  };
+}
+
+export interface DateClass {
+  new (time: number): {
+    toLocaleTimeString: () => string;
+  };
+}

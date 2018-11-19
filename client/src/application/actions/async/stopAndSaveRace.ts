@@ -1,14 +1,14 @@
 import { push } from "connected-react-router";
 import { Dispatch } from "redux";
-import { FinishRaceContainer } from "../../../containers/logic/finishRaceContainer";
-import { SetMessageUrlContainer } from "../../../containers/logic/setMessageUrlContainer";
 import { Race } from "../../common_files/interfaces";
+import { FinishRace } from "../../logic/finishRace";
+import { SetMessageUrl } from "../../logic/setMessageUrl";
 import { stopGps, toggleSaving } from "../actionCreators";
 
 export type StopAndSaveRace = (
   race: Race,
-  finishRace: FinishRaceContainer,
-  setMessageUrl: SetMessageUrlContainer
+  finishRace: FinishRace,
+  setMessageUrl: SetMessageUrl
 ) => (dispatch: Dispatch) => void;
 export const stopAndSaveRace: StopAndSaveRace = (
   race,

@@ -1,22 +1,21 @@
 import * as React from "react";
-import {
-  GetRaceInfoContainer,
-  getRaceInfoContainer
-} from "../../../containers/logic/path/getRaceInfoContainer";
-import {
-  GetReadableDateContainer,
-  getReadableDateContainer,
-  HumanizeDurationContainer,
-  humanizeDurationContainer
-} from "../../../containers/logic/utilsContainers";
 import { Race } from "../../common_files/interfaces";
+import { GetRaceInfo, getRaceInfo } from "../../logic/path/getRaceInfo";
+import {
+  GetReadableDate,
+  getReadableDate
+} from "../../logic/time/getReadableDate";
+import {
+  HumanizeDuration,
+  humanizeDuration
+} from "../../logic/time/humanizeDuration";
 import { RaceInformation } from "./RaceInformation";
 
 interface FactoryProps {
   readonly race: Race;
-  readonly getRaceInfo: GetRaceInfoContainer;
-  readonly toLocaleDate: GetReadableDateContainer;
-  readonly humanizeDuration: HumanizeDurationContainer;
+  readonly getRaceInfo: GetRaceInfo;
+  readonly toLocaleDate: GetReadableDate;
+  readonly humanizeDuration: HumanizeDuration;
 }
 
 interface Props {
@@ -42,8 +41,8 @@ export const FinishedRaceInfoFactory = (props: FactoryProps) => {
 export default (props: Props) => (
   <FinishedRaceInfoFactory
     {...props}
-    toLocaleDate={getReadableDateContainer}
-    humanizeDuration={humanizeDurationContainer}
-    getRaceInfo={getRaceInfoContainer}
+    toLocaleDate={getReadableDate}
+    humanizeDuration={humanizeDuration}
+    getRaceInfo={getRaceInfo}
   />
 );

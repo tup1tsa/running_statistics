@@ -1,4 +1,4 @@
-import { setMessageUrl } from "../../application/logic/setMessageUrl";
+import { setMessageUrlFactory } from "../../application/logic/setMessageUrl";
 
 it("should create message url for error properly", () => {
   const messsages = ["first error", "second error"];
@@ -8,7 +8,7 @@ it("should create message url for error properly", () => {
   };
   // first '1' is message id from messages list
   // second '1' — that's error
-  expect(setMessageUrl(messageData, messsages)).toBe("/message/1/1");
+  expect(setMessageUrlFactory(messsages)(messageData)).toBe("/message/1/1");
 });
 
 it("should create message url for success properly", () => {
@@ -19,12 +19,12 @@ it("should create message url for success properly", () => {
   };
   // '2' — message id from the list
   // '0' — that's not an error
-  expect(setMessageUrl(messageData, messsages)).toBe("/message/2/0");
+  expect(setMessageUrlFactory(messsages)(messageData)).toBe("/message/2/0");
 });
 
 it("should throw if message is not set in the list", () => {
   const list: string[] = [];
   expect(() =>
-    setMessageUrl({ message: "error", isError: false }, list)
+    setMessageUrlFactory(list)({ message: "error", isError: false })
   ).toThrow();
 });

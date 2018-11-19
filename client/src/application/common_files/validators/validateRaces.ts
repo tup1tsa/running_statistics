@@ -1,6 +1,5 @@
-import { ValidatePath } from "../../logic/storage/fetchRaces";
 import { Race } from "../interfaces";
-import { validatePath } from "./validatePath";
+import { validatePath, ValidatePath } from "./validatePath";
 
 export type ValidateRaces = (races: unknown) => races is ReadonlyArray<Race>;
 type ValidateRacesFactory = (validatePath: ValidatePath) => ValidateRaces;

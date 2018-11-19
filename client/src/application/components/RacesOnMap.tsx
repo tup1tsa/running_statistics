@@ -1,17 +1,15 @@
 import * as React from "react";
-import { divideRaceContainer } from "../../containers/logic/path/divideRaceContainer";
-import { DivideRaceContainer } from "../../containers/logic/path/divideRaceContainer";
-import { GetRaceInfoContainer } from "../../containers/logic/path/getRaceInfoContainer";
-import { getRaceInfoContainer } from "../../containers/logic/path/getRaceInfoContainer";
 import { Race } from "../common_files/interfaces";
 import {
   RacesOnMapDispatchProps,
   RacesOnMapStateProps
 } from "../components/RacesOnMap";
-import { FindCenter } from "../logic/path/findCenter";
+import { DivideRace, divideRace } from "../logic/path/divideRace";
 import { findCenter } from "../logic/path/findCenter";
-import { GetRacePart } from "../logic/path/getRacePart";
+import { FindCenter } from "../logic/path/findCenter";
+import { GetRaceInfo, getRaceInfo } from "../logic/path/getRaceInfo";
 import { getRacePart } from "../logic/path/getRacePart";
+import { GetRacePart } from "../logic/path/getRacePart";
 import { SortRacesByDate } from "../logic/path/sortRacesByDate";
 import { sortRacesByDate } from "../logic/path/sortRacesByDate";
 import MapWrapper from "./GoogleMap/MapWrapper";
@@ -33,8 +31,8 @@ export interface RacesOnMapMiscProps {
   readonly activeColor: string;
   readonly inactiveColor: string;
   readonly findCenter: FindCenter;
-  readonly divideRace: DivideRaceContainer;
-  readonly getRaceInfo: GetRaceInfoContainer;
+  readonly divideRace: DivideRace;
+  readonly getRaceInfo: GetRaceInfo;
   readonly getRacePart: GetRacePart;
   readonly sortRacesByDate: SortRacesByDate;
 }
@@ -107,8 +105,8 @@ export default (props: Props) => (
     activeColor="black"
     inactiveColor="red"
     findCenter={findCenter}
-    divideRace={divideRaceContainer}
-    getRaceInfo={getRaceInfoContainer}
+    divideRace={divideRace}
+    getRaceInfo={getRaceInfo}
     getRacePart={getRacePart}
     sortRacesByDate={sortRacesByDate}
     {...props}

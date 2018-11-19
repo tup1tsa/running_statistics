@@ -1,19 +1,13 @@
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import {
-  FinishRaceContainer,
-  finishRaceContainer
-} from "../../containers/logic/finishRaceContainer";
-import {
-  SetMessageUrlContainer,
-  setMessageUrlContainer
-} from "../../containers/logic/setMessageUrlContainer";
-import {
   StopAndSaveRace,
   stopAndSaveRace
 } from "../actions/async/stopAndSaveRace";
 import { Race } from "../common_files/interfaces";
 import { PathWatcher } from "../components/Path/PathWatcher";
+import { finishRace, FinishRace } from "../logic/finishRace";
+import { SetMessageUrl, setMessageUrl } from "../logic/setMessageUrl";
 import { GlobalState } from "../reducers/rootReducer";
 
 type MapStateToProps = (
@@ -31,8 +25,8 @@ export const mapStateToProps: MapStateToProps = state => ({
 type MapDispatchToPropsFactory = (
   functions: {
     readonly stopAndSaveRace: StopAndSaveRace;
-    readonly finishRace: FinishRaceContainer;
-    readonly setMessageUrl: SetMessageUrlContainer;
+    readonly finishRace: FinishRace;
+    readonly setMessageUrl: SetMessageUrl;
   }
 ) => (
   dispatch: Dispatch
@@ -51,8 +45,8 @@ export const mapDispatchToPropsFactory: MapDispatchToPropsFactory = functions =>
 
 const mapDispatchToProps = mapDispatchToPropsFactory({
   stopAndSaveRace,
-  finishRace: finishRaceContainer,
-  setMessageUrl: setMessageUrlContainer
+  finishRace,
+  setMessageUrl
 });
 
 export default connect(

@@ -1,7 +1,11 @@
 import { PositionInTime } from "../interfaces";
 
-export const validatePath = (
+export type ValidatePath = (
   path: unknown
+) => path is ReadonlyArray<PositionInTime>;
+
+export const validatePath: ValidatePath = (
+  path
 ): path is ReadonlyArray<PositionInTime> => {
   if (!Array.isArray(path)) {
     return false;

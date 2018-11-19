@@ -3,7 +3,7 @@ import {
   GetDistance,
   GetPath,
   GetSpeed
-} from "../application/common_files/interfaces";
+} from "../common_files/interfaces";
 
 // GeoLib library is decent, but typings are god awful
 // and the project itself is outdated (npm vs github) and almost abandoned

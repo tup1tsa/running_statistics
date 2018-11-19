@@ -3,7 +3,7 @@ import {
   Race
 } from "../../../application/common_files/interfaces";
 import { getActiveParts } from "../../../application/logic/path/getActiveParts";
-import { getRaceInfo } from "../../../application/logic/path/getRaceInfo";
+import { getRaceInfoFactory } from "../../../application/logic/path/getRaceInfo";
 
 it("should return zeroes if path is empty", () => {
   const speed = {
@@ -22,15 +22,13 @@ it("should return zeroes if path is empty", () => {
     .mockReturnValueOnce([{ active: true, path: [] }])
     .mockReturnValueOnce([{ active: true, path }]);
   expect(
-    getRaceInfo(emptyRace, divideRaceMock, jest.fn(), getActiveParts, jest.fn())
+    getRaceInfoFactory(divideRaceMock, jest.fn(), getActiveParts, jest.fn())(
+      emptyRace
+    )
   ).toEqual(speed);
   expect(
-    getRaceInfo(
-      almostEmptyRace,
-      divideRaceMock,
-      jest.fn(),
-      getActiveParts,
-      jest.fn()
+    getRaceInfoFactory(divideRaceMock, jest.fn(), getActiveParts, jest.fn())(
+      almostEmptyRace
     )
   ).toEqual(speed);
 });
@@ -60,7 +58,7 @@ it("should calculate all data correctly", () => {
     .mockReturnValueOnce(10);
   // 20 metres per 2 secs = 10m/s or 36 km/h
   expect(
-    getRaceInfo(race, divideRaceMock, getPath, getActiveParts, getSpeed)
+    getRaceInfoFactory(divideRaceMock, getPath, getActiveParts, getSpeed)(race)
   ).toEqual({
     averageSpeed: 36,
     distance: 20,

@@ -1,6 +1,17 @@
-import { RouterState } from "connected-react-router";
+import { connectRouter, RouterState } from "connected-react-router";
+import { History } from "history";
 import { AnyAction, RaceType } from "../actions/actions";
 import { PositionInTime, Race } from "../common_files/interfaces";
+import { addGpsPositionReducer } from "./addGpsPositionReducer";
+import { changeRaceTypeReducer } from "./changeRaceTypeReducer";
+import { decrementRaceReducer } from "./decrementRaceReducer";
+import { gpsErrorReducer } from "./gpsErrorReducer";
+import { incrementRaceReducer } from "./incrementRaceReducer";
+import { setRacesReducer } from "./setRacesReducer";
+import { startRaceReducer } from "./startRaceReducer";
+import { startRacesDownloadReducer } from "./startRacesDownloadReducer";
+import { stopGpsReducer } from "./stopGpsReducer";
+import { toggleSavingReducer } from "./toggleSavingReducer";
 
 export interface GlobalState {
   readonly raceInProgress: boolean;
@@ -18,16 +29,15 @@ export interface GlobalState {
   readonly partialRaceFinish: number;
 }
 
-export type Reducer = (
+type Reducer = (
   state: Partial<GlobalState>,
   action: AnyAction
 ) => Partial<GlobalState>;
 
 export type RootReducer = (
-  state: GlobalState,
-  action: AnyAction,
-  reducers: ReadonlyArray<Reducer>
-) => GlobalState;
+  history: History
+) => (state: GlobalState, action: AnyAction) => GlobalState;
+type RootReducerFactory = (...reducers: Reducer[]) => RootReducer;
 
 const defaultState: GlobalState = {
   gpsError: null,
@@ -52,15 +62,32 @@ const defaultState: GlobalState = {
   }
 };
 
-export const rootReducer: RootReducer = (
+const rootReducerFactory: RootReducerFactory = (...reducers) => history => (
   state = defaultState,
-  action,
-  reducers
-) =>
-  reducers.reduce(
-    (currentState, currentReducer) => ({
-      ...currentState,
-      ...currentReducer(currentState, action)
-    }),
-    state
-  );
+  action
+) => {
+  if (action.type !== "@@router/LOCATION_CHANGE") {
+    return reducers.reduce(
+      (currentState, currentReducer) => ({
+        ...currentState,
+        ...currentReducer(currentState, action)
+      }),
+      state
+    );
+  }
+  return { ...state, router: connectRouter(history)(state.router, action) };
+};
+
+export const rootReducer: RootReducer = history =>
+  rootReducerFactory(
+    addGpsPositionReducer,
+    decrementRaceReducer,
+    incrementRaceReducer,
+    gpsErrorReducer,
+    setRacesReducer,
+    startRaceReducer,
+    startRacesDownloadReducer,
+    stopGpsReducer,
+    toggleSavingReducer,
+    changeRaceTypeReducer
+  )(history);
