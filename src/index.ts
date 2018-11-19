@@ -2,9 +2,8 @@ import * as bodyParser from "body-parser";
 import * as compression from "compression";
 import * as cookieParser from "cookie-parser";
 import * as express from "express";
-import { Race } from "../client/src/application/common_files/interfaces";
-import { fetchRaces } from "./application/database/queries/fetchRaces";
 import { checkAccess } from "./application/routes/checkAccess";
+import { fetchRacesRoute } from "./application/routes/fetchRacesRoute";
 import { regularLogin } from "./application/routes/regularLogin";
 import { regularRegistration } from "./application/routes/regularRegistation";
 import { saveRacesRoute } from "./application/routes/saveRacesRoute";
@@ -22,15 +21,6 @@ app.use(express.static("client/build"));
 app.post("/registration", regularRegistration);
 app.post("/login", regularLogin);
 app.post("/saveRaces", checkAccess, saveRacesRoute);
-
-app.post("/fetchRaces", async (req, res) => {
-  let races: ReadonlyArray<Race> = [];
-  try {
-    races = await fetchRaces();
-  } catch (e) {
-    res.status(500).end(JSON.stringify(e));
-  }
-  res.status(200).end(JSON.stringify(races));
-});
+app.post("/fetchRaces", checkAccess, fetchRacesRoute);
 
 app.listen(PORT);
