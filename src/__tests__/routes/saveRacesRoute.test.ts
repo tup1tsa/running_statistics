@@ -9,7 +9,11 @@ const successValidator = (races: unknown): races is ReadonlyArray<Race> => true;
 it("should end request if races are not valid", async done => {
   const { request, response, status, end } = getRequestReponse();
   response.locals.userId = "abaab23";
-  await saveRacesRouteFactory(jest.fn(), failValidator)(request, response);
+  await saveRacesRouteFactory(jest.fn(), failValidator)(
+    request,
+    response,
+    jest.fn()
+  );
   expect(status.mock.calls.length).toBe(1);
   expect(status.mock.calls[0][0]).toBe(403);
   expect(end.mock.calls.length).toBe(1);
@@ -21,7 +25,11 @@ it("should send 500 error if save was unsuccessful", async done => {
   const { request, response, status, end } = getRequestReponse();
   response.locals.userId = "abaab23";
   const saveRaces = jest.fn().mockRejectedValue("fail while saving");
-  await saveRacesRouteFactory(saveRaces, successValidator)(request, response);
+  await saveRacesRouteFactory(saveRaces, successValidator)(
+    request,
+    response,
+    jest.fn()
+  );
   expect(status.mock.calls.length).toBe(1);
   expect(status.mock.calls[0][0]).toBe(500);
   expect(end.mock.calls.length).toBe(1);
@@ -53,7 +61,11 @@ it("should send success message on success saving", async done => {
   const { request, response, status, end } = getRequestReponse();
   response.locals.userId = "abaab23";
   const saveRaces = jest.fn().mockResolvedValue("success");
-  await saveRacesRouteFactory(saveRaces, successValidator)(request, response);
+  await saveRacesRouteFactory(saveRaces, successValidator)(
+    request,
+    response,
+    jest.fn()
+  );
   expect(status.mock.calls.length).toBe(1);
   expect(status.mock.calls[0][0]).toBe(200);
   expect(end.mock.calls.length).toBe(1);

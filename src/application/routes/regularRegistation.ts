@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { RequestHandler } from "express";
 import { MESSAGES } from "../../../client/src/application/common_files/config";
 import {
   ValidateUserInfo,
@@ -7,12 +7,11 @@ import {
 import { SaveNewUser, UserInfoHashed } from "../database/queries/saveNewUser";
 import { HashUserInfo, hashUserInfo } from "../hashUserInfo";
 
-type RegularRegistration = (req: Request, res: Response) => Promise<void>;
 type RegularRegistrationFactory = (
   validateUserInfo: ValidateUserInfo,
   hashUserInfo: HashUserInfo,
   saveNewUser: SaveNewUser
-) => RegularRegistration;
+) => RequestHandler;
 
 export const regularRegistrationFactory: RegularRegistrationFactory = (
   validateUserInfoFunc,
@@ -42,8 +41,9 @@ export const regularRegistrationFactory: RegularRegistrationFactory = (
   res.status(200).end();
 };
 
-export const regularRegistration: RegularRegistration = (req, res) =>
+export const regularRegistration: RequestHandler = (req, res, next) =>
   regularRegistrationFactory(validateUserInfo, hashUserInfo, SaveNewUser)(
     req,
-    res
+    res,
+    next
   );

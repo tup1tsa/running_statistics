@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { RequestHandler } from "express";
 import { MESSAGES } from "../../../client/src/application/common_files/config";
 import {
   ValidateRaces,
@@ -6,11 +6,10 @@ import {
 } from "../../../client/src/application/common_files/validators/validateRaces";
 import { SaveRaces, saveRaces } from "../database/queries/saveRaces";
 
-type SaveRacesRoute = (req: Request, res: Response) => Promise<void>;
 type SaveRacesRouteFactory = (
   saveRaces: SaveRaces,
   validateRaces: ValidateRaces
-) => SaveRacesRoute;
+) => RequestHandler;
 
 export const saveRacesRouteFactory: SaveRacesRouteFactory = (
   saveRacesFunc,
@@ -31,5 +30,5 @@ export const saveRacesRouteFactory: SaveRacesRouteFactory = (
   return;
 };
 
-export const saveRacesRoute: SaveRacesRoute = (req, res) =>
-  saveRacesRouteFactory(saveRaces, validateRaces)(req, res);
+export const saveRacesRoute: RequestHandler = (req, res, next) =>
+  saveRacesRouteFactory(saveRaces, validateRaces)(req, res, next);

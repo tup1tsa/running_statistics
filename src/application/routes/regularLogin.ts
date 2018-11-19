@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { RequestHandler } from "express";
 import { MESSAGES } from "../../../client/src/application/common_files/config";
 import {
   ValidateLoginInfo,
@@ -6,11 +6,10 @@ import {
 } from "../../../client/src/application/common_files/validators/validateLoginInfo";
 import { FindUserByPassword, findUserByPassword } from "../findUserByPassword";
 
-type RegularLogin = (req: Request, res: Response) => Promise<void>;
 type RegularLoginFactory = (
   validateLoginInfo: ValidateLoginInfo,
   findUserByPassword: FindUserByPassword
-) => RegularLogin;
+) => RequestHandler;
 
 export const regularLoginFactory: RegularLoginFactory = (
   validateLoginInfoFunc,
@@ -31,5 +30,5 @@ export const regularLoginFactory: RegularLoginFactory = (
   res.status(200).end();
 };
 
-export const regularLogin: RegularLogin = (req, res) =>
-  regularLoginFactory(validateLoginInfo, findUserByPassword)(req, res);
+export const regularLogin: RequestHandler = (req, res, next) =>
+  regularLoginFactory(validateLoginInfo, findUserByPassword)(req, res, next);

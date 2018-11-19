@@ -55,7 +55,8 @@ it("should send unexpected error if hash user info threw", async done => {
   const hashUserInfo = jest.fn().mockRejectedValue("some error");
   await regularRegistrationFactory(successValidator, hashUserInfo, jest.fn())(
     request,
-    response
+    response,
+    jest.fn()
   );
   expect(status.mock.calls.length).toBe(1);
   expect(status.mock.calls[0][0]).toBe(500);
@@ -69,7 +70,8 @@ it("should send 409 error if user already exists", async done => {
   const saveUser = jest.fn().mockRejectedValue("already exist");
   await regularRegistrationFactory(successValidator, jest.fn(), saveUser)(
     request,
-    response
+    response,
+    jest.fn()
   );
   expect(status.mock.calls.length).toBe(1);
   expect(status.mock.calls[0][0]).toBe(409);
@@ -86,7 +88,8 @@ it("user info should be passed to hash method correctly", async done => {
   const hashInfoMock = jest.fn().mockResolvedValue({ accessToken: "as" });
   await regularRegistrationFactory(successValidator, hashInfoMock, jest.fn())(
     request,
-    response
+    response,
+    jest.fn()
   );
   expect(hashInfoMock.mock.calls.length).toBe(1);
   expect(hashInfoMock.mock.calls[0][0]).toEqual({
@@ -103,7 +106,8 @@ it("should set correct cookie on success registration", async done => {
   const saveUser = jest.fn().mockResolvedValue("");
   await regularRegistrationFactory(successValidator, hashUserInfo, saveUser)(
     request,
-    response
+    response,
+    jest.fn()
   );
   expect(status.mock.calls[0][0]).toBe(200);
   expect(end.mock.calls[0][0]).toBe(undefined);

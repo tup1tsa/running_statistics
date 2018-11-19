@@ -1,15 +1,10 @@
-import { NextFunction, Request, Response } from "express";
+import { RequestHandler } from "express";
 import {
   FindUserByToken,
   findUserByToken
 } from "../database/queries/findUserByToken";
 
-type CheckAccess = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => Promise<void>;
-type CheckAccessFactory = (findUserByToken: FindUserByToken) => CheckAccess;
+type CheckAccessFactory = (findUserByToken: FindUserByToken) => RequestHandler;
 
 export const checkAccessFactory: CheckAccessFactory = findUserByTokenFunc => async (
   req,
@@ -25,5 +20,5 @@ export const checkAccessFactory: CheckAccessFactory = findUserByTokenFunc => asy
   next();
 };
 
-export const checkAccess: CheckAccess = (req, res, next) =>
+export const checkAccess: RequestHandler = (req, res, next) =>
   checkAccessFactory(findUserByToken)(req, res, next);
