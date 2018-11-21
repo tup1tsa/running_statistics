@@ -6,7 +6,7 @@ interface State {
   readonly downloadedRaces?: ReadonlyArray<Race>;
 }
 
-export type SetRacesReducer = (state: State, action: AnyAction) => State;
+type SetRacesReducer = (state: State, action: AnyAction) => State;
 
 export const setRacesReducer: SetRacesReducer = (state, action) => {
   if (action.type !== "SET_RACES") {

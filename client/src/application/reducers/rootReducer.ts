@@ -4,13 +4,17 @@ import { AnyAction, RaceType } from "../actions/actions";
 import { PositionInTime, Race } from "../common_files/interfaces";
 import { addGpsPositionReducer } from "./addGpsPositionReducer";
 import { changeRaceTypeReducer } from "./changeRaceTypeReducer";
+import { changeRegistrationFieldReducer } from "./changeRegistrationFieldReducer";
 import { decrementRaceReducer } from "./decrementRaceReducer";
+import { failRegistationReducer } from "./failRegistrationReducer";
 import { gpsErrorReducer } from "./gpsErrorReducer";
 import { incrementRaceReducer } from "./incrementRaceReducer";
 import { setRacesReducer } from "./setRacesReducer";
 import { startRaceReducer } from "./startRaceReducer";
 import { startRacesDownloadReducer } from "./startRacesDownloadReducer";
+import { startRegistrationReducer } from "./startRegistrationReducer";
 import { stopGpsReducer } from "./stopGpsReducer";
+import { successRegistrationReducer } from "./successRegistrationReducer";
 import { toggleSavingReducer } from "./toggleSavingReducer";
 
 export interface GlobalState {
@@ -27,6 +31,13 @@ export interface GlobalState {
   readonly currentRaceIndex: number;
   readonly partialRaceStart: number;
   readonly partialRaceFinish: number;
+  readonly login: string;
+  readonly email: string;
+  readonly passwordFirstInput: string;
+  readonly passwordSecondInput: string;
+  readonly registrationInProgress: boolean;
+  readonly registrationError: string | null;
+  readonly isLogged: boolean;
 }
 
 type Reducer = (
@@ -34,7 +45,7 @@ type Reducer = (
   action: AnyAction
 ) => Partial<GlobalState>;
 
-export type RootReducer = (
+type RootReducer = (
   history: History
 ) => (state: GlobalState, action: AnyAction) => GlobalState;
 type RootReducerFactory = (...reducers: Reducer[]) => RootReducer;
@@ -51,6 +62,13 @@ const defaultState: GlobalState = {
   currentRaceIndex: 0,
   partialRaceStart: 0,
   partialRaceFinish: 100,
+  login: "",
+  email: "",
+  passwordFirstInput: "",
+  passwordSecondInput: "",
+  registrationInProgress: false,
+  registrationError: null,
+  isLogged: true,
   router: {
     location: {
       pathname: "",
@@ -89,5 +107,9 @@ export const rootReducer: RootReducer = history =>
     startRacesDownloadReducer,
     stopGpsReducer,
     toggleSavingReducer,
-    changeRaceTypeReducer
+    changeRaceTypeReducer,
+    changeRegistrationFieldReducer,
+    startRegistrationReducer,
+    failRegistationReducer,
+    successRegistrationReducer
   )(history);

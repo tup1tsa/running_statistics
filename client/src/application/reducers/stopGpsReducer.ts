@@ -1,13 +1,10 @@
 import { AnyAction } from "../actions/actions";
 
-export interface StopGpsReducerState {
+interface State {
   readonly gpsId: number;
 }
 
-export type StopGpsReducer = (
-  state: StopGpsReducerState,
-  action: AnyAction
-) => StopGpsReducerState;
+type StopGpsReducer = (state: State, action: AnyAction) => State;
 type StopGpsReducerFactory = (geoLocation: Geolocation) => StopGpsReducer;
 
 export const stopGpsReducerFactory: StopGpsReducerFactory = geoLocation => (

@@ -2,15 +2,20 @@ import { Race } from "../common_files/interfaces";
 import {
   AddGpsPositionAction,
   ChangeRaceTypeAction,
+  ChangeRegistrationFieldAction,
   DecrementRaceAction,
+  FailRegistrationAction,
   GpsErrorAction,
   IncrementRaceAction,
   RaceType,
+  RegistrationFieldPayload,
   SetRacesAction,
   StartRaceAction,
   StartRacePayload,
   StartRacesDownloadAction,
+  StartRegistrationAction,
   StopGpsAction,
+  SuccessRegistrationAction,
   ToggleSavingAction
 } from "./actions";
 
@@ -75,4 +80,29 @@ export type ChangeRaceType = (raceType: RaceType) => ChangeRaceTypeAction;
 export const changeRaceType: ChangeRaceType = raceType => ({
   type: "CHANGE_RACE_TYPE",
   payload: raceType
+});
+
+export type ChangeRegistrationField = (
+  payload: RegistrationFieldPayload
+) => ChangeRegistrationFieldAction;
+export const changeRegistrationField: ChangeRegistrationField = payload => ({
+  type: "CHANGE_REGISTRATION_FIELD",
+  payload
+});
+
+export type StartRegistration = () => StartRegistrationAction;
+export const startRegistration: StartRegistration = () => ({
+  type: "START_REGISTRATION"
+});
+
+export type SuccessRegistration = () => SuccessRegistrationAction;
+export const successRegistration: SuccessRegistration = () => ({
+  type: "SUCCESS_REGISTRATION"
+});
+
+export type FailRegistration = (error: Error) => FailRegistrationAction;
+export const failRegistration: FailRegistration = error => ({
+  type: "FAIL_REGISTRATION",
+  error: true,
+  payload: error
 });

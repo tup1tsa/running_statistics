@@ -10,16 +10,13 @@ import {
   isMiddlePointAccurate
 } from "../logic/path/isMiddlePointAccurate";
 
-export interface AddGpsPositionReducerState {
+interface State {
   readonly positions: ReadonlyArray<PositionInTime>;
   readonly lastTimeCheck: number | null;
   readonly gpsError: string | null;
 }
 
-export type AddGpsPositionReducer = (
-  state: AddGpsPositionReducerState,
-  action: AnyAction
-) => AddGpsPositionReducerState;
+type AddGpsPositionReducer = (state: State, action: AnyAction) => State;
 type AddGpsPositionReducerFactory = (
   config: {
     readonly delayBetweenCallsMs: number;

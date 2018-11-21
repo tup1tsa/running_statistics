@@ -1,13 +1,10 @@
 import { AnyAction } from "../actions/actions";
 
-export interface StartRacesDownloadReducerState {
+interface State {
   readonly racesAreBeingDownloaded: boolean;
 }
 
-export type StartRacesDownloadReducer = (
-  state: StartRacesDownloadReducerState,
-  action: AnyAction
-) => StartRacesDownloadReducerState;
+type StartRacesDownloadReducer = (state: State, action: AnyAction) => State;
 
 export const startRacesDownloadReducer: StartRacesDownloadReducer = (
   state,

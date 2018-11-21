@@ -4,7 +4,7 @@ interface State {
   readonly gpsError: string | null;
 }
 
-export type GpsErrorReducer = (state: State, action: AnyAction) => State;
+type GpsErrorReducer = (state: State, action: AnyAction) => State;
 
 export const gpsErrorReducer: GpsErrorReducer = (state, action) => {
   if (action.type !== "GPS_ERROR") {

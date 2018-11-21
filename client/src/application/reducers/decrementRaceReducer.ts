@@ -6,7 +6,7 @@ interface State {
   readonly downloadedRaces: ReadonlyArray<Race>;
 }
 
-export type DecrementRaceReducer = (state: State, action: AnyAction) => State;
+type DecrementRaceReducer = (state: State, action: AnyAction) => State;
 
 export const decrementRaceReducer: DecrementRaceReducer = (state, action) => {
   if (action.type !== "DECREMENT_RACE") {

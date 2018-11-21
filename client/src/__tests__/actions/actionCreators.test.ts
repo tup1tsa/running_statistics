@@ -1,16 +1,23 @@
 import {
   addGpsPosition,
   changeRaceType,
+  changeRegistrationField,
   decrementRace,
+  failRegistration,
   gpsError,
   incrementRace,
   setRaces,
   startRace,
   startRacesDownload,
+  startRegistration,
   stopGps,
+  successRegistration,
   toggleSaving
 } from "../../application/actions/actionCreators";
-import { RaceType } from "../../application/actions/actions";
+import {
+  RaceType,
+  RegistrationFieldPayload
+} from "../../application/actions/actions";
 import { getTestPosition } from "../../application/common_files/testHelpers";
 
 it("should create start race action", () => {
@@ -103,5 +110,33 @@ it("should create change race type action", () => {
   expect(changeRaceType("walking")).toEqual({
     type: "CHANGE_RACE_TYPE",
     payload: "walking"
+  });
+});
+
+it("should create change registration field action", () => {
+  const payload: RegistrationFieldPayload = {
+    fieldName: "login",
+    value: "abs"
+  };
+  expect(changeRegistrationField(payload)).toEqual({
+    type: "CHANGE_REGISTRATION_FIELD",
+    payload
+  });
+});
+
+it("should create start registration action", () => {
+  expect(startRegistration()).toEqual({ type: "START_REGISTRATION" });
+});
+
+it("should create success registration action", () => {
+  expect(successRegistration()).toEqual({ type: "SUCCESS_REGISTRATION" });
+});
+
+it("should create fail registration action", () => {
+  const error = new Error("no internet");
+  expect(failRegistration(error)).toEqual({
+    type: "FAIL_REGISTRATION",
+    error: true,
+    payload: error
   });
 });

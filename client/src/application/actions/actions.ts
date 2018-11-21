@@ -52,6 +52,29 @@ export interface ChangeRaceTypeAction {
   readonly payload: RaceType;
 }
 
+export interface RegistrationFieldPayload {
+  readonly fieldName: "login" | "email" | "password";
+  readonly value: string;
+}
+export interface ChangeRegistrationFieldAction {
+  readonly type: "CHANGE_REGISTRATION_FIELD";
+  readonly payload: RegistrationFieldPayload;
+}
+
+export interface StartRegistrationAction {
+  readonly type: "START_REGISTRATION";
+}
+
+export interface SuccessRegistrationAction {
+  readonly type: "SUCCESS_REGISTRATION";
+}
+
+export interface FailRegistrationAction {
+  readonly type: "FAIL_REGISTRATION";
+  readonly error: true;
+  readonly payload: Error;
+}
+
 export type AnyAction =
   | LocationChangeAction
   | StartRaceAction
@@ -63,4 +86,8 @@ export type AnyAction =
   | SetRacesAction
   | IncrementRaceAction
   | DecrementRaceAction
-  | ChangeRaceTypeAction;
+  | ChangeRaceTypeAction
+  | ChangeRegistrationFieldAction
+  | StartRegistrationAction
+  | FailRegistrationAction
+  | SuccessRegistrationAction;

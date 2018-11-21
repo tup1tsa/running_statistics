@@ -5,7 +5,7 @@ interface State {
   readonly savingInProgress: boolean;
 }
 
-export type ToggleSavingReducer = (state: State, action: AnyAction) => State;
+type ToggleSavingReducer = (state: State, action: AnyAction) => State;
 
 export const toggleSavingReducer: ToggleSavingReducer = (state, action) => {
   if (action.type !== "TOGGLE_SAVING") {

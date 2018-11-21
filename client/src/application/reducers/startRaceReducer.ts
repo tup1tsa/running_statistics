@@ -9,7 +9,7 @@ interface State {
   readonly lastTimeCheck: null | number;
 }
 
-export type StartRaceReducer = (state: State, action: AnyAction) => State;
+type StartRaceReducer = (state: State, action: AnyAction) => State;
 
 export const startRaceReducer: StartRaceReducer = (state, action) => {
   if (action.type !== "START_RACE") {
