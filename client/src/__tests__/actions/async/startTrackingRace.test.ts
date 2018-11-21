@@ -3,14 +3,14 @@ import {
   RaceType,
   StartRaceAction
 } from "../../../application/actions/actions";
-import { startTrackingRace } from "../../../application/actions/async/startTrackingRace";
+import { startTrackingRaceFactory } from "../../../application/actions/async/startTrackingRace";
 import { getTestPosition } from "../../../application/common_files/testHelpers";
 
 it("should dispatch stop gps action before starting another one just in case", () => {
   const geoLocation = new GeoLocationMock();
   const dispatch = jest.fn();
   const raceType: RaceType = "driving";
-  startTrackingRace(raceType, geoLocation)(dispatch);
+  startTrackingRaceFactory(geoLocation)(raceType)(dispatch);
   expect(dispatch.mock.calls.length).toBe(3);
   expect(dispatch.mock.calls[0][0]).toEqual({
     type: "STOP_GPS"
@@ -21,7 +21,7 @@ it("should dispatch sync start action", () => {
   const geoLocationMock = new GeoLocationMock();
   const dispatch = jest.fn();
   const raceType: RaceType = "walking";
-  startTrackingRace(raceType, geoLocationMock)(dispatch);
+  startTrackingRaceFactory(geoLocationMock)(raceType)(dispatch);
   const action: StartRaceAction = {
     type: "START_RACE",
     payload: {
@@ -39,7 +39,7 @@ it("should change url", () => {
   const geoLocation = new GeoLocationMock();
   const dispatch = jest.fn();
   const raceType: RaceType = "driving";
-  startTrackingRace(raceType, geoLocation)(dispatch);
+  startTrackingRaceFactory(geoLocation)(raceType)(dispatch);
   expect(dispatch.mock.calls.length).toBe(3);
   expect(dispatch.mock.calls[2][0].payload).toEqual({
     method: "push",
@@ -50,7 +50,7 @@ it("should change url", () => {
 it("start race action should dispatch error action if gps threw", () => {
   const geoLocationMock = new GeoLocationMock();
   const dispatch = jest.fn();
-  startTrackingRace("walking", geoLocationMock)(dispatch);
+  startTrackingRaceFactory(geoLocationMock)("walking")(dispatch);
   const errorMessage = "bad weather for gps";
   geoLocationMock.sendError(errorMessage);
   // 1-st call is stopping gps, 2-nd — connecting to gps
@@ -67,7 +67,7 @@ it("start race action should dispatch error action if gps threw", () => {
 it("should dispatch update position action on every update", () => {
   const geoLocationMock = new GeoLocationMock();
   const dispatch = jest.fn();
-  startTrackingRace("walking", geoLocationMock)(dispatch);
+  startTrackingRaceFactory(geoLocationMock)("walking")(dispatch);
   const firstPosition: Position = getTestPosition({
     latitude: 44,
     longitude: 32,
@@ -97,6 +97,6 @@ it("should dispatch update position action on every update", () => {
 it("should provide correct geoLocation options", () => {
   const geoLocationMock = new GeoLocationMock();
   const dispatch = jest.fn();
-  startTrackingRace("walking", geoLocationMock)(dispatch);
+  startTrackingRaceFactory(geoLocationMock)("walking")(dispatch);
   expect(geoLocationMock.options).toEqual({ enableHighAccuracy: true });
 });

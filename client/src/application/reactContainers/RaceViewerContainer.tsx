@@ -11,8 +11,6 @@ import {
   RaceViewerDispatchProps,
   RaceViewerStateProps
 } from "../components/RaceViewer";
-import { downloadRaces } from "../logic/network/downloadRaces";
-import { setMessageUrl } from "../logic/setMessageUrl";
 import { GlobalState } from "../reducers/rootReducer";
 
 type MapStateToProps = (
@@ -34,8 +32,7 @@ type MapDispatchToProps = (
   dispatch: Dispatch
 ) => RaceViewerDispatchProps & RacesOnMapDispatchProps;
 export const mapDispatchToProps: MapDispatchToProps = dispatch => ({
-  startDownloadingRaces: () =>
-    downloadAllRaces(downloadRaces, setMessageUrl)(dispatch),
+  startDownloadingRaces: () => downloadAllRaces()(dispatch),
   incrementRace: () => dispatch(incrementRace()),
   decrementRace: () => dispatch(decrementRace())
 });

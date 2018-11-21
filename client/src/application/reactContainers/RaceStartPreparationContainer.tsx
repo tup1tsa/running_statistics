@@ -11,7 +11,7 @@ type MapDispatchToProps = (dispatch: Dispatch) => RaceStartPreparationProps;
 
 const mapDispatchToProps: MapDispatchToProps = dispatch => ({
   startTrackingRace: (raceType: RaceType) =>
-    startTrackingRace(raceType, navigator.geolocation)(dispatch)
+    startTrackingRace(raceType)(dispatch)
 });
 
 export default connect(

@@ -1,11 +1,5 @@
 import * as _ from "lodash";
-import { stopAndSaveRace } from "../../application/actions/async/stopAndSaveRace";
-import { MESSAGES } from "../../application/common_files/config";
-import { Race } from "../../application/common_files/interfaces";
-import {
-  mapDispatchToPropsFactory,
-  mapStateToProps
-} from "../../application/reactContainers/PathWatcherContainer";
+import { mapStateToProps } from "../../application/reactContainers/PathWatcherContainer";
 import { GlobalState } from "../../application/reducers/rootReducer";
 
 export const testGlobalState = () => {
@@ -21,6 +15,13 @@ export const testGlobalState = () => {
     currentRaceIndex: 0,
     partialRaceStart: 0,
     partialRaceFinish: 1,
+    registrationInProgress: false,
+    login: "",
+    passwordFirstInput: "",
+    passwordSecondInput: "",
+    email: "",
+    isLogged: false,
+    registrationError: null,
     router: {
       location: {
         pathname: "",
@@ -49,23 +50,4 @@ it("should pass race to props", () => {
     },
     raceInProgress: true
   });
-});
-
-it("should pass proper stop watcher handler", async done => {
-  const dispatch = jest.fn();
-  const functions = {
-    stopAndSaveRace,
-    finishRace: jest.fn().mockResolvedValue(MESSAGES[1]),
-    setMessageUrl: jest.fn()
-  };
-  const props = mapDispatchToPropsFactory(functions)(dispatch);
-  const race: Race = {
-    type: "running",
-    path: [{ latitude: 12, longitude: 32, time: 44 }]
-  };
-  await props.stopWatcher(race);
-  expect(dispatch.mock.calls.length).toBe(4);
-  expect(functions.finishRace.mock.calls.length).toBe(1);
-  expect(functions.finishRace.mock.calls[0][0]).toBe(race);
-  done();
 });
