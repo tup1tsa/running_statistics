@@ -29,16 +29,6 @@ export interface LocalStorage {
   setItem(item: string, data: string): void;
 }
 
-export interface Response {
-  readonly data?: any;
-  readonly status: number;
-}
-
-export interface Axios {
-  get(url: string): Promise<Response>;
-  post(url: string, data?: any): Promise<Response>;
-}
-
 export interface RegularRegistrationInfo {
   readonly name: string;
   readonly email: string;

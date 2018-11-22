@@ -34,8 +34,8 @@ export const finishRaceFactory: FinishRaceFactory = (
     throw new Error(MESSAGES[4]);
   }
   const result = await sendRacesToServer(races);
-  if (!result) {
-    throw new Error(MESSAGES[3]);
+  if (result.errorMessage) {
+    throw new Error(result.errorMessage);
   }
   deleteRacesFromStorage();
   return MESSAGES[1];

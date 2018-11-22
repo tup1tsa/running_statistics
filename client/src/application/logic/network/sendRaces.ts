@@ -1,30 +1,24 @@
-import Axios from "axios";
-import {
-  Axios as AxiosInterface,
-  Race,
-  Response
-} from "../../common_files/interfaces";
+import { MESSAGES } from "../../common_files/config";
+import { Race } from "../../common_files/interfaces";
+import { NetworkRequest, networkRequest } from "./networkRequest";
 
-// todo: implement request cancel after timeout from axios documentation
+interface Result {
+  readonly success: boolean;
+  readonly errorMessage?: string;
+}
 
-export type SendRaces = (races: ReadonlyArray<Race>) => Promise<boolean>;
-type SendRacesFactory = (axios: AxiosInterface) => SendRaces;
+export type SendRaces = (races: ReadonlyArray<Race>) => Promise<Result>;
+type SendRacesFactory = (networkRequest: NetworkRequest) => SendRaces;
 
-export const sendRacesFactory: SendRacesFactory = axios => async races => {
+export const sendRacesFactory: SendRacesFactory = networkRequestFunc => async races => {
   if (races.length === 0) {
-    return false;
+    return { success: false, errorMessage: MESSAGES[4] };
   }
-  let response: Response;
-  try {
-    response = await axios.post("/saveRaces", races);
-  } catch (e) {
-    response = e.response;
+  const result = await networkRequestFunc("/saveRaces", "post", races);
+  if (result.errorMessage) {
+    return { success: false, errorMessage: result.errorMessage };
   }
-  // todo: change boolean
-  // this function should reject on fail
-  return (
-    response.status === 200 && response.data && response.data.saved === true
-  );
+  return { success: true };
 };
 
-export const sendRaces: SendRaces = sendRacesFactory(Axios);
+export const sendRaces: SendRaces = sendRacesFactory(networkRequest);

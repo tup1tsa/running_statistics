@@ -92,7 +92,9 @@ it("should delete races from local storage if they were successfully stored on s
 
 it("should not delete races from storage if saving was unsuccessful", async done => {
   const validatePath = jest.fn().mockReturnValue(true);
-  const sendRaces = jest.fn().mockResolvedValue(false);
+  const sendRaces = jest
+    .fn()
+    .mockResolvedValue({ success: false, errorMessage: "something happened" });
   const deleteRaces = jest.fn();
   const fetchRacesFromStorage = jest
     .fn()
@@ -107,7 +109,7 @@ it("should not delete races from storage if saving was unsuccessful", async done
       sendRaces
     )(currentRace);
   } catch (err) {
-    expect(err.message).toBe("Unexpected server error");
+    expect(err.message).toBe("something happened");
     expect(deleteRaces.mock.calls.length).toBe(0);
     done();
   }

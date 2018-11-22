@@ -1,40 +1,32 @@
-import Axios from "axios";
+import { MESSAGES } from "../../common_files/config";
+import { Race } from "../../common_files/interfaces";
 import {
-  Axios as AxiosInterface,
-  Race,
-  Response
-} from "../../common_files/interfaces";
-import {
-  validatePath,
-  ValidatePath
-} from "../../common_files/validators/validatePath";
+  ValidateRaces,
+  validateRaces
+} from "../../common_files/validators/validateRaces";
+import { NetworkRequest, networkRequest } from "./networkRequest";
 
 export type DownloadRaces = () => Promise<ReadonlyArray<Race>>;
 type DownloadRacesFactory = (
-  axios: AxiosInterface,
-  validatePath: ValidatePath
+  networkRequest: NetworkRequest,
+  validateRaces: ValidateRaces
 ) => DownloadRaces;
 
 export const downloadRacesFactory: DownloadRacesFactory = (
-  axios,
-  validatePathFunc
+  networkRequestFunc,
+  validateRacesFunc
 ) => async () => {
-  let response: Response;
-  try {
-    response = await axios.post("/fetchRaces");
-  } catch (e) {
-    response = e.response;
+  const result = await networkRequestFunc("/fetchRaces", "post");
+  if (result.errorMessage) {
+    throw new Error(result.errorMessage);
   }
-  if (response.status !== 200) {
-    throw new Error("server is not available");
+  if (!validateRacesFunc(result.data)) {
+    throw new Error(MESSAGES[8]);
   }
-  if (!response.data || !Array.isArray(response.data)) {
-    throw new Error("data is invalid");
-  }
-  return response.data.filter((race: Race) => validatePathFunc(race.path));
+  return result.data;
 };
 
 export const downloadRaces: DownloadRaces = downloadRacesFactory(
-  Axios,
-  validatePath
+  networkRequest,
+  validateRaces
 );
