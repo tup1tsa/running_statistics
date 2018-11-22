@@ -37,5 +37,7 @@ export const MESSAGES = [
   "User info is invalid",
   "User with that name or email already exists",
   "Email or password are incorrect",
-  "Races are not valid"
+  "Races are not valid",
+  "Account was successfully registered",
+  "Server hasn't responded in time. It is either down or there is no internet"
 ];

@@ -12,7 +12,7 @@ interface Options {
   timeout: number;
 }
 
-type NetworkRequest = (
+export type NetworkRequest = (
   url: string,
   type: "get" | "post",
   data?: any,
