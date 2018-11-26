@@ -1,4 +1,4 @@
-import * as Moment from "moment";
+import Moment from "moment";
 import { MomentInterface } from "../../common_files/interfaces";
 
 export type GetReadableDate = (time: number) => string;

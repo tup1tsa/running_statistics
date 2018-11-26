@@ -39,20 +39,26 @@
     "react-google-maps": "^9.4.5",
     "react-redux": "^5.1.0",
     "react-router": "^4.3.1",
-    "react-scripts-ts": "2.14.0",
+    "react-scripts": "^2.1.1",
     "redux-thunk": "^2.3.0",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
     "typescript": "^3.1.6"
   },
   "scripts": {
-    "start": "react-scripts-ts start",
-    "build": "react-scripts-ts build",
-    "test": "react-scripts-ts test --env=jsdom --colors",
-    "test:coverage": "react-scripts-ts test --env=jsdom --colors --coverage",
-    "test:debug": "react-scripts-ts --inspect-brk test --runInBand --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom --colors",
+    "test:coverage": "react-scripts test --env=jsdom --colors --coverage",
+    "test:debug": "react-scripts --inspect-brk test --runInBand --env=jsdom",
+    "eject": "react-scripts eject"
   },
   "devDependencies": {},
-  "proxy": "http://localhost:3007"
+  "proxy": "http://localhost:3007",
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

@@ -1,11 +1,13 @@
 import { AnyAction } from "../actions/actions";
+import { GlobalState } from "./rootReducer";
 
-interface State {
-  readonly registrationInProgress: boolean;
-  readonly passwordFirstInput: string;
-  readonly passwordSecondInput: string;
-  readonly isLogged: boolean;
-}
+type State = Pick<
+  GlobalState,
+  | "isLogged"
+  | "registrationInProgress"
+  | "passwordFirstInput"
+  | "passwordSecondInput"
+>;
 
 type SuccessRegistrationReducer = (state: State, action: AnyAction) => State;
 

@@ -11,6 +11,12 @@ export class GeoLocationMock implements Geolocation {
   public lastError?: PositionError;
   public getCurrentPosition: any;
 
+  constructor() {
+    this.options = {};
+    this.providedSuccessCallback = () => undefined;
+    this.providedErrorCallback = () => undefined;
+  }
+
   public clearWatch(watchId: number) {
     this.providedErrorCallback = () => undefined;
     this.providedSuccessCallback = () => undefined;

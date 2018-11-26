@@ -1,9 +1,5 @@
-import * as GeoLib from "geolib";
-import {
-  GetDistance,
-  GetPath,
-  GetSpeed
-} from "../common_files/interfaces";
+import GeoLib from "geolib";
+import { GetDistance, GetPath, GetSpeed } from "../common_files/interfaces";
 
 // GeoLib library is decent, but typings are god awful
 // and the project itself is outdated (npm vs github) and almost abandoned

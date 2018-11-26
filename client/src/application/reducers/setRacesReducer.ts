@@ -1,10 +1,7 @@
 import { AnyAction } from "../actions/actions";
-import { Race } from "../common_files/interfaces";
+import { GlobalState } from "./rootReducer";
 
-interface State {
-  readonly racesAreBeingDownloaded: boolean;
-  readonly downloadedRaces?: ReadonlyArray<Race>;
-}
+type State = Pick<GlobalState, "racesAreBeingDownloaded" | "downloadedRaces">;
 
 type SetRacesReducer = (state: State, action: AnyAction) => State;
 

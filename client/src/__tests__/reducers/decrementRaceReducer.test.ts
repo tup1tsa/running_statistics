@@ -26,3 +26,10 @@ it("should decrement races properly", () => {
   expect(decrementRaceReducer(middleRaceState, action)).toEqual(firstRaceState);
   expect(decrementRaceReducer(firstRaceState, action)).toEqual(lastRaceState);
 });
+
+it("should not change state if races are not downloaded", () => {
+  const action = decrementRace();
+  expect(decrementRaceReducer({ currentRaceIndex: 12 }, action)).toEqual({
+    currentRaceIndex: 12
+  });
+});

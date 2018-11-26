@@ -1,15 +1,15 @@
 import { AnyAction } from "../actions/actions";
-import { Race } from "../common_files/interfaces";
+import { GlobalState } from "./rootReducer";
 
-interface State {
-  readonly currentRaceIndex: number;
-  readonly downloadedRaces: ReadonlyArray<Race>;
-}
+type State = Pick<GlobalState, "downloadedRaces" | "currentRaceIndex">;
 
 type DecrementRaceReducer = (state: State, action: AnyAction) => State;
 
 export const decrementRaceReducer: DecrementRaceReducer = (state, action) => {
   if (action.type !== "DECREMENT_RACE") {
+    return state;
+  }
+  if (!state.downloadedRaces) {
     return state;
   }
   let nextIndex = state.currentRaceIndex - 1;

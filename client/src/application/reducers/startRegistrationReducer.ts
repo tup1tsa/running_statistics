@@ -1,9 +1,7 @@
 import { AnyAction } from "../actions/actions";
+import { GlobalState } from "./rootReducer";
 
-interface State {
-  readonly registrationInProgress: boolean;
-  readonly registrationError: string | null;
-}
+type State = Pick<GlobalState, "registrationInProgress" | "registrationError">;
 
 type StartRegistrationReducer = (state: State, action: AnyAction) => State;
 

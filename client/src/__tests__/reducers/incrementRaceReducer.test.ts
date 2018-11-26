@@ -27,3 +27,10 @@ it("should increment races properly", () => {
   expect(incrementRaceReducer(middleRaceState, action)).toEqual(lastRaceState);
   expect(incrementRaceReducer(lastRaceState, action)).toEqual(firstRaceState);
 });
+
+it("should not change state if races are not downloaded", () => {
+  const action = incrementRace();
+  expect(incrementRaceReducer({ currentRaceIndex: 0 }, action)).toEqual({
+    currentRaceIndex: 0
+  });
+});

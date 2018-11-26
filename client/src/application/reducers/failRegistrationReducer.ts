@@ -1,11 +1,13 @@
 import { AnyAction } from "../actions/actions";
+import { GlobalState } from "./rootReducer";
 
-interface State {
-  registrationError: string | null;
-  registrationInProgress: boolean;
-  passwordFirstInput: string;
-  passwordSecondInput: string;
-}
+type State = Pick<
+  GlobalState,
+  | "registrationError"
+  | "registrationInProgress"
+  | "passwordFirstInput"
+  | "passwordSecondInput"
+>;
 
 type FailRegistrationReducer = (state: State, action: AnyAction) => State;
 

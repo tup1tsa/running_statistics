@@ -1,8 +1,7 @@
-import { AnyAction, RaceType } from "../actions/actions";
+import { AnyAction } from "../actions/actions";
+import { GlobalState } from "./rootReducer";
 
-interface State {
-  raceType: RaceType;
-}
+type State = Pick<GlobalState, "raceType">;
 
 export type ChangeRaceTypeReducer = (state: State, action: AnyAction) => State;
 

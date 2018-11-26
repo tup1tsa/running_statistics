@@ -1,13 +1,10 @@
-import { AnyAction, RaceType } from "../actions/actions";
-import { PositionInTime } from "../common_files/interfaces";
+import { AnyAction } from "../actions/actions";
+import { GlobalState } from "./rootReducer";
 
-interface State {
-  readonly raceInProgress: boolean;
-  readonly raceType: RaceType;
-  readonly gpsId: number;
-  readonly positions: ReadonlyArray<PositionInTime>;
-  readonly lastTimeCheck: null | number;
-}
+type State = Pick<
+  GlobalState,
+  "raceInProgress" | "raceType" | "gpsId" | "positions" | "lastTimeCheck"
+>;
 
 type StartRaceReducer = (state: State, action: AnyAction) => State;
 

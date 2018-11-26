@@ -9,12 +9,9 @@ import {
   IsMiddlePointAccurate,
   isMiddlePointAccurate
 } from "../logic/path/isMiddlePointAccurate";
+import { GlobalState } from "./rootReducer";
 
-interface State {
-  readonly positions: ReadonlyArray<PositionInTime>;
-  readonly lastTimeCheck: number | null;
-  readonly gpsError: string | null;
-}
+type State = Pick<GlobalState, "positions" | "lastTimeCheck" | "gpsError">;
 
 type AddGpsPositionReducer = (state: State, action: AnyAction) => State;
 type AddGpsPositionReducerFactory = (

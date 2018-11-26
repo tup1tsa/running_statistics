@@ -4,7 +4,7 @@ import { RegularRegistrationInfo } from "../../../client/src/application/common_
 import { regularRegistrationFactory } from "../../application/routes/regularRegistation";
 
 const successValidator = (
-  userInfo: RegularRegistrationInfo
+  userInfo: unknown
 ): userInfo is RegularRegistrationInfo => true;
 
 export const getRequestReponse = () => {

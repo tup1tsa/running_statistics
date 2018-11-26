@@ -1,8 +1,7 @@
 import { AnyAction } from "../actions/actions";
+import { GlobalState } from "./rootReducer";
 
-interface State {
-  readonly gpsId: number;
-}
+type State = Pick<GlobalState, "gpsId">;
 
 type StopGpsReducer = (state: State, action: AnyAction) => State;
 type StopGpsReducerFactory = (geoLocation: Geolocation) => StopGpsReducer;

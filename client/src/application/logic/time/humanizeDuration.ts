@@ -1,4 +1,4 @@
-import * as MomentClass from "moment";
+import Moment from "moment";
 import { MomentInterface } from "../../common_files/interfaces";
 
 export type HumanizeDuration = (timeSecs: number) => string;
@@ -8,4 +8,4 @@ export const humanizeDurationFactory: HumanizeDurationFactory = moment => timeSe
   moment.duration(timeSecs * 1000).humanize();
 
 export const humanizeDuration: HumanizeDuration = timeSecs =>
-  humanizeDurationFactory(MomentClass)(timeSecs);
+  humanizeDurationFactory(Moment)(timeSecs);

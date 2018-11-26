@@ -40,14 +40,11 @@ export interface GlobalState {
   readonly isLogged: boolean;
 }
 
-type Reducer = (
-  state: Partial<GlobalState>,
-  action: AnyAction
-) => Partial<GlobalState>;
+type Reducer = (state: GlobalState, action: AnyAction) => Partial<GlobalState>;
 
 type RootReducer = (
   history: History
-) => (state: GlobalState, action: AnyAction) => GlobalState;
+) => (state: GlobalState | undefined, action: AnyAction) => GlobalState;
 type RootReducerFactory = (...reducers: Reducer[]) => RootReducer;
 
 const defaultState: GlobalState = {

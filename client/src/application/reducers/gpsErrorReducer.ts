@@ -1,8 +1,7 @@
 import { AnyAction } from "../actions/actions";
+import { GlobalState } from "./rootReducer";
 
-interface State {
-  readonly gpsError: string | null;
-}
+type State = Pick<GlobalState, "gpsError">;
 
 type GpsErrorReducer = (state: State, action: AnyAction) => State;
 

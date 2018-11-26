@@ -1,10 +1,12 @@
 import { AnyAction } from "../actions/actions";
+import { GlobalState } from "./rootReducer";
 
-interface State {
-  readonly login: string;
-  readonly email: string;
-  readonly password: string;
-}
+type State = Pick<
+  GlobalState,
+  "login" | "email" | "passwordFirstInput" | "passwordSecondInput"
+>;
+
+// todo: make sure it changes both password inputs
 
 type ChangeRegistrationFieldReducer = (
   state: State,
