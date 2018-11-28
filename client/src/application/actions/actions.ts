@@ -52,8 +52,13 @@ export interface ChangeRaceTypeAction {
   readonly payload: RaceType;
 }
 
+export type RegistrationFieldName =
+  | "login"
+  | "email"
+  | "password"
+  | "passwordCopy";
 export interface RegistrationFieldPayload {
-  readonly fieldName: "login" | "email" | "password" | "passwordCopy";
+  readonly fieldName: RegistrationFieldName;
   readonly value: string;
 }
 export interface ChangeRegistrationFieldAction {
