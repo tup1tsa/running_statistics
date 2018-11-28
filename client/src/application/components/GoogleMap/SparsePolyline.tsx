@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { Polyline } from "react-google-maps";
 import { Coordinates } from "../../common_files/interfaces";
 

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { Race } from "../../common_files/interfaces";
 import { GetRaceInfo, getRaceInfo } from "../../logic/path/getRaceInfo";
 import {

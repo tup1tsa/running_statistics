@@ -4,7 +4,7 @@ import "raf/polyfill";
 
 import { routerMiddleware } from "connected-react-router";
 import { createBrowserHistory } from "history";
-import * as React from "react";
+import React from "react";
 import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { applyMiddleware, compose, createStore } from "redux";

@@ -1,6 +1,6 @@
 import { mount } from "enzyme";
 import { createBrowserHistory } from "history";
-import * as React from "react";
+import React from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router";
 import { createStore } from "redux";

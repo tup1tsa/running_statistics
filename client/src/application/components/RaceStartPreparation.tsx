@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { RaceType } from "../actions/actions";
 
 export interface RaceStartPreparationProps {

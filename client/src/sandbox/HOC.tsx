@@ -1,5 +1,5 @@
 import { google } from "google-maps";
-import * as React from "react";
+import React from "react";
 import { Coordinates } from "../application/common_files/interfaces";
 declare var google: google;
 

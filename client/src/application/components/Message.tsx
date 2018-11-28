@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { MESSAGES } from "../common_files/config";
 import { MessageUrlInput } from "../logic/parseMessageUrl";
 

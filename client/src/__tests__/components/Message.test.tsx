@@ -1,5 +1,5 @@
 import { shallow } from "enzyme";
-import * as React from "react";
+import React from "react";
 import { MESSAGES } from "../../application/common_files/config";
 import { Message } from "../../application/components/Message";
 
