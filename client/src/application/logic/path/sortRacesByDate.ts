@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import _ from "lodash";
 import { Race } from "../../common_files/interfaces";
 
 export type SortRacesByDate = (

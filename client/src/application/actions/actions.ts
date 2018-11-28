@@ -53,7 +53,7 @@ export interface ChangeRaceTypeAction {
 }
 
 export interface RegistrationFieldPayload {
-  readonly fieldName: "login" | "email" | "password";
+  readonly fieldName: "login" | "email" | "password" | "passwordCopy";
   readonly value: string;
 }
 export interface ChangeRegistrationFieldAction {

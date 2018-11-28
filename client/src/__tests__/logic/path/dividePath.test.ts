@@ -25,8 +25,9 @@ it("should return inactive path if path array length is 1 or 0", () => {
 });
 
 it("should divide path depending on speed", () => {
-  const getAverageSpeedBetweenTwoPoints = (path: PositionInTime[]) =>
-    path[1].latitude - path[0].latitude;
+  const getAverageSpeedBetweenTwoPoints = (
+    path: ReadonlyArray<PositionInTime>
+  ) => path[1].latitude - path[0].latitude;
   const config = {
     ...defaultConfig,
     getAverageSpeed: getAverageSpeedBetweenTwoPoints

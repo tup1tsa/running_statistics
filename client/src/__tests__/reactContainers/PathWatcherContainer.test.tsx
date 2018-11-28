@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import _ from "lodash";
 import { mapStateToProps } from "../../application/reactContainers/PathWatcherContainer";
 import { GlobalState } from "../../application/reducers/rootReducer";
 

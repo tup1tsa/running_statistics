@@ -7,7 +7,8 @@ import { changeRegistrationFieldReducer } from "../../application/reducers/chang
 const defaultState = {
   login: "abba",
   email: "abba@gmail.com",
-  password: "topSecret"
+  passwordFirstInput: "topSecret",
+  passwordSecondInput: "topSecret"
 };
 
 it("should not change state if action is incorrect", () => {
@@ -17,18 +18,10 @@ it("should not change state if action is incorrect", () => {
   );
 });
 
-it("should change proper field", () => {
+it("should change login", () => {
   const changeLoginAction = changeRegistrationField({
     fieldName: "login",
     value: "somma"
-  });
-  const changeEmailAction = changeRegistrationField({
-    fieldName: "email",
-    value: "some@mail.ru"
-  });
-  const changePasswordActoin = changeRegistrationField({
-    fieldName: "password",
-    value: "dumb"
   });
   expect(
     changeRegistrationFieldReducer(defaultState, changeLoginAction)
@@ -36,16 +29,43 @@ it("should change proper field", () => {
     ...defaultState,
     login: "somma"
   });
+});
+
+it("should change email", () => {
+  const changeEmailAction = changeRegistrationField({
+    fieldName: "email",
+    value: "some@mail.ru"
+  });
   expect(
     changeRegistrationFieldReducer(defaultState, changeEmailAction)
   ).toEqual({
     ...defaultState,
     email: "some@mail.ru"
   });
+});
+
+it("should change first password input", () => {
+  const changePasswordAction = changeRegistrationField({
+    fieldName: "password",
+    value: "dumb"
+  });
   expect(
-    changeRegistrationFieldReducer(defaultState, changePasswordActoin)
+    changeRegistrationFieldReducer(defaultState, changePasswordAction)
   ).toEqual({
     ...defaultState,
-    password: "dumb"
+    passwordFirstInput: "dumb"
+  });
+});
+
+it("should change password copy input", () => {
+  const changePasswordCopyAction = changeRegistrationField({
+    fieldName: "passwordCopy",
+    value: "bamba"
+  });
+  expect(
+    changeRegistrationFieldReducer(defaultState, changePasswordCopyAction)
+  ).toEqual({
+    ...defaultState,
+    passwordSecondInput: "bamba"
   });
 });

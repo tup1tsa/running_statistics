@@ -6,8 +6,6 @@ type State = Pick<
   "login" | "email" | "passwordFirstInput" | "passwordSecondInput"
 >;
 
-// todo: make sure it changes both password inputs
-
 type ChangeRegistrationFieldReducer = (
   state: State,
   action: AnyAction
@@ -26,5 +24,8 @@ export const changeRegistrationFieldReducer: ChangeRegistrationFieldReducer = (
   if (action.payload.fieldName === "email") {
     return { ...state, email: action.payload.value };
   }
-  return { ...state, password: action.payload.value };
+  if (action.payload.fieldName === "password") {
+    return { ...state, passwordFirstInput: action.payload.value };
+  }
+  return { ...state, passwordSecondInput: action.payload.value };
 };
