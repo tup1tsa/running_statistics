@@ -1,8 +1,8 @@
 import {
   stopGps,
   successRegistration
-} from "../../application/actions/actionCreators";
-import { successRegistrationReducer } from "../../application/reducers/successRegistrationReducer";
+} from "../../../application/actions/actionCreators";
+import { successRegistrationReducer } from "../../../application/reducers/registration/successRegistrationReducer";
 
 const defaultState = {
   registrationInProgress: true,

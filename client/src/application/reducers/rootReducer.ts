@@ -4,17 +4,17 @@ import { AnyAction, RaceType } from "../actions/actions";
 import { PositionInTime, Race } from "../common_files/interfaces";
 import { addGpsPositionReducer } from "./addGpsPositionReducer";
 import { changeRaceTypeReducer } from "./changeRaceTypeReducer";
-import { changeRegistrationFieldReducer } from "./changeRegistrationFieldReducer";
 import { decrementRaceReducer } from "./decrementRaceReducer";
-import { failRegistationReducer } from "./failRegistrationReducer";
 import { gpsErrorReducer } from "./gpsErrorReducer";
 import { incrementRaceReducer } from "./incrementRaceReducer";
+import { changeRegistrationFieldReducer } from "./registration/changeRegistrationFieldReducer";
+import { failRegistationReducer } from "./registration/failRegistrationReducer";
+import { startRegistrationReducer } from "./registration/startRegistrationReducer";
+import { successRegistrationReducer } from "./registration/successRegistrationReducer";
 import { setRacesReducer } from "./setRacesReducer";
 import { startRaceReducer } from "./startRaceReducer";
 import { startRacesDownloadReducer } from "./startRacesDownloadReducer";
-import { startRegistrationReducer } from "./startRegistrationReducer";
 import { stopGpsReducer } from "./stopGpsReducer";
-import { successRegistrationReducer } from "./successRegistrationReducer";
 import { toggleSavingReducer } from "./toggleSavingReducer";
 
 export interface GlobalState {

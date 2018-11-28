@@ -1,8 +1,8 @@
 import {
   failRegistration,
   stopGps
-} from "../../application/actions/actionCreators";
-import { failRegistationReducer } from "../../application/reducers/failRegistrationReducer";
+} from "../../../application/actions/actionCreators";
+import { failRegistationReducer } from "../../../application/reducers/registration/failRegistrationReducer";
 
 const defaultState = {
   registrationError: null,

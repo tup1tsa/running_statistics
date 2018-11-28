@@ -1,5 +1,5 @@
-import { AnyAction } from "../actions/actions";
-import { GlobalState } from "./rootReducer";
+import { AnyAction } from "../../actions/actions";
+import { GlobalState } from "../rootReducer";
 
 type State = Pick<GlobalState, "registrationInProgress" | "registrationError">;
 

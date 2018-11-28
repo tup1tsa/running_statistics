@@ -1,8 +1,8 @@
 import {
   changeRegistrationField,
   stopGps
-} from "../../application/actions/actionCreators";
-import { changeRegistrationFieldReducer } from "../../application/reducers/changeRegistrationFieldReducer";
+} from "../../../application/actions/actionCreators";
+import { changeRegistrationFieldReducer } from "../../../application/reducers/registration/changeRegistrationFieldReducer";
 
 const defaultState = {
   login: "abba",
