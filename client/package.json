@@ -50,7 +50,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom --colors",
     "test:coverage": "react-scripts test --env=jsdom --colors --coverage",
-    "test:debug": "react-scripts --inspect-brk test --runInBand --env=jsdom",
+    "test:debug": "react-scripts --inspect-brk test --runInBand --coverage",
     "eject": "react-scripts eject"
   },
   "devDependencies": {},
