@@ -1,6 +1,6 @@
 import Ajv from "ajv";
 
-type ValidateEmail = (email: string) => boolean;
+export type ValidateEmail = (email: string) => boolean;
 
 // ajv is used directly here without mocking because there is no much sense in
 // mocking it. This validation depends strongly on ajv

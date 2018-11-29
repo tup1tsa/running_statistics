@@ -1,6 +1,7 @@
 import { push } from "connected-react-router";
 import { Dispatch } from "redux";
 import { MESSAGES } from "../../common_files/config";
+import { RegularRegistrationInfo } from "../../common_files/interfaces";
 import {
   NetworkRequest,
   networkRequest
@@ -12,13 +13,9 @@ import {
   successRegistration
 } from "../actionCreators";
 
-interface UserInfo {
-  readonly name: string;
-  readonly email: string;
-  readonly password: string;
-}
-
-type RegistrationRequest = (userInfo: UserInfo) => (dispatch: Dispatch) => void;
+type RegistrationRequest = (
+  userInfo: RegularRegistrationInfo
+) => (dispatch: Dispatch) => void;
 type RegistrationRequestFactory = (
   networkRequest: NetworkRequest,
   setMessageUrl: SetMessageUrl
