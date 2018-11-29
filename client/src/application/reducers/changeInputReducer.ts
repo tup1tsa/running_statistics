@@ -1,21 +1,15 @@
-import { AnyAction } from "../../actions/actions";
-import { GlobalState } from "../rootReducer";
+import { AnyAction } from "../actions/actions";
+import { GlobalState } from "./rootReducer";
 
 type State = Pick<
   GlobalState,
   "login" | "email" | "passwordFirstInput" | "passwordSecondInput"
 >;
 
-type ChangeRegistrationFieldReducer = (
-  state: State,
-  action: AnyAction
-) => State;
+type ChangeInputReducer = (state: State, action: AnyAction) => State;
 
-export const changeRegistrationFieldReducer: ChangeRegistrationFieldReducer = (
-  state,
-  action
-) => {
-  if (action.type !== "CHANGE_REGISTRATION_FIELD") {
+export const changeInputReducer: ChangeInputReducer = (state, action) => {
+  if (action.type !== "CHANGE_INPUT") {
     return state;
   }
   if (action.payload.fieldName === "login") {

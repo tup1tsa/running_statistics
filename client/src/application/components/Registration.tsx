@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  RegistrationFieldName,
-  RegistrationFieldPayload
-} from "../actions/actions";
+import { ChangeInputPayload, InputNames } from "../actions/actions";
 import { RegularRegistrationInfo } from "../common_files/interfaces";
 import {
   ValidateEmail,
@@ -29,13 +26,13 @@ export interface RegistrationProps {
   readonly email: string;
   readonly password: string;
   readonly passwordCopy: string;
-  readonly changeRegistrationField: (payload: RegistrationFieldPayload) => void;
+  readonly changeInput: (payload: ChangeInputPayload) => void;
   readonly register: (userInfo: RegularRegistrationInfo) => void;
 }
 
 export const RegistrationFactory = (props: RegistrationProps & Validators) => {
-  const changeField = (fieldName: RegistrationFieldName, value: string) => {
-    props.changeRegistrationField({ fieldName, value });
+  const changeField = (fieldName: InputNames, value: string) => {
+    props.changeInput({ fieldName, value });
   };
   const userInfo = {
     name: props.login,

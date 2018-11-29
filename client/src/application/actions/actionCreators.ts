@@ -1,14 +1,14 @@
 import { Race } from "../common_files/interfaces";
 import {
   AddGpsPositionAction,
+  ChangeInputAction,
+  ChangeInputPayload,
   ChangeRaceTypeAction,
-  ChangeRegistrationFieldAction,
   DecrementRaceAction,
   FailRegistrationAction,
   GpsErrorAction,
   IncrementRaceAction,
   RaceType,
-  RegistrationFieldPayload,
   SetRacesAction,
   StartRaceAction,
   StartRacePayload,
@@ -82,11 +82,9 @@ export const changeRaceType: ChangeRaceType = raceType => ({
   payload: raceType
 });
 
-export type ChangeRegistrationField = (
-  payload: RegistrationFieldPayload
-) => ChangeRegistrationFieldAction;
-export const changeRegistrationField: ChangeRegistrationField = payload => ({
-  type: "CHANGE_REGISTRATION_FIELD",
+export type ChangeInput = (payload: ChangeInputPayload) => ChangeInputAction;
+export const changeInput: ChangeInput = payload => ({
+  type: "CHANGE_INPUT",
   payload
 });
 

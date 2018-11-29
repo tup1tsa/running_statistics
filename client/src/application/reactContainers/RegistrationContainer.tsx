@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { changeRegistrationField } from "../actions/actionCreators";
+import { changeInput } from "../actions/actionCreators";
 import { registrationRequest } from "../actions/async/registrationRequest";
 import { Registration, RegistrationProps } from "../components/Registration";
 import { GlobalState } from "../reducers/rootReducer";
@@ -18,11 +18,10 @@ export const mapStateToProps: MapStateToProps = state => ({
 
 type MapDispatchToProps = (
   dispatch: Dispatch
-) => Pick<RegistrationProps, "changeRegistrationField" | "register">;
+) => Pick<RegistrationProps, "changeInput" | "register">;
 
 export const mapDispatchToProps: MapDispatchToProps = dispatch => ({
-  changeRegistrationField: payload =>
-    dispatch(changeRegistrationField(payload)),
+  changeInput: payload => dispatch(changeInput(payload)),
   register: payload => registrationRequest(payload)(dispatch)
 });
 

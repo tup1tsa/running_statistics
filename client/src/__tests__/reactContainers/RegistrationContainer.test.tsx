@@ -17,13 +17,13 @@ it("should dispatch correct state fields", () => {
 it("should dispatch correct change registration field prop", () => {
   const dispatch = jest.fn();
   const props = mapDispatchToProps(dispatch);
-  props.changeRegistrationField({
+  props.changeInput({
     fieldName: "email",
     value: "somma@gmail.com"
   });
   expect(dispatch.mock.calls.length).toBe(1);
   expect(dispatch.mock.calls[0][0]).toEqual({
-    type: "CHANGE_REGISTRATION_FIELD",
+    type: "CHANGE_INPUT",
     payload: {
       fieldName: "email",
       value: "somma@gmail.com"

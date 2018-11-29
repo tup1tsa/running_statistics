@@ -3,11 +3,11 @@ import { History } from "history";
 import { AnyAction, RaceType } from "../actions/actions";
 import { PositionInTime, Race } from "../common_files/interfaces";
 import { addGpsPositionReducer } from "./addGpsPositionReducer";
+import { changeInputReducer } from "./changeInputReducer";
 import { changeRaceTypeReducer } from "./changeRaceTypeReducer";
 import { decrementRaceReducer } from "./decrementRaceReducer";
 import { gpsErrorReducer } from "./gpsErrorReducer";
 import { incrementRaceReducer } from "./incrementRaceReducer";
-import { changeRegistrationFieldReducer } from "./registration/changeRegistrationFieldReducer";
 import { failRegistationReducer } from "./registration/failRegistrationReducer";
 import { startRegistrationReducer } from "./registration/startRegistrationReducer";
 import { successRegistrationReducer } from "./registration/successRegistrationReducer";
@@ -105,7 +105,7 @@ export const rootReducer: RootReducer = history =>
     stopGpsReducer,
     toggleSavingReducer,
     changeRaceTypeReducer,
-    changeRegistrationFieldReducer,
+    changeInputReducer,
     startRegistrationReducer,
     failRegistationReducer,
     successRegistrationReducer

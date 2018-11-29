@@ -1,7 +1,7 @@
 import {
   addGpsPosition,
+  changeInput,
   changeRaceType,
-  changeRegistrationField,
   decrementRace,
   failRegistration,
   gpsError,
@@ -15,8 +15,8 @@ import {
   toggleSaving
 } from "../../application/actions/actionCreators";
 import {
-  RaceType,
-  RegistrationFieldPayload
+  ChangeInputPayload,
+  RaceType
 } from "../../application/actions/actions";
 import { getTestPosition } from "../../application/common_files/testHelpers";
 
@@ -114,12 +114,12 @@ it("should create change race type action", () => {
 });
 
 it("should create change registration field action", () => {
-  const payload: RegistrationFieldPayload = {
+  const payload: ChangeInputPayload = {
     fieldName: "login",
     value: "abs"
   };
-  expect(changeRegistrationField(payload)).toEqual({
-    type: "CHANGE_REGISTRATION_FIELD",
+  expect(changeInput(payload)).toEqual({
+    type: "CHANGE_INPUT",
     payload
   });
 });

@@ -13,7 +13,7 @@ const defaultProps = {
   validateEmail: jest.fn().mockReturnValue(true),
   validatePassword: jest.fn().mockReturnValue(true),
 
-  changeRegistrationField: jest.fn(),
+  changeInput: jest.fn(),
   register: jest.fn()
 };
 
@@ -26,10 +26,7 @@ it("should render four inputs and a button", () => {
 it("should send correct props to login input", () => {
   const changeRegField = jest.fn();
   const wrapper = shallow(
-    <RegistrationFactory
-      {...defaultProps}
-      changeRegistrationField={changeRegField}
-    />
+    <RegistrationFactory {...defaultProps} changeInput={changeRegField} />
   );
   const loginInput = wrapper.find(Input).get(0);
   expect(loginInput.props.id).toBe("login");
@@ -65,10 +62,7 @@ it("should send correct error message to login if it is invalid", () => {
 it("should send correct props to email input", () => {
   const changeRegField = jest.fn();
   const wrapper = shallow(
-    <RegistrationFactory
-      {...defaultProps}
-      changeRegistrationField={changeRegField}
-    />
+    <RegistrationFactory {...defaultProps} changeInput={changeRegField} />
   );
   const emailInput = wrapper.find(Input).get(1);
   expect(emailInput.props.id).toBe("email");
@@ -104,10 +98,7 @@ it("should send correct error message to email if it is invalid", () => {
 it("should send correct props to first password input", () => {
   const changeRegField = jest.fn();
   const wrapper = shallow(
-    <RegistrationFactory
-      {...defaultProps}
-      changeRegistrationField={changeRegField}
-    />
+    <RegistrationFactory {...defaultProps} changeInput={changeRegField} />
   );
   const firstPasswordInput = wrapper.find(Input).get(2);
   expect(firstPasswordInput.props.id).toBe("password");
@@ -143,10 +134,7 @@ it("should send correct error message to password if it is invalid", () => {
 it("should send correct props to second password input", () => {
   const changeRegField = jest.fn();
   const wrapper = shallow(
-    <RegistrationFactory
-      {...defaultProps}
-      changeRegistrationField={changeRegField}
-    />
+    <RegistrationFactory {...defaultProps} changeInput={changeRegField} />
   );
   const secondPasswordInput = wrapper.find(Input).get(3);
   expect(secondPasswordInput.props.id).toBe("passwordCopy");
