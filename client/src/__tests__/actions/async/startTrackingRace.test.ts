@@ -1,10 +1,10 @@
+import { getTestPosition } from "running_app_core";
 import { GeoLocationMock } from "../../../__mocks__/GeoLocation";
 import {
   RaceType,
   StartRaceAction
 } from "../../../application/actions/actions";
 import { startTrackingRaceFactory } from "../../../application/actions/async/startTrackingRace";
-import { getTestPosition } from "running_app_core";
 
 it("should dispatch stop gps action before starting another one just in case", () => {
   const geoLocation = new GeoLocationMock();

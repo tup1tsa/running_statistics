@@ -1,5 +1,6 @@
-import { LocalStorage, Race } from "running_app_core";
 import {
+  LocalStorage,
+  Race,
   ValidatePath,
   validatePath
 } from "running_app_core";

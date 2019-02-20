@@ -50,7 +50,8 @@
     "test": "react-scripts test --env=jsdom --colors",
     "test:coverage": "react-scripts test --env=jsdom --colors --coverage",
     "test:debug": "react-scripts --inspect-brk test --runInBand --coverage",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format": "tslint --fix 'src/**/*.{ts,tsx}'"
   },
   "devDependencies": {},
   "proxy": "http://localhost:3007",

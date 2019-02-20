@@ -1,9 +1,4 @@
-import { MESSAGES } from "running_app_core";
-import { Race } from "running_app_core";
-import {
-  ValidatePath,
-  validatePath
-} from "running_app_core";
+import { MESSAGES, Race, ValidatePath, validatePath } from "running_app_core";
 import { SendRaces, sendRaces } from "./network/sendRaces";
 import { DeleteRaces, deleteRaces } from "./storage/deleteRaces";
 import { FetchRaces, fetchRaces } from "./storage/fetchRaces";

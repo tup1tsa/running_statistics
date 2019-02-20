@@ -1,5 +1,4 @@
-import { raceSettings } from "running_app_core";
-import { Race } from "running_app_core";
+import { Race, raceSettings } from "running_app_core";
 import { divideRaceFactory } from "../../../application/logic/path/divideRace";
 
 it("should pass correct config to divide path func", () => {

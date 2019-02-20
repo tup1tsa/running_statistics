@@ -1,3 +1,4 @@
+import { getTestPosition } from "running_app_core";
 import {
   addGpsPosition,
   changeInput,
@@ -18,7 +19,6 @@ import {
   ChangeInputPayload,
   RaceType
 } from "../../application/actions/actions";
-import { getTestPosition } from "running_app_core";
 
 it("should create start race action", () => {
   const raceType: RaceType = "running";

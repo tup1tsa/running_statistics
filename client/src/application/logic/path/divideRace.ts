@@ -1,5 +1,4 @@
-import { raceSettings } from "running_app_core";
-import { GetPath, Race, RaceSettings } from "running_app_core";
+import { GetPath, Race, raceSettings, RaceSettings } from "running_app_core";
 import { getPath } from "../geoLibHelpers";
 import {
   DividedPathPart,

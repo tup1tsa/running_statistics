@@ -11,6 +11,7 @@
     "object-literal-sort-keys": false,
     "no-parameter-reassignment": true,
     "interface-name": [true, "never-prefix"],
-    "ordered-imports": false
+    "ordered-imports": true,
+    "no-duplicate-imports": true
   }
 }

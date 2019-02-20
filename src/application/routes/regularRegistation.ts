@@ -1,9 +1,5 @@
 import { RequestHandler } from "express";
-import { MESSAGES } from "running_app_core";
-import {
-  ValidateUserInfo,
-  validateUserInfo
-} from "running_app_core";
+import { MESSAGES, ValidateUserInfo, validateUserInfo } from "running_app_core";
 import { SaveNewUser, UserInfoHashed } from "../database/queries/saveNewUser";
 import { HashUserInfo, hashUserInfo } from "../hashUserInfo";
 

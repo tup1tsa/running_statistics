@@ -1,18 +1,14 @@
 import React from "react";
-import { ChangeInputPayload, InputNames } from "../actions/actions";
-import { RegularRegistrationInfo } from "running_app_core";
 import {
+  RegularRegistrationInfo,
   ValidateEmail,
-  validateEmail
-} from "running_app_core";
-import {
+  validateEmail,
   ValidateLogin,
-  validateLogin
-} from "running_app_core";
-import {
+  validateLogin,
   ValidatePassword,
   validatePassword
 } from "running_app_core";
+import { ChangeInputPayload, InputNames } from "../actions/actions";
 import { Input } from "./Input";
 
 interface Validators {

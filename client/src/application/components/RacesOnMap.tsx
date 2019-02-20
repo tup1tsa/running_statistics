@@ -5,13 +5,13 @@ import {
   RacesOnMapStateProps
 } from "../components/RacesOnMap";
 import { DivideRace, divideRace } from "../logic/path/divideRace";
-import { findCenter } from "../logic/path/findCenter";
-import { FindCenter } from "../logic/path/findCenter";
+import { findCenter, FindCenter } from "../logic/path/findCenter";
 import { GetRaceInfo, getRaceInfo } from "../logic/path/getRaceInfo";
-import { getRacePart } from "../logic/path/getRacePart";
-import { GetRacePart } from "../logic/path/getRacePart";
-import { SortRacesByDate } from "../logic/path/sortRacesByDate";
-import { sortRacesByDate } from "../logic/path/sortRacesByDate";
+import { GetRacePart, getRacePart } from "../logic/path/getRacePart";
+import {
+  SortRacesByDate,
+  sortRacesByDate
+} from "../logic/path/sortRacesByDate";
 import MapWrapper from "./GoogleMap/MapWrapper";
 import { SparsePolyline } from "./GoogleMap/SparsePolyline";
 import FinishedRaceInfo from "./Path/FinishedRaceInfo";

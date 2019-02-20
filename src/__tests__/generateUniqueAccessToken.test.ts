@@ -1,5 +1,5 @@
-import { generateUniqueAccessTokenFactory } from "../application/generateUniqueAccessToken";
 import { IsAccessTokenUnique } from "../application/database/queries/isAccessTokenUnique";
+import { generateUniqueAccessTokenFactory } from "../application/generateUniqueAccessToken";
 
 it("should generate unique access token", async done => {
   // there is weird bug with ts types

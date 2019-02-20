@@ -1,9 +1,8 @@
+import { Coordinates, getTestPosition } from "running_app_core";
 import {
   addGpsPosition,
   toggleSaving
 } from "../../application/actions/actionCreators";
-import { Coordinates } from "running_app_core";
-import { getTestPosition } from "running_app_core";
 import { addGpsPositionReducerFactory } from "../../application/reducers/addGpsPositionReducer";
 
 const defaultState = {

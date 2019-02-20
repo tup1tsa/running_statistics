@@ -1,6 +1,9 @@
 import { RequestHandler } from "express";
-import { MESSAGES } from "running_app_core";
-import { ValidateLoginInfo, validateLoginInfo } from "running_app_core";
+import {
+  MESSAGES,
+  ValidateLoginInfo,
+  validateLoginInfo
+} from "running_app_core";
 import { FindUserByPassword, findUserByPassword } from "../findUserByPassword";
 
 type RegularLoginFactory = (

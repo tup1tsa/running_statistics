@@ -1,6 +1,5 @@
 import { RequestHandler } from "express";
-import { MESSAGES } from "running_app_core";
-import { Race } from "running_app_core";
+import { MESSAGES, Race } from "running_app_core";
 import { FetchRaces, fetchRaces } from "../database/queries/fetchRaces";
 
 type FetchRacesRouteFactory = (fetchRaces: FetchRaces) => RequestHandler;

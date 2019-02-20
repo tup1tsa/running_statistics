@@ -1,9 +1,4 @@
-import { MESSAGES } from "running_app_core";
-import { Race } from "running_app_core";
-import {
-  ValidateRaces,
-  validateRaces
-} from "running_app_core";
+import { MESSAGES, Race, ValidateRaces, validateRaces } from "running_app_core";
 import { NetworkRequest, networkRequest } from "./networkRequest";
 
 export type DownloadRaces = () => Promise<ReadonlyArray<Race>>;

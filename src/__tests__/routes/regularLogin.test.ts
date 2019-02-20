@@ -1,5 +1,4 @@
-import { MESSAGES } from "running_app_core";
-import { RegularLoginInfo } from "running_app_core";
+import { MESSAGES, RegularLoginInfo } from "running_app_core";
 import { regularLoginFactory } from "../../application/routes/regularLogin";
 import { getRequestReponse } from "./regularRegistation.test";
 

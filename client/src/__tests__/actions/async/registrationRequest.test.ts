@@ -1,5 +1,5 @@
-import { registrationRequestFactory } from "../../../application/actions/async/registrationRequest";
 import { MESSAGES } from "running_app_core";
+import { registrationRequestFactory } from "../../../application/actions/async/registrationRequest";
 
 const defaultUserInfo = {
   name: "layla",

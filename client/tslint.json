@@ -12,6 +12,7 @@
     "no-parameter-reassignment": true,
     "interface-name": [true, "never-prefix"],
     "no-unused-variable": false,
-    "ordered-imports": false
+    "ordered-imports": true,
+    "no-duplicate-imports": true
   }
 }

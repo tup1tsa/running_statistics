@@ -1,8 +1,8 @@
+import { getTestRaces } from "running_app_core";
 import {
   decrementRace,
   stopGps
 } from "../../application/actions/actionCreators";
-import { getTestRaces } from "running_app_core";
 import { decrementRaceReducer } from "../../application/reducers/decrementRaceReducer";
 const defaultState = {
   downloadedRaces: getTestRaces(),

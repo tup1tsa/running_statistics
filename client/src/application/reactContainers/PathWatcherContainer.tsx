@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { stopAndSaveRace } from "../actions/async/stopAndSaveRace";
 import { Race } from "running_app_core";
+import { stopAndSaveRace } from "../actions/async/stopAndSaveRace";
 import { PathWatcher } from "../components/Path/PathWatcher";
 import { GlobalState } from "../reducers/rootReducer";
 
