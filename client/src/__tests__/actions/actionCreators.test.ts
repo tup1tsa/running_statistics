@@ -18,7 +18,7 @@ import {
   ChangeInputPayload,
   RaceType
 } from "../../application/actions/actions";
-import { getTestPosition } from "../../application/common_files/testHelpers";
+import { getTestPosition } from "running_app_core";
 
 it("should create start race action", () => {
   const raceType: RaceType = "running";

@@ -1,5 +1,5 @@
-import { PositionInTime } from "../../../application/common_files/interfaces";
-import { validateRacesFactory } from "../../../application/common_files/validators/validateRaces";
+import { PositionInTime } from "running_app_core";
+import { validateRacesFactory } from "running_app_core";
 
 const successPathValidator = (
   path: unknown

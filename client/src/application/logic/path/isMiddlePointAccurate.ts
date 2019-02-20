@@ -1,4 +1,4 @@
-import { Coordinates, GetDistance } from "../../common_files/interfaces";
+import { Coordinates, GetDistance } from "running_app_core";
 import { getDistance } from "../geoLibHelpers";
 
 export type IsMiddlePointAccurate = (

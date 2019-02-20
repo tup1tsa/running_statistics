@@ -2,7 +2,7 @@ import {
   addGpsPosition,
   toggleSaving
 } from "../../application/actions/actionCreators";
-import { getTestPosition } from "../../application/common_files/testHelpers";
+import { getTestPosition } from "running_app_core";
 import { toggleSavingReducer } from "../../application/reducers/toggleSavingReducer";
 
 const defaultState = {

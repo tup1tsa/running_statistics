@@ -4,7 +4,7 @@ import {
   Coordinates,
   PositionInTime,
   Race
-} from "../../application/common_files/interfaces";
+} from "running_app_core";
 import FinishedRaceInfo from "../../application/components/Path/FinishedRaceInfo";
 import { RacesOnMapFactory } from "../../application/components/RacesOnMap";
 import { getRacePart } from "../../application/logic/path/getRacePart";

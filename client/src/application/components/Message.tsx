@@ -1,5 +1,5 @@
 import React from "react";
-import { MESSAGES } from "../common_files/config";
+import { MESSAGES } from "running_app_core";
 import { MessageUrlInput } from "../logic/parseMessageUrl";
 
 interface Props {

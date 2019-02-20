@@ -1,4 +1,4 @@
-import { MESSAGES } from "../common_files/config";
+import { MESSAGES } from "running_app_core";
 
 export interface MessageData {
   readonly message: string;

@@ -1,5 +1,5 @@
 import * as crypto from "crypto";
-import { RegularRegistrationInfo } from "../../client/src/application/common_files/interfaces";
+import { RegularRegistrationInfo } from "running_app_core";
 import { CreateSalt, createSalt } from "./createSalt";
 import { UserInfoHashed } from "./database/queries/saveNewUser";
 import {

@@ -5,7 +5,7 @@ import {
   WithGoogleMapProps,
   withScriptjs
 } from "react-google-maps";
-import { Coordinates } from "../../common_files/interfaces";
+import { Coordinates } from "running_app_core";
 
 interface MapProps {
   readonly center: Coordinates;

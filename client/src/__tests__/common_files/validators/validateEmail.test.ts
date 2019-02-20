@@ -1,4 +1,4 @@
-import { validateEmail } from "../../../application/common_files/validators/validateEmail";
+import { validateEmail } from "running_app_core";
 
 it("should validate email properly", () => {
   expect(validateEmail("non email")).toBe(false);

@@ -1,9 +1,9 @@
 import { RequestHandler } from "express";
-import { MESSAGES } from "../../../client/src/application/common_files/config";
+import { MESSAGES } from "running_app_core";
 import {
   ValidateUserInfo,
   validateUserInfo
-} from "../../../client/src/application/common_files/validators/validateUserInfo";
+} from "running_app_core";
 import { SaveNewUser, UserInfoHashed } from "../database/queries/saveNewUser";
 import { HashUserInfo, hashUserInfo } from "../hashUserInfo";
 

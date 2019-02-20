@@ -1,4 +1,4 @@
-import { validateLogin } from "../../../application/common_files/validators/validateLogin";
+import { validateLogin } from "running_app_core";
 
 it("login should be longer than 1 char and shorter than 128", () => {
   expect(validateLogin("a")).toBe(false);

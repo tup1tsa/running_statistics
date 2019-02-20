@@ -1,5 +1,5 @@
-import { MESSAGES } from "../../../client/src/application/common_files/config";
-import { RegularLoginInfo } from "../../../client/src/application/common_files/interfaces";
+import { MESSAGES } from "running_app_core";
+import { RegularLoginInfo } from "running_app_core";
 import { regularLoginFactory } from "../../application/routes/regularLogin";
 import { getRequestReponse } from "./regularRegistation.test";
 

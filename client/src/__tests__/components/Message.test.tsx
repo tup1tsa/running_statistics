@@ -1,6 +1,6 @@
 import { shallow } from "enzyme";
 import React from "react";
-import { MESSAGES } from "../../application/common_files/config";
+import { MESSAGES } from "running_app_core";
 import { Message } from "../../application/components/Message";
 
 it("should render success message properly", () => {

@@ -1,5 +1,5 @@
 import React from "react";
-import { Race } from "../../common_files/interfaces";
+import { Race } from "running_app_core";
 import { GetRaceInfo, getRaceInfo } from "../../logic/path/getRaceInfo";
 import {
   GetReadableDate,

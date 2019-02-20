@@ -1,5 +1,5 @@
 import GeoLib from "geolib";
-import { GetDistance, GetPath, GetSpeed } from "../common_files/interfaces";
+import { GetDistance, GetPath, GetSpeed } from "running_app_core";
 
 // GeoLib library is decent, but typings are god awful
 // and the project itself is outdated (npm vs github) and almost abandoned

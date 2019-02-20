@@ -1,7 +1,7 @@
 import { push } from "connected-react-router";
 import { Dispatch } from "redux";
-import { MESSAGES } from "../../common_files/config";
-import { RegularRegistrationInfo } from "../../common_files/interfaces";
+import { MESSAGES } from "running_app_core";
+import { RegularRegistrationInfo } from "running_app_core";
 import {
   NetworkRequest,
   networkRequest

@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { Race } from "../../common_files/interfaces";
+import { Race } from "running_app_core";
 
 export type SortRacesByDate = (
   races: ReadonlyArray<Race>

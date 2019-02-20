@@ -2,7 +2,7 @@ import {
   incrementRace,
   stopGps
 } from "../../application/actions/actionCreators";
-import { getTestRaces } from "../../application/common_files/testHelpers";
+import { getTestRaces } from "running_app_core";
 import { incrementRaceReducer } from "../../application/reducers/incrementRaceReducer";
 
 const defaultState = {

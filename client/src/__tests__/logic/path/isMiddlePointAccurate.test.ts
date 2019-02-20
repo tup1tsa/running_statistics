@@ -1,4 +1,4 @@
-import { Coordinates } from "../../../application/common_files/interfaces";
+import { Coordinates } from "running_app_core";
 import { getDistance } from "../../../application/logic/geoLibHelpers";
 import { isMiddlePointAccurateFactory } from "../../../application/logic/path/isMiddlePointAccurate";
 

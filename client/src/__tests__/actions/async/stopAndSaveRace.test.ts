@@ -1,6 +1,5 @@
 import { stopAndSaveRaceFactory } from "../../../application/actions/async/stopAndSaveRace";
-import { MESSAGES } from "../../../application/common_files/config";
-import { Race } from "../../../application/common_files/interfaces";
+import { MESSAGES, Race } from "running_app_core";
 const defaultRace: Race = {
   type: "walking",
   path: []

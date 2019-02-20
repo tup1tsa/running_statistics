@@ -1,4 +1,4 @@
-import { LocalStorage } from "../../common_files/interfaces";
+import { LocalStorage } from "running_app_core";
 
 export type DeleteRaces = () => void;
 type DeleteRacesFactory = (storage: LocalStorage) => DeleteRaces;

@@ -1,9 +1,9 @@
 import { RequestHandler } from "express";
-import { MESSAGES } from "../../../client/src/application/common_files/config";
+import { MESSAGES } from "running_app_core";
 import {
   ValidateRaces,
   validateRaces
-} from "../../../client/src/application/common_files/validators/validateRaces";
+} from "running_app_core";
 import { SaveRaces, saveRaces } from "../database/queries/saveRaces";
 
 type SaveRacesRouteFactory = (

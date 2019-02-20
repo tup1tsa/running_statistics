@@ -1,4 +1,4 @@
-import { Race } from "../../application/common_files/interfaces";
+import { Race } from "running_app_core";
 import { finishRaceFactory } from "../../application/logic/finishRace";
 
 const racesInStorage: ReadonlyArray<Race> = [

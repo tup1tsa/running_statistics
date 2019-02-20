@@ -1,4 +1,4 @@
-import { LocalStorage, Race } from "../../common_files/interfaces";
+import { LocalStorage, Race } from "running_app_core";
 import { FetchRaces, fetchRaces } from "./fetchRaces";
 
 export type SaveRace = (race: Race) => void;

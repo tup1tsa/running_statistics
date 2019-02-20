@@ -1,5 +1,5 @@
 import Moment from "moment";
-import { MomentInterface } from "../../common_files/interfaces";
+import { MomentInterface } from "running_app_core";
 
 export type GetReadableDate = (time: number) => string;
 type GetReadableDateFactory = (moment: MomentInterface) => GetReadableDate;

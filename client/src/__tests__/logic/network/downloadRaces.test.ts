@@ -1,4 +1,4 @@
-import { MESSAGES } from "../../../application/common_files/config";
+import { MESSAGES } from "running_app_core";
 import { downloadRacesFactory } from "../../../application/logic/network/downloadRaces";
 
 const successResponse = {

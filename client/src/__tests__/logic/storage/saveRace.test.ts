@@ -1,4 +1,4 @@
-import { Race } from "../../../application/common_files/interfaces";
+import { Race } from "running_app_core";
 import { saveRaceFactory } from "../../../application/logic/storage/saveRace";
 
 it("should save correctly to the local storage new race", () => {

@@ -1,4 +1,4 @@
-import { Coordinates } from "../../common_files/interfaces";
+import { Coordinates } from "running_app_core";
 
 export type FindCenter = (path: ReadonlyArray<Coordinates>) => Coordinates;
 

@@ -1,9 +1,9 @@
-import { MESSAGES } from "../../common_files/config";
-import { Race } from "../../common_files/interfaces";
+import { MESSAGES } from "running_app_core";
+import { Race } from "running_app_core";
 import {
   ValidateRaces,
   validateRaces
-} from "../../common_files/validators/validateRaces";
+} from "running_app_core";
 import { NetworkRequest, networkRequest } from "./networkRequest";
 
 export type DownloadRaces = () => Promise<ReadonlyArray<Race>>;

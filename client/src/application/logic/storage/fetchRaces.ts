@@ -1,8 +1,8 @@
-import { LocalStorage, Race } from "../../common_files/interfaces";
+import { LocalStorage, Race } from "running_app_core";
 import {
   ValidatePath,
   validatePath
-} from "../../common_files/validators/validatePath";
+} from "running_app_core";
 
 export type FetchRaces = () => ReadonlyArray<Race>;
 type FetchRacesFactory = (

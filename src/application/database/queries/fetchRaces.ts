@@ -1,5 +1,5 @@
 import { Query, runQueryContainer } from "mongo-wrappers";
-import { Race } from "../../../../client/src/application/common_files/interfaces";
+import { Race } from "running_app_core";
 import { GetConfig, getConfig } from "../../config";
 
 export type FetchRaces = (userId: string) => Promise<ReadonlyArray<Race>>;

@@ -1,4 +1,4 @@
-import { PositionInTime } from "../../../application/common_files/interfaces";
+import { PositionInTime } from "running_app_core";
 import { fetchRacesFactory } from "../../../application/logic/storage/fetchRaces";
 
 const successValidator = (

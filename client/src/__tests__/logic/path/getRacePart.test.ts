@@ -1,4 +1,4 @@
-import { Race } from "../../../application/common_files/interfaces";
+import { Race } from "running_app_core";
 import { getRacePart } from "../../../application/logic/path/getRacePart";
 
 it("should throw if start or finish params are incorrect", () => {

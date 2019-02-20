@@ -1,4 +1,4 @@
-import { MESSAGES } from "../../../client/src/application/common_files/config";
+import { MESSAGES } from "running_app_core";
 import { fetchRacesRouteFactory } from "../../application/routes/fetchRacesRoute";
 import { getRequestReponse } from "./regularRegistation.test";
 

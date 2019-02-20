@@ -1,4 +1,4 @@
-import { PositionInTime } from "../../../application/common_files/interfaces";
+import { PositionInTime } from "running_app_core";
 import { getAverageSpeed } from "../../../application/logic/path/getAverageSpeed";
 
 it("should calculate speed correctly in kmh", () => {

@@ -1,18 +1,18 @@
 import React from "react";
 import { ChangeInputPayload, InputNames } from "../actions/actions";
-import { RegularRegistrationInfo } from "../common_files/interfaces";
+import { RegularRegistrationInfo } from "running_app_core";
 import {
   ValidateEmail,
   validateEmail
-} from "../common_files/validators/validateEmail";
+} from "running_app_core";
 import {
   ValidateLogin,
   validateLogin
-} from "../common_files/validators/validateLogin";
+} from "running_app_core";
 import {
   ValidatePassword,
   validatePassword
-} from "../common_files/validators/validatePassword";
+} from "running_app_core";
 import { Input } from "./Input";
 
 interface Validators {

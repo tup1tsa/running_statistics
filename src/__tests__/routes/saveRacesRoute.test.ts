@@ -1,5 +1,5 @@
-import { MESSAGES } from "../../../client/src/application/common_files/config";
-import { Race } from "../../../client/src/application/common_files/interfaces";
+import { MESSAGES } from "running_app_core";
+import { Race } from "running_app_core";
 import { saveRacesRouteFactory } from "../../application/routes/saveRacesRoute";
 import { getRequestReponse } from "./regularRegistation.test";
 

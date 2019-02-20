@@ -1,5 +1,5 @@
 import { AxiosStatic } from "axios";
-import { MESSAGES } from "../../../application/common_files/config";
+import { MESSAGES } from "running_app_core";
 import { networkRequestFactory } from "../../../application/logic/network/networkRequest";
 
 const getAxiosMock = () => {

@@ -2,8 +2,8 @@ import { AnyAction } from "../actions/actions";
 import {
   delayBetweenGeoCalls,
   minimumDistanceDiffBetweenPositions
-} from "../common_files/config";
-import { GetDistance, PositionInTime } from "../common_files/interfaces";
+} from "running_app_core";
+import { GetDistance, PositionInTime } from "running_app_core";
 import { getDistance } from "../logic/geoLibHelpers";
 import {
   IsMiddlePointAccurate,

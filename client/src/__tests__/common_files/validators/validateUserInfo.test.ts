@@ -1,5 +1,5 @@
-import { RegularRegistrationInfo } from "../../../application/common_files/interfaces";
-import { validateUserInfo } from "../../../application/common_files/validators/validateUserInfo";
+import { RegularRegistrationInfo } from "running_app_core";
+import { validateUserInfo } from "running_app_core";
 
 const validInfo: RegularRegistrationInfo = {
   name: "some name",

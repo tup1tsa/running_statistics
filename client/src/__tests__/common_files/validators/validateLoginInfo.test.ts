@@ -1,4 +1,4 @@
-import { validateLoginInfo } from "../../../application/common_files/validators/validateLoginInfo";
+import { validateLoginInfo } from "running_app_core";
 
 const defaultLoginInfo = {
   email: "some@gmail.com",

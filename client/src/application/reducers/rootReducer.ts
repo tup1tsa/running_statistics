@@ -1,7 +1,7 @@
 import { connectRouter, RouterState } from "connected-react-router";
 import { History } from "history";
 import { AnyAction, RaceType } from "../actions/actions";
-import { PositionInTime, Race } from "../common_files/interfaces";
+import { PositionInTime, Race } from "running_app_core";
 import { addGpsPositionReducer } from "./addGpsPositionReducer";
 import { changeInputReducer } from "./changeInputReducer";
 import { changeRaceTypeReducer } from "./changeRaceTypeReducer";

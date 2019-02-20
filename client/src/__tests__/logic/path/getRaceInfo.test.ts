@@ -1,7 +1,7 @@
 import {
   PositionInTime,
   Race
-} from "../../../application/common_files/interfaces";
+} from "running_app_core";
 import { getActiveParts } from "../../../application/logic/path/getActiveParts";
 import { getRaceInfoFactory } from "../../../application/logic/path/getRaceInfo";
 

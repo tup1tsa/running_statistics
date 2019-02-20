@@ -1,6 +1,6 @@
 import Axios from "axios";
 import { AxiosResponse, AxiosStatic } from "axios";
-import { MESSAGES } from "../../common_files/config";
+import { MESSAGES } from "running_app_core";
 
 interface RequestResponse {
   readonly status: number;

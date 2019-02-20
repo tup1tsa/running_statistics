@@ -1,6 +1,6 @@
 import React from "react";
 import { Polyline } from "react-google-maps";
-import { Coordinates } from "../../common_files/interfaces";
+import { Coordinates } from "running_app_core";
 
 interface PathPart {
   readonly positions: ReadonlyArray<Coordinates>;

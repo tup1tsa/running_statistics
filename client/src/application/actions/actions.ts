@@ -1,5 +1,5 @@
 import { LocationChangeAction } from "connected-react-router";
-import { Race } from "../common_files/interfaces";
+import { Race } from "running_app_core";
 
 export type RaceType = "walking" | "running" | "cycling" | "driving";
 export interface StartRacePayload {

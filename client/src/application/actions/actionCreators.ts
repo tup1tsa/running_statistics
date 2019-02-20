@@ -1,4 +1,4 @@
-import { Race } from "../common_files/interfaces";
+import { Race } from "running_app_core";
 import {
   AddGpsPositionAction,
   ChangeInputAction,

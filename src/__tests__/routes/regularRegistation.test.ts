@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { MESSAGES } from "../../../client/src/application/common_files/config";
-import { RegularRegistrationInfo } from "../../../client/src/application/common_files/interfaces";
+import { MESSAGES } from "running_app_core";
+import { RegularRegistrationInfo } from "running_app_core";
 import { regularRegistrationFactory } from "../../application/routes/regularRegistation";
 
 const successValidator = (

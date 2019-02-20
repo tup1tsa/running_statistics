@@ -1,6 +1,6 @@
 import { push } from "connected-react-router";
 import { Dispatch } from "redux";
-import { Race } from "../../common_files/interfaces";
+import { Race } from "running_app_core";
 import { FinishRace, finishRace } from "../../logic/finishRace";
 import { SetMessageUrl, setMessageUrl } from "../../logic/setMessageUrl";
 import { stopGps, toggleSaving } from "../actionCreators";

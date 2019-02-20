@@ -1,6 +1,6 @@
 import { google } from "google-maps";
 import React from "react";
-import { Coordinates } from "../application/common_files/interfaces";
+import { Coordinates } from "running_app_core";
 declare var google: google;
 
 interface DefaultProps {

@@ -1,5 +1,5 @@
 import { downloadAllRacesFactory } from "../../../application/actions/async/downloadAllRaces";
-import { Race } from "../../../application/common_files/interfaces";
+import { Race } from "running_app_core";
 
 it("should start download and dispatch start download action", () => {
   const downloadRaces = jest.fn();

@@ -1,9 +1,9 @@
-import { MESSAGES } from "../common_files/config";
-import { Race } from "../common_files/interfaces";
+import { MESSAGES } from "running_app_core";
+import { Race } from "running_app_core";
 import {
   ValidatePath,
   validatePath
-} from "../common_files/validators/validatePath";
+} from "running_app_core";
 import { SendRaces, sendRaces } from "./network/sendRaces";
 import { DeleteRaces, deleteRaces } from "./storage/deleteRaces";
 import { FetchRaces, fetchRaces } from "./storage/fetchRaces";

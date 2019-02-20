@@ -1,4 +1,4 @@
-import { GetPath, GetSpeed, Race } from "../../common_files/interfaces";
+import { GetPath, GetSpeed, Race } from "running_app_core";
 import { getPath, getSpeed } from "../geoLibHelpers";
 import { DivideRace, divideRace } from "./divideRace";
 import { GetActiveParts, getActiveParts } from "./getActiveParts";

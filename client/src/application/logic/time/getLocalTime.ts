@@ -1,4 +1,4 @@
-import { DateClass } from "../../common_files/interfaces";
+import { DateClass } from "running_app_core";
 
 export type GetLocalTime = (time: number) => string;
 type GetLocalTimeFactory = (Date: DateClass) => GetLocalTime;

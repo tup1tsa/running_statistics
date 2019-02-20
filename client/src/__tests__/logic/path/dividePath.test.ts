@@ -1,4 +1,4 @@
-import { PositionInTime } from "../../../application/common_files/interfaces";
+import { PositionInTime } from "running_app_core";
 import { dividePath } from "../../../application/logic/path/dividePath";
 
 const defaultPath: ReadonlyArray<PositionInTime> = [
