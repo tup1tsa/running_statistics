@@ -8,9 +8,12 @@
     "npm": "6.0.1"
   },
   "pre-commit": [
-    "check:ts-server",
-    "check:tslint-server",
-    "check:tests-server"
+    "check:server-ts",
+    "check:server-tslint",
+    "check:client-ts",
+    "check:client-tslint",
+    "check:server-tests",
+    "check:client-tests"
   ],
   "scripts": {
     "start": "node dist/index.js",
@@ -19,9 +22,12 @@
     "test": "node scripts/test.js -c config/jest/commonConfig.js --colors --watch",
     "test:debug": "node --inspect-brk scripts/test.js --runInBand -c config/jest/commonConfig.js",
     "build": "tsc",
-    "check:ts-server": "tsc --noEmit",
-    "check:tslint-server": "tslint 'src/**/*.ts'",
-    "check:tests-server": "node scripts/test.js -c config/jest/commonConfig.js --colors"
+    "check:server-ts": "echo 'ts server' && tsc --noEmit",
+    "check:server-tslint": "echo 'tslint server' && tslint 'src/**/*.ts'",
+    "check:server-tests": "node scripts/test.js -c config/jest/commonConfig.js --colors",
+    "check:client-ts": "echo 'ts client' && tsc --noEmit --project client",
+    "check:client-tslint": "echo 'tslint client' && tslint 'client/src/**/*.{ts,tsx}'",
+    "check:client-tests": "cd client && CI=true yarn test"
   },
   "repository": {
     "type": "git",
