@@ -1,13 +1,14 @@
 import { ProcessEnv } from "mongo-wrappers";
 
-interface MailAuth {
+export interface MailAuth {
   readonly user: string;
   readonly pass: string;
 }
 
-type GetMailAuth = (proccessEnv: ProcessEnv) => MailAuth;
+export type GetMailAuth = () => MailAuth;
+type GetMailAuthFactory = (proccessEnv: ProcessEnv) => GetMailAuth;
 
-export const getMailAuth: GetMailAuth = processEnv => {
+export const getMailAuthFactory: GetMailAuthFactory = processEnv => () => {
   const user = processEnv.gmailAccount;
   const pass = processEnv.gmailPassword;
   if (!user || !pass) {
@@ -15,3 +16,5 @@ export const getMailAuth: GetMailAuth = processEnv => {
   }
   return { user, pass };
 };
+
+export const getMailAuth: GetMailAuth = getMailAuthFactory(process.env);
