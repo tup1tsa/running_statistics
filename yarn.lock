@@ -118,6 +118,13 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.42.tgz#96fd9c8cf15fbf2c16fe525fc2be97c49cdd0c2f"
   integrity sha512-SpeVQJFekfnEaZZO1yl4je/36upII36L7gOT4DBx51B1GeAB45mmDb3a5OBQB+ZeFxVVOP37r8Owsl940G/fBg==
 
+"@types/nodemailer@^4.6.6":
+  version "4.6.6"
+  resolved "https://registry.yarnpkg.com/@types/nodemailer/-/nodemailer-4.6.6.tgz#2ce2bde5dd5bb4546e11390e1babd80ba35e2154"
+  integrity sha512-N2czhXs7fbQhvoquEGzmHAWttnxLfrM3+cWMRFX4hTQq4GE3VyaSE3MOOse4VoNgvtti/H5ow/Hq9KXu/UMWqA==
+  dependencies:
+    "@types/node" "*"
+
 "@types/range-parser@*":
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.3.tgz#7ee330ba7caafb98090bece86a5ee44115904c2c"
@@ -2808,6 +2815,11 @@ node-pre-gyp@^0.10.0:
     rimraf "^2.6.1"
     semver "^5.3.0"
     tar "^4"
+
+nodemailer@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-5.1.1.tgz#0c48d1ecab02e86d9ff6c620ee75ed944b763505"
+  integrity sha512-hKGCoeNdFL2W7S76J/Oucbw0/qRlfG815tENdhzcqTpSjKgAN91mFOqU2lQUflRRxFM7iZvCyaFcAR9noc/CqQ==
 
 nopt@^4.0.1:
   version "4.0.1"
