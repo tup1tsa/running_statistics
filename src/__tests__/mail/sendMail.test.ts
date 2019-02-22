@@ -1,4 +1,4 @@
-import { sendMailFactory } from "../application/sendMail";
+import { sendMailFactory } from "../../application/mail/sendMail";
 
 it("should use proper proper auth options for transporter", async done => {
   const auth = {

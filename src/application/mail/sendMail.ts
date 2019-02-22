@@ -1,5 +1,5 @@
 import { createTransport, Transporter } from "nodemailer";
-import { GetMailAuth, getMailAuth, MailAuth } from "./mail/getMailAuth";
+import { GetMailAuth, getMailAuth, MailAuth } from "./getMailAuth";
 
 interface TransportOptions {
   readonly auth: MailAuth;
