@@ -5,7 +5,7 @@ import { isHashUniqueFactory } from "../../../application/database/queries/isHas
 let connection: Connection;
 
 beforeAll(async done => {
-  connection = await prepareTestDb("uniqueToken");
+  connection = await prepareTestDb("uniqueHash");
   done();
 });
 
