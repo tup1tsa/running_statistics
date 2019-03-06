@@ -27,8 +27,8 @@ export const saveNewUserFactory: SaveNewUserFactory = (
   await collection.createIndex({ name: 1 }, { unique: true });
   await collection.createIndex({ email: 1 }, { unique: true });
   await collection.createIndex({ accessToken: 1 }, { unique: true });
-  return collection.insertOne(userInfo);
+  return collection.insertOne({ ...userInfo, isEmailVerified: false });
 };
 
-export const SaveNewUser: SaveNewUser = userInfo =>
+export const saveNewUser: SaveNewUser = userInfo =>
   runQueryContainer(saveNewUserFactory(getConfig, userInfo));

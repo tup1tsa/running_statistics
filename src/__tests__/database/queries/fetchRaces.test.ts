@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import _ from "lodash";
 import { closeTestDb, Connection, prepareTestDb } from "mongo-wrappers";
 import { fetchRacesFactory } from "../../../application/database/queries/fetchRaces";
 

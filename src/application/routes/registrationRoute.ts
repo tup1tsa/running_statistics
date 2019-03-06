@@ -1,6 +1,10 @@
 import { RequestHandler } from "express";
 import { MESSAGES, ValidateUserInfo, validateUserInfo } from "running_app_core";
-import { SaveNewUser, UserInfoHashed } from "../database/queries/saveNewUser";
+import {
+  saveNewUser,
+  SaveNewUser,
+  UserInfoHashed
+} from "../database/queries/saveNewUser";
 import { HashUserInfo, hashUserInfo } from "../hashUserInfo";
 
 type registrationRouteFactory = (
@@ -12,7 +16,7 @@ type registrationRouteFactory = (
 export const registrationRouteFactory: registrationRouteFactory = (
   validateUserInfoFunc,
   hashUserInfoFunc,
-  saveNewUser
+  saveNewUserFunc
 ) => async (req, res) => {
   if (!validateUserInfoFunc(req.body)) {
     res.status(403).end(JSON.stringify(MESSAGES.userInfoInvalid));
@@ -26,7 +30,7 @@ export const registrationRouteFactory: registrationRouteFactory = (
     return;
   }
   try {
-    await saveNewUser(hashedInfo);
+    await saveNewUserFunc(hashedInfo);
   } catch (e) {
     res.status(409).end(JSON.stringify(MESSAGES.userAlreadyExists));
     return;
@@ -38,7 +42,7 @@ export const registrationRouteFactory: registrationRouteFactory = (
 };
 
 export const registrationRoute: RequestHandler = (req, res, next) =>
-  registrationRouteFactory(validateUserInfo, hashUserInfo, SaveNewUser)(
+  registrationRouteFactory(validateUserInfo, hashUserInfo, saveNewUser)(
     req,
     res,
     next
