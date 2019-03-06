@@ -69,6 +69,28 @@ it("should update password reset link", async done => {
   done();
 });
 
+it("should update verification status", async done => {
+  const collectionName = "verification status update";
+  const getConfig = jest.fn().mockReturnValue({
+    collections: { users: collectionName }
+  });
+  const userId = "ffa";
+  const userInfo: TotalUserInfo = {
+    ...defaultUserInfo,
+    _id: userId
+  };
+  const isEmailVerified = true;
+  await connection.db.collection(collectionName).insertOne(userInfo);
+  await updateUserFactory(getConfig, userId, { isEmailVerified })(
+    connection.db
+  );
+  const cursor = await connection.db.collection(collectionName).find();
+  const docs = await cursor.toArray();
+  expect(docs.length).toBe(1);
+  expect(docs[0]).toEqual({ ...userInfo, isEmailVerified });
+  done();
+});
+
 it("should not udpate if id is incorrect", async done => {
   const collectionName = "bad_id";
   const getConfig = jest.fn().mockReturnValue({

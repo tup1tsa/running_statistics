@@ -5,12 +5,14 @@ import { GetConfig, getConfig } from "../../config";
 interface UpdatableInfo {
   readonly emailVerificationLink?: string;
   readonly passwordResetLink?: string;
+  readonly isEmailVerified?: boolean;
 }
 
 interface UpdateQuery {
   $set: {
     emailVerificationLink?: string;
     passwordResetLink?: string;
+    isEmailVerified?: boolean;
   };
 }
 
@@ -27,7 +29,7 @@ export type UpdateUser = (
 export const updateUserFactory: UpdateUserFactory = (
   getConfigFunc,
   userId,
-  { emailVerificationLink, passwordResetLink }
+  { emailVerificationLink, passwordResetLink, isEmailVerified }
 ) => db => {
   const collection = db.collection(getConfigFunc().collections.users);
   const updateQuery: UpdateQuery = {
@@ -38,6 +40,9 @@ export const updateUserFactory: UpdateUserFactory = (
   }
   if (passwordResetLink) {
     updateQuery.$set.passwordResetLink = passwordResetLink;
+  }
+  if (isEmailVerified) {
+    updateQuery.$set.isEmailVerified = isEmailVerified;
   }
   return collection.updateOne({ _id: userId }, updateQuery);
 };
