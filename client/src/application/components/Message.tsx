@@ -1,7 +1,8 @@
 import React from "react";
-import { MESSAGES } from "running_app_core";
-import { MessageUrlInput } from "../logic/parseMessageUrl";
-
+interface MessageUrlInput {
+  readonly encodedMessage: string;
+  readonly isError: "0" | "1";
+}
 interface Props {
   readonly match: {
     readonly params: MessageUrlInput;
@@ -9,13 +10,8 @@ interface Props {
 }
 
 export const Message = (props: Props) => {
-  const { messageId, isError } = props.match.params;
-  const id = parseInt(messageId, 10);
-  const defaultError = "Unexpected error occured";
-  if (Number.isNaN(id) || MESSAGES[id] === undefined) {
-    return <div className="errorMessage">{defaultError}</div>;
-  }
-  const message = MESSAGES[id];
+  const { encodedMessage, isError } = props.match.params;
+  const message = atob(encodedMessage);
   if (isError === "1") {
     return <div className="errorMessage">{message}</div>;
   }

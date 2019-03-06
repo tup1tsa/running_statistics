@@ -51,12 +51,12 @@ export const networkRequestFactory: NetworkRequestFactory = axios => async (
     if (axios.isCancel(e)) {
       return {
         status: 400,
-        errorMessage: MESSAGES[10]
+        errorMessage: MESSAGES.requestTimeout
       };
     }
     return {
       status: 500,
-      errorMessage: MESSAGES[0]
+      errorMessage: MESSAGES.unexpectectedError
     };
   }
 };

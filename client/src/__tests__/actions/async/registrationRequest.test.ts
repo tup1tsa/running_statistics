@@ -45,16 +45,17 @@ it("should dispatch success registration action on success and redirect", async 
   });
   expect(setMessageUrl.mock.calls.length).toBe(1);
   expect(setMessageUrl.mock.calls[0][0]).toEqual({
-    message: MESSAGES[9],
+    message: MESSAGES.registrationSuccess,
     isError: false
   });
   done();
 });
 
 it("should dispatch proper fail message action and not redirect", async done => {
-  const networkRequest = jest
-    .fn()
-    .mockResolvedValue({ status: 500, errorMessage: MESSAGES[0] });
+  const networkRequest = jest.fn().mockResolvedValue({
+    status: 500,
+    errorMessage: MESSAGES.unexpectectedError
+  });
   const dispatch = jest.fn();
   await registrationRequestFactory(networkRequest, jest.fn())(defaultUserInfo)(
     dispatch
@@ -63,7 +64,7 @@ it("should dispatch proper fail message action and not redirect", async done => 
   expect(dispatch.mock.calls[1][0]).toEqual({
     type: "FAIL_REGISTRATION",
     error: true,
-    payload: new Error(MESSAGES[0])
+    payload: new Error(MESSAGES.unexpectectedError)
   });
   done();
 });

@@ -16,7 +16,7 @@ export const downloadRacesFactory: DownloadRacesFactory = (
     throw new Error(result.errorMessage);
   }
   if (!validateRacesFunc(result.data)) {
-    throw new Error(MESSAGES[8]);
+    throw new Error(MESSAGES.racesAreNotValid);
   }
   return result.data;
 };

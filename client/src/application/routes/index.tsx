@@ -19,7 +19,7 @@ const routes = (
         component={RaceStartPreparationContainer}
       />
       <Route path="/race/:raceType" component={PathWatcherContainer} />
-      <Route path="/message/:messageId/:isError" component={Message} />
+      <Route path="/message/:encodedMessage/:isError" component={Message} />
       <Route path="/detailedRaceStats" component={RaceViewerContainer} />
       <Route component={NoMatch} />
     </Switch>

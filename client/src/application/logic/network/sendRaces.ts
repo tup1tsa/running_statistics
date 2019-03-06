@@ -11,7 +11,7 @@ type SendRacesFactory = (networkRequest: NetworkRequest) => SendRaces;
 
 export const sendRacesFactory: SendRacesFactory = networkRequestFunc => async races => {
   if (races.length === 0) {
-    return { success: false, errorMessage: MESSAGES[4] };
+    return { success: false, errorMessage: MESSAGES.nothingToSave };
   }
   const result = await networkRequestFunc("/saveRaces", "post", races);
   if (result.errorMessage) {

@@ -26,14 +26,14 @@ export const finishRaceFactory: FinishRaceFactory = (
   );
   if (races.length === 0) {
     deleteRacesFromStorage();
-    throw new Error(MESSAGES[4]);
+    throw new Error(MESSAGES.nothingToSave);
   }
   const result = await sendRacesToServer(races);
   if (result.errorMessage) {
     throw new Error(result.errorMessage);
   }
   deleteRacesFromStorage();
-  return MESSAGES[1];
+  return MESSAGES.raceSavedSuccess;
 };
 
 export const finishRace: FinishRace = race =>

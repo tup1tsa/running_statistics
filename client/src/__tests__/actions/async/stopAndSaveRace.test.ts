@@ -19,7 +19,7 @@ it("should dispatch toggle saving and clear gps actions immediately", () => {
 
 it("should dispatch toggle saving action and show message on successful save", async done => {
   const dispatch = jest.fn();
-  const finishRace = jest.fn().mockResolvedValue(MESSAGES[1]);
+  const finishRace = jest.fn().mockResolvedValue(MESSAGES.raceSavedSuccess);
   const setMessageUrl = jest.fn().mockReturnValue("new url");
   await stopAndSaveRaceFactory(finishRace, setMessageUrl)(defaultRace)(
     dispatch
@@ -33,7 +33,7 @@ it("should dispatch toggle saving action and show message on successful save", a
   });
   expect(setMessageUrl.mock.calls.length).toBe(1);
   expect(setMessageUrl.mock.calls[0][0]).toEqual({
-    message: MESSAGES[1],
+    message: MESSAGES.raceSavedSuccess,
     isError: false
   });
   done();
@@ -41,7 +41,7 @@ it("should dispatch toggle saving action and show message on successful save", a
 
 it("should dispatch url push and toggle saving action on fail", async done => {
   const dispatch = jest.fn();
-  const message = MESSAGES[3];
+  const message = MESSAGES.unexpectectedError;
   const finishRace = jest.fn().mockRejectedValue(new Error(message));
   const setMessageUrl = jest.fn().mockReturnValue("new url");
   await stopAndSaveRaceFactory(finishRace, setMessageUrl)(defaultRace)(
@@ -56,7 +56,7 @@ it("should dispatch url push and toggle saving action on fail", async done => {
   });
   expect(setMessageUrl.mock.calls.length).toBe(1);
   expect(setMessageUrl.mock.calls[0][0]).toEqual({
-    message: MESSAGES[3],
+    message: MESSAGES.unexpectectedError,
     isError: true
   });
   done();

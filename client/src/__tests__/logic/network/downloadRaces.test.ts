@@ -38,7 +38,7 @@ it("should throw error if data is invalid", async done => {
   await expect(
     // @ts-ignore
     downloadRacesFactory(networkRequest, validateRaces)()
-  ).rejects.toEqual(new Error(MESSAGES[8]));
+  ).rejects.toEqual(new Error(MESSAGES.racesAreNotValid));
   expect(validateRaces.mock.calls.length).toBe(1);
   expect(validateRaces.mock.calls[0][0]).toEqual(response.data);
   done();

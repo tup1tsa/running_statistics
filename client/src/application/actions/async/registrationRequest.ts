@@ -2,10 +2,13 @@ import { push } from "connected-react-router";
 import { Dispatch } from "redux";
 import { MESSAGES, RegularRegistrationInfo } from "running_app_core";
 import {
+  EncodeMessageToUrl,
+  encodeMessageToUrl
+} from "../../logic/encodeMessageToUrl";
+import {
   NetworkRequest,
   networkRequest
 } from "../../logic/network/networkRequest";
-import { SetMessageUrl, setMessageUrl } from "../../logic/setMessageUrl";
 import {
   failRegistration,
   startRegistration,
@@ -17,12 +20,12 @@ type RegistrationRequest = (
 ) => (dispatch: Dispatch) => void;
 type RegistrationRequestFactory = (
   networkRequest: NetworkRequest,
-  setMessageUrl: SetMessageUrl
+  encodeMessageToUrl: EncodeMessageToUrl
 ) => RegistrationRequest;
 
 export const registrationRequestFactory: RegistrationRequestFactory = (
   networkRequestFunc,
-  setMessageUrlFunc
+  encodeMessageToUrlFunc
 ) => userInfo => async dispatch => {
   dispatch(startRegistration());
   const result = await networkRequestFunc("/registration", "post", userInfo);
@@ -31,8 +34,15 @@ export const registrationRequestFactory: RegistrationRequestFactory = (
     return;
   }
   dispatch(successRegistration());
-  dispatch(push(setMessageUrlFunc({ message: MESSAGES[9], isError: false })));
+  dispatch(
+    push(
+      encodeMessageToUrlFunc({
+        message: MESSAGES.registrationSuccess,
+        isError: false
+      })
+    )
+  );
 };
 
 export const registrationRequest: RegistrationRequest = userInfo =>
-  registrationRequestFactory(networkRequest, setMessageUrl)(userInfo);
+  registrationRequestFactory(networkRequest, encodeMessageToUrl)(userInfo);

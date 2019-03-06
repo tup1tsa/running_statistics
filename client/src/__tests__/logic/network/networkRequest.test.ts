@@ -63,7 +63,10 @@ it("should catch any possible error", async done => {
   const axios = getAxiosMock();
   axios.post = post;
   const result = await networkRequestFactory(axios)("/some url", "post");
-  expect(result).toEqual({ status: 500, errorMessage: MESSAGES[0] });
+  expect(result).toEqual({
+    status: 500,
+    errorMessage: MESSAGES.unexpectectedError
+  });
   done();
 });
 
@@ -99,7 +102,7 @@ it("should catch cancel error", async done => {
   const result = await request;
   expect(result).toEqual({
     status: 400,
-    errorMessage: MESSAGES[10]
+    errorMessage: MESSAGES.requestTimeout
   });
   expect(cancelMock.mock.calls.length).toBe(1);
   done();

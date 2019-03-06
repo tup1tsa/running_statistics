@@ -19,7 +19,10 @@ it("should not call axios if array of races is empty", async done => {
   const networkRequest = jest.fn();
   const result = await sendRacesFactory(networkRequest)([]);
   expect(networkRequest.mock.calls.length).toBe(0);
-  expect(result).toEqual({ success: false, errorMessage: MESSAGES[4] });
+  expect(result).toEqual({
+    success: false,
+    errorMessage: MESSAGES.nothingToSave
+  });
   done();
 });
 

@@ -19,12 +19,14 @@ it("invalid path should return 404", () => {
   expect(wrapper.find("#badUrl").length).toBe(1);
 });
 
-it("should render success message page", () => {
+it("should render error message page", () => {
   const wrapper = mount(
-    <MemoryRouter initialEntries={["/message/2/1"]}>{Routes}</MemoryRouter>
+    <MemoryRouter initialEntries={["/message/ZnNkZg==/1"]}>
+      {Routes}
+    </MemoryRouter>
   );
   const message = wrapper.find(Message);
-  expect(message.props().match.params.messageId).toBe("2");
+  expect(message.props().match.params.encodedMessage).toBe("ZnNkZg==");
   expect(message.props().match.params.isError).toBe("1");
 });
 

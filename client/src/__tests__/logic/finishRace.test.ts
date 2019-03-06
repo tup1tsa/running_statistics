@@ -1,4 +1,4 @@
-import { Race } from "running_app_core";
+import { MESSAGES, Race } from "running_app_core";
 import { finishRaceFactory } from "../../application/logic/finishRace";
 
 const racesInStorage: ReadonlyArray<Race> = [
@@ -85,7 +85,7 @@ it("should delete races from local storage if they were successfully stored on s
     validatePath,
     sendRaces
   )(currentRace);
-  expect(success).toBe("Race was saved successfully.");
+  expect(success).toBe(MESSAGES.raceSavedSuccess);
   expect(deleteRaces.mock.calls.length).toBe(1);
   done();
 });
