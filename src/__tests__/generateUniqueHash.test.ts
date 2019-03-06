@@ -1,11 +1,11 @@
-import { IsAccessTokenUnique } from "../application/database/queries/isAccessTokenUnique";
-import { generateUniqueAccessTokenFactory } from "../application/generateUniqueAccessToken";
+import { IsHashUnique } from "../application/database/queries/isHashUnique";
+import { generateUniqueHashFactory } from "../application/generateUniqueHash";
 
 it("should generate unique access token", async done => {
   // there is weird bug with ts types
   // .mockResolveValueOnce(true) throws an error
   // todo: investigate it later
-  const isAccessTokenUnique: IsAccessTokenUnique = jest
+  const isAccessTokenUnique: IsHashUnique = jest
     .fn()
     .mockReturnValueOnce(Promise.resolve(false))
     .mockReturnValueOnce(Promise.resolve(false))
@@ -15,7 +15,7 @@ it("should generate unique access token", async done => {
     .mockReturnValueOnce("hey")
     .mockReturnValueOnce("smin")
     .mockReturnValue("way");
-  const token = await generateUniqueAccessTokenFactory(
+  const token = await generateUniqueHashFactory(
     createSalt,
     isAccessTokenUnique
   )();

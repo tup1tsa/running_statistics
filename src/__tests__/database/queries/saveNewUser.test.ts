@@ -1,9 +1,7 @@
 import _ from "lodash";
 import { closeTestDb, Connection, prepareTestDb } from "mongo-wrappers";
-import {
-  saveNewUserFactory,
-  UserInfoHashed
-} from "../../../application/database/queries/saveNewUser";
+import { HashedUserInfo } from "running_app_core";
+import { saveNewUserFactory } from "../../../application/database/queries/saveNewUser";
 
 let connection: Connection;
 
@@ -22,7 +20,7 @@ it("should save new user correctly", async done => {
   const getConfig = jest
     .fn()
     .mockReturnValue({ collections: { users: collectionName } });
-  const userInfo: UserInfoHashed = {
+  const userInfo: HashedUserInfo = {
     name: "Vanya",
     email: "fancy@gmail.com",
     passwordHash: "very long password hash",
@@ -38,7 +36,9 @@ it("should save new user correctly", async done => {
   delete savedUser._id;
   expect(docs[0]).toEqual({
     ...userInfo,
-    isEmailVerified: false
+    isEmailVerified: false,
+    passwordResetLink: "",
+    emailVerificationLink: ""
   });
   done();
 });
@@ -48,7 +48,7 @@ it("should throw if name, email or token is already in use", async done => {
   const getConfig = jest
     .fn()
     .mockReturnValue({ collections: { users: collectionName } });
-  const users: UserInfoHashed[] = [
+  const users: HashedUserInfo[] = [
     {
       name: "Vanya",
       email: "fancy@gmail.com",

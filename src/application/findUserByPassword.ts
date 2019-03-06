@@ -1,14 +1,14 @@
 import * as crypto from "crypto";
+import { HashedUserInfo } from "running_app_core";
 import {
   FindUserByEmail,
   findUserByEmail
 } from "./database/queries/findUserByEmail";
-import { UserInfoHashed } from "./database/queries/saveNewUser";
 
 export type FindUserByPassword = (
   email: string,
   password: string
-) => Promise<UserInfoHashed | null>;
+) => Promise<HashedUserInfo | null>;
 type FindUserByPasswordFactory = (
   findUserByEmail: FindUserByEmail
 ) => FindUserByPassword;

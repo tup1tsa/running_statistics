@@ -1,18 +1,14 @@
 import * as crypto from "crypto";
-import { RegularRegistrationInfo } from "running_app_core";
+import { HashedUserInfo, RegularRegistrationInfo } from "running_app_core";
 import { CreateSalt, createSalt } from "./createSalt";
-import { UserInfoHashed } from "./database/queries/saveNewUser";
-import {
-  GenerateUniqueAccessToken,
-  generateUniqueAccessToken
-} from "./generateUniqueAccessToken";
+import { GenerateUniqueHash, generateUniqueHash } from "./generateUniqueHash";
 
 export type HashUserInfo = (
   pureUserInfo: RegularRegistrationInfo
-) => Promise<UserInfoHashed>;
+) => Promise<HashedUserInfo>;
 type HashUserInfoFactory = (
   createSalt: CreateSalt,
-  generateUniqueAccessToken: GenerateUniqueAccessToken
+  generateUniqueAccessToken: GenerateUniqueHash
 ) => HashUserInfo;
 
 export const hashUserInfoFactory: HashUserInfoFactory = (
@@ -36,4 +32,4 @@ export const hashUserInfoFactory: HashUserInfoFactory = (
 };
 
 export const hashUserInfo: HashUserInfo = userInfo =>
-  hashUserInfoFactory(createSalt, generateUniqueAccessToken)(userInfo);
+  hashUserInfoFactory(createSalt, generateUniqueHash)(userInfo);

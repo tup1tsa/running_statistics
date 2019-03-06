@@ -1,22 +1,14 @@
 import { Query, runQueryContainer } from "mongo-wrappers";
 import { InsertOneWriteOpResult } from "mongodb";
+import { HashedUserInfo } from "running_app_core";
 import { GetConfig, getConfig } from "../../config";
-
-export interface UserInfoHashed {
-  readonly _id?: string;
-  readonly name: string;
-  readonly email: string;
-  readonly passwordHash: string;
-  readonly salt: string;
-  readonly accessToken: string;
-}
 
 type SaveNewUserFactory = (
   getConfig: GetConfig,
-  userInfo: UserInfoHashed
+  userInfo: HashedUserInfo
 ) => Query<InsertOneWriteOpResult>;
 export type SaveNewUser = (
-  userInfo: UserInfoHashed
+  userInfo: HashedUserInfo
 ) => Promise<InsertOneWriteOpResult>;
 
 export const saveNewUserFactory: SaveNewUserFactory = (
@@ -27,7 +19,12 @@ export const saveNewUserFactory: SaveNewUserFactory = (
   await collection.createIndex({ name: 1 }, { unique: true });
   await collection.createIndex({ email: 1 }, { unique: true });
   await collection.createIndex({ accessToken: 1 }, { unique: true });
-  return collection.insertOne({ ...userInfo, isEmailVerified: false });
+  return collection.insertOne({
+    ...userInfo,
+    isEmailVerified: false,
+    passwordResetLink: "",
+    emailVerificationLink: ""
+  });
 };
 
 export const saveNewUser: SaveNewUser = userInfo =>

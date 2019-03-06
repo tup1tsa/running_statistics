@@ -1,5 +1,5 @@
 import { closeTestDb, Connection, prepareTestDb } from "mongo-wrappers";
-import { UserInfoHashed } from "../../../application/database/queries/saveNewUser";
+import { HashedUserInfo } from "running_app_core";
 import { updateAccessTokenFactory } from "../../../application/database/queries/updateAccessToken";
 
 let connection: Connection;
@@ -14,7 +14,7 @@ afterAll(async done => {
   done();
 });
 
-const defaultUserInfo: UserInfoHashed = {
+const defaultUserInfo: HashedUserInfo = {
   name: "Sasha",
   email: "some@gmail.com",
   passwordHash: "some hasherino",
@@ -27,7 +27,7 @@ it("should create and save new user access token", async done => {
   const getConfig = jest.fn().mockReturnValue({
     collections: { users: collectionName }
   });
-  const userInfo: UserInfoHashed = {
+  const userInfo: HashedUserInfo = {
     ...defaultUserInfo
   };
   const accessToken = "access token!";

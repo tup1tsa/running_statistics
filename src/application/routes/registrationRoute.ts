@@ -1,10 +1,11 @@
 import { RequestHandler } from "express";
-import { MESSAGES, ValidateUserInfo, validateUserInfo } from "running_app_core";
 import {
-  saveNewUser,
-  SaveNewUser,
-  UserInfoHashed
-} from "../database/queries/saveNewUser";
+  HashedUserInfo,
+  MESSAGES,
+  ValidateUserInfo,
+  validateUserInfo
+} from "running_app_core";
+import { saveNewUser, SaveNewUser } from "../database/queries/saveNewUser";
 import { HashUserInfo, hashUserInfo } from "../hashUserInfo";
 
 type registrationRouteFactory = (
@@ -22,7 +23,7 @@ export const registrationRouteFactory: registrationRouteFactory = (
     res.status(403).end(JSON.stringify(MESSAGES.userInfoInvalid));
     return;
   }
-  let hashedInfo: UserInfoHashed;
+  let hashedInfo: HashedUserInfo;
   try {
     hashedInfo = await hashUserInfoFunc(req.body);
   } catch (e) {

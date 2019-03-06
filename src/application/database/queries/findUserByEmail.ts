@@ -1,12 +1,12 @@
 import { Query, runQueryContainer } from "mongo-wrappers";
+import { TotalUserInfo } from "running_app_core";
 import { GetConfig, getConfig } from "../../config";
-import { UserInfoHashed } from "./saveNewUser";
 
-export type FindUserByEmail = (email: string) => Promise<UserInfoHashed | null>;
+export type FindUserByEmail = (email: string) => Promise<TotalUserInfo | null>;
 type FindUserByEmailFactory = (
   email: string,
   getConfig: GetConfig
-) => Query<UserInfoHashed | null>;
+) => Query<TotalUserInfo | null>;
 
 export const findUserByEmailFactory: FindUserByEmailFactory = (
   email,
@@ -15,7 +15,7 @@ export const findUserByEmailFactory: FindUserByEmailFactory = (
   const collection = db.collection(getConfigFunc().collections.users);
   const result = (await collection
     .find({ email }, { limit: 1 })
-    .toArray()) as UserInfoHashed[];
+    .toArray()) as TotalUserInfo[];
   if (result.length === 0) {
     return null;
   }
