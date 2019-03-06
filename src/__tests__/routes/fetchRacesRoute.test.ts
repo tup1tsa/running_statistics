@@ -10,7 +10,7 @@ it("should send 500 status if db throws", async done => {
   expect(status.mock.calls.length).toBe(1);
   expect(status.mock.calls[0][0]).toBe(500);
   expect(end.mock.calls.length).toBe(1);
-  expect(end.mock.calls[0][0]).toEqual(MESSAGES[0]);
+  expect(end.mock.calls[0][0]).toEqual(MESSAGES.unexpectectedError);
   done();
 });
 

@@ -12,7 +12,7 @@ it("should send 403 status and error message if info is not valid", async done =
   const factory = regularLoginFactory(failedValidator, jest.fn());
   await factory(request, response, jest.fn());
   expect(status.mock.calls[0][0]).toBe(403);
-  expect(end.mock.calls[0][0]).toBe(MESSAGES[5]);
+  expect(end.mock.calls[0][0]).toBe(MESSAGES.userInfoInvalid);
   done();
 });
 
@@ -22,7 +22,7 @@ it("should send 403 status and error message if email or password are incorrect"
   const factory = regularLoginFactory(successValidator, findUserByPassword);
   await factory(request, response, jest.fn());
   expect(status.mock.calls[0][0]).toBe(403);
-  expect(end.mock.calls[0][0]).toBe(MESSAGES[6]);
+  expect(end.mock.calls[0][0]).toBe(MESSAGES.emailPasswordIncorrect);
   done();
 });
 

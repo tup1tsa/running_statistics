@@ -16,12 +16,12 @@ export const regularLoginFactory: RegularLoginFactory = (
   findUserByPasswordFunc
 ) => async (req, res) => {
   if (!validateLoginInfoFunc(req.body)) {
-    res.status(403).end(MESSAGES[5]);
+    res.status(403).end(MESSAGES.userInfoInvalid);
     return;
   }
   const user = await findUserByPasswordFunc(req.body.email, req.body.password);
   if (user == null) {
-    res.status(403).end(MESSAGES[6]);
+    res.status(403).end(MESSAGES.emailPasswordIncorrect);
     return;
   }
   res.cookie("accessToken", user.accessToken, {

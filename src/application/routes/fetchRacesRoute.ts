@@ -12,7 +12,7 @@ export const fetchRacesRouteFactory: FetchRacesRouteFactory = fetchRacesFunc => 
   try {
     races = await fetchRacesFunc(res.locals.userId);
   } catch (e) {
-    res.status(500).end(MESSAGES[0]);
+    res.status(500).end(MESSAGES.unexpectectedError);
     return;
   }
   res.status(200).end(races);

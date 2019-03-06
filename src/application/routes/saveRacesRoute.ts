@@ -13,16 +13,16 @@ export const saveRacesRouteFactory: SaveRacesRouteFactory = (
 ) => async (req, res) => {
   const areRacesValid = validateRacesFunc(req.body);
   if (!areRacesValid) {
-    res.status(403).end(MESSAGES[8]);
+    res.status(403).end(MESSAGES.racesAreNotValid);
     return;
   }
   try {
     await saveRacesFunc(req.body, res.locals.userId);
   } catch (e) {
-    res.status(500).end(MESSAGES[0]);
+    res.status(500).end(MESSAGES.unexpectectedError);
     return;
   }
-  res.status(200).end(MESSAGES[1]);
+  res.status(200).end(MESSAGES.raceSavedSuccess);
   return;
 };
 

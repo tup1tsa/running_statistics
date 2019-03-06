@@ -44,7 +44,7 @@ it("should send invalid data error if data is not valid", async done => {
   expect(status.mock.calls.length).toBe(1);
   expect(status.mock.calls[0][0]).toBe(403);
   expect(end.mock.calls.length).toBe(1);
-  expect(end.mock.calls[0][0]).toBe(JSON.stringify(MESSAGES[5]));
+  expect(end.mock.calls[0][0]).toBe(JSON.stringify(MESSAGES.userInfoInvalid));
   done();
 });
 
@@ -60,7 +60,9 @@ it("should send unexpected error if hash user info threw", async done => {
   expect(status.mock.calls.length).toBe(1);
   expect(status.mock.calls[0][0]).toBe(500);
   expect(end.mock.calls.length).toBe(1);
-  expect(end.mock.calls[0][0]).toBe(JSON.stringify(MESSAGES[0]));
+  expect(end.mock.calls[0][0]).toBe(
+    JSON.stringify(MESSAGES.unexpectectedError)
+  );
   done();
 });
 
@@ -75,7 +77,7 @@ it("should send 409 error if user already exists", async done => {
   expect(status.mock.calls.length).toBe(1);
   expect(status.mock.calls[0][0]).toBe(409);
   expect(end.mock.calls.length).toBe(1);
-  expect(end.mock.calls[0][0]).toBe(JSON.stringify(MESSAGES[6]));
+  expect(end.mock.calls[0][0]).toBe(JSON.stringify(MESSAGES.userAlreadyExists));
   done();
 });
 

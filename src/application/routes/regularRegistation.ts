@@ -15,20 +15,20 @@ export const regularRegistrationFactory: RegularRegistrationFactory = (
   saveNewUser
 ) => async (req, res) => {
   if (!validateUserInfoFunc(req.body)) {
-    res.status(403).end(JSON.stringify(MESSAGES[5]));
+    res.status(403).end(JSON.stringify(MESSAGES.userInfoInvalid));
     return;
   }
   let hashedInfo: UserInfoHashed;
   try {
     hashedInfo = await hashUserInfoFunc(req.body);
   } catch (e) {
-    res.status(500).end(JSON.stringify(MESSAGES[0]));
+    res.status(500).end(JSON.stringify(MESSAGES.unexpectectedError));
     return;
   }
   try {
     await saveNewUser(hashedInfo);
   } catch (e) {
-    res.status(409).end(JSON.stringify(MESSAGES[6]));
+    res.status(409).end(JSON.stringify(MESSAGES.userAlreadyExists));
     return;
   }
   res.cookie("accessToken", hashedInfo.accessToken, {
