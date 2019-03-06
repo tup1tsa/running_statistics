@@ -4,8 +4,8 @@ import * as cookieParser from "cookie-parser";
 import * as express from "express";
 import { checkAccess } from "./application/routes/checkAccess";
 import { fetchRacesRoute } from "./application/routes/fetchRacesRoute";
-import { regularLogin } from "./application/routes/regularLogin";
-import { regularRegistration } from "./application/routes/regularRegistation";
+import { loginRoute } from "./application/routes/loginRoute";
+import { registrationRoute } from "./application/routes/registrationRoute";
 import { saveRacesRoute } from "./application/routes/saveRacesRoute";
 
 const PORT = process.env.PORT || 3007;
@@ -18,9 +18,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static("client/build"));
 
-app.post("/registration", regularRegistration);
-app.post("/login", regularLogin);
+app.post("/registration", registrationRoute);
+app.post("/login", loginRoute);
 app.post("/saveRaces", checkAccess, saveRacesRoute);
 app.post("/fetchRaces", checkAccess, fetchRacesRoute);
+app.post("/verifyEmail");
 
 app.listen(PORT);

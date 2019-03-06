@@ -6,12 +6,12 @@ import {
 } from "running_app_core";
 import { FindUserByPassword, findUserByPassword } from "../findUserByPassword";
 
-type RegularLoginFactory = (
+type loginRouteFactory = (
   validateLoginInfo: ValidateLoginInfo,
   findUserByPassword: FindUserByPassword
 ) => RequestHandler;
 
-export const regularLoginFactory: RegularLoginFactory = (
+export const loginRouteFactory: loginRouteFactory = (
   validateLoginInfoFunc,
   findUserByPasswordFunc
 ) => async (req, res) => {
@@ -30,5 +30,5 @@ export const regularLoginFactory: RegularLoginFactory = (
   res.status(200).end();
 };
 
-export const regularLogin: RequestHandler = (req, res, next) =>
-  regularLoginFactory(validateLoginInfo, findUserByPassword)(req, res, next);
+export const loginRoute: RequestHandler = (req, res, next) =>
+  loginRouteFactory(validateLoginInfo, findUserByPassword)(req, res, next);

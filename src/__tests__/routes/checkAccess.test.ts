@@ -1,5 +1,5 @@
 import { checkAccessFactory } from "../../application/routes/checkAccess";
-import { getRequestReponse } from "./regularRegistation.test";
+import { getRequestReponse } from "./registationRoute.test";
 
 it("should stop processing request if user token is invalid", async done => {
   const { request, response, end, status, next } = getRequestReponse();

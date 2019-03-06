@@ -1,6 +1,6 @@
 import { MESSAGES } from "running_app_core";
 import { fetchRacesRouteFactory } from "../../application/routes/fetchRacesRoute";
-import { getRequestReponse } from "./regularRegistation.test";
+import { getRequestReponse } from "./registationRoute.test";
 
 it("should send 500 status if db throws", async done => {
   const { request, response, status, end } = getRequestReponse();

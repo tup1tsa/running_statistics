@@ -3,13 +3,13 @@ import { MESSAGES, ValidateUserInfo, validateUserInfo } from "running_app_core";
 import { SaveNewUser, UserInfoHashed } from "../database/queries/saveNewUser";
 import { HashUserInfo, hashUserInfo } from "../hashUserInfo";
 
-type RegularRegistrationFactory = (
+type registrationRouteFactory = (
   validateUserInfo: ValidateUserInfo,
   hashUserInfo: HashUserInfo,
   saveNewUser: SaveNewUser
 ) => RequestHandler;
 
-export const regularRegistrationFactory: RegularRegistrationFactory = (
+export const registrationRouteFactory: registrationRouteFactory = (
   validateUserInfoFunc,
   hashUserInfoFunc,
   saveNewUser
@@ -37,8 +37,8 @@ export const regularRegistrationFactory: RegularRegistrationFactory = (
   res.status(200).end();
 };
 
-export const regularRegistration: RequestHandler = (req, res, next) =>
-  regularRegistrationFactory(validateUserInfo, hashUserInfo, SaveNewUser)(
+export const registrationRoute: RequestHandler = (req, res, next) =>
+  registrationRouteFactory(validateUserInfo, hashUserInfo, SaveNewUser)(
     req,
     res,
     next
