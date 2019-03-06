@@ -16,7 +16,7 @@ export const checkAccessFactory: CheckAccessFactory = findUserByTokenFunc => asy
     res.status(403).end();
     return;
   }
-  res.locals.userId = user._id;
+  res.locals.user = user;
   next();
 };
 

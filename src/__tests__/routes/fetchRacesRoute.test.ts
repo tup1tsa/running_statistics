@@ -16,7 +16,7 @@ it("should send 500 status if db throws", async done => {
 
 it("should send correct races", async done => {
   const { request, response, status, end } = getRequestReponse();
-  response.locals.userId = "abaab23";
+  response.locals.user = { _id: "abaab23" };
   const race = {
     type: "running",
     path: [{ latitude: 13, longitude: 32, time: 2526 }]

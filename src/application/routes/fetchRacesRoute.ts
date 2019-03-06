@@ -10,7 +10,7 @@ export const fetchRacesRouteFactory: FetchRacesRouteFactory = fetchRacesFunc => 
 ) => {
   let races: ReadonlyArray<Race>;
   try {
-    races = await fetchRacesFunc(res.locals.userId);
+    races = await fetchRacesFunc(res.locals.user._id);
   } catch (e) {
     res.status(500).end(MESSAGES.unexpectectedError);
     return;

@@ -18,12 +18,12 @@ it("should stop processing request if user token is invalid", async done => {
   done();
 });
 
-it("should store user id in locals object", async done => {
+it("should store user in locals object", async done => {
   const { request, response, next } = getRequestReponse();
   const user = { _id: "2352", name: "hasta" };
   const findUserByToken = jest.fn().mockResolvedValue(user);
   await checkAccessFactory(findUserByToken)(request, response, next);
-  expect(response.locals).toEqual({ userId: "2352" });
+  expect(response.locals.user).toEqual(user);
   expect(next.mock.calls.length).toBe(1);
   done();
 });
