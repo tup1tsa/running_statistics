@@ -26,5 +26,7 @@ export const saveRacesRouteFactory: SaveRacesRouteFactory = (
   return;
 };
 
-export const saveRacesRoute: RequestHandler = (req, res, next) =>
+const saveRacesRoute: RequestHandler = (req, res, next) =>
   saveRacesRouteFactory(saveRaces, validateRaces)(req, res, next);
+
+export default saveRacesRoute;

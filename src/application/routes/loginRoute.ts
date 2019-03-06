@@ -30,5 +30,7 @@ export const loginRouteFactory: loginRouteFactory = (
   res.status(200).end();
 };
 
-export const loginRoute: RequestHandler = (req, res, next) =>
+const loginRoute: RequestHandler = (req, res, next) =>
   loginRouteFactory(validateLoginInfo, findUserByPassword)(req, res, next);
+
+export default loginRoute;

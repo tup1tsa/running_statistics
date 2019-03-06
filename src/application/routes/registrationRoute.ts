@@ -42,9 +42,11 @@ export const registrationRouteFactory: registrationRouteFactory = (
   res.status(200).end();
 };
 
-export const registrationRoute: RequestHandler = (req, res, next) =>
+const registrationRoute: RequestHandler = (req, res, next) =>
   registrationRouteFactory(validateUserInfo, hashUserInfo, saveNewUser)(
     req,
     res,
     next
   );
+
+export default registrationRoute;

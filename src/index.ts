@@ -3,10 +3,10 @@ import * as compression from "compression";
 import * as cookieParser from "cookie-parser";
 import * as express from "express";
 import { checkAccess } from "./application/routes/checkAccess";
-import { fetchRacesRoute } from "./application/routes/fetchRacesRoute";
-import { loginRoute } from "./application/routes/loginRoute";
-import { registrationRoute } from "./application/routes/registrationRoute";
-import { saveRacesRoute } from "./application/routes/saveRacesRoute";
+import fetchRaces from "./application/routes/fetchRacesRoute";
+import login from "./application/routes/loginRoute";
+import registration from "./application/routes/registrationRoute";
+import saveRaces from "./application/routes/saveRacesRoute";
 
 const PORT = process.env.PORT || 3007;
 const app = express();
@@ -18,10 +18,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static("client/build"));
 
-app.post("/registration", registrationRoute);
-app.post("/login", loginRoute);
-app.post("/saveRaces", checkAccess, saveRacesRoute);
-app.post("/fetchRaces", checkAccess, fetchRacesRoute);
+app.post("/registration", registration);
+app.post("/login", login);
+app.post("/saveRaces", checkAccess, saveRaces);
+app.post("/fetchRaces", checkAccess, fetchRaces);
 app.post("/verifyEmail");
 
 app.listen(PORT);

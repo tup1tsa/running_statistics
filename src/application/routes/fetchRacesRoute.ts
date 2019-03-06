@@ -18,5 +18,7 @@ export const fetchRacesRouteFactory: FetchRacesRouteFactory = fetchRacesFunc => 
   res.status(200).end(races);
 };
 
-export const fetchRacesRoute: RequestHandler = (req, res, next) =>
+const fetchRacesRoute: RequestHandler = (req, res, next) =>
   fetchRacesRouteFactory(fetchRaces)(req, res, next);
+
+export default fetchRacesRoute;
