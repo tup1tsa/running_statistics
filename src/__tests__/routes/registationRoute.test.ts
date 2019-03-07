@@ -101,19 +101,19 @@ it("user info should be passed to hash method correctly", async done => {
   done();
 });
 
-it("should set correct cookie on success registration", async done => {
-  const { request, response, end, status, cookie } = getRequestReponse();
+it("should set user in res.locals and call next on success", async done => {
+  const { request, response, next, end, status } = getRequestReponse();
   const hashUserInfo = jest.fn().mockReturnValue({ accessToken: "abc32" });
-  const saveUser = jest.fn().mockResolvedValue("");
+  const user = { _id: "some" };
+  const saveUser = jest.fn().mockResolvedValue(user);
   await registrationRouteFactory(successValidator, hashUserInfo, saveUser)(
     request,
     response,
-    jest.fn()
+    next
   );
-  expect(status.mock.calls[0][0]).toBe(200);
-  expect(end.mock.calls[0][0]).toBe(undefined);
-  expect(cookie.mock.calls[0][0]).toBe("accessToken");
-  expect(cookie.mock.calls[0][1]).toBe("abc32");
-  expect(cookie.mock.calls[0][2]).toEqual({ maxAge: 30 * 24 * 60 * 60 * 1000 });
+  expect(status.mock.calls.length).toBe(0);
+  expect(end.mock.calls.length).toBe(0);
+  expect(next.mock.calls.length).toBe(1);
+  expect(response.locals.user).toEqual(user);
   done();
 });

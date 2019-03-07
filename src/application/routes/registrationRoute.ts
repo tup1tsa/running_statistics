@@ -18,7 +18,7 @@ export const registrationRouteFactory: registrationRouteFactory = (
   validateUserInfoFunc,
   hashUserInfoFunc,
   saveNewUserFunc
-) => async (req, res) => {
+) => async (req, res, next) => {
   if (!validateUserInfoFunc(req.body)) {
     res.status(403).end(JSON.stringify(MESSAGES.userInfoInvalid));
     return;
@@ -31,15 +31,13 @@ export const registrationRouteFactory: registrationRouteFactory = (
     return;
   }
   try {
-    await saveNewUserFunc(hashedInfo);
+    const userFromDb = await saveNewUserFunc(hashedInfo);
+    res.locals.user = userFromDb;
   } catch (e) {
     res.status(409).end(JSON.stringify(MESSAGES.userAlreadyExists));
     return;
   }
-  res.cookie("accessToken", hashedInfo.accessToken, {
-    maxAge: 30 * 24 * 60 * 60 * 1000
-  });
-  res.status(200).end();
+  next();
 };
 
 const registrationRoute: RequestHandler = (req, res, next) =>

@@ -7,6 +7,7 @@ import fetchRaces from "./application/routes/fetchRacesRoute";
 import login from "./application/routes/loginRoute";
 import registration from "./application/routes/registrationRoute";
 import saveRaces from "./application/routes/saveRacesRoute";
+import sendVerificationEmail from "./application/routes/sendVerificationEmailRoute";
 
 const PORT = process.env.PORT || 3007;
 const app = express();
@@ -18,8 +19,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static("client/build"));
 
-app.post("/registration", registration);
+app.post("/registration", registration, sendVerificationEmail);
 app.post("/login", login);
+app.post("/sendVerificationEmail", checkAccess, sendVerificationEmail);
 app.post("/saveRaces", checkAccess, saveRaces);
 app.post("/fetchRaces", checkAccess, fetchRaces);
 app.post("/verifyEmail");
