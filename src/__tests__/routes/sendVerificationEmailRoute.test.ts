@@ -66,7 +66,7 @@ it("verification flow should be correct", async done => {
   )(request, response, next);
   expect(generateUniqueHash.mock.calls.length).toBe(1);
   expect(updateUser.mock.calls.length).toBe(1);
-  expect(updateUser.mock.calls[0][0]).toEqual(user._id);
+  expect(updateUser.mock.calls[0][0]).toEqual({ _id: user._id });
   expect(updateUser.mock.calls[0][1]).toEqual({
     emailVerificationLink: uniqueHash
   });

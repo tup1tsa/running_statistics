@@ -24,9 +24,12 @@ export const sendVerificationEmailRouteFactory: SendVerificationEmailRouteFactor
       // it is placed here to satisfy ts
       // (_id can be undefined, but it should not be so after registration)
     }
-    const updateResult = await updateUserFunc(user._id, {
-      emailVerificationLink: hash
-    });
+    const updateResult = await updateUserFunc(
+      { _id: user._id },
+      {
+        emailVerificationLink: hash
+      }
+    );
     if (updateResult.result.ok !== 1) {
       throw new Error("update has failed");
     }

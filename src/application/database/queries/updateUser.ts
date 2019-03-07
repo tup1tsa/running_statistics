@@ -8,30 +8,48 @@ interface UpdatableInfo {
   readonly isEmailVerified?: boolean;
 }
 
+interface FilterInfo {
+  readonly emailVerificationLink?: string;
+  readonly _id?: string;
+}
+
 interface UpdateQuery {
-  $set: {
+  readonly $set: {
     emailVerificationLink?: string;
     passwordResetLink?: string;
     isEmailVerified?: boolean;
   };
 }
 
+interface SearchFilter {
+  readonly $or: object[];
+}
+
 type UpdateUserFactory = (
   getConfig: GetConfig,
-  userId: string,
+  filterInfo: FilterInfo,
   updateInfo: UpdatableInfo
 ) => Query<UpdateWriteOpResult>;
 export type UpdateUser = (
-  userId: string,
+  filterInfo: FilterInfo,
   updateInfo: UpdatableInfo
 ) => Promise<UpdateWriteOpResult>;
 
 export const updateUserFactory: UpdateUserFactory = (
   getConfigFunc,
-  userId,
+  filterInfo,
   { emailVerificationLink, passwordResetLink, isEmailVerified }
 ) => db => {
   const collection = db.collection(getConfigFunc().collections.users);
+  const filter: SearchFilter = { $or: [] };
+  if (filterInfo._id) {
+    filter.$or.push({ _id: filterInfo._id });
+  }
+  if (filterInfo.emailVerificationLink) {
+    filter.$or.push({
+      emailVerificationLink: filterInfo.emailVerificationLink
+    });
+  }
   const updateQuery: UpdateQuery = {
     $set: {}
   };
@@ -44,8 +62,8 @@ export const updateUserFactory: UpdateUserFactory = (
   if (isEmailVerified) {
     updateQuery.$set.isEmailVerified = isEmailVerified;
   }
-  return collection.updateOne({ _id: userId }, updateQuery);
+  return collection.updateOne(filter, updateQuery);
 };
 
-export const updateUser: UpdateUser = (userId, link) =>
-  runQueryContainer(updateUserFactory(getConfig, userId, link));
+export const updateUser: UpdateUser = (filterInfo, link) =>
+  runQueryContainer(updateUserFactory(getConfig, filterInfo, link));

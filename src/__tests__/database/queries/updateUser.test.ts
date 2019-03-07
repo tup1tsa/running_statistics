@@ -37,9 +37,11 @@ it("should update user email verification link", async done => {
   };
   const emailVerificationLink = "new_verification_link";
   await connection.db.collection(collectionName).insertOne(userInfo);
-  await updateUserFactory(getConfig, userId, { emailVerificationLink })(
-    connection.db
-  );
+  await updateUserFactory(
+    getConfig,
+    { _id: userId },
+    { emailVerificationLink }
+  )(connection.db);
   const cursor = await connection.db.collection(collectionName).find();
   const docs = await cursor.toArray();
   expect(docs.length).toBe(1);
@@ -59,7 +61,7 @@ it("should update password reset link", async done => {
   };
   const passwordResetLink = "new password link";
   await connection.db.collection(collectionName).insertOne(userInfo);
-  await updateUserFactory(getConfig, userId, { passwordResetLink })(
+  await updateUserFactory(getConfig, { _id: userId }, { passwordResetLink })(
     connection.db
   );
   const cursor = await connection.db.collection(collectionName).find();
@@ -69,25 +71,28 @@ it("should update password reset link", async done => {
   done();
 });
 
-it("should update verification status", async done => {
+it("should update verification status through verification link", async done => {
   const collectionName = "verification status update";
   const getConfig = jest.fn().mockReturnValue({
     collections: { users: collectionName }
   });
-  const userId = "ffa";
+  const emailVerificationLink = "ffa";
   const userInfo: TotalUserInfo = {
     ...defaultUserInfo,
-    _id: userId
+    emailVerificationLink,
+    isEmailVerified: false
   };
   const isEmailVerified = true;
   await connection.db.collection(collectionName).insertOne(userInfo);
-  await updateUserFactory(getConfig, userId, { isEmailVerified })(
-    connection.db
-  );
+  await updateUserFactory(
+    getConfig,
+    { emailVerificationLink },
+    { isEmailVerified }
+  )(connection.db);
   const cursor = await connection.db.collection(collectionName).find();
   const docs = await cursor.toArray();
   expect(docs.length).toBe(1);
-  expect(docs[0]).toEqual({ ...userInfo, isEmailVerified });
+  expect(docs[0].isEmailVerified).toBe(true);
   done();
 });
 
@@ -102,9 +107,33 @@ it("should not udpate if id is incorrect", async done => {
   };
   const passwordResetLink = "new password link";
   await connection.db.collection(collectionName).insertOne(userInfo);
-  await updateUserFactory(getConfig, "ffa", { passwordResetLink })(
+  await updateUserFactory(getConfig, { _id: "fssa" }, { passwordResetLink })(
     connection.db
   );
+  const cursor = await connection.db.collection(collectionName).find();
+  const docs = await cursor.toArray();
+  expect(docs.length).toBe(1);
+  expect(docs[0]).toEqual(userInfo);
+  done();
+});
+
+it("should not update anything if filter is empty", async done => {
+  const collectionName = "empty filter";
+  const getConfig = jest.fn().mockReturnValue({
+    collections: { users: collectionName }
+  });
+  const userInfo: TotalUserInfo = {
+    ...defaultUserInfo,
+    _id: "ssd"
+  };
+  await connection.db.collection(collectionName).insertOne(userInfo);
+  try {
+    await updateUserFactory(getConfig, {}, { passwordResetLink: "bagga" })(
+      connection.db
+    );
+  } catch (err) {
+    expect(err.errmsg).toMatch("must be a nonempty array");
+  }
   const cursor = await connection.db.collection(collectionName).find();
   const docs = await cursor.toArray();
   expect(docs.length).toBe(1);
