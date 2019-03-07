@@ -27,3 +27,17 @@ it("should store user in locals object", async done => {
   expect(next.mock.calls.length).toBe(1);
   done();
 });
+
+it("should update token in cookie on success", async done => {
+  const { request, response, next, cookie } = getRequestReponse();
+  const accessToken = "some token";
+  request.cookies.accessToken = accessToken;
+  const user = { _id: "2352", name: "hasta" };
+  const findUserByToken = jest.fn().mockResolvedValue(user);
+  await checkAccessFactory(findUserByToken)(request, response, next);
+  expect(cookie.mock.calls.length).toBe(1);
+  expect(cookie.mock.calls[0][0]).toBe("accessToken");
+  expect(cookie.mock.calls[0][1]).toBe(accessToken);
+  expect(cookie.mock.calls[0][2]).toEqual({ maxAge: 30 * 24 * 60 * 60 * 1000 });
+  done();
+});
