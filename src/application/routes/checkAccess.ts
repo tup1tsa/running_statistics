@@ -3,14 +3,17 @@ import {
   FindUserByToken,
   findUserByToken
 } from "../database/queries/findUserByToken";
+import { SetTokenCookies, setTokenCookies } from "../setTokenCookies";
 
-type CheckAccessFactory = (findUserByToken: FindUserByToken) => RequestHandler;
+type CheckAccessFactory = (
+  findUserByToken: FindUserByToken,
+  setTokenCookies: SetTokenCookies
+) => RequestHandler;
 
-export const checkAccessFactory: CheckAccessFactory = findUserByTokenFunc => async (
-  req,
-  res,
-  next
-) => {
+export const checkAccessFactory: CheckAccessFactory = (
+  findUserByTokenFunc,
+  setTokenCookiesFunc
+) => async (req, res, next) => {
   const { accessToken } = req.cookies;
   const user = await findUserByTokenFunc(accessToken);
   if (user === null) {
@@ -18,11 +21,9 @@ export const checkAccessFactory: CheckAccessFactory = findUserByTokenFunc => asy
     return;
   }
   res.locals.user = user;
-  res.cookie("accessToken", accessToken, {
-    maxAge: 30 * 24 * 60 * 60 * 1000
-  });
+  setTokenCookiesFunc(res);
   next();
 };
 
 export const checkAccess: RequestHandler = (req, res, next) =>
-  checkAccessFactory(findUserByToken)(req, res, next);
+  checkAccessFactory(findUserByToken, setTokenCookies)(req, res, next);

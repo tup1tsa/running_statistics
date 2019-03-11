@@ -8,6 +8,7 @@ import login from "./application/routes/loginRoute";
 import registration from "./application/routes/registrationRoute";
 import saveRaces from "./application/routes/saveRacesRoute";
 import sendVerificationEmail from "./application/routes/sendVerificationEmailRoute";
+import verifyEmail from "./application/routes/verifyEmailRoute";
 
 const PORT = process.env.PORT || 3007;
 const app = express();
@@ -24,6 +25,6 @@ app.post("/login", login);
 app.post("/sendVerificationEmail", checkAccess, sendVerificationEmail);
 app.post("/saveRaces", checkAccess, saveRaces);
 app.post("/fetchRaces", checkAccess, fetchRaces);
-app.post("/verifyEmail");
+app.post("/verifyEmail", checkAccess, verifyEmail);
 
 app.listen(PORT);

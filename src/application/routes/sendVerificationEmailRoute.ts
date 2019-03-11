@@ -3,17 +3,20 @@ import { MESSAGES, TotalUserInfo } from "running_app_core";
 import { UpdateUser, updateUser } from "../database/queries/updateUser";
 import { GenerateUniqueHash, generateUniqueHash } from "../generateUniqueHash";
 import { SendMail, sendMail } from "../mail/sendMail";
+import { SetTokenCookies, setTokenCookies } from "../setTokenCookies";
 
 type SendVerificationEmailRouteFactory = (
   generateUniqueHash: GenerateUniqueHash,
   updateUser: UpdateUser,
-  sendMail: SendMail
+  sendMail: SendMail,
+  setTokenCookies: SetTokenCookies
 ) => RequestHandler;
 
 export const sendVerificationEmailRouteFactory: SendVerificationEmailRouteFactory = (
   generateUniqueHashFunc,
   updateUserFunc,
-  sendMailFunc
+  sendMailFunc,
+  setTokenCookiesFunc
 ) => async (req, res) => {
   try {
     const hash = await generateUniqueHashFunc();
@@ -43,14 +46,16 @@ export const sendVerificationEmailRouteFactory: SendVerificationEmailRouteFactor
     res.status(500).end(MESSAGES.unexpectectedError);
     return;
   }
+  setTokenCookiesFunc(res);
   res.status(200).end();
 };
 
 const sendVerificationEmailRoute: RequestHandler = (req, res, next) =>
-  sendVerificationEmailRouteFactory(generateUniqueHash, updateUser, sendMail)(
-    req,
-    res,
-    next
-  );
+  sendVerificationEmailRouteFactory(
+    generateUniqueHash,
+    updateUser,
+    sendMail,
+    setTokenCookies
+  )(req, res, next);
 
 export default sendVerificationEmailRoute;

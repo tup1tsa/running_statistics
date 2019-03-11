@@ -3,7 +3,7 @@ Server side
     –– verify email route
     –– reset password logic (db and route)
     –– endpoint for all stats
-
+    –– database migration (manual or automatic)
 
 
     Integration tests:
@@ -18,9 +18,10 @@ Mobile app
 
 Client side
 
+    –– no interaction if user is not logged in
     ―― registration page
     ―― login page
-    ―― email verify page
+    ―― email verification page
     ―― reset password page 
     ―― calculate zoom programmaticaly (it is 12 for now)
     ―― rerender map zoom and values on partial values change

@@ -1,5 +1,5 @@
 import * as crypto from "crypto";
-import { HashedUserInfo } from "running_app_core";
+import { TotalUserInfo } from "running_app_core";
 import {
   FindUserByEmail,
   findUserByEmail
@@ -8,7 +8,7 @@ import {
 export type FindUserByPassword = (
   email: string,
   password: string
-) => Promise<HashedUserInfo | null>;
+) => Promise<TotalUserInfo | null>;
 type FindUserByPasswordFactory = (
   findUserByEmail: FindUserByEmail
 ) => FindUserByPassword;

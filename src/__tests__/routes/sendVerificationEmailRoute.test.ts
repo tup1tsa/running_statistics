@@ -12,7 +12,8 @@ it("if any of the functions throws, it should send unexpected error ", async don
   await sendVerificationEmailRouteFactory(
     generateUniqueHashMock,
     updateUserMock,
-    failedEmail
+    failedEmail,
+    jest.fn()
   )(request, response, next);
   expect(status.mock.calls.length).toBe(1);
   expect(status.mock.calls[0][0]).toBe(500);
@@ -21,17 +22,24 @@ it("if any of the functions throws, it should send unexpected error ", async don
   done();
 });
 
-it("should send 200 if everything is fine", async done => {
+it("should send 200 and set cookies if everything is fine", async done => {
   const { request, response, next, end, status } = getRequestReponse();
-  response.locals = { user: { _id: "id" } };
+  const accessToken = "bast";
+  const user = { _id: "some id", accessToken };
+  response.locals.user = user;
+  const setTokenCookies = jest.fn();
   await sendVerificationEmailRouteFactory(
     generateUniqueHashMock,
     updateUserMock,
-    sendMailMock
+    sendMailMock,
+    setTokenCookies
   )(request, response, next);
   expect(status.mock.calls.length).toBe(1);
   expect(status.mock.calls[0][0]).toBe(200);
   expect(end.mock.calls.length).toBe(1);
+  expect(response.locals.user).toEqual(user);
+  expect(setTokenCookies.mock.calls.length).toBe(1);
+  expect(setTokenCookies.mock.calls[0][0]).toBe(response);
   done();
 });
 
@@ -42,7 +50,8 @@ it("should send 500 unexpected error if update user failed", async done => {
   await sendVerificationEmailRouteFactory(
     generateUniqueHashMock,
     updateUser,
-    sendMailMock
+    sendMailMock,
+    jest.fn()
   )(request, response, next);
   expect(status.mock.calls.length).toBe(1);
   expect(status.mock.calls[0][0]).toBe(500);
@@ -62,7 +71,8 @@ it("verification flow should be correct", async done => {
   await sendVerificationEmailRouteFactory(
     generateUniqueHash,
     updateUser,
-    sendMail
+    sendMail,
+    jest.fn()
   )(request, response, next);
   expect(generateUniqueHash.mock.calls.length).toBe(1);
   expect(updateUser.mock.calls.length).toBe(1);

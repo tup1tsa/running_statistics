@@ -9,7 +9,7 @@ const failedValidator = (loginInfo: unknown): loginInfo is RegularLoginInfo =>
 
 it("should send 403 status and error message if info is not valid", async done => {
   const { request, response, status, end } = getRequestReponse();
-  const factory = loginRouteFactory(failedValidator, jest.fn());
+  const factory = loginRouteFactory(failedValidator, jest.fn(), jest.fn());
   await factory(request, response, jest.fn());
   expect(status.mock.calls[0][0]).toBe(403);
   expect(end.mock.calls[0][0]).toBe(MESSAGES.userInfoInvalid);
@@ -19,7 +19,11 @@ it("should send 403 status and error message if info is not valid", async done =
 it("should send 403 status and error message if email or password are incorrect", async done => {
   const { request, response, status, end } = getRequestReponse();
   const findUserByPassword = jest.fn().mockResolvedValue(null);
-  const factory = loginRouteFactory(successValidator, findUserByPassword);
+  const factory = loginRouteFactory(
+    successValidator,
+    findUserByPassword,
+    jest.fn()
+  );
   await factory(request, response, jest.fn());
   expect(status.mock.calls[0][0]).toBe(403);
   expect(end.mock.calls[0][0]).toBe(MESSAGES.emailPasswordIncorrect);
@@ -27,15 +31,20 @@ it("should send 403 status and error message if email or password are incorrect"
 });
 
 it("should set cookie and send correct response if user was found", async done => {
-  const { request, response, status, end, cookie } = getRequestReponse();
+  const { request, response, status, end } = getRequestReponse();
   const user = { name: "bas", accessToken: "some token" };
   const findUserByPassword = jest.fn().mockResolvedValue(user);
-  const factory = loginRouteFactory(successValidator, findUserByPassword);
+  const setTokenCookies = jest.fn();
+  const factory = loginRouteFactory(
+    successValidator,
+    findUserByPassword,
+    setTokenCookies
+  );
   await factory(request, response, jest.fn());
   expect(status.mock.calls[0][0]).toBe(200);
   expect(end.mock.calls[0][0]).toBe(undefined);
-  expect(cookie.mock.calls[0][0]).toBe("accessToken");
-  expect(cookie.mock.calls[0][1]).toBe("some token");
-  expect(cookie.mock.calls[0][2]).toEqual({ maxAge: 30 * 24 * 60 * 60 * 1000 });
+  expect(setTokenCookies.mock.calls.length).toBe(1);
+  expect(setTokenCookies.mock.calls[0][0]).toBe(response);
+  expect(response.locals.user).toEqual(user);
   done();
 });
