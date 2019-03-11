@@ -1,23 +1,18 @@
 import * as crypto from "crypto";
 import { TotalUserInfo } from "running_app_core";
-import {
-  FindUserByEmail,
-  findUserByEmail
-} from "./database/queries/findUserByEmail";
+import { FindUser, findUser } from "./database/queries/findUser";
 
 export type FindUserByPassword = (
   email: string,
   password: string
 ) => Promise<TotalUserInfo | null>;
-type FindUserByPasswordFactory = (
-  findUserByEmail: FindUserByEmail
-) => FindUserByPassword;
+type FindUserByPasswordFactory = (findUser: FindUser) => FindUserByPassword;
 
-export const findUserByPasswordFactory: FindUserByPasswordFactory = findUserByEmailFunc => async (
+export const findUserByPasswordFactory: FindUserByPasswordFactory = findUserFunc => async (
   email,
   password
 ) => {
-  const user = await findUserByEmailFunc(email);
+  const user = await findUserFunc({ email });
   if (user === null) {
     return null;
   }
@@ -33,4 +28,4 @@ export const findUserByPasswordFactory: FindUserByPasswordFactory = findUserByEm
 };
 
 export const findUserByPassword: FindUserByPassword = (email, password) =>
-  findUserByPasswordFactory(findUserByEmail)(email, password);
+  findUserByPasswordFactory(findUser)(email, password);

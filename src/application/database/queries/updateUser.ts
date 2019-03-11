@@ -22,7 +22,7 @@ interface UpdateQuery {
 }
 
 interface SearchFilter {
-  readonly $or: object[];
+  readonly $and: object[];
 }
 
 type UpdateUserFactory = (
@@ -41,12 +41,12 @@ export const updateUserFactory: UpdateUserFactory = (
   { emailVerificationLink, passwordResetLink, isEmailVerified }
 ) => db => {
   const collection = db.collection(getConfigFunc().collections.users);
-  const filter: SearchFilter = { $or: [] };
+  const filter: SearchFilter = { $and: [] };
   if (filterInfo._id) {
-    filter.$or.push({ _id: filterInfo._id });
+    filter.$and.push({ _id: filterInfo._id });
   }
   if (filterInfo.emailVerificationLink) {
-    filter.$or.push({
+    filter.$and.push({
       emailVerificationLink: filterInfo.emailVerificationLink
     });
   }

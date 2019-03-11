@@ -42,12 +42,9 @@ it("should return user if password and email are correct", async done => {
     .update(purePassword)
     .digest("hex");
   const user = { name: "some name", email, salt, passwordHash: hash };
-  const findUserByEmail = jest.fn().mockResolvedValue(user);
-  const result = await findUserByPasswordFactory(findUserByEmail)(
-    email,
-    purePassword
-  );
+  const findUser = jest.fn().mockResolvedValue(user);
+  const result = await findUserByPasswordFactory(findUser)(email, purePassword);
   expect(result).toEqual(user);
-  expect(findUserByEmail.mock.calls[0][0]).toBe(email);
+  expect(findUser.mock.calls[0][0]).toEqual({ email });
   done();
 });

@@ -3,10 +3,10 @@ import { getRequestReponse } from "./registationRoute.test";
 
 it("should return 403 if token is not provided via cookie", async done => {
   const { request, response, next, status, end } = getRequestReponse();
-  const findUserByToken = jest.fn();
-  await loadUserRouteFactory(findUserByToken)(request, response, next);
+  const findUser = jest.fn();
+  await loadUserRouteFactory(findUser)(request, response, next);
 
-  expect(findUserByToken.mock.calls.length).toBe(0);
+  expect(findUser.mock.calls.length).toBe(0);
   expect(status.mock.calls.length).toBe(1);
   expect(end.mock.calls.length).toBe(1);
   expect(status.mock.calls[0][0]).toBe(403);
