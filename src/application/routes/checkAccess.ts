@@ -1,29 +1,13 @@
 import { RequestHandler } from "express";
-import {
-  FindUserByToken,
-  findUserByToken
-} from "../database/queries/findUserByToken";
-import { SetTokenCookies, setTokenCookies } from "../setTokenCookies";
+import { TotalUserInfo } from "running_app_core";
 
-type CheckAccessFactory = (
-  findUserByToken: FindUserByToken,
-  setTokenCookies: SetTokenCookies
-) => RequestHandler;
-
-export const checkAccessFactory: CheckAccessFactory = (
-  findUserByTokenFunc,
-  setTokenCookiesFunc
-) => async (req, res, next) => {
-  const { accessToken } = req.cookies;
-  const user = await findUserByTokenFunc(accessToken);
-  if (user === null) {
+const checkAccess: RequestHandler = (req, res, next) => {
+  const user: TotalUserInfo = res.locals.user;
+  if (!user.isEmailVerified) {
     res.status(403).end();
     return;
   }
-  res.locals.user = user;
-  setTokenCookiesFunc(res);
   next();
 };
 
-export const checkAccess: RequestHandler = (req, res, next) =>
-  checkAccessFactory(findUserByToken, setTokenCookies)(req, res, next);
+export default checkAccess;
