@@ -30,7 +30,7 @@ app.post(
   sendVerificationEmail
 );
 
-app.post(
+app.get(
   "/sendVerificationEmail",
   loadUser,
   updateTokenCookies,
@@ -39,6 +39,6 @@ app.post(
 app.post("/verifyEmail", verifyEmail);
 
 app.post("/saveRaces", loadUser, checkAccess, updateTokenCookies, saveRaces);
-app.post("/fetchRaces", loadUser, checkAccess, updateTokenCookies, fetchRaces);
+app.get("/fetchRaces", loadUser, checkAccess, updateTokenCookies, fetchRaces);
 
 app.listen(PORT);
