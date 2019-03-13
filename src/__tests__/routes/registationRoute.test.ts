@@ -81,6 +81,23 @@ it("should send 409 error if user already exists", async done => {
   done();
 });
 
+it("should send 409 error if user saving wasn't successful", async done => {
+  const { request, response, end, status } = getRequestReponse();
+  const saveUser = jest
+    .fn()
+    .mockResolvedValue({ result: { ok: 0 }, ops: [{}] });
+  await registrationRouteFactory(successValidator, jest.fn(), saveUser)(
+    request,
+    response,
+    jest.fn()
+  );
+  expect(status.mock.calls.length).toBe(1);
+  expect(status.mock.calls[0][0]).toBe(409);
+  expect(end.mock.calls.length).toBe(1);
+  expect(end.mock.calls[0][0]).toBe(JSON.stringify(MESSAGES.userAlreadyExists));
+  done();
+});
+
 it("user info should be passed to hash method correctly", async done => {
   const { request, response } = getRequestReponse();
   request.body.name = "my name";
@@ -105,7 +122,10 @@ it("should set user in res.locals and call next on success", async done => {
   const { request, response, next, end, status } = getRequestReponse();
   const hashUserInfo = jest.fn().mockReturnValue({ accessToken: "abc32" });
   const user = { _id: "some" };
-  const saveUser = jest.fn().mockResolvedValue(user);
+  const saveUser = jest.fn().mockResolvedValue({
+    result: { ok: 1 },
+    ops: [user]
+  });
   await registrationRouteFactory(successValidator, hashUserInfo, saveUser)(
     request,
     response,

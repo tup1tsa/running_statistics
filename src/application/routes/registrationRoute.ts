@@ -31,8 +31,11 @@ export const registrationRouteFactory: registrationRouteFactory = (
     return;
   }
   try {
-    const userFromDb = await saveNewUserFunc(hashedInfo);
-    res.locals.user = userFromDb;
+    const { result, ops } = await saveNewUserFunc(hashedInfo);
+    if (result.ok !== 1) {
+      throw new Error("something went wrong");
+    }
+    res.locals.user = ops[0];
   } catch (e) {
     res.status(409).end(JSON.stringify(MESSAGES.userAlreadyExists));
     return;

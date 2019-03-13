@@ -1,6 +1,5 @@
 Server side
 
-    –– verify email route
     –– reset password logic (db and route)
     –– endpoint for all stats
     –– database migration (manual or automatic)
