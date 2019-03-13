@@ -11,13 +11,14 @@ export const saveRacesRouteFactory: SaveRacesRouteFactory = (
   saveRacesFunc,
   validateRacesFunc
 ) => async (req, res) => {
-  const areRacesValid = validateRacesFunc(req.body);
+  const { races } = req.body;
+  const areRacesValid = validateRacesFunc(races);
   if (!areRacesValid) {
     res.status(403).end(MESSAGES.racesAreNotValid);
     return;
   }
   try {
-    await saveRacesFunc(req.body, res.locals.userId);
+    await saveRacesFunc(races, res.locals.user._id);
   } catch (e) {
     res.status(500).end(MESSAGES.unexpectectedError);
     return;

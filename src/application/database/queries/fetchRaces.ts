@@ -3,7 +3,9 @@ import { Query, runQueryContainer } from "mongo-wrappers";
 import { Race } from "running_app_core";
 import { GetConfig, getConfig } from "../../config";
 
-export type FetchRaces = (userId: string) => Promise<ReadonlyArray<Race>>;
+export type FetchRaces = (
+  userId: string | ObjectID
+) => Promise<ReadonlyArray<Race>>;
 type FetchRacesFactory = (
   getConfigFunc: GetConfig,
   userId: ObjectID | string
