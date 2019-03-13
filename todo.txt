@@ -1,5 +1,6 @@
 Server side
 
+    –– cookie doesn't work without binding response manually
     –– reset password logic (db and route)
     –– endpoint for all stats
     –– database migration (manual or automatic)
