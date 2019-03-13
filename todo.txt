@@ -1,5 +1,8 @@
 Server side
 
+    –– verification email route should return some data on success
+       (e.g., email destination, verificationLink)
+       it should simplify testing
     –– cookie doesn't work without binding response manually
     –– reset password logic (db and route)
     –– endpoint for all stats
