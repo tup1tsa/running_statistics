@@ -14,6 +14,39 @@ afterAll(async done => {
   done();
 });
 
+it("should fetch races if provided user id is Bson object but not string", async done => {
+  const collectionName = "fetchRacesByBsonId";
+  const getConfig = jest.fn().mockReturnValue({
+    collections: { races: collectionName }
+  });
+  const userId = {
+    toString: () => "bast",
+    generationTime: 232,
+    toHexString: jest.fn(),
+    getTimestamp: jest.fn(),
+    equals: jest.fn()
+  };
+  const path = [
+    { latitude: 42, longitude: 44, time: 323 },
+    { latitude: 17, longitude: 23, time: 62326 }
+  ];
+  const races = [
+    {
+      _id: "1754",
+      type: "walking",
+      userId: "bast",
+      path
+    },
+    { _id: "262256", type: "running", userId: "helm", path: [] }
+  ];
+  await connection.db.collection(collectionName).insertMany(races);
+  const fetchedRaces = await fetchRacesFactory(getConfig, userId)(
+    connection.db
+  );
+  expect(fetchedRaces).toEqual([{ type: "walking", path }]);
+  done();
+});
+
 it("should fetch races correctly without sensitive data", async done => {
   const collectionName = "fetchRacesSuccess";
   const getConfig = jest.fn().mockReturnValue({

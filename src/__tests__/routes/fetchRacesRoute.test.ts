@@ -15,7 +15,7 @@ it("should send 500 status if db throws", async done => {
 });
 
 it("should send correct races", async done => {
-  const { request, response, status, end } = getRequestReponse();
+  const { request, response, status, send } = getRequestReponse();
   response.locals.user = { _id: "abaab23" };
   const race = {
     type: "running",
@@ -27,7 +27,7 @@ it("should send correct races", async done => {
   expect(fetchRaces.mock.calls[0][0]).toBe("abaab23");
   expect(status.mock.calls.length).toBe(1);
   expect(status.mock.calls[0][0]).toBe(200);
-  expect(end.mock.calls.length).toBe(1);
-  expect(end.mock.calls[0][0]).toEqual([race]);
+  expect(send.mock.calls.length).toBe(1);
+  expect(send.mock.calls[0][0]).toEqual({ races: [race] });
   done();
 });

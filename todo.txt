@@ -1,5 +1,7 @@
 Server side
 
+    –– races are being saved but user id is null (fetch races would not work)
+    –– disallow saving the same races (validate by race date)
     –– verification email route should return some data on success
        (e.g., email destination, verificationLink)
        it should simplify testing

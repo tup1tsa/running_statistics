@@ -1,3 +1,4 @@
+import { ObjectID } from "bson";
 import { Query, runQueryContainer } from "mongo-wrappers";
 import { Race } from "running_app_core";
 import { GetConfig, getConfig } from "../../config";
@@ -5,7 +6,7 @@ import { GetConfig, getConfig } from "../../config";
 export type FetchRaces = (userId: string) => Promise<ReadonlyArray<Race>>;
 type FetchRacesFactory = (
   getConfigFunc: GetConfig,
-  userId: string
+  userId: ObjectID | string
 ) => Query<ReadonlyArray<Race>>;
 
 export const fetchRacesFactory: FetchRacesFactory = (
@@ -13,7 +14,7 @@ export const fetchRacesFactory: FetchRacesFactory = (
   userId
 ) => async db => {
   const collection = db.collection(getConfigFunc().collections.races);
-  const cursor = await collection.find({ userId });
+  const cursor = await collection.find({ userId: userId.toString() });
   const dbRaces = await cursor.toArray();
   return dbRaces.map(dbRace => ({ path: dbRace.path, type: dbRace.type }));
 };

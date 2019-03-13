@@ -15,7 +15,7 @@ export const fetchRacesRouteFactory: FetchRacesRouteFactory = fetchRacesFunc => 
     res.status(500).end(MESSAGES.unexpectectedError);
     return;
   }
-  res.status(200).end(races);
+  res.status(200).send({ races });
 };
 
 const fetchRacesRoute: RequestHandler = (req, res, next) =>
