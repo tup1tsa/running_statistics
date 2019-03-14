@@ -1,7 +1,7 @@
 import {
   mapDispatchToProps,
   mapStateToProps
-} from "../../application/reactContainers/RegistrationContainer";
+} from "../../application/connectors/RegistrationConnector";
 import { testGlobalState } from "./PathWatcherContainer.test";
 
 it("should dispatch correct state fields", () => {

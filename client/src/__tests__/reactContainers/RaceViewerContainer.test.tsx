@@ -1,7 +1,7 @@
 import {
   mapDispatchToProps,
   mapStateToProps
-} from "../../application/reactContainers/RaceViewerContainer";
+} from "../../application/connectors/RaceViewerConnector";
 import { testGlobalState } from "./PathWatcherContainer.test";
 
 it("should provide correct state props", () => {

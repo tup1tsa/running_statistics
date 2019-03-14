@@ -1,7 +1,7 @@
 import {
   mapDispatchToProps,
   mapStateToProps
-} from "../../application/reactContainers/NavigationContainer";
+} from "../../application/connectors/NavigationConnector";
 import { testGlobalState } from "./PathWatcherContainer.test";
 
 it("should pass correct state to props", () => {

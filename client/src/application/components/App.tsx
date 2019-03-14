@@ -1,8 +1,8 @@
 import { ConnectedRouter } from "connected-react-router";
 import { History } from "history";
 import React from "react";
+import NavigationConnector from "../connectors/NavigationConnector";
 import "../css/App.css";
-import NavigationContainer from "../reactContainers/NavigationContainer";
 import Routes from "../routes";
 
 interface AppProps {
@@ -11,7 +11,7 @@ interface AppProps {
 
 const App = ({ history }: AppProps) => (
   <>
-    <NavigationContainer />
+    <NavigationConnector />
     <div id="content">
       <ConnectedRouter history={history}>{Routes}</ConnectedRouter>
     </div>

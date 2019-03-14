@@ -5,8 +5,8 @@ import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router";
 import { createStore } from "redux";
 import { Message } from "../../application/components/Message";
-import PathWatcherContainer from "../../application/reactContainers/PathWatcherContainer";
-import RaceStartPreparationContainer from "../../application/reactContainers/RaceStartPreparationContainer";
+import PathWatcherContainer from "../../application/connectors/PathWatcherConnector";
+import RaceStartPreparationContainer from "../../application/connectors/RaceStartPreparationConnector";
 import { rootReducer } from "../../application/reducers/rootReducer";
 import Routes from "../../application/routes";
 

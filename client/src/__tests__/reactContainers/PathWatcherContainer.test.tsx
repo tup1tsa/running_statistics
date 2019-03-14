@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { mapStateToProps } from "../../application/reactContainers/PathWatcherContainer";
+import { mapStateToProps } from "../../application/connectors/PathWatcherConnector";
 import { GlobalState } from "../../application/reducers/rootReducer";
 
 export const testGlobalState = () => {
