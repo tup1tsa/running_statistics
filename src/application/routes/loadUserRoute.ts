@@ -10,12 +10,12 @@ export const loadUserRouteFactory: LoadUserRouteFactory = findUserFunc => async 
 ) => {
   const accessToken: string | undefined = req.cookies.accessToken;
   if (!accessToken) {
-    res.status(403).end();
+    res.status(403).end("access token should be present in cookies");
     return;
   }
   const user = await findUserFunc({ accessToken });
   if (user === null) {
-    res.status(403).end();
+    res.status(403).end("access token is invalid");
     return;
   }
   res.locals.user = user;

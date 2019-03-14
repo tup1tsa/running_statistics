@@ -47,7 +47,7 @@ it("should send invalid data error if data is not valid", async done => {
   expect(status.mock.calls.length).toBe(1);
   expect(status.mock.calls[0][0]).toBe(403);
   expect(end.mock.calls.length).toBe(1);
-  expect(end.mock.calls[0][0]).toBe(JSON.stringify(MESSAGES.userInfoInvalid));
+  expect(end.mock.calls[0][0]).toBe("email, name or password are not valid");
   done();
 });
 

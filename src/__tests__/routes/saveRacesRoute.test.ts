@@ -21,7 +21,7 @@ it("should end request if races are not valid", async done => {
   expect(status.mock.calls.length).toBe(1);
   expect(status.mock.calls[0][0]).toBe(403);
   expect(end.mock.calls.length).toBe(1);
-  expect(end.mock.calls[0][0]).toBe(MESSAGES.racesAreNotValid);
+  expect(end.mock.calls[0][0]).toBe("races are corrupted");
   done();
 });
 
@@ -37,7 +37,9 @@ it("should send 500 error if save was unsuccessful", async done => {
   expect(status.mock.calls.length).toBe(1);
   expect(status.mock.calls[0][0]).toBe(500);
   expect(end.mock.calls.length).toBe(1);
-  expect(end.mock.calls[0][0]).toBe(MESSAGES.unexpectectedError);
+  expect(end.mock.calls[0][0]).toBe(
+    "there were some problems saving the races"
+  );
   done();
 });
 

@@ -12,7 +12,7 @@ it("should send 403 status and error message if info is not valid", async done =
   const factory = loginRouteFactory(failedValidator, jest.fn(), jest.fn());
   await factory(request, response, jest.fn());
   expect(status.mock.calls[0][0]).toBe(403);
-  expect(end.mock.calls[0][0]).toBe(MESSAGES.userInfoInvalid);
+  expect(end.mock.calls[0][0]).toBe("email or password is not valid");
   done();
 });
 

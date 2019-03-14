@@ -1,9 +1,5 @@
 import { RequestHandler } from "express";
-import {
-  MESSAGES,
-  ValidateLoginInfo,
-  validateLoginInfo
-} from "running_app_core";
+import { ValidateLoginInfo, validateLoginInfo } from "running_app_core";
 import { FindUserByPassword, findUserByPassword } from "../findUserByPassword";
 import { SetTokenCookies, setTokenCookies } from "../setTokenCookies";
 
@@ -19,12 +15,12 @@ export const loginRouteFactory: loginRouteFactory = (
   setTokenCookiesFunc
 ) => async (req, res) => {
   if (!validateLoginInfoFunc(req.body)) {
-    res.status(403).end(MESSAGES.userInfoInvalid);
+    res.status(403).end("email or password is not valid");
     return;
   }
   const user = await findUserByPasswordFunc(req.body.email, req.body.password);
   if (user == null) {
-    res.status(403).end(MESSAGES.emailPasswordIncorrect);
+    res.status(403).end("Email or password are incorrect");
     return;
   }
   res.locals.user = user;

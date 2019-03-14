@@ -21,7 +21,7 @@ export const verifyEmailRouteFactory: VerifyEmailRouteFactory = (
   }
   const user = await findUserFunc({ emailVerificationLink });
   if (!user) {
-    return res.status(403).end();
+    return res.status(403).end("verification link is invalid");
   }
   res.locals.user = user;
   const { result } = await updateUserFunc(
@@ -29,7 +29,7 @@ export const verifyEmailRouteFactory: VerifyEmailRouteFactory = (
     { isEmailVerified: true, emailVerificationLink: "" }
   );
   if (result.nModified === 0) {
-    return res.status(403).end();
+    return res.status(403).end("verification link is invalid");
   }
   setTokenCookiesFunc(res);
   res.status(200).end();

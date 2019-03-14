@@ -20,7 +20,7 @@ export const registrationRouteFactory: registrationRouteFactory = (
   saveNewUserFunc
 ) => async (req, res, next) => {
   if (!validateUserInfoFunc(req.body)) {
-    res.status(403).end(JSON.stringify(MESSAGES.userInfoInvalid));
+    res.status(403).end("email, name or password are not valid");
     return;
   }
   let hashedInfo: HashedUserInfo;

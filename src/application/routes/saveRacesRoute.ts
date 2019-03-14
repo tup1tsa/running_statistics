@@ -14,13 +14,13 @@ export const saveRacesRouteFactory: SaveRacesRouteFactory = (
   const { races } = req.body;
   const areRacesValid = validateRacesFunc(races);
   if (!areRacesValid) {
-    res.status(403).end(MESSAGES.racesAreNotValid);
+    res.status(403).end("races are corrupted");
     return;
   }
   try {
     await saveRacesFunc(races, res.locals.user._id);
   } catch (e) {
-    res.status(500).end(MESSAGES.unexpectectedError);
+    res.status(500).end("there were some problems saving the races");
     return;
   }
   res.status(200).end(MESSAGES.raceSavedSuccess);
