@@ -1,9 +1,11 @@
 import { Race } from "running_app_core";
 import {
   AddGpsPositionAction,
-  ChangeInputAction,
-  ChangeInputPayload,
   ChangeRaceTypeAction,
+  ChangeRegistrationEmailAction,
+  ChangeRegistrationNameAction,
+  ChangeRegistrationPasswordAction,
+  ChangeRegistrationPasswordConfirmationAction,
   DecrementRaceAction,
   FailRegistrationAction,
   GpsErrorAction,
@@ -82,9 +84,35 @@ export const changeRaceType: ChangeRaceType = raceType => ({
   payload: raceType
 });
 
-export type ChangeInput = (payload: ChangeInputPayload) => ChangeInputAction;
-export const changeInput: ChangeInput = payload => ({
-  type: "CHANGE_INPUT",
+export type ChangeRegistrationName = (
+  payload: string
+) => ChangeRegistrationNameAction;
+export const changeRegistrationName: ChangeRegistrationName = payload => ({
+  type: "CHANGE_REGISTRATION_NAME",
+  payload
+});
+
+export type ChangeRegistrationEmail = (
+  payload: string
+) => ChangeRegistrationEmailAction;
+export const changeRegistrationEmail: ChangeRegistrationEmail = payload => ({
+  type: "CHANGE_REGISTRATION_EMAIL",
+  payload
+});
+
+export type ChangeRegistrationPassword = (
+  payload: string
+) => ChangeRegistrationPasswordAction;
+export const changeRegistrationPassword: ChangeRegistrationPassword = payload => ({
+  type: "CHANGE_REGISTRATION_PASSWORD",
+  payload
+});
+
+export type ChangeRegistrationPasswordConfirmation = (
+  payload: string
+) => ChangeRegistrationPasswordConfirmationAction;
+export const changeRegistrationPasswordConfirmation: ChangeRegistrationPasswordConfirmation = payload => ({
+  type: "CHANGE_REGISTRATION_PASSWORD_CONFIRMATION",
   payload
 });
 

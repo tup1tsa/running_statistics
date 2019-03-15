@@ -4,18 +4,19 @@ import {
   minimumDistanceDiffBetweenPositions,
   PositionInTime
 } from "running_app_core";
-import { AnyAction } from "../actions/actions";
-import { getDistance } from "../logic/geoLibHelpers";
+import { getDistance } from "../geoLibHelpers";
 import {
   IsMiddlePointAccurate,
   isMiddlePointAccurate
-} from "../logic/path/isMiddlePointAccurate";
-import { GlobalState } from "./rootReducer";
+} from "./isMiddlePointAccurate";
 
-type State = Pick<GlobalState, "positions" | "lastTimeCheck" | "gpsError">;
+interface State {
+  readonly lastTimeCheck: null | number;
+  readonly positions: ReadonlyArray<PositionInTime>;
+}
 
-type AddGpsPositionReducer = (state: State, action: AnyAction) => State;
-type AddGpsPositionReducerFactory = (
+export type ProcessNextPosition = (state: State, position: Position) => State;
+type ProcessNextPositionFactory = (
   config: {
     readonly delayBetweenCallsMs: number;
     readonly minimumDistanceDiffMetres: number;
@@ -24,16 +25,13 @@ type AddGpsPositionReducerFactory = (
     readonly getDistance: GetDistance;
     readonly isMiddlePointAccurate: IsMiddlePointAccurate;
   }
-) => AddGpsPositionReducer;
+) => ProcessNextPosition;
 
-export const addGpsPositionReducerFactory: AddGpsPositionReducerFactory = (
+export const processNextPositionFactory: ProcessNextPositionFactory = (
   config,
   functions
-) => (state, action) => {
-  if (action.type !== "ADD_GPS_POSITION") {
-    return state;
-  }
-  const positionResponse = action.payload;
+) => (state, nextPosition) => {
+  const positionResponse = nextPosition;
   const timeStamp =
     typeof positionResponse.timestamp === "number"
       ? positionResponse.timestamp
@@ -49,13 +47,12 @@ export const addGpsPositionReducerFactory: AddGpsPositionReducerFactory = (
   if (state.lastTimeCheck === null) {
     return {
       lastTimeCheck: currentPosition.time,
-      positions: [currentPosition],
-      gpsError: null
+      positions: [currentPosition]
     };
   }
   // this position is too recent -> ignore it
   if (currentPosition.time - state.lastTimeCheck < config.delayBetweenCallsMs) {
-    return { ...state, gpsError: null };
+    return { ...state };
   }
 
   const savedPositionsNumber = state.positions.length;
@@ -67,7 +64,7 @@ export const addGpsPositionReducerFactory: AddGpsPositionReducerFactory = (
   );
   // this position is very close to the last saved -> ignore it
   if (differenceInMetres <= config.minimumDistanceDiffMetres) {
-    return { ...state, lastTimeCheck: currentPosition.time, gpsError: null };
+    return { ...state, lastTimeCheck: currentPosition.time };
   }
   if (savedPositionsNumber > 1) {
     const arePositionsAccurate = functions.isMiddlePointAccurate(
@@ -79,7 +76,6 @@ export const addGpsPositionReducerFactory: AddGpsPositionReducerFactory = (
     // current position. Remove it
     if (!arePositionsAccurate) {
       return {
-        gpsError: null,
         lastTimeCheck: currentPosition.time,
         positions: [...state.positions, currentPosition].filter(
           position => position.time !== lastSavedPosition.time
@@ -88,20 +84,18 @@ export const addGpsPositionReducerFactory: AddGpsPositionReducerFactory = (
     }
   }
   return {
-    gpsError: null,
     lastTimeCheck: currentPosition.time,
     positions: [...state.positions, currentPosition]
   };
 };
 
-export const addGpsPositionReducer: AddGpsPositionReducer = (state, action) =>
-  addGpsPositionReducerFactory(
-    {
-      delayBetweenCallsMs: delayBetweenGeoCalls,
-      minimumDistanceDiffMetres: minimumDistanceDiffBetweenPositions
-    },
-    {
-      isMiddlePointAccurate,
-      getDistance
-    }
-  )(state, action);
+export const processNextPosition = processNextPositionFactory(
+  {
+    delayBetweenCallsMs: delayBetweenGeoCalls,
+    minimumDistanceDiffMetres: minimumDistanceDiffBetweenPositions
+  },
+  {
+    isMiddlePointAccurate,
+    getDistance
+  }
+);

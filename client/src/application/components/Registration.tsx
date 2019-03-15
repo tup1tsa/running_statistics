@@ -8,34 +8,33 @@ import {
   ValidatePassword,
   validatePassword
 } from "running_app_core";
-import { ChangeInputPayload, InputNames } from "../actions/actions";
 import { Input } from "./Input";
 
 interface Validators {
-  validateLogin: ValidateLogin;
+  validateName: ValidateLogin;
   validateEmail: ValidateEmail;
   validatePassword: ValidatePassword;
 }
 
 export interface RegistrationProps {
-  readonly login: string;
+  readonly name: string;
   readonly email: string;
   readonly password: string;
   readonly passwordCopy: string;
-  readonly changeInput: (payload: ChangeInputPayload) => void;
+  readonly changeName: (name: string) => void;
+  readonly changeEmail: (email: string) => void;
+  readonly changePassword: (password: string) => void;
+  readonly changePasswordConfirmation: (password: string) => void;
   readonly register: (userInfo: RegularRegistrationInfo) => void;
 }
 
 export const RegistrationFactory = (props: RegistrationProps & Validators) => {
-  const changeField = (fieldName: InputNames, value: string) => {
-    props.changeInput({ fieldName, value });
-  };
   const userInfo = {
-    name: props.login,
+    name: props.name,
     email: props.email,
     password: props.password
   };
-  const isLoginValid = props.validateLogin(userInfo.name);
+  const isLoginValid = props.validateName(userInfo.name);
   const isEmailValid = props.validateEmail(userInfo.email);
   const isPasswordValid = props.validatePassword(userInfo.password);
   const isPasswordCopyValid = props.passwordCopy === userInfo.password;
@@ -44,18 +43,18 @@ export const RegistrationFactory = (props: RegistrationProps & Validators) => {
   return (
     <div>
       <Input
-        id="login"
-        label="Login"
+        id="name"
+        label="Name"
         errorMessage={
-          isLoginValid ? undefined : "login should be in range from 2 to 128"
+          isLoginValid ? undefined : "name should be in range from 2 to 128"
         }
-        onChange={changeField.bind(null, "login")}
+        onChange={props.changeName}
       />
       <Input
         id="email"
         label="Email"
         errorMessage={isEmailValid ? undefined : "email is invalid"}
-        onChange={changeField.bind(null, "email")}
+        onChange={props.changeEmail}
       />
       <Input
         id="password"
@@ -65,7 +64,7 @@ export const RegistrationFactory = (props: RegistrationProps & Validators) => {
             ? undefined
             : "password should be in range from 5 to 128"
         }
-        onChange={changeField.bind(null, "password")}
+        onChange={props.changePassword}
       />
       <Input
         id="passwordCopy"
@@ -73,7 +72,7 @@ export const RegistrationFactory = (props: RegistrationProps & Validators) => {
         errorMessage={
           isPasswordCopyValid ? undefined : "passwords do not match"
         }
-        onChange={changeField.bind(null, "passwordCopy")}
+        onChange={props.changePasswordConfirmation}
       />
       <button
         onClick={
@@ -89,7 +88,7 @@ export const RegistrationFactory = (props: RegistrationProps & Validators) => {
 export const Registration = (props: RegistrationProps) => (
   <RegistrationFactory
     {...props}
-    validateLogin={validateLogin}
+    validateName={validateLogin}
     validateEmail={validateEmail}
     validatePassword={validatePassword}
   />

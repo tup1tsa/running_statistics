@@ -1,8 +1,11 @@
 import { getTestPosition } from "running_app_core";
 import {
   addGpsPosition,
-  changeInput,
   changeRaceType,
+  changeRegistrationEmail,
+  changeRegistrationName,
+  changeRegistrationPassword,
+  changeRegistrationPasswordConfirmation,
   decrementRace,
   failRegistration,
   gpsError,
@@ -15,10 +18,7 @@ import {
   successRegistration,
   toggleSaving
 } from "../../application/actions/actionCreators";
-import {
-  ChangeInputPayload,
-  RaceType
-} from "../../application/actions/actions";
+import { RaceType } from "../../application/actions/actions";
 
 it("should create start race action", () => {
   const raceType: RaceType = "running";
@@ -113,14 +113,31 @@ it("should create change race type action", () => {
   });
 });
 
-it("should create change registration field action", () => {
-  const payload: ChangeInputPayload = {
-    fieldName: "login",
-    value: "abs"
-  };
-  expect(changeInput(payload)).toEqual({
-    type: "CHANGE_INPUT",
-    payload
+it("should create change registration name action", () => {
+  expect(changeRegistrationName("my name")).toEqual({
+    type: "CHANGE_REGISTRATION_NAME",
+    payload: "my name"
+  });
+});
+
+it("should create change registration email action", () => {
+  expect(changeRegistrationEmail("some@gmail.com")).toEqual({
+    type: "CHANGE_REGISTRATION_EMAIL",
+    payload: "some@gmail.com"
+  });
+});
+
+it("should create change registration password action", () => {
+  expect(changeRegistrationPassword("secret")).toEqual({
+    type: "CHANGE_REGISTRATION_PASSWORD",
+    payload: "secret"
+  });
+});
+
+it("should create change registration password confirmation action", () => {
+  expect(changeRegistrationPasswordConfirmation("password repeated")).toEqual({
+    type: "CHANGE_REGISTRATION_PASSWORD_CONFIRMATION",
+    payload: "password repeated"
   });
 });
 

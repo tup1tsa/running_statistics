@@ -4,16 +4,19 @@ import { Input } from "../../application/components/Input";
 import { RegistrationFactory } from "../../application/components/Registration";
 
 const defaultProps = {
-  login: "",
+  name: "",
   email: "",
   password: "",
   passwordCopy: "",
 
-  validateLogin: jest.fn().mockReturnValue(true),
+  validateName: jest.fn().mockReturnValue(true),
   validateEmail: jest.fn().mockReturnValue(true),
   validatePassword: jest.fn().mockReturnValue(true),
 
-  changeInput: jest.fn(),
+  changeName: jest.fn(),
+  changeEmail: jest.fn(),
+  changePassword: jest.fn(),
+  changePasswordConfirmation: jest.fn(),
   register: jest.fn()
 };
 
@@ -23,46 +26,43 @@ it("should render four inputs and a button", () => {
   expect(wrapper.find("button").length).toBe(1);
 });
 
-it("should send correct props to login input", () => {
-  const changeRegField = jest.fn();
+it("should send correct props to name input", () => {
+  const changeName = jest.fn();
   const wrapper = shallow(
-    <RegistrationFactory {...defaultProps} changeInput={changeRegField} />
+    <RegistrationFactory {...defaultProps} changeName={changeName} />
   );
-  const loginInput = wrapper.find(Input).get(0);
-  expect(loginInput.props.id).toBe("login");
-  expect(loginInput.props.label).toBe("Login");
-  expect(loginInput.props.errorMesssage).toBe(undefined);
+  const nameInput = wrapper.find(Input).get(0);
+  expect(nameInput.props.id).toBe("name");
+  expect(nameInput.props.label).toBe("Name");
+  expect(nameInput.props.errorMesssage).toBe(undefined);
 
-  const onChangeHandler = loginInput.props.onChange;
+  const onChangeHandler = nameInput.props.onChange;
   onChangeHandler("new login");
-  expect(changeRegField.mock.calls.length).toBe(1);
-  expect(changeRegField.mock.calls[0][0]).toEqual({
-    fieldName: "login",
-    value: "new login"
-  });
+  expect(changeName.mock.calls.length).toBe(1);
+  expect(changeName.mock.calls[0][0]).toEqual("new login");
 });
 
-it("should send correct error message to login if it is invalid", () => {
-  const login = "myLogin";
-  const validateLogin = jest.fn().mockReturnValue(false);
+it("should send correct error message to name if it is invalid", () => {
+  const name = "my name";
+  const validateName = jest.fn().mockReturnValue(false);
   const wrapper = shallow(
     <RegistrationFactory
       {...defaultProps}
-      validateLogin={validateLogin}
-      login={login}
+      validateName={validateName}
+      name={name}
     />
   );
   expect(wrapper.find(Input).get(0).props.errorMessage).toBe(
-    "login should be in range from 2 to 128"
+    "name should be in range from 2 to 128"
   );
-  expect(validateLogin.mock.calls.length).toBe(1);
-  expect(validateLogin.mock.calls[0][0]).toBe(login);
+  expect(validateName.mock.calls.length).toBe(1);
+  expect(validateName.mock.calls[0][0]).toBe(name);
 });
 
 it("should send correct props to email input", () => {
-  const changeRegField = jest.fn();
+  const changeEmail = jest.fn();
   const wrapper = shallow(
-    <RegistrationFactory {...defaultProps} changeInput={changeRegField} />
+    <RegistrationFactory {...defaultProps} changeEmail={changeEmail} />
   );
   const emailInput = wrapper.find(Input).get(1);
   expect(emailInput.props.id).toBe("email");
@@ -71,11 +71,8 @@ it("should send correct props to email input", () => {
 
   const onChangeHandler = emailInput.props.onChange;
   onChangeHandler("some@gmail.com");
-  expect(changeRegField.mock.calls.length).toBe(1);
-  expect(changeRegField.mock.calls[0][0]).toEqual({
-    fieldName: "email",
-    value: "some@gmail.com"
-  });
+  expect(changeEmail.mock.calls.length).toBe(1);
+  expect(changeEmail.mock.calls[0][0]).toEqual("some@gmail.com");
 });
 
 it("should send correct error message to email if it is invalid", () => {
@@ -96,9 +93,9 @@ it("should send correct error message to email if it is invalid", () => {
 });
 
 it("should send correct props to first password input", () => {
-  const changeRegField = jest.fn();
+  const changePassword = jest.fn();
   const wrapper = shallow(
-    <RegistrationFactory {...defaultProps} changeInput={changeRegField} />
+    <RegistrationFactory {...defaultProps} changePassword={changePassword} />
   );
   const firstPasswordInput = wrapper.find(Input).get(2);
   expect(firstPasswordInput.props.id).toBe("password");
@@ -107,11 +104,8 @@ it("should send correct props to first password input", () => {
 
   const onChangeHandler = firstPasswordInput.props.onChange;
   onChangeHandler("super secret password");
-  expect(changeRegField.mock.calls.length).toBe(1);
-  expect(changeRegField.mock.calls[0][0]).toEqual({
-    fieldName: "password",
-    value: "super secret password"
-  });
+  expect(changePassword.mock.calls.length).toBe(1);
+  expect(changePassword.mock.calls[0][0]).toEqual("super secret password");
 });
 
 it("should send correct error message to password if it is invalid", () => {
@@ -132,9 +126,12 @@ it("should send correct error message to password if it is invalid", () => {
 });
 
 it("should send correct props to second password input", () => {
-  const changeRegField = jest.fn();
+  const changePasswordConfirmation = jest.fn();
   const wrapper = shallow(
-    <RegistrationFactory {...defaultProps} changeInput={changeRegField} />
+    <RegistrationFactory
+      {...defaultProps}
+      changePasswordConfirmation={changePasswordConfirmation}
+    />
   );
   const secondPasswordInput = wrapper.find(Input).get(3);
   expect(secondPasswordInput.props.id).toBe("passwordCopy");
@@ -143,11 +140,8 @@ it("should send correct props to second password input", () => {
 
   const onChangeHandler = secondPasswordInput.props.onChange;
   onChangeHandler("password again");
-  expect(changeRegField.mock.calls.length).toBe(1);
-  expect(changeRegField.mock.calls[0][0]).toEqual({
-    fieldName: "passwordCopy",
-    value: "password again"
-  });
+  expect(changePasswordConfirmation.mock.calls.length).toBe(1);
+  expect(changePasswordConfirmation.mock.calls[0][0]).toEqual("password again");
 });
 
 it("should send correct error message to second password input if it is invalid", () => {
@@ -174,7 +168,7 @@ it("button should start registration", () => {
     <RegistrationFactory
       {...defaultProps}
       register={registerMock}
-      login={name}
+      name={name}
       email={email}
       password={password}
       passwordCopy={password}
@@ -197,7 +191,7 @@ it("button should not start registration if user info is incorrect", () => {
     <RegistrationFactory
       {...defaultProps}
       register={registration}
-      validateLogin={failedValidator}
+      validateName={failedValidator}
     />
   );
   const badEmail = shallow(

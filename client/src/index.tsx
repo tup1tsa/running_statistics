@@ -9,7 +9,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { applyMiddleware, compose, createStore } from "redux";
 import App from "./application/components/App";
-import { rootReducer } from "./application/reducers/rootReducer";
+import rootReducer from "./application/reducers/rootReducer";
 import "./index.css";
 import registerServiceWorker from "./registerServiceWorker";
 

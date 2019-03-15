@@ -52,14 +52,24 @@ export interface ChangeRaceTypeAction {
   readonly payload: RaceType;
 }
 
-export type InputNames = "login" | "email" | "password" | "passwordCopy";
-export interface ChangeInputPayload {
-  readonly fieldName: InputNames;
-  readonly value: string;
+export interface ChangeRegistrationNameAction {
+  readonly type: "CHANGE_REGISTRATION_NAME";
+  readonly payload: string;
 }
-export interface ChangeInputAction {
-  readonly type: "CHANGE_INPUT";
-  readonly payload: ChangeInputPayload;
+
+export interface ChangeRegistrationEmailAction {
+  readonly type: "CHANGE_REGISTRATION_EMAIL";
+  readonly payload: string;
+}
+
+export interface ChangeRegistrationPasswordAction {
+  readonly type: "CHANGE_REGISTRATION_PASSWORD";
+  readonly payload: string;
+}
+
+export interface ChangeRegistrationPasswordConfirmationAction {
+  readonly type: "CHANGE_REGISTRATION_PASSWORD_CONFIRMATION";
+  readonly payload: string;
 }
 
 export interface StartRegistrationAction {
@@ -88,7 +98,10 @@ export type AnyAction =
   | IncrementRaceAction
   | DecrementRaceAction
   | ChangeRaceTypeAction
-  | ChangeInputAction
+  | ChangeRegistrationEmailAction
+  | ChangeRegistrationNameAction
+  | ChangeRegistrationPasswordAction
+  | ChangeRegistrationPasswordConfirmationAction
   | StartRegistrationAction
   | FailRegistrationAction
   | SuccessRegistrationAction;
