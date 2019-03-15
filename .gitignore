@@ -5,3 +5,4 @@ dist
 client/build
 yarn-error.log
 .vscode
+coverage
