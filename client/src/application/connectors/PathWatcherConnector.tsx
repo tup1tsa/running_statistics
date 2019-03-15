@@ -13,8 +13,11 @@ type MapStateToProps = (
 };
 
 export const mapStateToProps: MapStateToProps = state => ({
-  raceInProgress: state.raceInProgress,
-  race: { type: state.raceType, path: state.positions }
+  raceInProgress: state.raceInProgress.inProgress,
+  race: {
+    type: state.raceInProgress.type,
+    path: state.raceInProgress.positions
+  }
 });
 
 type MapDispatchToProps = (

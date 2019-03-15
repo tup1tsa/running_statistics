@@ -2,13 +2,13 @@ import {
   mapDispatchToProps,
   mapStateToProps
 } from "../../application/connectors/NavigationConnector";
-import { testGlobalState } from "./PathWatcherContainer.test";
+import { testGlobalState } from "./PathWatcherConnector.test";
 
 it("should pass correct state to props", () => {
   const state = testGlobalState();
   expect(mapStateToProps(state)).toEqual({
-    raceType: state.raceType,
-    raceInProgress: state.raceInProgress
+    raceType: state.raceInProgress.type,
+    raceInProgress: state.raceInProgress.inProgress
   });
 });
 

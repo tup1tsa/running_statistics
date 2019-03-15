@@ -2,18 +2,18 @@ import {
   mapDispatchToProps,
   mapStateToProps
 } from "../../application/connectors/RaceViewerConnector";
-import { testGlobalState } from "./PathWatcherContainer.test";
+import { testGlobalState } from "./PathWatcherConnector.test";
 
 it("should provide correct state props", () => {
   const state = testGlobalState();
   expect(mapStateToProps(state)).toEqual({
-    racesNumber: state.downloadedRaces ? state.downloadedRaces.length : 0,
-    downloadInProgress: state.racesAreBeingDownloaded,
-    downloadHasBeenCompleted: state.downloadedRaces !== undefined,
+    racesNumber: 0,
+    downloadInProgress: state.racesOnMap.racesAreBeingDownloaded,
+    downloadHasBeenCompleted: false,
     races: [],
-    partialRaceFinish: state.partialRaceFinish,
-    partialRaceStart: state.partialRaceStart,
-    currentRaceIndex: state.currentRaceIndex
+    partialRaceFinish: state.racesOnMap.partialRaceFinish,
+    partialRaceStart: state.racesOnMap.partialRaceStart,
+    currentRaceIndex: state.racesOnMap.currentRaceIndex
   });
 });
 

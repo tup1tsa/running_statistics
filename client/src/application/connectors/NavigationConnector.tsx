@@ -13,8 +13,8 @@ import { GlobalState } from "../reducers/rootReducer";
 type MapStateToProps = (state: GlobalState) => NavigationStateProps;
 
 export const mapStateToProps: MapStateToProps = state => ({
-  raceInProgress: state.raceInProgress,
-  raceType: state.raceType
+  raceInProgress: state.raceInProgress.inProgress,
+  raceType: state.raceInProgress.type
 });
 
 type MapDispatchToProps = (dispatch: Dispatch) => NavigationDispatchProps;

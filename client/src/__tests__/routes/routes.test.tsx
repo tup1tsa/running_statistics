@@ -7,7 +7,7 @@ import { createStore } from "redux";
 import { Message } from "../../application/components/Message";
 import PathWatcherContainer from "../../application/connectors/PathWatcherConnector";
 import RaceStartPreparationContainer from "../../application/connectors/RaceStartPreparationConnector";
-import { rootReducer } from "../../application/reducers/rootReducer";
+import rootReducer from "../../application/reducers/rootReducer";
 import Routes from "../../application/routes";
 
 const store = createStore(rootReducer(createBrowserHistory()));

@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import App from "../../application/components/App";
-import { rootReducer } from "../../application/reducers/rootReducer";
+import rootReducer from "../../application/reducers/rootReducer";
 
 it("renders without crashing", () => {
   const div = document.createElement("div");

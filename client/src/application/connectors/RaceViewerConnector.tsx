@@ -16,15 +16,17 @@ import { GlobalState } from "../reducers/rootReducer";
 type MapStateToProps = (
   state: GlobalState
 ) => RaceViewerStateProps & RacesOnMapStateProps;
-export const mapStateToProps: MapStateToProps = state => {
+export const mapStateToProps: MapStateToProps = ({ racesOnMap }) => {
   return {
-    racesNumber: state.downloadedRaces ? state.downloadedRaces.length : 0,
-    downloadInProgress: state.racesAreBeingDownloaded,
-    downloadHasBeenCompleted: state.downloadedRaces !== undefined,
-    races: state.downloadedRaces ? state.downloadedRaces : [],
-    currentRaceIndex: state.currentRaceIndex,
-    partialRaceStart: state.partialRaceStart,
-    partialRaceFinish: state.partialRaceFinish
+    racesNumber: racesOnMap.downloadedRaces
+      ? racesOnMap.downloadedRaces.length
+      : 0,
+    downloadInProgress: racesOnMap.racesAreBeingDownloaded,
+    downloadHasBeenCompleted: racesOnMap.downloadedRaces !== undefined,
+    races: racesOnMap.downloadedRaces ? racesOnMap.downloadedRaces : [],
+    currentRaceIndex: racesOnMap.currentRaceIndex,
+    partialRaceStart: racesOnMap.partialRaceStart,
+    partialRaceFinish: racesOnMap.partialRaceFinish
   };
 };
 
