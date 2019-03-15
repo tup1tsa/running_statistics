@@ -78,6 +78,33 @@ it("should find user by verification link", async done => {
   done();
 });
 
+it("should find user by password reset link", async done => {
+  const collectionName = "password reset link search";
+  const getConfig = jest
+    .fn()
+    .mockReturnValue({ collections: { users: collectionName } });
+  const correctUser = {
+    name: "correct name",
+    accessToken: "correct token",
+    passwordResetLink: "sinna",
+    _id: "456"
+  };
+  await connection.db.collection(collectionName).insertMany([
+    {
+      name: "some name",
+      accessToken: "wrong token",
+      _id: "23",
+      passwordResetLink: "666"
+    },
+    correctUser
+  ]);
+  const result = await findUserFactory(getConfig, {
+    passwordResetLink: correctUser.passwordResetLink
+  })(connection.db);
+  expect(result).toEqual(correctUser);
+  done();
+});
+
 it("should find user by email", async done => {
   const collectionName = "user email search";
   const getConfig = jest
