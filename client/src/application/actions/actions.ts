@@ -72,16 +72,35 @@ export interface ChangeRegistrationPasswordConfirmationAction {
   readonly payload: string;
 }
 
-export interface StartRegistrationAction {
-  readonly type: "START_REGISTRATION";
+export interface RegistrationStartAction {
+  readonly type: "REGISTRATION_START";
 }
 
-export interface SuccessRegistrationAction {
-  readonly type: "SUCCESS_REGISTRATION";
+export interface RegistrationSuccessAction {
+  readonly type: "REGISTRATION_SUCCESS";
 }
 
-export interface FailRegistrationAction {
-  readonly type: "FAIL_REGISTRATION";
+export interface RegistrationFailAction {
+  readonly type: "REGISTRATION_FAIL";
+  readonly error: true;
+  readonly payload: Error;
+}
+
+export interface LoginStartAction {
+  readonly type: "LOGIN_START";
+}
+
+interface User {
+  readonly name: string;
+  readonly email: string;
+}
+export interface LoginSuccessAction {
+  readonly type: "LOGIN_SUCCESS";
+  readonly payload: User;
+}
+
+export interface LoginFailAction {
+  readonly type: "LOGIN_FAIL";
   readonly error: true;
   readonly payload: Error;
 }
@@ -102,6 +121,9 @@ export type AnyAction =
   | ChangeRegistrationNameAction
   | ChangeRegistrationPasswordAction
   | ChangeRegistrationPasswordConfirmationAction
-  | StartRegistrationAction
-  | FailRegistrationAction
-  | SuccessRegistrationAction;
+  | RegistrationStartAction
+  | RegistrationFailAction
+  | RegistrationSuccessAction
+  | LoginStartAction
+  | LoginFailAction
+  | LoginSuccessAction;

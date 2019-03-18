@@ -47,6 +47,6 @@ it("should dispatch correct register dispatch prop", () => {
   props.register(userInfo);
   expect(dispatch.mock.calls.length).toBe(1);
   expect(dispatch.mock.calls[0][0]).toEqual({
-    type: "START_REGISTRATION"
+    type: "REGISTRATION_START"
   });
 });

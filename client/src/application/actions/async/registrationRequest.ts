@@ -10,9 +10,9 @@ import {
   networkRequest
 } from "../../logic/network/networkRequest";
 import {
-  failRegistration,
-  startRegistration,
-  successRegistration
+  registrationFail,
+  registrationStart,
+  registrationSuccess
 } from "../actionCreators";
 
 type RegistrationRequest = (
@@ -27,13 +27,13 @@ export const registrationRequestFactory: RegistrationRequestFactory = (
   networkRequestFunc,
   encodeMessageToUrlFunc
 ) => userInfo => async dispatch => {
-  dispatch(startRegistration());
+  dispatch(registrationStart());
   const result = await networkRequestFunc("/registration", "post", userInfo);
   if (result.errorMessage) {
-    dispatch(failRegistration(new Error(result.errorMessage)));
+    dispatch(registrationFail(new Error(result.errorMessage)));
     return;
   }
-  dispatch(successRegistration());
+  dispatch(registrationSuccess());
   dispatch(
     push(
       encodeMessageToUrlFunc({

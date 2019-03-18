@@ -7,15 +7,15 @@ import {
   changeRegistrationPassword,
   changeRegistrationPasswordConfirmation,
   decrementRace,
-  failRegistration,
   gpsError,
   incrementRace,
+  registrationFail,
+  registrationStart,
+  registrationSuccess,
   setRaces,
   startRace,
   startRacesDownload,
-  startRegistration,
   stopGps,
-  successRegistration,
   toggleSaving
 } from "../../application/actions/actionCreators";
 import { RaceType } from "../../application/actions/actions";
@@ -142,17 +142,17 @@ it("should create change registration password confirmation action", () => {
 });
 
 it("should create start registration action", () => {
-  expect(startRegistration()).toEqual({ type: "START_REGISTRATION" });
+  expect(registrationStart()).toEqual({ type: "REGISTRATION_START" });
 });
 
 it("should create success registration action", () => {
-  expect(successRegistration()).toEqual({ type: "SUCCESS_REGISTRATION" });
+  expect(registrationSuccess()).toEqual({ type: "REGISTRATION_SUCCESS" });
 });
 
 it("should create fail registration action", () => {
   const error = new Error("no internet");
-  expect(failRegistration(error)).toEqual({
-    type: "FAIL_REGISTRATION",
+  expect(registrationFail(error)).toEqual({
+    type: "REGISTRATION_FAIL",
     error: true,
     payload: error
   });

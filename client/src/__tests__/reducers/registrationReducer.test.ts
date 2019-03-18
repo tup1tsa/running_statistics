@@ -1,9 +1,9 @@
 import {
   changeRegistrationPassword,
   changeRegistrationPasswordConfirmation,
-  failRegistration,
-  startRegistration,
-  successRegistration,
+  registrationFail,
+  registrationStart,
+  registrationSuccess,
   toggleSaving
 } from "../../application/actions/actionCreators";
 import registrationReducer, {
@@ -44,7 +44,7 @@ it("should change the password confirmation properly", () => {
 
 it("should stop registration progress and set registration error message on fail", () => {
   const error = new Error("bad weather");
-  const action = failRegistration(error);
+  const action = registrationFail(error);
   const nextAction = registrationReducer(
     {
       ...defaultState,
@@ -57,7 +57,7 @@ it("should stop registration progress and set registration error message on fail
 });
 
 it("should clear password fields of registration fail", () => {
-  const action = failRegistration(new Error("some internet error"));
+  const action = registrationFail(new Error("some internet error"));
   expect(
     registrationReducer(
       {
@@ -79,7 +79,7 @@ it("should clear password fields of registration fail", () => {
 });
 
 it("should toggle registration on and remove error on start", () => {
-  const action = startRegistration();
+  const action = registrationStart();
   expect(
     registrationReducer(
       {
@@ -97,7 +97,7 @@ it("should toggle registration on and remove error on start", () => {
 });
 
 it("should turn off registration progress and clear passwords on sucess registration", () => {
-  const action = successRegistration();
+  const action = registrationSuccess();
   const state = {
     ...defaultState,
     inProgress: true,

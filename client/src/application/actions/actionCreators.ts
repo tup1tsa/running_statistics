@@ -7,17 +7,17 @@ import {
   ChangeRegistrationPasswordAction,
   ChangeRegistrationPasswordConfirmationAction,
   DecrementRaceAction,
-  FailRegistrationAction,
   GpsErrorAction,
   IncrementRaceAction,
   RaceType,
+  RegistrationFailAction,
+  RegistrationStartAction,
+  RegistrationSuccessAction,
   SetRacesAction,
   StartRaceAction,
   StartRacePayload,
   StartRacesDownloadAction,
-  StartRegistrationAction,
   StopGpsAction,
-  SuccessRegistrationAction,
   ToggleSavingAction
 } from "./actions";
 
@@ -116,19 +116,19 @@ export const changeRegistrationPasswordConfirmation: ChangeRegistrationPasswordC
   payload
 });
 
-export type StartRegistration = () => StartRegistrationAction;
-export const startRegistration: StartRegistration = () => ({
-  type: "START_REGISTRATION"
+export type RegistrationStart = () => RegistrationStartAction;
+export const registrationStart: RegistrationStart = () => ({
+  type: "REGISTRATION_START"
 });
 
-export type SuccessRegistration = () => SuccessRegistrationAction;
-export const successRegistration: SuccessRegistration = () => ({
-  type: "SUCCESS_REGISTRATION"
+export type RegistrationSuccess = () => RegistrationSuccessAction;
+export const registrationSuccess: RegistrationSuccess = () => ({
+  type: "REGISTRATION_SUCCESS"
 });
 
-export type FailRegistration = (error: Error) => FailRegistrationAction;
-export const failRegistration: FailRegistration = error => ({
-  type: "FAIL_REGISTRATION",
+export type RegistrationFail = (error: Error) => RegistrationFailAction;
+export const registrationFail: RegistrationFail = error => ({
+  type: "REGISTRATION_FAIL",
   error: true,
   payload: error
 });

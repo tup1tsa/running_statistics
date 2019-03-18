@@ -37,6 +37,8 @@ Client side
         for example, if average run speed is needed, get it from backend directly
     –– download only one race on google map path page (not all races at once)
 
+    ―― Integration or e2e tests
+
 Misc
     –– remove MESSAGES from core app completely
     ―― find out how to get heroku domain value (in order to pass it to reset password email, etc.)

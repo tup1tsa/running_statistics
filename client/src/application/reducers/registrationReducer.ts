@@ -25,7 +25,7 @@ const registrationReducer: Reducer<RegistrationState, AnyAction> = (
   if (action.type === "CHANGE_REGISTRATION_PASSWORD_CONFIRMATION") {
     return { ...state, passwordSecondInput: action.payload };
   }
-  if (action.type === "FAIL_REGISTRATION") {
+  if (action.type === "REGISTRATION_FAIL") {
     return {
       ...state,
       passwordFirstInput: "",
@@ -34,14 +34,14 @@ const registrationReducer: Reducer<RegistrationState, AnyAction> = (
       error: action.payload.message
     };
   }
-  if (action.type === "START_REGISTRATION") {
+  if (action.type === "REGISTRATION_START") {
     return {
       ...state,
       inProgress: true,
       error: null
     };
   }
-  if (action.type === "SUCCESS_REGISTRATION") {
+  if (action.type === "REGISTRATION_SUCCESS") {
     return {
       ...state,
       inProgress: false,
