@@ -9,13 +9,13 @@ import {
 } from "../../logic/network/networkRequest";
 import { loginFail, loginStart, loginSuccess } from "../actionCreators";
 
-type LoginRequest = () => (dispatch: Dispatch) => void;
-type LoginRequestFactory = (
+type LoginViaToken = () => (dispatch: Dispatch) => void;
+type LoginViaTokenFactory = (
   networkRequest: NetworkRequest,
   validatePublicUserInfo: ValidatePublicUserInfo
-) => LoginRequest;
+) => LoginViaToken;
 
-export const loginRequestFactory: LoginRequestFactory = (
+export const loginViaTokenFactory: LoginViaTokenFactory = (
   networkRequestFunc,
   validateFunc
 ) => () => async dispatch => {
@@ -34,5 +34,5 @@ export const loginRequestFactory: LoginRequestFactory = (
   dispatch(loginFail(new Error(result.errorMessage)));
 };
 
-export const loginRequest: LoginRequest = () =>
-  loginRequestFactory(networkRequest, validatePublicUserInfo)();
+export const loginViaToken: LoginViaToken = () =>
+  loginViaTokenFactory(networkRequest, validatePublicUserInfo)();

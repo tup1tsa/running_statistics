@@ -4,7 +4,7 @@ import {
   loginStart,
   loginSuccess
 } from "../../../application/actions/actionCreators";
-import { loginRequestFactory } from "../../../application/actions/async/loginViaToken";
+import { loginViaTokenFactory } from "../../../application/actions/async/loginViaToken";
 
 const successValidator = (userInfo: unknown): userInfo is PublicUserInfo => {
   return true;
@@ -13,7 +13,7 @@ const successValidator = (userInfo: unknown): userInfo is PublicUserInfo => {
 it("should dispatch login start action", async done => {
   const dispatch = jest.fn();
   const networkRequest = jest.fn().mockResolvedValue("any");
-  await loginRequestFactory(networkRequest, successValidator)()(dispatch);
+  await loginViaTokenFactory(networkRequest, successValidator)()(dispatch);
   expect(dispatch.mock.calls[0][0]).toEqual(loginStart());
   done();
 });
@@ -21,7 +21,7 @@ it("should dispatch login start action", async done => {
 it("should call correct endpoint", async done => {
   const dispatch = jest.fn();
   const networkRequest = jest.fn().mockResolvedValue("any");
-  await loginRequestFactory(networkRequest, successValidator)()(dispatch);
+  await loginViaTokenFactory(networkRequest, successValidator)()(dispatch);
   expect(networkRequest.mock.calls.length).toBe(1);
   expect(networkRequest.mock.calls[0][0]).toBe("/login");
   expect(networkRequest.mock.calls[0][1]).toBe("get");
@@ -35,7 +35,7 @@ it("should dispatch login fail action on fail", async done => {
     status: 500,
     errorMessage
   });
-  await loginRequestFactory(networkRequest, successValidator)()(dispatch);
+  await loginViaTokenFactory(networkRequest, successValidator)()(dispatch);
   expect(dispatch.mock.calls.length).toBe(2);
   expect(dispatch.mock.calls[1][0]).toEqual(loginFail(new Error(errorMessage)));
   done();
@@ -52,7 +52,7 @@ it("should dispatch login success action on success", async done => {
     status: 200,
     data: user
   });
-  await loginRequestFactory(networkRequest, successValidator)()(dispatch);
+  await loginViaTokenFactory(networkRequest, successValidator)()(dispatch);
   expect(dispatch.mock.calls.length).toBe(2);
   expect(dispatch.mock.calls[1][0]).toEqual(loginSuccess(user));
   done();
@@ -71,7 +71,7 @@ it("should dispatch login fail action if info from the backend is not valid", as
   });
   const failValidator = jest.fn().mockReturnValue(false);
   // @ts-ignore
-  await loginRequestFactory(networkRequest, failValidator)()(dispatch);
+  await loginViaTokenFactory(networkRequest, failValidator)()(dispatch);
   expect(dispatch.mock.calls.length).toBe(2);
   expect(dispatch.mock.calls[1][0]).toEqual(
     loginFail(new Error("user data is corrupted. Try to login again"))
