@@ -5,7 +5,8 @@ import * as express from "express";
 import checkAccess from "./application/routes/checkAccess";
 import fetchRaces from "./application/routes/fetchRacesRoute";
 import loadUser from "./application/routes/loadUserRoute";
-import login from "./application/routes/loginRoute";
+import loginViaPassword from "./application/routes/loginViaPasswordRoute";
+import loginViaToken from "./application/routes/loginViaTokenRoute";
 import registration from "./application/routes/registrationRoute";
 import saveRaces from "./application/routes/saveRacesRoute";
 import sendVerificationEmail from "./application/routes/sendVerificationEmailRoute";
@@ -22,7 +23,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static("client/build"));
 
-app.post("/login", login);
+app.post("/loginViaPassword", loginViaPassword);
+app.get("/loginViaToken", loadUser, updateTokenCookies, loginViaToken);
 app.post(
   "/registration",
   registration,

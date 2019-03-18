@@ -1,5 +1,5 @@
 import { MESSAGES, RegularLoginInfo } from "running_app_core";
-import { loginRouteFactory } from "../../application/routes/loginRoute";
+import { loginRouteFactory } from "../../application/routes/loginViaPasswordRoute";
 import { getRequestReponse } from "./registationRoute.test";
 
 const successValidator = (loginInfo: unknown): loginInfo is RegularLoginInfo =>

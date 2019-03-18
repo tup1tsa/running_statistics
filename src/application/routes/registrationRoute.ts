@@ -8,13 +8,13 @@ import {
 import { saveNewUser, SaveNewUser } from "../database/queries/saveNewUser";
 import { HashUserInfo, hashUserInfo } from "../hashUserInfo";
 
-type registrationRouteFactory = (
+type RegistrationRouteFactory = (
   validateUserInfo: ValidateUserInfo,
   hashUserInfo: HashUserInfo,
   saveNewUser: SaveNewUser
 ) => RequestHandler;
 
-export const registrationRouteFactory: registrationRouteFactory = (
+export const registrationRouteFactory: RegistrationRouteFactory = (
   validateUserInfoFunc,
   hashUserInfoFunc,
   saveNewUserFunc
