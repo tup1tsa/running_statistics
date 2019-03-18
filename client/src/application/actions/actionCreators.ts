@@ -9,6 +9,10 @@ import {
   DecrementRaceAction,
   GpsErrorAction,
   IncrementRaceAction,
+  LoginFailAction,
+  LoginPayload,
+  LoginStartAction,
+  LoginSuccessAction,
   RaceType,
   RegistrationFailAction,
   RegistrationStartAction,
@@ -21,10 +25,10 @@ import {
   ToggleSavingAction
 } from "./actions";
 
-export type ToggleSaving = () => ToggleSavingAction;
+type ToggleSaving = () => ToggleSavingAction;
 export const toggleSaving: ToggleSaving = () => ({ type: "TOGGLE_SAVING" });
 
-export type AddGpsPosition = (position: Position) => AddGpsPositionAction;
+type AddGpsPosition = (position: Position) => AddGpsPositionAction;
 export const addGpsPosition: AddGpsPosition = position => ({
   type: "ADD_GPS_POSITION",
   payload: {
@@ -41,58 +45,56 @@ export const addGpsPosition: AddGpsPosition = position => ({
   }
 });
 
-export type GpsError = (error: PositionError) => GpsErrorAction;
+type GpsError = (error: PositionError) => GpsErrorAction;
 export const gpsError: GpsError = error => ({
   type: "GPS_ERROR",
   error: true,
   payload: error
 });
 
-export type StartRace = (payload: StartRacePayload) => StartRaceAction;
+type StartRace = (payload: StartRacePayload) => StartRaceAction;
 export const startRace: StartRace = payload => ({
   type: "START_RACE",
   payload
 });
 
-export type StopGps = () => StopGpsAction;
+type StopGps = () => StopGpsAction;
 export const stopGps: StopGps = () => ({ type: "STOP_GPS" });
 
-export type StartRacesDownload = () => StartRacesDownloadAction;
+type StartRacesDownload = () => StartRacesDownloadAction;
 export const startRacesDownload: StartRacesDownload = () => ({
   type: "START_RACES_DOWNLOAD"
 });
 
-export type SetRaces = (races: ReadonlyArray<Race>) => SetRacesAction;
+type SetRaces = (races: ReadonlyArray<Race>) => SetRacesAction;
 export const setRaces: SetRaces = races => ({
   type: "SET_RACES",
   payload: races
 });
 
-export type IncrementRace = () => IncrementRaceAction;
+type IncrementRace = () => IncrementRaceAction;
 export const incrementRace: IncrementRace = () => ({
   type: "INCREMENT_RACE"
 });
 
-export type DecrementRace = () => DecrementRaceAction;
+type DecrementRace = () => DecrementRaceAction;
 export const decrementRace: DecrementRace = () => ({
   type: "DECREMENT_RACE"
 });
 
-export type ChangeRaceType = (raceType: RaceType) => ChangeRaceTypeAction;
+type ChangeRaceType = (raceType: RaceType) => ChangeRaceTypeAction;
 export const changeRaceType: ChangeRaceType = raceType => ({
   type: "CHANGE_RACE_TYPE",
   payload: raceType
 });
 
-export type ChangeRegistrationName = (
-  payload: string
-) => ChangeRegistrationNameAction;
+type ChangeRegistrationName = (payload: string) => ChangeRegistrationNameAction;
 export const changeRegistrationName: ChangeRegistrationName = payload => ({
   type: "CHANGE_REGISTRATION_NAME",
   payload
 });
 
-export type ChangeRegistrationEmail = (
+type ChangeRegistrationEmail = (
   payload: string
 ) => ChangeRegistrationEmailAction;
 export const changeRegistrationEmail: ChangeRegistrationEmail = payload => ({
@@ -100,7 +102,7 @@ export const changeRegistrationEmail: ChangeRegistrationEmail = payload => ({
   payload
 });
 
-export type ChangeRegistrationPassword = (
+type ChangeRegistrationPassword = (
   payload: string
 ) => ChangeRegistrationPasswordAction;
 export const changeRegistrationPassword: ChangeRegistrationPassword = payload => ({
@@ -108,7 +110,7 @@ export const changeRegistrationPassword: ChangeRegistrationPassword = payload =>
   payload
 });
 
-export type ChangeRegistrationPasswordConfirmation = (
+type ChangeRegistrationPasswordConfirmation = (
   payload: string
 ) => ChangeRegistrationPasswordConfirmationAction;
 export const changeRegistrationPasswordConfirmation: ChangeRegistrationPasswordConfirmation = payload => ({
@@ -116,19 +118,37 @@ export const changeRegistrationPasswordConfirmation: ChangeRegistrationPasswordC
   payload
 });
 
-export type RegistrationStart = () => RegistrationStartAction;
+type RegistrationStart = () => RegistrationStartAction;
 export const registrationStart: RegistrationStart = () => ({
   type: "REGISTRATION_START"
 });
 
-export type RegistrationSuccess = () => RegistrationSuccessAction;
+type RegistrationSuccess = () => RegistrationSuccessAction;
 export const registrationSuccess: RegistrationSuccess = () => ({
   type: "REGISTRATION_SUCCESS"
 });
 
-export type RegistrationFail = (error: Error) => RegistrationFailAction;
+type RegistrationFail = (error: Error) => RegistrationFailAction;
 export const registrationFail: RegistrationFail = error => ({
   type: "REGISTRATION_FAIL",
+  error: true,
+  payload: error
+});
+
+type LoginStart = () => LoginStartAction;
+export const loginStart: LoginStart = () => ({
+  type: "LOGIN_START"
+});
+
+type LoginSuccess = (payload: LoginPayload) => LoginSuccessAction;
+export const loginSuccess: LoginSuccess = payload => ({
+  type: "LOGIN_SUCCESS",
+  payload
+});
+
+type LoginFail = (error: Error) => LoginFailAction;
+export const loginFail: LoginFail = error => ({
+  type: "LOGIN_FAIL",
   error: true,
   payload: error
 });

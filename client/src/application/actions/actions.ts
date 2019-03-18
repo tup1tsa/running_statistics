@@ -90,13 +90,13 @@ export interface LoginStartAction {
   readonly type: "LOGIN_START";
 }
 
-interface User {
+export interface LoginPayload {
   readonly name: string;
   readonly email: string;
 }
 export interface LoginSuccessAction {
   readonly type: "LOGIN_SUCCESS";
-  readonly payload: User;
+  readonly payload: LoginPayload;
 }
 
 export interface LoginFailAction {

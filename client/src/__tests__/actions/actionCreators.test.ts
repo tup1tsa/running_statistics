@@ -9,6 +9,9 @@ import {
   decrementRace,
   gpsError,
   incrementRace,
+  loginFail,
+  loginStart,
+  loginSuccess,
   registrationFail,
   registrationStart,
   registrationSuccess,
@@ -153,6 +156,24 @@ it("should create fail registration action", () => {
   const error = new Error("no internet");
   expect(registrationFail(error)).toEqual({
     type: "REGISTRATION_FAIL",
+    error: true,
+    payload: error
+  });
+});
+
+it("should create start login action", () => {
+  expect(loginStart()).toEqual({ type: "LOGIN_START" });
+});
+
+it("should create success login action", () => {
+  const user = { email: "some@gmail.com", name: "bifa" };
+  expect(loginSuccess(user)).toEqual({ type: "LOGIN_SUCCESS", payload: user });
+});
+
+it("should create fail login action", () => {
+  const error = new Error("something went wrong");
+  expect(loginFail(error)).toEqual({
+    type: "LOGIN_FAIL",
     error: true,
     payload: error
   });
