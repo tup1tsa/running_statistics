@@ -93,6 +93,7 @@ export interface LoginStartAction {
 export interface LoginPayload {
   readonly name: string;
   readonly email: string;
+  readonly isEmailVerified: boolean;
 }
 export interface LoginSuccessAction {
   readonly type: "LOGIN_SUCCESS";
@@ -103,6 +104,10 @@ export interface LoginFailAction {
   readonly type: "LOGIN_FAIL";
   readonly error: true;
   readonly payload: Error;
+}
+
+export interface LogoutAction {
+  readonly type: "LOGOUT";
 }
 
 export type AnyAction =
@@ -126,4 +131,5 @@ export type AnyAction =
   | RegistrationSuccessAction
   | LoginStartAction
   | LoginFailAction
+  | LogoutAction
   | LoginSuccessAction;

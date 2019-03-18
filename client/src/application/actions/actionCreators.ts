@@ -13,6 +13,7 @@ import {
   LoginPayload,
   LoginStartAction,
   LoginSuccessAction,
+  LogoutAction,
   RaceType,
   RegistrationFailAction,
   RegistrationStartAction,
@@ -151,4 +152,9 @@ export const loginFail: LoginFail = error => ({
   type: "LOGIN_FAIL",
   error: true,
   payload: error
+});
+
+type Logout = () => LogoutAction;
+export const logout: Logout = () => ({
+  type: "LOGOUT"
 });

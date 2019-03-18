@@ -2,15 +2,15 @@ import { Reducer } from "redux";
 import { AnyAction } from "../actions/actions";
 
 export interface UserState {
-  readonly isLoggedIn: boolean;
   readonly name: string;
   readonly email: string;
+  readonly isEmailVerified: boolean;
 }
 
 const defaultState: UserState = {
-  isLoggedIn: false,
   name: "",
-  email: ""
+  email: "",
+  isEmailVerified: false
 };
 
 const userReducer: Reducer<UserState, AnyAction> = (
@@ -22,6 +22,12 @@ const userReducer: Reducer<UserState, AnyAction> = (
   }
   if (action.type === "CHANGE_REGISTRATION_NAME") {
     return { ...state, name: action.payload };
+  }
+  if (action.type === "LOGIN_SUCCESS") {
+    return { ...state, ...action.payload };
+  }
+  if (action.type === "LOGOUT") {
+    return defaultState;
   }
   return state;
 };

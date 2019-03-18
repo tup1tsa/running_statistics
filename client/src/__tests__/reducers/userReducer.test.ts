@@ -1,14 +1,16 @@
 import {
   changeRegistrationEmail,
   changeRegistrationName,
+  loginSuccess,
+  logout,
   toggleSaving
 } from "../../application/actions/actionCreators";
 import userReducer, { UserState } from "../../application/reducers/userReducer";
 
 const defaultState: UserState = {
-  isLoggedIn: false,
   name: "",
-  email: ""
+  email: "",
+  isEmailVerified: false
 };
 
 it("should not change state if action is not correct", () => {
@@ -29,5 +31,30 @@ it("should change email on registration email change", () => {
   expect(userReducer(defaultState, action)).toEqual({
     ...defaultState,
     email: "son@gmail.com"
+  });
+});
+
+it("should change name and email on login success", () => {
+  const user = {
+    name: "vonna",
+    email: "vonna@gmail.com",
+    isEmailVerified: true
+  };
+  const action = loginSuccess(user);
+  expect(userReducer(defaultState, action)).toEqual(user);
+});
+
+it("should erase name and email on logout", () => {
+  const state = {
+    ...defaultState,
+    name: "sba",
+    email: "fon@mail.com",
+    isEmalVerified: true
+  };
+  expect(userReducer(state, logout())).toEqual({
+    ...defaultState,
+    name: "",
+    email: "",
+    isEmailVerified: false
   });
 });

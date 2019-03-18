@@ -49,6 +49,13 @@ const registrationReducer: Reducer<RegistrationState, AnyAction> = (
       passwordSecondInput: ""
     };
   }
+  if (action.type === "LOGOUT") {
+    return {
+      ...state,
+      passwordFirstInput: "",
+      passwordSecondInput: ""
+    };
+  }
   return state;
 };
 

@@ -12,6 +12,7 @@ import {
   loginFail,
   loginStart,
   loginSuccess,
+  logout,
   registrationFail,
   registrationStart,
   registrationSuccess,
@@ -166,7 +167,7 @@ it("should create start login action", () => {
 });
 
 it("should create success login action", () => {
-  const user = { email: "some@gmail.com", name: "bifa" };
+  const user = { email: "some@gmail.com", name: "bifa", isEmailVerified: true };
   expect(loginSuccess(user)).toEqual({ type: "LOGIN_SUCCESS", payload: user });
 });
 
@@ -176,5 +177,11 @@ it("should create fail login action", () => {
     type: "LOGIN_FAIL",
     error: true,
     payload: error
+  });
+});
+
+it("should create logout acion", () => {
+  expect(logout()).toEqual({
+    type: "LOGOUT"
   });
 });

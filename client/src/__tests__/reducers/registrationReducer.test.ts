@@ -1,6 +1,7 @@
 import {
   changeRegistrationPassword,
   changeRegistrationPasswordConfirmation,
+  logout,
   registrationFail,
   registrationStart,
   registrationSuccess,
@@ -107,6 +108,20 @@ it("should turn off registration progress and clear passwords on sucess registra
   expect(registrationReducer(state, action)).toEqual({
     ...defaultState,
     inProgress: false,
+    passwordFirstInput: "",
+    passwordSecondInput: ""
+  });
+});
+
+it("should erase passsword field on logout", () => {
+  const action = logout();
+  const state = {
+    ...defaultState,
+    passwordFirstInput: "some",
+    passwordSecondInput: "password"
+  };
+  expect(registrationReducer(state, action)).toEqual({
+    ...defaultState,
     passwordFirstInput: "",
     passwordSecondInput: ""
   });
