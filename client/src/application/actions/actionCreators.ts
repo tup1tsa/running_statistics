@@ -1,4 +1,4 @@
-import { Race } from "running_app_core";
+import { PublicUserInfo, Race } from "running_app_core";
 import {
   AddGpsPositionAction,
   ChangeRaceTypeAction,
@@ -10,7 +10,6 @@ import {
   GpsErrorAction,
   IncrementRaceAction,
   LoginFailAction,
-  LoginPayload,
   LoginStartAction,
   LoginSuccessAction,
   LogoutAction,
@@ -141,7 +140,7 @@ export const loginStart: LoginStart = () => ({
   type: "LOGIN_START"
 });
 
-type LoginSuccess = (payload: LoginPayload) => LoginSuccessAction;
+type LoginSuccess = (payload: PublicUserInfo) => LoginSuccessAction;
 export const loginSuccess: LoginSuccess = payload => ({
   type: "LOGIN_SUCCESS",
   payload

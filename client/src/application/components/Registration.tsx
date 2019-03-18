@@ -3,15 +3,15 @@ import {
   RegularRegistrationInfo,
   ValidateEmail,
   validateEmail,
-  ValidateLogin,
-  validateLogin,
+  ValidateName,
+  validateName,
   ValidatePassword,
   validatePassword
 } from "running_app_core";
 import { Input } from "./Input";
 
 interface Validators {
-  validateName: ValidateLogin;
+  validateName: ValidateName;
   validateEmail: ValidateEmail;
   validatePassword: ValidatePassword;
 }
@@ -32,7 +32,8 @@ export const RegistrationFactory = (props: RegistrationProps & Validators) => {
   const userInfo = {
     name: props.name,
     email: props.email,
-    password: props.password
+    password: props.password,
+    passwordConfirmation: props.passwordCopy
   };
   const isLoginValid = props.validateName(userInfo.name);
   const isEmailValid = props.validateEmail(userInfo.email);
@@ -88,7 +89,7 @@ export const RegistrationFactory = (props: RegistrationProps & Validators) => {
 export const Registration = (props: RegistrationProps) => (
   <RegistrationFactory
     {...props}
-    validateName={validateLogin}
+    validateName={validateName}
     validateEmail={validateEmail}
     validatePassword={validatePassword}
   />

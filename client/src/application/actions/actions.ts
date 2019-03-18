@@ -1,5 +1,5 @@
 import { LocationChangeAction } from "connected-react-router";
-import { Race } from "running_app_core";
+import { PublicUserInfo, Race } from "running_app_core";
 
 export type RaceType = "walking" | "running" | "cycling" | "driving";
 export interface StartRacePayload {
@@ -90,14 +90,9 @@ export interface LoginStartAction {
   readonly type: "LOGIN_START";
 }
 
-export interface LoginPayload {
-  readonly name: string;
-  readonly email: string;
-  readonly isEmailVerified: boolean;
-}
 export interface LoginSuccessAction {
   readonly type: "LOGIN_SUCCESS";
-  readonly payload: LoginPayload;
+  readonly payload: PublicUserInfo;
 }
 
 export interface LoginFailAction {

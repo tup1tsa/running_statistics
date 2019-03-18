@@ -40,7 +40,7 @@
     "react-router": "^4.3.1",
     "react-scripts": "^2.1.1",
     "redux-thunk": "^2.3.0",
-    "running_app_core": "^2.0.0",
+    "running_app_core": "^3.0.0",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
     "typescript": "^3.1.6"

@@ -179,7 +179,8 @@ it("button should start registration", () => {
   expect(registerMock.mock.calls[0][0]).toEqual({
     name,
     email,
-    password
+    password,
+    passwordConfirmation: password
   });
 });
 

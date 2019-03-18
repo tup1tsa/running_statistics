@@ -2,24 +2,24 @@ import { RequestHandler } from "express";
 import {
   HashedUserInfo,
   MESSAGES,
-  ValidateUserInfo,
-  validateUserInfo
+  ValidateRegistrationInfo,
+  validateRegistrationInfo
 } from "running_app_core";
 import { saveNewUser, SaveNewUser } from "../database/queries/saveNewUser";
 import { HashUserInfo, hashUserInfo } from "../hashUserInfo";
 
 type RegistrationRouteFactory = (
-  validateUserInfo: ValidateUserInfo,
+  validateUserInfo: ValidateRegistrationInfo,
   hashUserInfo: HashUserInfo,
   saveNewUser: SaveNewUser
 ) => RequestHandler;
 
 export const registrationRouteFactory: RegistrationRouteFactory = (
-  validateUserInfoFunc,
+  validateRegistrationInfoFunc,
   hashUserInfoFunc,
   saveNewUserFunc
 ) => async (req, res, next) => {
-  if (!validateUserInfoFunc(req.body)) {
+  if (!validateRegistrationInfoFunc(req.body)) {
     res.status(403).end("email, name or password are not valid");
     return;
   }
@@ -44,7 +44,7 @@ export const registrationRouteFactory: RegistrationRouteFactory = (
 };
 
 const registrationRoute: RequestHandler = (req, res, next) =>
-  registrationRouteFactory(validateUserInfo, hashUserInfo, saveNewUser)(
+  registrationRouteFactory(validateRegistrationInfo, hashUserInfo, saveNewUser)(
     req,
     res,
     next

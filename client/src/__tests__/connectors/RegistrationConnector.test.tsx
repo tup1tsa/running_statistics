@@ -43,7 +43,12 @@ it("should dispatch correct change registration field prop", () => {
 it("should dispatch correct register dispatch prop", () => {
   const dispatch = jest.fn();
   const props = mapDispatchToProps(dispatch);
-  const userInfo = { name: "soma", email: "ba@gmaom.com", password: "secret" };
+  const userInfo = {
+    name: "soma",
+    email: "ba@gmaom.com",
+    password: "secret",
+    passwordConfirmation: "secret again"
+  };
   props.register(userInfo);
   expect(dispatch.mock.calls.length).toBe(1);
   expect(dispatch.mock.calls[0][0]).toEqual({

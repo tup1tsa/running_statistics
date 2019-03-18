@@ -4,7 +4,8 @@ import { registrationRequestFactory } from "../../../application/actions/async/r
 const defaultUserInfo = {
   name: "layla",
   email: "figaba@mail.us",
-  password: "gasta25"
+  password: "gasta25",
+  passwordConfirmation: "gasta25"
 };
 
 it("should call network request with correct data", async done => {

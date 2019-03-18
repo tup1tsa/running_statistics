@@ -8,7 +8,8 @@ it("should hash info properly", async done => {
   const userInfo: RegularRegistrationInfo = {
     name: "Sasha",
     email: "any@gmail.com",
-    password: "abcda"
+    password: "abcda",
+    passwordConfirmation: "abcda"
   };
   const hashedInfo = await hashUserInfoFactory(salt, generateUniqueToken)(
     userInfo
