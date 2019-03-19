@@ -18,6 +18,8 @@ const Routes = ({ checkAuth }: RouteStateProps) => (
   <>
     <Switch>
       <Route exact={true} path="/" component={EmptyPage} />
+      <Route path="/registration" component={EmptyPage} />
+      <Route path="/login" component={EmptyPage} />
       <PrivateRoute
         path="/startRace"
         component={RaceStartPreparationConnector}
