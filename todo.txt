@@ -38,7 +38,9 @@ Client side
     –– download only one race on google map path page (not all races at once)
 
     ―― Integration or e2e tests
-
+    ―― Rethink connectors testing 
+        Unit tests are kinda useless.
+        Mb it's better to use integration tests instead
 Misc
     –– remove MESSAGES from core app completely
     ―― find out how to get heroku domain value (in order to pass it to reset password email, etc.)

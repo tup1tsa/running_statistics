@@ -23,7 +23,9 @@ export const loginViaTokenFactory: LoginViaTokenFactory = (
   const result = await networkRequestFunc("/login", "get");
   if (!validateFunc(result.data)) {
     dispatch(
-      loginFail(new Error("user data is corrupted. Try to login again"))
+      loginFail(
+        new Error("Automatic authorization has failed. Try to login again")
+      )
     );
     return;
   }

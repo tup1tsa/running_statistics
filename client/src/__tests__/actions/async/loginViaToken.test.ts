@@ -74,7 +74,9 @@ it("should dispatch login fail action if info from the backend is not valid", as
   await loginViaTokenFactory(networkRequest, failValidator)()(dispatch);
   expect(dispatch.mock.calls.length).toBe(2);
   expect(dispatch.mock.calls[1][0]).toEqual(
-    loginFail(new Error("user data is corrupted. Try to login again"))
+    loginFail(
+      new Error("Automatic authorization has failed. Try to login again")
+    )
   );
   done();
 });
