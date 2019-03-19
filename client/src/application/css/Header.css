@@ -1,0 +1,11 @@
+.header {
+  display: flex;
+  flex-direction: "row";
+  justify-content: flex-end;
+  padding: 10px;
+  background-color: #36a;
+}
+
+.header button {
+  margin-left: 20px;
+}

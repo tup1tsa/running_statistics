@@ -36,6 +36,8 @@ Client side
         do not download all races at once, but only stuff that is important
         for example, if average run speed is needed, get it from backend directly
     –– download only one race on google map path page (not all races at once)
+    –– investigate possible page rerender issue when changing the state
+       routes depend on the state (they are connected via redux)
 
     ―― Integration or e2e tests
     ―― Rethink connectors testing 
