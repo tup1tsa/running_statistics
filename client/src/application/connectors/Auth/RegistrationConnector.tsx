@@ -5,10 +5,13 @@ import {
   changeRegistrationName,
   changeRegistrationPassword,
   changeRegistrationPasswordConfirmation
-} from "../actions/actionCreators";
-import { registrationRequest } from "../actions/async/registrationRequest";
-import { Registration, RegistrationProps } from "../components/Registration";
-import { GlobalState } from "../reducers/rootReducer";
+} from "../../actions/actionCreators";
+import { registrationRequest } from "../../actions/async/registrationRequest";
+import {
+  Registration,
+  RegistrationProps
+} from "../../components/Auth/Registration";
+import { GlobalState } from "../../reducers/rootReducer";
 
 type MapStateToProps = (
   state: GlobalState

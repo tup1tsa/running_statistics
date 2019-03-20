@@ -1,8 +1,8 @@
 import {
   mapDispatchToProps,
   mapStateToProps
-} from "../../application/connectors/RegistrationConnector";
-import { testGlobalState } from "./PathWatcherConnector.test";
+} from "../../../application/connectors/Auth/RegistrationConnector";
+import { testGlobalState } from "../PathWatcherConnector.test";
 
 it("should dispatch correct state fields", () => {
   const state = testGlobalState();

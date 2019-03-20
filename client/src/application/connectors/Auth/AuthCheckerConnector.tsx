@@ -1,6 +1,9 @@
 import { connect } from "react-redux";
-import { AuthChecker, AuthCheckerProps } from "../components/AuthChecker";
-import { GlobalState } from "../reducers/rootReducer";
+import {
+  AuthChecker,
+  AuthCheckerProps
+} from "../../components/Auth/AuthChecker";
+import { GlobalState } from "../../reducers/rootReducer";
 
 type MapStateToProps = (state: GlobalState) => AuthCheckerProps;
 export const mapStateToProps: MapStateToProps = state => ({

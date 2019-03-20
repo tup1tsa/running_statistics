@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router";
 import { createStore } from "redux";
 import { PrivateRoute } from "../../../application/components/routes/PrivateRoute";
-import AuthCheckerConnector from "../../../application/connectors/AuthCheckerConnector";
+import AuthCheckerConnector from "../../../application/connectors/Auth/AuthCheckerConnector";
 import rootReducerFactory from "../../../application/reducers/rootReducer";
 
 it("should render AuthChecker component if user is not authorized", () => {

@@ -1,6 +1,6 @@
 import { shallow } from "enzyme";
 import React from "react";
-import { AuthChecker } from "../../application/components/AuthChecker";
+import { AuthChecker } from "../../../application/components/Auth/AuthChecker";
 
 const defaultProps = {
   isLoggedIn: false,

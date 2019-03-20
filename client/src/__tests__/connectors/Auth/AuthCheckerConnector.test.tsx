@@ -1,5 +1,5 @@
-import { mapStateToProps } from "../../application/connectors/AuthCheckerConnector";
-import { testGlobalState } from "./PathWatcherConnector.test";
+import { mapStateToProps } from "../../../application/connectors/Auth/AuthCheckerConnector";
+import { testGlobalState } from "../PathWatcherConnector.test";
 
 it("should pass correct state props to the component", () => {
   const globalState = testGlobalState();

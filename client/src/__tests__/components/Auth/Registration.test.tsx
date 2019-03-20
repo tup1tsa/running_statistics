@@ -1,7 +1,7 @@
 import { shallow } from "enzyme";
 import React from "react";
-import { Input } from "../../application/components/Input";
-import { RegistrationFactory } from "../../application/components/Registration";
+import { RegistrationFactory } from "../../../application/components/Auth/Registration";
+import { Input } from "../../../application/components/Input";
 
 const defaultProps = {
   name: "",

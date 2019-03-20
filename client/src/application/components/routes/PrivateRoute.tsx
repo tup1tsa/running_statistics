@@ -1,6 +1,6 @@
 import React, { ComponentClass, FunctionComponent } from "react";
 import { Route, RouteProps } from "react-router";
-import AuthCheckerConnector from "../../connectors/AuthCheckerConnector";
+import AuthCheckerConnector from "../../connectors/Auth/AuthCheckerConnector";
 
 // https://tylermcginnis.com/react-router-protected-routes-authentication/
 
