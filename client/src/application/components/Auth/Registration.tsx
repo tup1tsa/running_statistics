@@ -8,7 +8,7 @@ import {
   ValidatePassword,
   validatePassword
 } from "running_app_core";
-import { Input } from "../Input";
+import { Input } from "../atoms/Input";
 
 interface Validators {
   validateName: ValidateName;
