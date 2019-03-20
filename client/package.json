@@ -8,6 +8,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.16",
+    "@fortawesome/free-solid-svg-icons": "^5.8.0",
+    "@fortawesome/react-fontawesome": "^0.1.4",
+    "@types/classnames": "^2.2.7",
     "@types/dotenv": "^6.1.0",
     "@types/enzyme": "^3.1.15",
     "@types/enzyme-adapter-react-16": "^1.0.3",
@@ -23,6 +27,7 @@
     "@types/react-router": "^4.4.1",
     "ajv": "^6.5.5",
     "axios": "^0.18.0",
+    "classnames": "^2.2.6",
     "connected-react-router": "^5.0.1",
     "core-js": "^2.5.7",
     "dotenv": "^6.1.0",
