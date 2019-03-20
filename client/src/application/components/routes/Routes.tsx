@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router";
+import RegistrationConnector from "../../connectors/Auth/RegistrationConnector";
 import PathWatcherConnector from "../../connectors/PathWatcherConnector";
 import RaceStartPreparationConnector from "../../connectors/RaceStartPreparationConnector";
 import RaceViewerConnector from "../../connectors/RaceViewerConnector";
@@ -18,7 +19,7 @@ const Routes = ({ checkAuth }: RouteStateProps) => (
   <>
     <Switch>
       <Route exact={true} path="/" component={EmptyPage} />
-      <Route path="/registration" component={EmptyPage} />
+      <Route path="/registration" component={RegistrationConnector} />
       <Route path="/login" component={EmptyPage} />
       <PrivateRoute
         path="/startRace"

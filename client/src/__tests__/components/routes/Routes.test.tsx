@@ -6,6 +6,7 @@ import { MemoryRouter } from "react-router";
 import { createStore } from "redux";
 import { Message } from "../../../application/components/Message";
 import Routes from "../../../application/components/routes/Routes";
+import RegistrationConnector from "../../../application/connectors/Auth/RegistrationConnector";
 import PathWatcherConnector from "../../../application/connectors/PathWatcherConnector";
 import RaceStartPreparationConnector from "../../../application/connectors/RaceStartPreparationConnector";
 import RaceViewerConnector from "../../../application/connectors/RaceViewerConnector";
@@ -114,4 +115,15 @@ it("should not render detailed race stats page is user is unauthorized", () => {
     </Provider>
   );
   expect(wrapper.find(RaceViewerConnector).length).toBe(0);
+});
+
+it("should render registration page", () => {
+  const wrapper = mount(
+    <Provider store={store}>
+      <MemoryRouter initialEntries={["/registration"]}>
+        <Routes checkAuth={jest.fn()} />
+      </MemoryRouter>
+    </Provider>
+  );
+  expect(wrapper.find(RegistrationConnector).length).toBe(1);
 });
