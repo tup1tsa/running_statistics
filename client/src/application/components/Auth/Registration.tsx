@@ -8,7 +8,9 @@ import {
   ValidatePassword,
   validatePassword
 } from "running_app_core";
+import "../../css/Registration.css";
 import { Input } from "../atoms/Input";
+import { PasswordInput } from "../molecules/PasswordInput";
 
 interface Validators {
   validateName: ValidateName;
@@ -42,7 +44,7 @@ export const RegistrationFactory = (props: RegistrationProps & Validators) => {
   const userInfoValid =
     isLoginValid && isEmailValid && isPasswordValid && isPasswordCopyValid;
   return (
-    <div>
+    <div id="registrationForm">
       <Input
         id="name"
         label="Name"
@@ -57,7 +59,7 @@ export const RegistrationFactory = (props: RegistrationProps & Validators) => {
         errorMessage={isEmailValid ? undefined : "email is invalid"}
         onChange={props.changeEmail}
       />
-      <Input
+      <PasswordInput
         id="password"
         label="Password"
         errorMessage={
@@ -67,9 +69,9 @@ export const RegistrationFactory = (props: RegistrationProps & Validators) => {
         }
         onChange={props.changePassword}
       />
-      <Input
+      <PasswordInput
         id="passwordCopy"
-        label="Repeat your password"
+        label="Repeat password"
         errorMessage={
           isPasswordCopyValid ? undefined : "passwords do not match"
         }

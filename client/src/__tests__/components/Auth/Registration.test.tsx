@@ -2,6 +2,7 @@ import { shallow } from "enzyme";
 import React from "react";
 import { Input } from "../../../application/components/atoms/Input";
 import { RegistrationFactory } from "../../../application/components/Auth/Registration";
+import { PasswordInput } from "../../../application/components/molecules/PasswordInput";
 
 const defaultProps = {
   name: "",
@@ -22,7 +23,9 @@ const defaultProps = {
 
 it("should render four inputs and a button", () => {
   const wrapper = shallow(<RegistrationFactory {...defaultProps} />);
-  expect(wrapper.find(Input).length).toBe(4);
+  const regularInputs = wrapper.find(Input);
+  const passwordInputs = wrapper.find(PasswordInput);
+  expect(regularInputs.length + passwordInputs.length).toBe(4);
   expect(wrapper.find("button").length).toBe(1);
 });
 
@@ -97,12 +100,12 @@ it("should send correct props to first password input", () => {
   const wrapper = shallow(
     <RegistrationFactory {...defaultProps} changePassword={changePassword} />
   );
-  const firstPasswordInput = wrapper.find(Input).get(2);
-  expect(firstPasswordInput.props.id).toBe("password");
-  expect(firstPasswordInput.props.label).toBe("Password");
-  expect(firstPasswordInput.props.errorMessage).toBe(undefined);
-
-  const onChangeHandler = firstPasswordInput.props.onChange;
+  const firstPasswordInput = wrapper.find({
+    id: "password",
+    label: "Password"
+  });
+  expect(firstPasswordInput.props().errorMessage).toBe(undefined);
+  const onChangeHandler = firstPasswordInput.props().onChange;
   onChangeHandler("super secret password");
   expect(changePassword.mock.calls.length).toBe(1);
   expect(changePassword.mock.calls[0][0]).toEqual("super secret password");
@@ -118,7 +121,7 @@ it("should send correct error message to password if it is invalid", () => {
       password={password}
     />
   );
-  expect(wrapper.find(Input).get(2).props.errorMessage).toBe(
+  expect(wrapper.find({ id: "password" }).props().errorMessage).toBe(
     "password should be in range from 5 to 128"
   );
   expect(validatePassword.mock.calls.length).toBe(1);
@@ -133,12 +136,13 @@ it("should send correct props to second password input", () => {
       changePasswordConfirmation={changePasswordConfirmation}
     />
   );
-  const secondPasswordInput = wrapper.find(Input).get(3);
-  expect(secondPasswordInput.props.id).toBe("passwordCopy");
-  expect(secondPasswordInput.props.label).toBe("Repeat your password");
-  expect(secondPasswordInput.props.errorMessage).toBe(undefined);
+  const secondPasswordInput = wrapper.find({
+    id: "passwordCopy",
+    label: "Repeat password"
+  });
+  expect(secondPasswordInput.props().errorMessage).toBe(undefined);
 
-  const onChangeHandler = secondPasswordInput.props.onChange;
+  const onChangeHandler = secondPasswordInput.props().onChange;
   onChangeHandler("password again");
   expect(changePasswordConfirmation.mock.calls.length).toBe(1);
   expect(changePasswordConfirmation.mock.calls[0][0]).toEqual("password again");
@@ -154,7 +158,7 @@ it("should send correct error message to second password input if it is invalid"
       password={password}
     />
   );
-  expect(wrapper.find(Input).get(3).props.errorMessage).toBe(
+  expect(wrapper.find({ id: "passwordCopy" }).props().errorMessage).toBe(
     "passwords do not match"
   );
 });
