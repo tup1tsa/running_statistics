@@ -1,3 +1,4 @@
+import { push } from "connected-react-router";
 import { PublicUserInfo } from "running_app_core";
 import {
   loginFail,
@@ -23,7 +24,7 @@ it("should call correct endpoint", async done => {
   const networkRequest = jest.fn().mockResolvedValue("any");
   await loginViaTokenFactory(networkRequest, successValidator)()(dispatch);
   expect(networkRequest.mock.calls.length).toBe(1);
-  expect(networkRequest.mock.calls[0][0]).toBe("/login");
+  expect(networkRequest.mock.calls[0][0]).toBe("/loginViaToken");
   expect(networkRequest.mock.calls[0][1]).toBe("get");
   done();
 });
@@ -53,8 +54,9 @@ it("should dispatch login success action on success", async done => {
     data: user
   });
   await loginViaTokenFactory(networkRequest, successValidator)()(dispatch);
-  expect(dispatch.mock.calls.length).toBe(2);
+  expect(dispatch.mock.calls.length).toBe(3);
   expect(dispatch.mock.calls[1][0]).toEqual(loginSuccess(user));
+  expect(dispatch.mock.calls[2][0]).toEqual(push("/"));
   done();
 });
 

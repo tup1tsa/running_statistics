@@ -2,12 +2,16 @@ import { Reducer } from "redux";
 import { AnyAction } from "../actions/actions";
 
 export interface LoginState {
+  readonly email: string;
+  readonly password: string;
   readonly inProgress: boolean;
   readonly isLoggedIn: boolean;
   readonly errorMessage?: string;
 }
 
 const defaultState: LoginState = {
+  email: "",
+  password: "",
   isLoggedIn: false,
   inProgress: false
 };
@@ -31,6 +35,12 @@ const loginReducer: Reducer<LoginState, AnyAction> = (
   }
   if (action.type === "LOGOUT") {
     return defaultState;
+  }
+  if (action.type === "CHANGE_LOGIN_EMAIL") {
+    return { ...state, email: action.payload };
+  }
+  if (action.type === "CHANGE_LOGIN_PASSWORD") {
+    return { ...state, password: action.payload };
   }
   return state;
 };

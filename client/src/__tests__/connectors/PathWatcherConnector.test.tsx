@@ -26,7 +26,9 @@ export const testGlobalState = () => {
     },
     login: {
       isLoggedIn: false,
-      inProgress: false
+      inProgress: false,
+      email: "",
+      password: ""
     },
     registration: {
       passwordFirstInput: "",

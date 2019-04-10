@@ -18,9 +18,6 @@ interface Props {
   readonly rightIcon?: JSX.Element;
 }
 
-// styles are taken from here
-// https://codepen.io/tylernj42/pen/BoxzaQ/
-
 export const Input = ({
   id,
   label,
@@ -32,15 +29,19 @@ export const Input = ({
   rightIcon
 }: Props) => {
   const errorLabelMessage = errorMessage ? ` (${errorMessage})` : "";
-  const fullLabel = label.toUpperCase() + errorLabelMessage;
-  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+  const onChangeHandler = ({ target }: ChangeEvent<HTMLInputElement>) => {
     if (!onChange) {
       return;
     }
-    onChange(event.target.value);
+    onChange(target.value);
   };
+  const fullLabel = label.toUpperCase() + errorLabelMessage;
   return (
-    <div className={classnames("inputWrapper", { error: errorMessage })}>
+    <div
+      className={classnames("inputWrapper", {
+        error: errorMessage
+      })}
+    >
       <label htmlFor={id}>{fullLabel}</label>
       <div className="iconInputWrapper">
         <input

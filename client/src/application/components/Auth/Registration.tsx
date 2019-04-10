@@ -8,7 +8,6 @@ import {
   ValidatePassword,
   validatePassword
 } from "running_app_core";
-import "../../css/Registration.css";
 import { Input } from "../atoms/Input";
 import { PasswordInput } from "../molecules/PasswordInput";
 
@@ -44,7 +43,7 @@ export const RegistrationFactory = (props: RegistrationProps & Validators) => {
   const userInfoValid =
     isLoginValid && isEmailValid && isPasswordValid && isPasswordCopyValid;
   return (
-    <div id="registrationForm">
+    <form>
       <Input
         id="name"
         label="Name"
@@ -78,13 +77,14 @@ export const RegistrationFactory = (props: RegistrationProps & Validators) => {
         onChange={props.changePasswordConfirmation}
       />
       <button
+        type="button"
         onClick={
           userInfoValid ? props.register.bind(null, userInfo) : undefined
         }
       >
         Register
       </button>
-    </div>
+    </form>
   );
 };
 

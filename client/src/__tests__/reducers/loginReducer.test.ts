@@ -1,4 +1,6 @@
 import {
+  changeLoginEmail,
+  changeLoginPassword,
   loginFail,
   loginStart,
   loginSuccess,
@@ -11,7 +13,9 @@ import loginReducer, {
 
 const defaultState: LoginState = {
   inProgress: false,
-  isLoggedIn: false
+  isLoggedIn: false,
+  email: "",
+  password: ""
 };
 
 it("should not change state if action is not correct", () => {
@@ -50,12 +54,30 @@ it("should toggle off progess and logged in field on sucess login", () => {
 
 it("should reset state on logout", () => {
   const state = {
+    ...defaultState,
     inProgress: true,
     isLoggedIn: true,
     errorMessage: "some message"
   };
   expect(loginReducer(state, logout())).toEqual({
+    ...defaultState,
     inProgress: false,
     isLoggedIn: false
+  });
+});
+
+it("should change email", () => {
+  const action = changeLoginEmail("gimma@mail.com");
+  expect(loginReducer(defaultState, action)).toEqual({
+    ...defaultState,
+    email: "gimma@mail.com"
+  });
+});
+
+it("should change password", () => {
+  const action = changeLoginPassword("bas");
+  expect(loginReducer(defaultState, action)).toEqual({
+    ...defaultState,
+    password: "bas"
   });
 });

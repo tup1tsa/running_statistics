@@ -1,6 +1,8 @@
 import { getTestPosition } from "running_app_core";
 import {
   addGpsPosition,
+  changeLoginEmail,
+  changeLoginPassword,
   changeRaceType,
   changeRegistrationEmail,
   changeRegistrationName,
@@ -183,5 +185,19 @@ it("should create fail login action", () => {
 it("should create logout acion", () => {
   expect(logout()).toEqual({
     type: "LOGOUT"
+  });
+});
+
+it("should create change login email action", () => {
+  expect(changeLoginEmail("some@gmail.com")).toEqual({
+    type: "CHANGE_LOGIN_EMAIL",
+    payload: "some@gmail.com"
+  });
+});
+
+it("should create change login password action", () => {
+  expect(changeLoginPassword("secret")).toEqual({
+    type: "CHANGE_LOGIN_PASSWORD",
+    payload: "secret"
   });
 });

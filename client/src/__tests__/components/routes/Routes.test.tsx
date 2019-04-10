@@ -6,6 +6,7 @@ import { MemoryRouter } from "react-router";
 import { createStore } from "redux";
 import { Message } from "../../../application/components/Message";
 import Routes from "../../../application/components/routes/Routes";
+import LoginConnector from "../../../application/connectors/Auth/LoginConnector";
 import RegistrationConnector from "../../../application/connectors/Auth/RegistrationConnector";
 import PathWatcherConnector from "../../../application/connectors/PathWatcherConnector";
 import RaceStartPreparationConnector from "../../../application/connectors/RaceStartPreparationConnector";
@@ -126,4 +127,15 @@ it("should render registration page", () => {
     </Provider>
   );
   expect(wrapper.find(RegistrationConnector).length).toBe(1);
+});
+
+it("should render login page", () => {
+  const wrapper = mount(
+    <Provider store={store}>
+      <MemoryRouter initialEntries={["/login"]}>
+        <Routes checkAuth={jest.fn()} />
+      </MemoryRouter>
+    </Provider>
+  );
+  expect(wrapper.find(LoginConnector).length).toBe(1);
 });

@@ -1,6 +1,8 @@
 import { PublicUserInfo, Race } from "running_app_core";
 import {
   AddGpsPositionAction,
+  ChangeLoginEmailAction,
+  ChangeLoginPasswordAction,
   ChangeRaceTypeAction,
   ChangeRegistrationEmailAction,
   ChangeRegistrationNameAction,
@@ -156,4 +158,16 @@ export const loginFail: LoginFail = error => ({
 type Logout = () => LogoutAction;
 export const logout: Logout = () => ({
   type: "LOGOUT"
+});
+
+type ChangeLoginEmail = (email: string) => ChangeLoginEmailAction;
+export const changeLoginEmail: ChangeLoginEmail = payload => ({
+  type: "CHANGE_LOGIN_EMAIL",
+  payload
+});
+
+type ChangeLoginPassword = (password: string) => ChangeLoginPasswordAction;
+export const changeLoginPassword: ChangeLoginPassword = payload => ({
+  type: "CHANGE_LOGIN_PASSWORD",
+  payload
 });

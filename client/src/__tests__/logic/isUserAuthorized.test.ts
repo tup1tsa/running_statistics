@@ -1,11 +1,18 @@
 import { isUserAuthorized } from "../../application/logic/isUserAuthorized";
 import { testGlobalState } from "../connectors/PathWatcherConnector.test";
 
+const defaultLoginState = {
+  email: "",
+  password: "",
+  isLoggedIn: true,
+  inProgress: false
+};
+
 it("should return true, if user is logged in, email is verified", () => {
   const state = {
     ...testGlobalState(),
     user: { name: "", email: "", isEmailVerified: true },
-    login: { isLoggedIn: true, inProgress: false }
+    login: defaultLoginState
   };
   expect(isUserAuthorized(state)).toBe(true);
 });
@@ -22,7 +29,7 @@ it("should return false if user is not logged in", () => {
   const state = {
     ...testGlobalState(),
     user: { name: "", email: "", isEmailVerified: true },
-    login: { isLoggedIn: false, inProgress: false }
+    login: { ...defaultLoginState, isLoggedIn: false }
   };
   expect(isUserAuthorized(state)).toBe(false);
 });
@@ -31,7 +38,7 @@ it("should return false if user is currently being logged in", () => {
   const state = {
     ...testGlobalState(),
     user: { name: "", email: "", isEmailVerified: true },
-    login: { isLoggedIn: false, inProgress: true }
+    login: { ...defaultLoginState, isLoggedIn: false, inProgress: true }
   };
   expect(isUserAuthorized(state)).toBe(false);
 });

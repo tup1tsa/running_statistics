@@ -1,3 +1,4 @@
+import { push } from "connected-react-router";
 import { Dispatch } from "redux";
 import {
   ValidatePublicUserInfo,
@@ -9,7 +10,7 @@ import {
 } from "../../logic/network/networkRequest";
 import { loginFail, loginStart, loginSuccess } from "../actionCreators";
 
-type LoginViaToken = () => (dispatch: Dispatch) => void;
+export type LoginViaToken = () => (dispatch: Dispatch) => void;
 type LoginViaTokenFactory = (
   networkRequest: NetworkRequest,
   validatePublicUserInfo: ValidatePublicUserInfo
@@ -20,7 +21,7 @@ export const loginViaTokenFactory: LoginViaTokenFactory = (
   validateFunc
 ) => () => async dispatch => {
   dispatch(loginStart());
-  const result = await networkRequestFunc("/login", "get");
+  const result = await networkRequestFunc("/loginViaToken", "get");
   if (!validateFunc(result.data)) {
     dispatch(
       loginFail(
@@ -31,6 +32,7 @@ export const loginViaTokenFactory: LoginViaTokenFactory = (
   }
   if (result.status === 200) {
     dispatch(loginSuccess(result.data));
+    dispatch(push("/"));
     return;
   }
   dispatch(loginFail(new Error(result.errorMessage)));
