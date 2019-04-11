@@ -3,9 +3,6 @@ Server side
     –– add function that checks if all .env variables are set before starting the server
     –– races are being saved but user id is null (fetch races would not work)
     –– disallow saving the same races (validate by race date)
-    –– verification email route should return some data on success
-       (e.g., email destination, verificationLink)
-       it should simplify testing
     –– cookie doesn't work without binding response manually
     –– reset password logic (db and route)
     –– endpoint for all stats
@@ -24,9 +21,6 @@ Client side
     –– fix fetch races request (it is get now instead of post)
     –– reset cookies on logout
     –– add spinner when user is registration (probably for login too). Use Modal
-    –– no interaction if user is not logged in
-    ―― registration page
-    ―― login page
     ―― email verification page
     ―― reset password page 
     ―― calculate zoom programmaticaly (it is 12 for now)
