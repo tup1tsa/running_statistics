@@ -13,7 +13,7 @@ it("should call correct api endpoint", async done => {
   await downloadRacesFactory(networkRequest, validator)();
   expect(networkRequest.mock.calls.length).toBe(1);
   expect(networkRequest.mock.calls[0][0]).toBe("/fetchRaces");
-  expect(networkRequest.mock.calls[0][1]).toBe("post");
+  expect(networkRequest.mock.calls[0][1]).toBe("get");
   done();
 });
 

@@ -11,7 +11,7 @@ export const downloadRacesFactory: DownloadRacesFactory = (
   networkRequestFunc,
   validateRacesFunc
 ) => async () => {
-  const result = await networkRequestFunc("/fetchRaces", "post");
+  const result = await networkRequestFunc("/fetchRaces", "get");
   if (result.errorMessage) {
     throw new Error(result.errorMessage);
   }
