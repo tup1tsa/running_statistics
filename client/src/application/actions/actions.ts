@@ -86,8 +86,8 @@ export interface RegistrationFailAction {
   readonly payload: Error;
 }
 
-export interface RemoveRegistrationErrorAction {
-  readonly type: "REMOVE_REGISTRATION_ERROR";
+export interface RemoveErrorsAction {
+  readonly type: "REMOVE_ERRORS";
 }
 
 export interface LoginStartAction {
@@ -103,10 +103,6 @@ export interface LoginFailAction {
   readonly type: "LOGIN_FAIL";
   readonly error: true;
   readonly payload: Error;
-}
-
-export interface RemoveLoginErrorAction {
-  readonly type: "REMOVE_LOGIN_ERROR";
 }
 
 export interface ChangeLoginEmailAction {
@@ -148,5 +144,4 @@ export type AnyAction =
   | LoginSuccessAction
   | ChangeLoginEmailAction
   | ChangeLoginPasswordAction
-  | RemoveLoginErrorAction
-  | RemoveRegistrationErrorAction;
+  | RemoveErrorsAction;

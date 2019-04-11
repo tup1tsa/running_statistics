@@ -48,7 +48,7 @@ const loginReducer: Reducer<LoginState, AnyAction> = (
   if (action.type === "CHANGE_LOGIN_PASSWORD") {
     return { ...state, password: action.payload };
   }
-  if (action.type === "REMOVE_LOGIN_ERROR") {
+  if (action.type === "REMOVE_ERRORS") {
     return { ...state, errorMessage: undefined };
   }
   return state;

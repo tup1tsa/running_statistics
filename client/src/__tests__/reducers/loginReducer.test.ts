@@ -5,7 +5,7 @@ import {
   loginStart,
   loginSuccess,
   logout,
-  removeLoginError,
+  removeErrors,
   stopGps
 } from "../../application/actions/actionCreators";
 import loginReducer, {
@@ -41,7 +41,7 @@ it("should toggle off progress field and set error on fail", () => {
 
 it("should remove login error", () => {
   const state = { ...defaultState, errorMessage: "some error" };
-  const action = removeLoginError();
+  const action = removeErrors();
   expect(loginReducer(state, action)).toEqual(defaultState);
 });
 

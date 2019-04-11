@@ -5,7 +5,7 @@ import {
   registrationFail,
   registrationStart,
   registrationSuccess,
-  removeRegistrationError,
+  removeErrors,
   toggleSaving
 } from "../../application/actions/actionCreators";
 import registrationReducer, {
@@ -129,7 +129,7 @@ it("should erase passsword field on logout", () => {
 });
 
 it("should remove registration error", () => {
-  const action = removeRegistrationError();
+  const action = removeErrors();
   const state = {
     ...defaultState,
     error: "some error"

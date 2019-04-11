@@ -54,7 +54,7 @@ const registrationReducer: Reducer<RegistrationState, AnyAction> = (
       passwordSecondInput: ""
     };
   }
-  if (action.type === "REMOVE_REGISTRATION_ERROR") {
+  if (action.type === "REMOVE_ERRORS") {
     return { ...state, error: null };
   }
   return state;

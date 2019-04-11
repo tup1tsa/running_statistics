@@ -3,7 +3,7 @@ import { Dispatch } from "redux";
 import {
   changeLoginEmail,
   changeLoginPassword,
-  removeLoginError
+  removeErrors
 } from "../../actions/actionCreators";
 import { loginRequest } from "../../actions/async/loginRequest";
 import Login, {
@@ -24,7 +24,7 @@ const mapDispatchToProps: MapDispatchToProps = dispatch => ({
   changeEmail: email => dispatch(changeLoginEmail(email)),
   changePassword: password => dispatch(changeLoginPassword(password)),
   login: userInfo => loginRequest(userInfo)(dispatch),
-  removeLoginError: () => dispatch(removeLoginError())
+  removeLoginError: () => dispatch(removeErrors())
 });
 
 export default connect(

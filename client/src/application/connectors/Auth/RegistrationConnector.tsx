@@ -5,7 +5,7 @@ import {
   changeRegistrationName,
   changeRegistrationPassword,
   changeRegistrationPasswordConfirmation,
-  removeRegistrationError
+  removeErrors
 } from "../../actions/actionCreators";
 import { registrationRequest } from "../../actions/async/registrationRequest";
 import {
@@ -48,7 +48,7 @@ export const mapDispatchToProps: MapDispatchToProps = dispatch => ({
   changePasswordConfirmation: payload =>
     dispatch(changeRegistrationPasswordConfirmation(payload)),
   register: payload => registrationRequest(payload)(dispatch),
-  removeRegistrationError: () => dispatch(removeRegistrationError())
+  removeRegistrationError: () => dispatch(removeErrors())
 });
 
 export default connect(

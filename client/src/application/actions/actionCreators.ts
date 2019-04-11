@@ -19,8 +19,7 @@ import {
   RegistrationFailAction,
   RegistrationStartAction,
   RegistrationSuccessAction,
-  RemoveLoginErrorAction,
-  RemoveRegistrationErrorAction,
+  RemoveErrorsAction,
   SetRacesAction,
   StartRaceAction,
   StartRacePayload,
@@ -139,11 +138,6 @@ export const registrationFail: RegistrationFail = error => ({
   payload: error
 });
 
-type RemoveRegistrationError = () => RemoveRegistrationErrorAction;
-export const removeRegistrationError: RemoveRegistrationError = () => ({
-  type: "REMOVE_REGISTRATION_ERROR"
-});
-
 type LoginStart = () => LoginStartAction;
 export const loginStart: LoginStart = () => ({
   type: "LOGIN_START"
@@ -162,9 +156,9 @@ export const loginFail: LoginFail = error => ({
   payload: error
 });
 
-type RemoveLoginError = () => RemoveLoginErrorAction;
-export const removeLoginError: RemoveLoginError = () => ({
-  type: "REMOVE_LOGIN_ERROR"
+type RemoveErrors = () => RemoveErrorsAction;
+export const removeErrors: RemoveErrors = () => ({
+  type: "REMOVE_ERRORS"
 });
 
 type Logout = () => LogoutAction;
