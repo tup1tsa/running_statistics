@@ -1,5 +1,5 @@
 import React from "react";
-import "../css/Header.css";
+import "../scss/Header.scss";
 
 export interface HeaderDispatchProps {
   readonly goToRegistrationPage: () => void;

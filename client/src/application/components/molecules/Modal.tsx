@@ -1,7 +1,7 @@
 import classnames from "classnames";
 import React from "react";
 import Popup from "reactjs-popup";
-import "../../css/molecules/Modal.css";
+import "../../scss/molecules/Modal.scss";
 
 interface Props {
   readonly text: string;

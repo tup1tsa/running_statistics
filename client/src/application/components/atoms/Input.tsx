@@ -1,6 +1,6 @@
 import classnames from "classnames";
 import React, { ChangeEvent } from "react";
-import "../../css/atoms/Input.css";
+import "../../scss/atoms/Input.scss";
 
 type OnChangeHandler = (value: string) => void;
 

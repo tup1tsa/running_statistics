@@ -4,7 +4,7 @@ import React from "react";
 import HeaderConnector from "../connectors/HeaderConnector";
 import NavigationConnector from "../connectors/NavigationConnector";
 import RoutesConnector from "../connectors/routes/RoutesConnector";
-import "../css/App.css";
+import "../scss/App.scss";
 
 interface AppProps {
   history: History;

@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { Component } from "react";
-import "../../css/molecules/PasswordInput.css";
+import "../../scss/molecules/PasswordInput.scss";
 import { Input } from "../atoms/Input";
 
 interface Props {
