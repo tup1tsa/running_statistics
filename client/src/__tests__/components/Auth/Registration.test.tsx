@@ -2,6 +2,7 @@ import { shallow } from "enzyme";
 import React from "react";
 import { Input } from "../../../application/components/atoms/Input";
 import { RegistrationFactory } from "../../../application/components/Auth/Registration";
+import Modal from "../../../application/components/molecules/Modal";
 import { PasswordInput } from "../../../application/components/molecules/PasswordInput";
 
 const defaultProps = {
@@ -9,6 +10,7 @@ const defaultProps = {
   email: "",
   password: "",
   passwordCopy: "",
+  error: null,
 
   validateName: jest.fn().mockReturnValue(true),
   validateEmail: jest.fn().mockReturnValue(true),
@@ -18,7 +20,8 @@ const defaultProps = {
   changeEmail: jest.fn(),
   changePassword: jest.fn(),
   changePasswordConfirmation: jest.fn(),
-  register: jest.fn()
+  register: jest.fn(),
+  removeRegistrationError: jest.fn()
 };
 
 it("should render four inputs and a button", () => {
@@ -228,4 +231,28 @@ it("button should not start registration if user info is incorrect", () => {
   badSecondPassword.find("button").simulate("click");
 
   expect(registration.mock.calls.length).toBe(0);
+});
+
+it("should render modal if error message is present", () => {
+  const noErrorWrapper = shallow(<RegistrationFactory {...defaultProps} />);
+  expect(noErrorWrapper.find(Modal).props().isOpen).toBe(false);
+
+  const errorMessage = "something went wrong";
+  const removeError = jest.fn();
+  const wrapper = shallow(
+    <RegistrationFactory
+      {...defaultProps}
+      error={errorMessage}
+      removeRegistrationError={removeError}
+    />
+  );
+  const modalProps = wrapper.find(Modal).props();
+  expect(modalProps.isOpen).toBe(true);
+  expect(modalProps.isError).toBe(true);
+  expect(modalProps.text).toBe(errorMessage);
+  if (!modalProps.onClose) {
+    throw new Error("on close should be passed to the modal");
+  }
+  modalProps.onClose();
+  expect(removeError.mock.calls.length).toBe(1);
 });

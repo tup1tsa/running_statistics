@@ -20,6 +20,7 @@ import {
   RegistrationStartAction,
   RegistrationSuccessAction,
   RemoveLoginErrorAction,
+  RemoveRegistrationErrorAction,
   SetRacesAction,
   StartRaceAction,
   StartRacePayload,
@@ -136,6 +137,11 @@ export const registrationFail: RegistrationFail = error => ({
   type: "REGISTRATION_FAIL",
   error: true,
   payload: error
+});
+
+type RemoveRegistrationError = () => RemoveRegistrationErrorAction;
+export const removeRegistrationError: RemoveRegistrationError = () => ({
+  type: "REMOVE_REGISTRATION_ERROR"
 });
 
 type LoginStart = () => LoginStartAction;

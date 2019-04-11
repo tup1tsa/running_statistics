@@ -5,6 +5,7 @@ import {
   registrationFail,
   registrationStart,
   registrationSuccess,
+  removeRegistrationError,
   toggleSaving
 } from "../../application/actions/actionCreators";
 import registrationReducer, {
@@ -57,7 +58,7 @@ it("should stop registration progress and set registration error message on fail
   expect(nextAction.inProgress).toBe(false);
 });
 
-it("should clear password fields of registration fail", () => {
+it("should not clear password fields on registration fail", () => {
   const action = registrationFail(new Error("some internet error"));
   expect(
     registrationReducer(
@@ -67,7 +68,7 @@ it("should clear password fields of registration fail", () => {
       },
       action
     ).passwordFirstInput
-  ).toBe("");
+  ).toBe("sob");
   expect(
     registrationReducer(
       {
@@ -76,7 +77,7 @@ it("should clear password fields of registration fail", () => {
       },
       action
     ).passwordSecondInput
-  ).toBe("");
+  ).toBe("gma");
 });
 
 it("should toggle registration on and remove error on start", () => {
@@ -124,5 +125,17 @@ it("should erase passsword field on logout", () => {
     ...defaultState,
     passwordFirstInput: "",
     passwordSecondInput: ""
+  });
+});
+
+it("should remove registration error", () => {
+  const action = removeRegistrationError();
+  const state = {
+    ...defaultState,
+    error: "some error"
+  };
+  expect(registrationReducer(state, action)).toEqual({
+    ...defaultState,
+    error: null
   });
 });

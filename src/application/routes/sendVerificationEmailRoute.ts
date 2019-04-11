@@ -44,7 +44,7 @@ export const sendVerificationEmailRouteFactory: SendVerificationEmailRouteFactor
     return;
   }
 
-  res.status(200).end();
+  res.status(200).end("Verification instructions were send to your email");
 };
 
 const sendVerificationEmailRoute: RequestHandler = (req, res, next) =>

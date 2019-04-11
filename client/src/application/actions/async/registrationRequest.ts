@@ -1,6 +1,6 @@
 import { push } from "connected-react-router";
 import { Dispatch } from "redux";
-import { MESSAGES, RegularRegistrationInfo } from "running_app_core";
+import { RegularRegistrationInfo } from "running_app_core";
 import {
   EncodeMessageToUrl,
   encodeMessageToUrl
@@ -34,10 +34,14 @@ export const registrationRequestFactory: RegistrationRequestFactory = (
     return;
   }
   dispatch(registrationSuccess());
+  let message = "User was registered";
+  if (typeof result.data === "string") {
+    message = result.data;
+  }
   dispatch(
     push(
       encodeMessageToUrlFunc({
-        message: MESSAGES.registrationSuccess,
+        message,
         isError: false
       })
     )

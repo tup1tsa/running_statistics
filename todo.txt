@@ -23,6 +23,8 @@ Mobile app
 
 Client side
 
+    –– reset cookies on logout
+    –– add spinner when user is registration (probably for login too). Use Modal
     –– no interaction if user is not logged in
     ―― registration page
     ―― login page

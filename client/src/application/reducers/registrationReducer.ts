@@ -28,8 +28,6 @@ const registrationReducer: Reducer<RegistrationState, AnyAction> = (
   if (action.type === "REGISTRATION_FAIL") {
     return {
       ...state,
-      passwordFirstInput: "",
-      passwordSecondInput: "",
       inProgress: false,
       error: action.payload.message
     };
@@ -55,6 +53,9 @@ const registrationReducer: Reducer<RegistrationState, AnyAction> = (
       passwordFirstInput: "",
       passwordSecondInput: ""
     };
+  }
+  if (action.type === "REMOVE_REGISTRATION_ERROR") {
+    return { ...state, error: null };
   }
   return state;
 };

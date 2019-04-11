@@ -34,6 +34,9 @@ it("should send 200 and set cookies if everything is fine", async done => {
   expect(status.mock.calls.length).toBe(1);
   expect(status.mock.calls[0][0]).toBe(200);
   expect(end.mock.calls.length).toBe(1);
+  expect(end.mock.calls[0][0]).toBe(
+    "Verification instructions were send to your email"
+  );
   expect(response.locals.user).toEqual(user);
   done();
 });

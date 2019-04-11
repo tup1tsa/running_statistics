@@ -4,7 +4,8 @@ import {
   changeRegistrationEmail,
   changeRegistrationName,
   changeRegistrationPassword,
-  changeRegistrationPasswordConfirmation
+  changeRegistrationPasswordConfirmation,
+  removeRegistrationError
 } from "../../actions/actionCreators";
 import { registrationRequest } from "../../actions/async/registrationRequest";
 import {
@@ -15,13 +16,17 @@ import { GlobalState } from "../../reducers/rootReducer";
 
 type MapStateToProps = (
   state: GlobalState
-) => Pick<RegistrationProps, "name" | "email" | "password" | "passwordCopy">;
+) => Pick<
+  RegistrationProps,
+  "name" | "email" | "password" | "passwordCopy" | "error"
+>;
 
 export const mapStateToProps: MapStateToProps = ({ user, registration }) => ({
   name: user.name,
   email: user.email,
   password: registration.passwordFirstInput,
-  passwordCopy: registration.passwordSecondInput
+  passwordCopy: registration.passwordSecondInput,
+  error: registration.error
 });
 
 type MapDispatchToProps = (
@@ -33,6 +38,7 @@ type MapDispatchToProps = (
   | "changePasswordConfirmation"
   | "changeEmail"
   | "register"
+  | "removeRegistrationError"
 >;
 
 export const mapDispatchToProps: MapDispatchToProps = dispatch => ({
@@ -41,7 +47,8 @@ export const mapDispatchToProps: MapDispatchToProps = dispatch => ({
   changePassword: payload => dispatch(changeRegistrationPassword(payload)),
   changePasswordConfirmation: payload =>
     dispatch(changeRegistrationPasswordConfirmation(payload)),
-  register: payload => registrationRequest(payload)(dispatch)
+  register: payload => registrationRequest(payload)(dispatch),
+  removeRegistrationError: () => dispatch(removeRegistrationError())
 });
 
 export default connect(

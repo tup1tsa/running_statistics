@@ -46,7 +46,24 @@ it("should dispatch success registration action on success and redirect", async 
   });
   expect(setMessageUrl.mock.calls.length).toBe(1);
   expect(setMessageUrl.mock.calls[0][0]).toEqual({
-    message: MESSAGES.registrationSuccess,
+    message: "User was registered",
+    isError: false
+  });
+  done();
+});
+
+it("should dispatch success error message if it was provided by backend", async done => {
+  const networkRequest = jest
+    .fn()
+    .mockResolvedValue({ status: 200, data: "all is fine" });
+  const dispatch = jest.fn();
+  const setMessageUrl = jest.fn().mockReturnValue("/success");
+  await registrationRequestFactory(networkRequest, setMessageUrl)(
+    defaultUserInfo
+  )(dispatch);
+  expect(setMessageUrl.mock.calls.length).toBe(1);
+  expect(setMessageUrl.mock.calls[0][0]).toEqual({
+    message: "all is fine",
     isError: false
   });
   done();

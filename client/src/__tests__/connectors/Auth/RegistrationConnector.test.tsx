@@ -10,7 +10,8 @@ it("should dispatch correct state fields", () => {
     name: state.user.name,
     email: state.user.email,
     password: state.registration.passwordFirstInput,
-    passwordCopy: state.registration.passwordSecondInput
+    passwordCopy: state.registration.passwordSecondInput,
+    error: state.registration.error
   });
 });
 
