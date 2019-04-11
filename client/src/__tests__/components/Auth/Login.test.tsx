@@ -2,6 +2,7 @@ import { shallow } from "enzyme";
 import React from "react";
 import { Input } from "../../../application/components/atoms/Input";
 import { LoginFactory } from "../../../application/components/Auth/Login";
+import Modal from "../../../application/components/molecules/Modal";
 
 const defaultProps = {
   email: "",
@@ -12,7 +13,8 @@ const defaultProps = {
 
   changeEmail: jest.fn(),
   changePassword: jest.fn(),
-  login: jest.fn()
+  login: jest.fn(),
+  removeLoginError: jest.fn()
 };
 
 it("should send correct props to email input", () => {
@@ -122,4 +124,28 @@ it("button should not start login process if user info is incorrect", () => {
   badPassword.find("button").simulate("click");
 
   expect(login.mock.calls.length).toBe(0);
+});
+
+it("should render modal if error message is present", () => {
+  const noErrorWrapper = shallow(<LoginFactory {...defaultProps} />);
+  expect(noErrorWrapper.find(Modal).props().isOpen).toBe(false);
+
+  const errorMessage = "something went wrong";
+  const removeError = jest.fn();
+  const wrapper = shallow(
+    <LoginFactory
+      {...defaultProps}
+      errorMessage={errorMessage}
+      removeLoginError={removeError}
+    />
+  );
+  const modalProps = wrapper.find(Modal).props();
+  expect(modalProps.isOpen).toBe(true);
+  expect(modalProps.isError).toBe(true);
+  expect(modalProps.text).toBe(errorMessage);
+  if (!modalProps.onClose) {
+    throw new Error("on close should be passed to the modal");
+  }
+  modalProps.onClose();
+  expect(removeError.mock.calls.length).toBe(1);
 });

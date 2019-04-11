@@ -42,10 +42,10 @@ export const networkRequestFactory: NetworkRequestFactory = axios => async (
     };
   } catch (e) {
     clearTimeout(timeoutId);
-    if (e.response && e.response.error && e.status) {
+    if (e.response && e.response.data && e.response.status) {
       return {
-        status: e.status,
-        errorMessage: e.response.error
+        status: e.response.status,
+        errorMessage: e.response.data
       };
     }
     if (axios.isCancel(e)) {

@@ -7,6 +7,7 @@ import {
   validatePassword
 } from "running_app_core";
 import { Input } from "../atoms/Input";
+import Modal from "../molecules/Modal";
 import { PasswordInput } from "../molecules/PasswordInput";
 
 interface Validators {
@@ -17,12 +18,14 @@ interface Validators {
 export interface LoginStateProps {
   readonly email: string;
   readonly password: string;
+  readonly errorMessage?: string;
 }
 
 export interface LoginDispatchProps {
   readonly changeEmail: (email: string) => void;
   readonly changePassword: (password: string) => void;
   readonly login: (loginInfo: RegularLoginInfo) => void;
+  readonly removeLoginError: () => void;
 }
 
 export const LoginFactory = ({
@@ -32,7 +35,9 @@ export const LoginFactory = ({
   password,
   changeEmail,
   changePassword,
-  login
+  login,
+  errorMessage,
+  removeLoginError
 }: LoginStateProps & LoginDispatchProps & Validators) => {
   const isEmailValid = validateEmailFunc(email);
   const isPasswordValid = validatePasswordFunc(password);
@@ -47,6 +52,12 @@ export const LoginFactory = ({
   };
   return (
     <form>
+      <Modal
+        isOpen={!!errorMessage}
+        text={errorMessage ? errorMessage : ""}
+        isError={true}
+        onClose={removeLoginError}
+      />
       <Input
         id="email"
         label="Email"

@@ -31,7 +31,13 @@ const loginReducer: Reducer<LoginState, AnyAction> = (
     };
   }
   if (action.type === "LOGIN_SUCCESS") {
-    return { ...state, inProgress: false, isLoggedIn: true };
+    return {
+      ...state,
+      inProgress: false,
+      isLoggedIn: true,
+      email: "",
+      password: ""
+    };
   }
   if (action.type === "LOGOUT") {
     return defaultState;
@@ -41,6 +47,9 @@ const loginReducer: Reducer<LoginState, AnyAction> = (
   }
   if (action.type === "CHANGE_LOGIN_PASSWORD") {
     return { ...state, password: action.payload };
+  }
+  if (action.type === "REMOVE_LOGIN_ERROR") {
+    return { ...state, errorMessage: undefined };
   }
   return state;
 };

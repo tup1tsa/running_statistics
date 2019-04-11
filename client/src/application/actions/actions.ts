@@ -101,6 +101,10 @@ export interface LoginFailAction {
   readonly payload: Error;
 }
 
+export interface RemoveLoginErrorAction {
+  readonly type: "REMOVE_LOGIN_ERROR";
+}
+
 export interface ChangeLoginEmailAction {
   readonly type: "CHANGE_LOGIN_EMAIL";
   readonly payload: string;
@@ -139,4 +143,5 @@ export type AnyAction =
   | LogoutAction
   | LoginSuccessAction
   | ChangeLoginEmailAction
-  | ChangeLoginPasswordAction;
+  | ChangeLoginPasswordAction
+  | RemoveLoginErrorAction;

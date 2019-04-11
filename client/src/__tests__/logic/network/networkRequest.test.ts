@@ -48,8 +48,7 @@ it("should return correct data with successful request", async done => {
 
 it("should return correct error message if server send an error", async done => {
   const post = jest.fn().mockRejectedValue({
-    response: { error: "some error" },
-    status: 400
+    response: { data: "some error", status: 400 }
   });
   const axios = getAxiosMock();
   axios.post = post;

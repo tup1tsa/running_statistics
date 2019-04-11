@@ -19,6 +19,7 @@ import {
   RegistrationFailAction,
   RegistrationStartAction,
   RegistrationSuccessAction,
+  RemoveLoginErrorAction,
   SetRacesAction,
   StartRaceAction,
   StartRacePayload,
@@ -153,6 +154,11 @@ export const loginFail: LoginFail = error => ({
   type: "LOGIN_FAIL",
   error: true,
   payload: error
+});
+
+type RemoveLoginError = () => RemoveLoginErrorAction;
+export const removeLoginError: RemoveLoginError = () => ({
+  type: "REMOVE_LOGIN_ERROR"
 });
 
 type Logout = () => LogoutAction;

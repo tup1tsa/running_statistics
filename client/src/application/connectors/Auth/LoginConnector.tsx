@@ -2,7 +2,8 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import {
   changeLoginEmail,
-  changeLoginPassword
+  changeLoginPassword,
+  removeLoginError
 } from "../../actions/actionCreators";
 import { loginRequest } from "../../actions/async/loginRequest";
 import Login, {
@@ -14,14 +15,16 @@ import { GlobalState } from "../../reducers/rootReducer";
 type MapStateToProps = (state: GlobalState) => LoginStateProps;
 const mapStateToProps: MapStateToProps = ({ login }) => ({
   email: login.email,
-  password: login.password
+  password: login.password,
+  errorMessage: login.errorMessage
 });
 
 type MapDispatchToProps = (dispatch: Dispatch) => LoginDispatchProps;
 const mapDispatchToProps: MapDispatchToProps = dispatch => ({
   changeEmail: email => dispatch(changeLoginEmail(email)),
   changePassword: password => dispatch(changeLoginPassword(password)),
-  login: userInfo => loginRequest(userInfo)(dispatch)
+  login: userInfo => loginRequest(userInfo)(dispatch),
+  removeLoginError: () => dispatch(removeLoginError())
 });
 
 export default connect(
