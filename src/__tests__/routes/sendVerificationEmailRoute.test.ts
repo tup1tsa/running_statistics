@@ -12,7 +12,8 @@ it("if any of the functions throws, it should send unexpected error ", async don
   await sendVerificationEmailRouteFactory(
     generateUniqueHashMock,
     updateUserMock,
-    failedEmail
+    failedEmail,
+    {}
   )(request, response, next);
   expect(status.mock.calls.length).toBe(1);
   expect(status.mock.calls[0][0]).toBe(500);
@@ -24,18 +25,19 @@ it("if any of the functions throws, it should send unexpected error ", async don
 it("should send 200 and set cookies if everything is fine", async done => {
   const { request, response, next, end, status } = getRequestReponse();
   const accessToken = "bast";
-  const user = { _id: "some id", accessToken };
+  const user = { _id: "some id", accessToken, email: "gimma@gmail.com" };
   response.locals.user = user;
   await sendVerificationEmailRouteFactory(
     generateUniqueHashMock,
     updateUserMock,
-    sendMailMock
+    sendMailMock,
+    {}
   )(request, response, next);
   expect(status.mock.calls.length).toBe(1);
   expect(status.mock.calls[0][0]).toBe(200);
   expect(end.mock.calls.length).toBe(1);
   expect(end.mock.calls[0][0]).toBe(
-    "Verification instructions were send to your email"
+    "Verification instructions were send to gimma@gmail.com"
   );
   expect(response.locals.user).toEqual(user);
   done();
@@ -48,7 +50,8 @@ it("should send 500 unexpected error if update user failed", async done => {
   await sendVerificationEmailRouteFactory(
     generateUniqueHashMock,
     updateUser,
-    sendMailMock
+    sendMailMock,
+    {}
   )(request, response, next);
   expect(status.mock.calls.length).toBe(1);
   expect(status.mock.calls[0][0]).toBe(500);
@@ -65,10 +68,12 @@ it("verification flow should be correct", async done => {
   const generateUniqueHash = jest.fn().mockResolvedValue(uniqueHash);
   const updateUser = jest.fn().mockResolvedValue({ result: { ok: 1 } });
   const sendMail = jest.fn().mockResolvedValue({});
+  const processEnv = { NODE_ENV: "production" };
   await sendVerificationEmailRouteFactory(
     generateUniqueHash,
     updateUser,
-    sendMail
+    sendMail,
+    processEnv
   )(request, response, next);
   expect(generateUniqueHash.mock.calls.length).toBe(1);
   expect(updateUser.mock.calls.length).toBe(1);
@@ -80,6 +85,29 @@ it("verification flow should be correct", async done => {
   expect(sendMail.mock.calls[0][0]).toEqual("Running app email verification");
   expect(sendMail.mock.calls[0][1]).toMatch(
     `https://tup1tsa.herokuapp.com/verifyEmail/${uniqueHash}`
+  );
+  expect(sendMail.mock.calls[0][2]).toEqual(user.email);
+  done();
+});
+
+it("should send link in email to localhost on non-production server", async done => {
+  const { request, response, next } = getRequestReponse();
+  const user = { _id: "somma", email: "any@gmail.com" };
+  response.locals.user = user;
+  const uniqueHash = "4526";
+  const generateUniqueHash = jest.fn().mockResolvedValue(uniqueHash);
+  const sendMail = jest.fn().mockResolvedValue({});
+  const processEnv = {};
+  await sendVerificationEmailRouteFactory(
+    generateUniqueHash,
+    updateUserMock,
+    sendMail,
+    processEnv
+  )(request, response, next);
+  expect(sendMail.mock.calls.length).toBe(1);
+  expect(sendMail.mock.calls[0][0]).toEqual("Running app email verification");
+  expect(sendMail.mock.calls[0][1]).toMatch(
+    `http://localhost:3000/verifyEmail/${uniqueHash}`
   );
   expect(sendMail.mock.calls[0][2]).toEqual(user.email);
   done();

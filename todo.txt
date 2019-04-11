@@ -1,5 +1,6 @@
 Server side
 
+    –– add function that checks if all .env variables are set before starting the server
     –– races are being saved but user id is null (fetch races would not work)
     –– disallow saving the same races (validate by race date)
     –– verification email route should return some data on success
@@ -12,17 +13,14 @@ Server side
 
 
     Integration tests:
-    –– registration (through email somehow)
+    –– registration (through email somehow => headless chrome and mailinator)
     ―― adding and fetching races
     ―― reset password logic through email
 
-Mobile app
-     ―― create native android app for tracking only (remove running/walking tracking from web completely)
-     ―― add current speed
-     –– make sure "no internet connection" doesn't break the app
-
 Client side
 
+    –– add user name in the header (if logged in) and color him in red color
+       with title, that email is not verified (black if verified without title)
     –– reset cookies on logout
     –– add spinner when user is registration (probably for login too). Use Modal
     –– no interaction if user is not logged in
