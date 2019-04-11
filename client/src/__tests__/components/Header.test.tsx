@@ -6,7 +6,12 @@ const defaultProps = {
   goToRegistrationPage: jest.fn(),
   goToLoginPage: jest.fn(),
   logout: jest.fn(),
-  isUserLoggedIn: false
+  isUserLoggedIn: false,
+  user: {
+    name: "",
+    email: "",
+    isEmailVerified: true
+  }
 };
 
 it("should render sign in and sign up blue buttons if user is not logged id", () => {
@@ -45,7 +50,25 @@ it("should render blue logout button if user is logged in", () => {
   expect(logout.mock.calls.length).toBe(1);
 });
 
-it("should render header container no matter is user is logged in or not", () => {
+it("should render user name if user is logged in", () => {
+  const user = { ...defaultProps.user, name: "sasha", isEmailVerified: true };
+  const wrapper = shallow(
+    <Header {...defaultProps} isUserLoggedIn={true} user={user} />
+  );
+  expect(wrapper.find("span").text()).toBe("sasha");
+  expect(wrapper.find("span").props().title).toBe("");
+});
+
+it("should render user name* and title if user is logged in, but email is not verified", () => {
+  const user = { ...defaultProps.user, name: "sasha", isEmailVerified: false };
+  const wrapper = shallow(
+    <Header {...defaultProps} isUserLoggedIn={true} user={user} />
+  );
+  expect(wrapper.find("span").text()).toBe("sasha*");
+  expect(wrapper.find("span").props().title).toBe("Email is not verified");
+});
+
+it("should render header container no matter if user is logged in or not", () => {
   const loggedInElement = shallow(<Header {...defaultProps} />);
   expect(loggedInElement.find(".header").length).toBe(1);
 

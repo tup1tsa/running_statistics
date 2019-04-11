@@ -12,8 +12,9 @@ import { GlobalState } from "../reducers/rootReducer";
 type MapStateToProps = (state: GlobalState) => HeaderStateProps;
 type MapDispatchToProps = (dispatch: Dispatch) => HeaderDispatchProps;
 
-const mapStateToProps: MapStateToProps = state => ({
-  isUserLoggedIn: state.login.isLoggedIn
+const mapStateToProps: MapStateToProps = ({ login, user }) => ({
+  isUserLoggedIn: login.isLoggedIn,
+  user
 });
 
 const mapDispatchToProps: MapDispatchToProps = dispatch => ({

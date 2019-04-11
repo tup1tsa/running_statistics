@@ -19,8 +19,9 @@ Server side
 
 Client side
 
-    –– add user name in the header (if logged in) and color him in red color
-       with title, that email is not verified (black if verified without title)
+    –– email is not verified message (on start race route, for example) 
+       should offer to resend email
+    –– fix fetch races request (it is get now instead of post)
     –– reset cookies on logout
     –– add spinner when user is registration (probably for login too). Use Modal
     –– no interaction if user is not logged in
