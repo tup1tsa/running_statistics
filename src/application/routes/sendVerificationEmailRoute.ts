@@ -46,6 +46,8 @@ export const sendVerificationEmailRouteFactory: SendVerificationEmailRouteFactor
     </p>`;
     await sendMailFunc("Running app email verification", mailBody, user.email);
   } catch (err) {
+    // tslint:disable-next-line
+    console.log(err);
     res.status(500).end(MESSAGES.unexpectectedError);
     return;
   }
