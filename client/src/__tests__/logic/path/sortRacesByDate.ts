@@ -1,4 +1,4 @@
-import { getTestRaces } from "../../../application/common_files/testHelpers";
+import { getTestRaces } from "running_app_core";
 import { sortRacesByDate } from "../../../application/logic/path/sortRacesByDate";
 
 it("should  sort races properly", () => {

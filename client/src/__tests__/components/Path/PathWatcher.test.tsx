@@ -1,5 +1,5 @@
 import { shallow } from "enzyme";
-import * as React from "react";
+import React from "react";
 import OngoingRaceInfo from "../../../application/components/Path/OngoingRaceInfo";
 import { PathWatcher } from "../../../application/components/Path/PathWatcher";
 

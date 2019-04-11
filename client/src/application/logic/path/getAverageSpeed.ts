@@ -1,4 +1,4 @@
-import { GetPath, PositionInTime } from "../../common_files/interfaces";
+import { GetPath, PositionInTime } from "running_app_core";
 
 export type GetAverageSpeed = (
   path: ReadonlyArray<PositionInTime>,

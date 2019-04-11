@@ -1,5 +1,11 @@
-import { LocalStorage } from '../../common_files/interfaces';
+import { LocalStorage } from "running_app_core";
 
-export const deleteRaces = (storage: LocalStorage) => {
-  storage.setItem('races', JSON.stringify([]));
+export type DeleteRaces = () => void;
+type DeleteRacesFactory = (storage: LocalStorage) => DeleteRaces;
+
+export const deleteRacesFactory: DeleteRacesFactory = storage => () => {
+  storage.setItem("races", JSON.stringify([]));
 };
+
+declare var localStorage: LocalStorage;
+export const deleteRaces: DeleteRaces = deleteRacesFactory(localStorage);

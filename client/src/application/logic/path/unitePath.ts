@@ -1,4 +1,4 @@
-import { PositionInTime } from "../../common_files/interfaces";
+import { PositionInTime } from "running_app_core";
 import { DividedPathPart } from "./dividePath";
 
 export type UnitePath = (

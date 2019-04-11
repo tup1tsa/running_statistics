@@ -1,14 +1,21 @@
-import { FetchRacesContainer } from "../../../containers/logic/storage/fetchRacesContainer";
-import { LocalStorage, Race } from "../../common_files/interfaces";
+import { LocalStorage, Race } from "running_app_core";
+import { FetchRaces, fetchRaces } from "./fetchRaces";
 
-export type SaveRace = (
-  race: Race,
+export type SaveRace = (race: Race) => void;
+type SaveRaceFactory = (
   storage: LocalStorage,
-  fetchRaces: FetchRacesContainer
-) => void;
+  fetchRaces: FetchRaces
+) => SaveRace;
 
-export const saveRace: SaveRace = (race, storage, fetchRaces) => {
-  const savedRaces = fetchRaces();
+export const saveRaceFactory: SaveRaceFactory = (
+  storage,
+  fetchRacesFunc
+) => race => {
+  const savedRaces = fetchRacesFunc();
   const allRaces = savedRaces.concat([race]);
   storage.setItem("races", JSON.stringify(allRaces));
 };
+
+declare var localStorage: Storage;
+export const saveRace: SaveRace = race =>
+  saveRaceFactory(localStorage, fetchRaces)(race);

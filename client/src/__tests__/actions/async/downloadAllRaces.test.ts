@@ -1,10 +1,10 @@
-import { downloadAllRaces } from "../../../application/actions/async/downloadAllRaces";
-import { Race } from "../../../application/common_files/interfaces";
+import { Race } from "running_app_core";
+import { downloadAllRacesFactory } from "../../../application/actions/async/downloadAllRaces";
 
 it("should start download and dispatch start download action", () => {
   const downloadRaces = jest.fn();
   const dispatch = jest.fn();
-  downloadAllRaces(downloadRaces, jest.fn())(dispatch);
+  downloadAllRacesFactory(downloadRaces, jest.fn())()(dispatch);
   expect(downloadRaces.mock.calls.length).toBe(1);
   expect(dispatch.mock.calls.length).toBe(1);
   expect(dispatch.mock.calls[0][0]).toEqual({
@@ -16,7 +16,7 @@ it("should dispatch set races action on sucess download", async done => {
   const races: ReadonlyArray<Race> = [{ type: "walking", path: [] }];
   const downloadRaces = jest.fn().mockResolvedValue(races);
   const dispatch = jest.fn();
-  await downloadAllRaces(downloadRaces, jest.fn())(dispatch);
+  await downloadAllRacesFactory(downloadRaces, jest.fn())()(dispatch);
   expect(dispatch.mock.calls.length).toBe(2);
   expect(dispatch.mock.calls[1][0]).toEqual({
     type: "SET_RACES",
@@ -31,7 +31,7 @@ it("should dispatch download races error and change url", async done => {
   const downloadRaces = jest.fn().mockRejectedValue(error);
   const dispatch = jest.fn();
   const setMessage = jest.fn().mockReturnValue("new url");
-  await downloadAllRaces(downloadRaces, setMessage)(dispatch);
+  await downloadAllRacesFactory(downloadRaces, setMessage)()(dispatch);
   expect(dispatch.mock.calls.length).toBe(3);
   expect(dispatch.mock.calls[1][0]).toEqual({
     type: "SET_RACES",

@@ -1,9 +1,10 @@
 import { ConnectedRouter } from "connected-react-router";
 import { History } from "history";
-import * as React from "react";
-import "../css/App.css";
-import NavigationContainer from "../reactContainers/NavigationContainer";
-import Routes from "../routes";
+import React from "react";
+import HeaderConnector from "../connectors/HeaderConnector";
+import NavigationConnector from "../connectors/NavigationConnector";
+import RoutesConnector from "../connectors/routes/RoutesConnector";
+import "../scss/App.scss";
 
 interface AppProps {
   history: History;
@@ -11,9 +12,14 @@ interface AppProps {
 
 const App = ({ history }: AppProps) => (
   <>
-    <NavigationContainer />
-    <div id="content">
-      <ConnectedRouter history={history}>{Routes}</ConnectedRouter>
+    <NavigationConnector />
+    <div id="pageContainer">
+      <HeaderConnector />
+      <div id="pageContent">
+        <ConnectedRouter history={history}>
+          <RoutesConnector />
+        </ConnectedRouter>
+      </div>
     </div>
   </>
 );

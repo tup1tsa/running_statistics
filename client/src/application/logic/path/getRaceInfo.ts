@@ -1,27 +1,29 @@
-import { DivideRaceContainer } from "../../../containers/logic/path/divideRaceContainer";
-import { GetPath, GetSpeed, Race } from "../../common_files/interfaces";
-import { GetActiveParts } from "./getActiveParts";
+import { GetPath, GetSpeed, Race } from "running_app_core";
+import { getPath, getSpeed } from "../geoLibHelpers";
+import { DivideRace, divideRace } from "./divideRace";
+import { GetActiveParts, getActiveParts } from "./getActiveParts";
 
 export type GetRaceInfo = (
-  race: Race,
-  divideRace: DivideRaceContainer,
-  getPath: GetPath,
-  getActiveParts: GetActiveParts,
-  getSpeed: GetSpeed
+  race: Race
 ) => {
   readonly distance: number;
   readonly averageSpeed: number;
   readonly timeSecs: number;
   readonly currentSpeed: number;
 };
+type GetRaceInfoFactory = (
+  divideRace: DivideRace,
+  getPath: GetPath,
+  getActiveParts: GetActiveParts,
+  getSpeed: GetSpeed
+) => GetRaceInfo;
 
-export const getRaceInfo: GetRaceInfo = (
-  race,
+export const getRaceInfoFactory: GetRaceInfoFactory = (
   divideRaceFunc,
-  getPath,
+  getPathFunc,
   getParts,
-  getSpeed
-) => {
+  getSpeedFunc
+) => race => {
   const dividedPath = divideRaceFunc(race);
   const activeParts = getParts(dividedPath).filter(
     activePath => activePath.length > 1
@@ -40,7 +42,7 @@ export const getRaceInfo: GetRaceInfo = (
       const firstPosition = activePathPart[0];
       return {
         timeSecs: (lastPosition.time - firstPosition.time) / 1000,
-        distance: getPath(activePathPart)
+        distance: getPathFunc(activePathPart)
       };
     })
     .reduce((total, current) => {
@@ -56,7 +58,7 @@ export const getRaceInfo: GetRaceInfo = (
     const length = race.path.length;
     const lastPosition = race.path[length - 1];
     const beforeLastPosition = race.path[length - 2];
-    currentSpeed = getSpeed(beforeLastPosition, lastPosition);
+    currentSpeed = getSpeedFunc(beforeLastPosition, lastPosition);
   }
   return {
     timeSecs: data.timeSecs,
@@ -65,3 +67,6 @@ export const getRaceInfo: GetRaceInfo = (
     currentSpeed
   };
 };
+
+export const getRaceInfo: GetRaceInfo = race =>
+  getRaceInfoFactory(divideRace, getPath, getActiveParts, getSpeed)(race);

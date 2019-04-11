@@ -1,6 +1,11 @@
 module.exports = {
   rootDir: "../../",
-  collectCoverageFrom: ["<rootDir>/src/**/*.{ts,tsx}"],
+  collectCoverageFrom: [
+    "<rootDir>/src/**/*.ts",
+    "!<rootDir>/src/sandbox/**/*.ts",
+    "!<rootDir>/src/index.ts",
+    "!<rootDir>/src/application/config.ts"
+  ],
   testMatch: ["<rootDir>/src/__tests__/**/*.ts"],
   testEnvironment: "node",
   transform: {

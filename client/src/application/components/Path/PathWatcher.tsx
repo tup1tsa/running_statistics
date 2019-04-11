@@ -1,5 +1,5 @@
-import * as React from "react";
-import { Race } from "../../common_files/interfaces";
+import React from "react";
+import { Race } from "running_app_core";
 import OngoingRaceInfo from "./OngoingRaceInfo";
 
 interface Props {

@@ -1,11 +1,11 @@
-import * as React from "react";
-import { HumanizeDurationContainer } from "../../../containers/logic/utilsContainers";
+import React from "react";
+import { HumanizeDuration } from "../../logic/time/humanizeDuration";
 
 interface Props {
   readonly totalDistance: number;
   readonly totalTimeSecs: number;
   readonly avgSpeed: number;
-  readonly humanizeDuration: HumanizeDurationContainer;
+  readonly humanizeDuration: HumanizeDuration;
 }
 
 export const RaceInformation = (props: Props) => {

@@ -1,0 +1,13 @@
+.popup-content {
+  max-width: 450px;
+  border-radius: 20px;
+}
+
+#popupWrapper {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+  &.error {
+    color: "red";
+  }
+}

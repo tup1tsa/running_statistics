@@ -1,12 +1,11 @@
-import * as React from "react";
+import React from "react";
 import {
   GoogleMap,
   withGoogleMap,
   WithGoogleMapProps,
-  withScriptjs,
-  WithScriptjsProps
+  withScriptjs
 } from "react-google-maps";
-import { Coordinates } from "../../common_files/interfaces";
+import { Coordinates } from "running_app_core";
 
 interface MapProps {
   readonly center: Coordinates;
@@ -57,13 +56,14 @@ export const MapWrapperWithGoogleMap = <P extends {}>(
     }
     public render() {
       const Hoc = withGoogleMap(WrappedComponent) as React.ComponentClass<
-        WithGoogleMapProps
+        P & WithGoogleMapProps
       >;
       const containerStyle = {
         height: `${this.props.height}px`,
         width: `${this.props.width}px`
       };
       return (
+        // @ts-ignore
         <Hoc
           {...this.props}
           containerElement={
@@ -86,10 +86,9 @@ export const MapWrapperWithScript = <P extends {}>(
   const url = secretKey
     ? `${props.googleMapDefaultUrl}&key=${secretKey}`
     : props.googleMapDefaultUrl;
-  const Hoc = withScriptjs(WrappedComponent) as React.ComponentClass<
-    WithScriptjsProps
-  >;
+  const Hoc = withScriptjs(WrappedComponent);
   return (
+    // @ts-ignore
     <Hoc
       {...props}
       googleMapURL={url}

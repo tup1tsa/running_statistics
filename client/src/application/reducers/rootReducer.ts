@@ -1,66 +1,37 @@
-import { RouterState } from "connected-react-router";
-import { AnyAction, RaceType } from "../actions/actions";
-import { PositionInTime, Race } from "../common_files/interfaces";
+import { connectRouter, RouterState } from "connected-react-router";
+import { History } from "history";
+import { combineReducers, Reducer } from "redux";
+import { AnyAction } from "../actions/actions";
+import emailVerification, {
+  EmailVerificationState
+} from "./emailVerificationReducer";
+import login, { LoginState } from "./loginReducer";
+import raceInProgress, { RaceInProgressState } from "./raceInProgressReducer";
+import racesOnMap, { RacesOnMapState } from "./racesOnMapReducer";
+import registration, { RegistrationState } from "./registrationReducer";
+import user, { UserState } from "./userReducer";
 
 export interface GlobalState {
-  readonly raceInProgress: boolean;
-  readonly raceType: RaceType;
-  readonly gpsId: number;
-  readonly gpsError: string | null;
-  readonly positions: ReadonlyArray<PositionInTime>;
-  readonly lastTimeCheck: number | null;
-  readonly savingInProgress: boolean;
+  readonly raceInProgress: RaceInProgressState;
+  readonly emailVerification: EmailVerificationState;
   readonly router: RouterState;
-  readonly racesAreBeingDownloaded: boolean;
-  readonly downloadedRaces?: ReadonlyArray<Race>;
-  readonly currentRaceIndex: number;
-  readonly partialRaceStart: number;
-  readonly partialRaceFinish: number;
+  readonly racesOnMap: RacesOnMapState;
+  readonly user: UserState;
+  readonly login: LoginState;
+  readonly registration: RegistrationState;
 }
 
-export type Reducer = (
-  state: Partial<GlobalState>,
-  action: AnyAction
-) => Partial<GlobalState>;
+type RootReducerFactory = (history: History) => Reducer<GlobalState, AnyAction>;
 
-export type RootReducer = (
-  state: GlobalState,
-  action: AnyAction,
-  reducers: ReadonlyArray<Reducer>
-) => GlobalState;
+const rootReducerFactory: RootReducerFactory = history =>
+  combineReducers({
+    emailVerification,
+    router: connectRouter(history),
+    raceInProgress,
+    racesOnMap,
+    user,
+    login,
+    registration
+  });
 
-const defaultState: GlobalState = {
-  gpsError: null,
-  lastTimeCheck: null,
-  raceInProgress: false,
-  raceType: "running",
-  gpsId: 0,
-  positions: [],
-  savingInProgress: false,
-  racesAreBeingDownloaded: false,
-  currentRaceIndex: 0,
-  partialRaceStart: 0,
-  partialRaceFinish: 100,
-  router: {
-    location: {
-      pathname: "",
-      search: "",
-      hash: "",
-      state: ""
-    },
-    action: "POP"
-  }
-};
-
-export const rootReducer: RootReducer = (
-  state = defaultState,
-  action,
-  reducers
-) =>
-  reducers.reduce(
-    (currentState, currentReducer) => ({
-      ...currentState,
-      ...currentReducer(currentState, action)
-    }),
-    state
-  );
+export default rootReducerFactory;

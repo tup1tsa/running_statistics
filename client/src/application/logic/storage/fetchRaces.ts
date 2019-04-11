@@ -1,13 +1,20 @@
-import { LocalStorage, Race } from "../../common_files/interfaces";
+import {
+  LocalStorage,
+  Race,
+  ValidatePath,
+  validatePath
+} from "running_app_core";
 
-export type ValidatePath = (path: any) => boolean;
-
-type FetchRaces = (
+export type FetchRaces = () => ReadonlyArray<Race>;
+type FetchRacesFactory = (
   storage: LocalStorage,
   validatePath: ValidatePath
-) => ReadonlyArray<Race>;
+) => FetchRaces;
 
-export const fetchRaces: FetchRaces = (storage, validatePath) => {
+export const fetchRacesFactory: FetchRacesFactory = (
+  storage,
+  validatePathFunc
+) => () => {
   const races = storage.getItem("races");
   if (races === null) {
     return [];
@@ -21,5 +28,11 @@ export const fetchRaces: FetchRaces = (storage, validatePath) => {
   if (!Array.isArray(parsedRaces)) {
     return [];
   }
-  return parsedRaces.filter(race => validatePath(race.path));
+  return parsedRaces.filter(race => validatePathFunc(race.path));
 };
+
+declare var localStorage: LocalStorage;
+export const fetchRaces: FetchRaces = fetchRacesFactory(
+  localStorage,
+  validatePath
+);

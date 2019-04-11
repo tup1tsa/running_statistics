@@ -1,24 +1,38 @@
 import { push } from "connected-react-router";
 import { Dispatch } from "redux";
-import { DownloadRacesContainer } from "../../../containers/logic/network/downloadRacesContainer";
-import { SetMessageUrlContainer } from "../../../containers/logic/setMessageUrlContainer";
+import {
+  EncodeMessageToUrl,
+  encodeMessageToUrl
+} from "../../logic/encodeMessageToUrl";
+import {
+  DownloadRaces,
+  downloadRaces
+} from "../../logic/network/downloadRaces";
 import { setRaces, startRacesDownload } from "../actionCreators";
 
-export type DownloadAllRaces = (
-  downloadRaces: DownloadRacesContainer,
-  setMessageUrl: SetMessageUrlContainer
-) => (dispatch: Dispatch) => void;
+type DownloadAllRaces = () => (dispatch: Dispatch) => void;
+type DownloadAllRacesFactory = (
+  downloadRaces: DownloadRaces,
+  encodeMessageToUrl: EncodeMessageToUrl
+) => DownloadAllRaces;
 
-export const downloadAllRaces: DownloadAllRaces = (
-  downloadRaces,
-  setMessageUrl
-) => async dispatch => {
+export const downloadAllRacesFactory: DownloadAllRacesFactory = (
+  downloadRacesFunc,
+  encodeMessageToUrlFunc
+) => () => async dispatch => {
   dispatch(startRacesDownload());
   try {
-    const races = await downloadRaces();
+    const races = await downloadRacesFunc();
     dispatch(setRaces(races));
   } catch (err) {
     dispatch(setRaces([]));
-    dispatch(push(setMessageUrl({ message: err.message, isError: true })));
+    dispatch(
+      push(encodeMessageToUrlFunc({ message: err.message, isError: true }))
+    );
   }
 };
+
+export const downloadAllRaces: DownloadAllRaces = downloadAllRacesFactory(
+  downloadRaces,
+  encodeMessageToUrl
+);

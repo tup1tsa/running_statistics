@@ -10,6 +10,9 @@
   "rules": {
     "object-literal-sort-keys": false,
     "no-parameter-reassignment": true,
-    "interface-name": [true, "never-prefix"]
+    "interface-name": [true, "never-prefix"],
+    "no-unused-variable": false,
+    "ordered-imports": true,
+    "no-duplicate-imports": true
   }
 }

@@ -1,5 +1,5 @@
 import { shallow } from "enzyme";
-import * as React from "react";
+import React from "react";
 import RacesOnMap from "../../application/components/RacesOnMap";
 import { RaceViewer } from "../../application/components/RaceViewer";
 

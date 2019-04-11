@@ -1,5 +1,5 @@
-import { Race } from "../../application/common_files/interfaces";
-import { finishRace } from "../../application/logic/finishRace";
+import { MESSAGES, Race } from "running_app_core";
+import { finishRaceFactory } from "../../application/logic/finishRace";
 
 const racesInStorage: ReadonlyArray<Race> = [
   {
@@ -27,14 +27,14 @@ it("should clear storage and not send anything if all races are invalid", async 
     .mockReturnValue([racesInStorage[0], currentRace]);
   const deleteRaces = jest.fn();
   try {
-    await finishRace(
-      currentRace,
+    await finishRaceFactory(
       saveRaceToStorage,
       fetchRacesFromStorage,
       deleteRaces,
+      // @ts-ignore
       validatePath,
       sendRaces
-    );
+    )(currentRace);
   } catch (err) {
     expect(saveRaceToStorage.mock.calls.length).toBe(1);
     expect(saveRaceToStorage.mock.calls[0][0]).toBe(currentRace);
@@ -57,14 +57,14 @@ it("should send only valid races", async done => {
   const fetchRacesFromStorage = jest
     .fn()
     .mockReturnValue([racesInStorage[0], currentRace]);
-  await finishRace(
-    currentRace,
+  await finishRaceFactory(
     jest.fn(),
     fetchRacesFromStorage,
     jest.fn(),
+    // @ts-ignore
     validatePath,
     sendRaces
-  );
+  )(currentRace);
   expect(sendRaces.mock.calls.length).toBe(1);
   expect(sendRaces.mock.calls[0][0]).toEqual(racesInStorage);
   done();
@@ -77,37 +77,39 @@ it("should delete races from local storage if they were successfully stored on s
     .fn()
     .mockReturnValue([racesInStorage[0], currentRace]);
   const deleteRaces = jest.fn();
-  const success = await finishRace(
-    currentRace,
+  const success = await finishRaceFactory(
     jest.fn(),
     fetchRacesFromStorage,
     deleteRaces,
+    // @ts-ignore
     validatePath,
     sendRaces
-  );
-  expect(success).toBe("Race was saved successfully.");
+  )(currentRace);
+  expect(success).toBe(MESSAGES.raceSavedSuccess);
   expect(deleteRaces.mock.calls.length).toBe(1);
   done();
 });
 
 it("should not delete races from storage if saving was unsuccessful", async done => {
   const validatePath = jest.fn().mockReturnValue(true);
-  const sendRaces = jest.fn().mockResolvedValue(false);
+  const sendRaces = jest
+    .fn()
+    .mockResolvedValue({ success: false, errorMessage: "something happened" });
   const deleteRaces = jest.fn();
   const fetchRacesFromStorage = jest
     .fn()
     .mockReturnValue([racesInStorage[0], currentRace]);
   try {
-    await finishRace(
-      currentRace,
+    await finishRaceFactory(
       jest.fn(),
       fetchRacesFromStorage,
       deleteRaces,
+      // @ts-ignore
       validatePath,
       sendRaces
-    );
+    )(currentRace);
   } catch (err) {
-    expect(err.message).toBe("Unexpected server error");
+    expect(err.message).toBe("something happened");
     expect(deleteRaces.mock.calls.length).toBe(0);
     done();
   }

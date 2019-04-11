@@ -1,21 +1,42 @@
-import { Axios, Race, Response } from "../../common_files/interfaces";
-import { ValidatePath } from "../storage/fetchRaces";
+import { MESSAGES, Race, ValidateRaces, validateRaces } from "running_app_core";
+import { NetworkRequest, networkRequest } from "./networkRequest";
 
-export const downloadRaces = async (
-  axios: Axios,
-  validatePath: ValidatePath
-): Promise<ReadonlyArray<Race>> => {
-  let response: Response;
-  try {
-    response = await axios.post("/fetchRaces");
-  } catch (e) {
-    response = e.response;
+interface Races {
+  races?: object[];
+}
+
+export type DownloadRaces = () => Promise<ReadonlyArray<Race>>;
+type DownloadRacesFactory = (
+  networkRequest: NetworkRequest,
+  validateRaces: ValidateRaces
+) => DownloadRaces;
+
+export const downloadRacesFactory: DownloadRacesFactory = (
+  networkRequestFunc,
+  validateRacesFunc
+) => async () => {
+  const result = await networkRequestFunc("/fetchRaces", "get");
+  if (result.errorMessage) {
+    throw new Error(result.errorMessage);
   }
-  if (response.status !== 200) {
-    throw new Error("server is not available");
+  // cast is used because typescript for some reason doesn't understand next:
+  // if (typeof result.data === 'object' && result.data && result.data.races) {
+  //   here races should be valid value
+  //   but typescript response is 'races is not valid key of result.data'
+  // }
+  const racesObj = result.data as Races;
+  if (
+    typeof racesObj === "object" &&
+    racesObj &&
+    racesObj.races &&
+    validateRacesFunc(racesObj.races)
+  ) {
+    return racesObj.races;
   }
-  if (!response.data || !Array.isArray(response.data)) {
-    throw new Error("data is invalid");
-  }
-  return response.data.filter((race: Race) => validatePath(race.path));
+  throw new Error(MESSAGES.racesAreNotValid);
 };
+
+export const downloadRaces: DownloadRaces = downloadRacesFactory(
+  networkRequest,
+  validateRaces
+);

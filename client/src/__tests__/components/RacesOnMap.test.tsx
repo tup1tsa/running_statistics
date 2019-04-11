@@ -1,10 +1,6 @@
 import { shallow } from "enzyme";
-import * as React from "react";
-import {
-  Coordinates,
-  PositionInTime,
-  Race
-} from "../../application/common_files/interfaces";
+import React from "react";
+import { Coordinates, PositionInTime, Race } from "running_app_core";
 import FinishedRaceInfo from "../../application/components/Path/FinishedRaceInfo";
 import { RacesOnMapFactory } from "../../application/components/RacesOnMap";
 import { getRacePart } from "../../application/logic/path/getRacePart";
@@ -114,7 +110,6 @@ it("should path correct props to google map wrapper", () => {
       getRacePart={getRacePartMock}
     />
   );
-  // todo: zoom is magic number here... And it equals 12 for now. Pass it as a prop?
   expect(wrapper.props().children[0].props).toEqual({
     width: defaultProps.size.width,
     height: defaultProps.size.height,

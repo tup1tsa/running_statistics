@@ -1,4 +1,4 @@
-import { Coordinates } from "../../../application/common_files/interfaces";
+import { Coordinates } from "running_app_core";
 import { findCenter } from "../../../application/logic/path/findCenter";
 
 it("should throw an error if the path length is 0", () => {

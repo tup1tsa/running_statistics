@@ -1,4 +1,4 @@
-import { PositionInTime } from "../../../application/common_files/interfaces";
+import { PositionInTime } from "running_app_core";
 import { DividedPathPart } from "../../../application/logic/path/dividePath";
 import { getActiveParts } from "../../../application/logic/path/getActiveParts";
 

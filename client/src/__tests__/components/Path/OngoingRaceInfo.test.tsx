@@ -1,5 +1,5 @@
 import { shallow } from "enzyme";
-import * as React from "react";
+import React from "react";
 import { OngoingRaceInfoFactory } from "../../../application/components/Path/OngoingRaceInfo";
 import { RaceInformation } from "../../../application/components/Path/RaceInformation";
 

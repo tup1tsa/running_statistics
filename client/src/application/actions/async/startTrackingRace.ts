@@ -8,15 +8,10 @@ import {
 } from "../actionCreators";
 import { RaceType } from "../actions";
 
-export type StartTrackingRace = (
-  raceType: RaceType,
-  geoLocation: Geolocation
-) => (dispatch: Dispatch) => void;
+type StartTrackingRace = (raceType: RaceType) => (dispatch: Dispatch) => void;
+type StartTrackingRaceFactory = (geoLocation: Geolocation) => StartTrackingRace;
 
-export const startTrackingRace: StartTrackingRace = (
-  raceType,
-  geoLocation
-) => dispatch => {
+export const startTrackingRaceFactory: StartTrackingRaceFactory = geoLocation => raceType => dispatch => {
   const successCallback = (position: Position) =>
     dispatch(addGpsPosition(position));
   const errorCallback = (error: PositionError) => dispatch(gpsError(error));
@@ -32,3 +27,6 @@ export const startTrackingRace: StartTrackingRace = (
   dispatch(startRace({ gpsId, raceType }));
   dispatch(push(`/race/${raceType}`));
 };
+
+export const startTrackingRace: StartTrackingRace = raceType =>
+  startTrackingRaceFactory(navigator.geolocation)(raceType);

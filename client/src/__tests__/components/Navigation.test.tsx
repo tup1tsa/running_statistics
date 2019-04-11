@@ -1,5 +1,5 @@
 import { shallow } from "enzyme";
-import * as React from "react";
+import React from "react";
 import { RaceType } from "../../application/actions/actions";
 import { Navigation } from "../../application/components/Navigation";
 
