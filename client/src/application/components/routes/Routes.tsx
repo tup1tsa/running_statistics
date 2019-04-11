@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router";
+import EmailVerificationConnector from "../../connectors/Auth/EmailVerificationConnector";
 import LoginConnector from "../../connectors/Auth/LoginConnector";
 import RegistrationConnector from "../../connectors/Auth/RegistrationConnector";
 import PathWatcherConnector from "../../connectors/PathWatcherConnector";
@@ -21,6 +22,7 @@ const Routes = ({ checkAuth }: RouteStateProps) => (
     <Switch>
       <Route exact={true} path="/" component={EmptyPage} />
       <Route path="/registration" component={RegistrationConnector} />
+      <Route path="/verifyEmail/:hash" component={EmailVerificationConnector} />
       <Route path="/login" component={LoginConnector} />
       <PrivateRoute
         path="/startRace"

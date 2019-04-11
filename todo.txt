@@ -16,12 +16,12 @@ Server side
 
 Client side
 
-    –– email is not verified message (on start race route, for example) 
+    –– create separate folder for react pages
+    –– 'email is not verified' message (on start race route, for example) 
        should offer to resend email
     –– fix fetch races request (it is get now instead of post)
     –– reset cookies on logout
     –– add spinner when user is registration (probably for login too). Use Modal
-    ―― email verification page
     ―― reset password page 
     ―― calculate zoom programmaticaly (it is 12 for now)
     ―― rerender map zoom and values on partial values change
@@ -39,6 +39,7 @@ Client side
         Unit tests are kinda useless.
         Mb it's better to use integration tests instead
 Misc
+    –– user default exports whenewer possible
     –– remove MESSAGES from core app completely
     ―― find out how to get heroku domain value (in order to pass it to reset password email, etc.)
     ―― database backup using cloud storage (email on failed backup)

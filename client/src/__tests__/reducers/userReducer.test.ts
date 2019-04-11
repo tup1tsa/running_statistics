@@ -1,6 +1,7 @@
 import {
   changeRegistrationEmail,
   changeRegistrationName,
+  emailVerificationSuccess,
   loginSuccess,
   logout,
   toggleSaving
@@ -56,5 +57,16 @@ it("should erase name and email on logout", () => {
     name: "",
     email: "",
     isEmailVerified: false
+  });
+});
+
+it("should change email verification status to true on success verification", () => {
+  const state = {
+    ...defaultState,
+    isEmailVerified: false
+  };
+  expect(userReducer(state, emailVerificationSuccess())).toEqual({
+    ...defaultState,
+    isEmailVerified: true
   });
 });

@@ -9,6 +9,9 @@ import {
   ChangeRegistrationPasswordAction,
   ChangeRegistrationPasswordConfirmationAction,
   DecrementRaceAction,
+  EmailVerificationFailAction,
+  EmailVerificationStartAction,
+  EmailVerificationSuccessAction,
   GpsErrorAction,
   IncrementRaceAction,
   LoginFailAction,
@@ -176,4 +179,21 @@ type ChangeLoginPassword = (password: string) => ChangeLoginPasswordAction;
 export const changeLoginPassword: ChangeLoginPassword = payload => ({
   type: "CHANGE_LOGIN_PASSWORD",
   payload
+});
+
+type EmailVerificationStart = () => EmailVerificationStartAction;
+export const emailVerificationStart: EmailVerificationStart = () => ({
+  type: "EMAIL_VERIFICATON_START"
+});
+
+type EmailVerificationFail = (payload: Error) => EmailVerificationFailAction;
+export const emailVerificationFail: EmailVerificationFail = payload => ({
+  type: "EMAIL_VERIFICATION_FAIL",
+  isError: true,
+  payload
+});
+
+type EmailVerificationSuccess = () => EmailVerificationSuccessAction;
+export const emailVerificationSuccess: EmailVerificationSuccess = () => ({
+  type: "EMAIL_VERIFICATION_SUCCESS"
 });

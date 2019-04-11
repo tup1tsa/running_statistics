@@ -29,6 +29,9 @@ const userReducer: Reducer<UserState, AnyAction> = (
   if (action.type === "LOGOUT") {
     return defaultState;
   }
+  if (action.type === "EMAIL_VERIFICATION_SUCCESS") {
+    return { ...state, isEmailVerified: true };
+  }
   return state;
 };
 

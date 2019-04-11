@@ -119,6 +119,20 @@ export interface LogoutAction {
   readonly type: "LOGOUT";
 }
 
+export interface EmailVerificationStartAction {
+  readonly type: "EMAIL_VERIFICATON_START";
+}
+
+export interface EmailVerificationSuccessAction {
+  readonly type: "EMAIL_VERIFICATION_SUCCESS";
+}
+
+export interface EmailVerificationFailAction {
+  readonly type: "EMAIL_VERIFICATION_FAIL";
+  readonly isError: true;
+  readonly payload: Error;
+}
+
 export type AnyAction =
   | LocationChangeAction
   | StartRaceAction
@@ -144,4 +158,7 @@ export type AnyAction =
   | LoginSuccessAction
   | ChangeLoginEmailAction
   | ChangeLoginPasswordAction
-  | RemoveErrorsAction;
+  | RemoveErrorsAction
+  | EmailVerificationStartAction
+  | EmailVerificationFailAction
+  | EmailVerificationSuccessAction;

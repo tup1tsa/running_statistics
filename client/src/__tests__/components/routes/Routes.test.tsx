@@ -6,6 +6,7 @@ import { MemoryRouter } from "react-router";
 import { createStore } from "redux";
 import { Message } from "../../../application/components/Message";
 import Routes from "../../../application/components/routes/Routes";
+import EmailVerificationConnector from "../../../application/connectors/Auth/EmailVerificationConnector";
 import LoginConnector from "../../../application/connectors/Auth/LoginConnector";
 import RegistrationConnector from "../../../application/connectors/Auth/RegistrationConnector";
 import PathWatcherConnector from "../../../application/connectors/PathWatcherConnector";
@@ -33,6 +34,17 @@ it("should render error message page", () => {
   const message = wrapper.find(Message);
   expect(message.props().match.params.encodedMessage).toBe("ZnNkZg==");
   expect(message.props().match.params.isError).toBe("1");
+});
+
+it("should render verify email page", () => {
+  const wrapper = mount(
+    <Provider store={store}>
+      <MemoryRouter initialEntries={["/verifyEmail/some-hash"]}>
+        <Routes checkAuth={jest.fn()} />
+      </MemoryRouter>
+    </Provider>
+  );
+  expect(wrapper.find(EmailVerificationConnector).length).toEqual(1);
 });
 
 it("should render empty page by default", () => {

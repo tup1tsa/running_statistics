@@ -1,7 +1,7 @@
 import { shallow } from "enzyme";
 import React from "react";
-import EmailVerification from "../../application/components/EmailVerification";
-import Modal from "../../application/components/molecules/Modal";
+import EmailVerification from "../../../application/components/Auth/EmailVerification";
+import Modal from "../../../application/components/molecules/Modal";
 
 const defaultProps = {
   match: { params: { hash: "" } },

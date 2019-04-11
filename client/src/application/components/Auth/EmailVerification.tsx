@@ -1,20 +1,24 @@
 import React, { Component } from "react";
-import Modal from "./molecules/Modal";
+import Modal from "../molecules/Modal";
 
-interface EmailVerificationStateProps {
+interface MatchProps {
   readonly match: {
     readonly params: {
       readonly hash: string;
     };
   };
+}
+export interface EmailVerificationStateProps {
   readonly error?: string;
   readonly inProgress: boolean;
 }
-interface EmailVerificationDispatchProps {
+export interface EmailVerificationDispatchProps {
   verify: (hash: string) => void;
   removeErrors: () => void;
 }
-type Props = EmailVerificationStateProps & EmailVerificationDispatchProps;
+type Props = EmailVerificationStateProps &
+  EmailVerificationDispatchProps &
+  MatchProps;
 
 class EmailVerification extends Component<Props> {
   public componentDidMount() {

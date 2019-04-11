@@ -36,6 +36,9 @@ export const testGlobalState = () => {
       inProgress: false,
       error: null
     },
+    emailVerification: {
+      inProgress: false
+    },
     router: {
       location: {
         pathname: "",
