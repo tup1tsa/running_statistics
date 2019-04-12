@@ -6,8 +6,9 @@ const generateUniqueHashMock = jest.fn().mockResolvedValue("");
 const updateUserMock = jest.fn().mockResolvedValue({ result: { ok: 1 } });
 const sendMailMock = jest.fn().mockResolvedValue({});
 
-it("if any of the functions throws, it should send unexpected error ", async done => {
+it("should notify if email sending has failed", async done => {
   const { request, response, next, end, status } = getRequestReponse();
+  response.locals.user = { _id: "some id" };
   const failedEmail = jest.fn().mockRejectedValue(new Error("does not matter"));
   await sendVerificationEmailRouteFactory(
     generateUniqueHashMock,
@@ -18,7 +19,9 @@ it("if any of the functions throws, it should send unexpected error ", async don
   expect(status.mock.calls.length).toBe(1);
   expect(status.mock.calls[0][0]).toBe(500);
   expect(end.mock.calls.length).toBe(1);
-  expect(end.mock.calls[0][0]).toBe(MESSAGES.unexpectectedError);
+  expect(end.mock.calls[0][0]).toBe(
+    "Provided email is possibly incorrect. Verification link was not send"
+  );
   done();
 });
 
@@ -50,6 +53,23 @@ it("should send 500 unexpected error if update user failed", async done => {
   await sendVerificationEmailRouteFactory(
     generateUniqueHashMock,
     updateUser,
+    sendMailMock,
+    {}
+  )(request, response, next);
+  expect(status.mock.calls.length).toBe(1);
+  expect(status.mock.calls[0][0]).toBe(500);
+  expect(end.mock.calls.length).toBe(1);
+  expect(end.mock.calls[0][0]).toBe(MESSAGES.unexpectectedError);
+  done();
+});
+
+it("should send 500 unexpected error if generate hash function throws", async done => {
+  const { request, response, next, end, status } = getRequestReponse();
+  response.locals = { user: { _id: "id" } };
+  const generateUniquieHash = jest.fn().mockRejectedValue("any");
+  await sendVerificationEmailRouteFactory(
+    generateUniquieHash,
+    updateUserMock,
     sendMailMock,
     {}
   )(request, response, next);

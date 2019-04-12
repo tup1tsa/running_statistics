@@ -14,8 +14,6 @@ export const getMailAuthFactory: GetMailAuthFactory = processEnv => () => {
   if (!user || !pass) {
     throw new Error("gmail password and account must be specified in .env");
   }
-  // tslint:disable-next-line
-  console.log(`user is ${user}  and pass is ${pass}`);
   return { user, pass };
 };
 

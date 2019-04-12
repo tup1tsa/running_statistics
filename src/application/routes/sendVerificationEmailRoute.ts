@@ -19,8 +19,13 @@ export const sendVerificationEmailRouteFactory: SendVerificationEmailRouteFactor
   processEnv
 ) => async (req, res) => {
   const user: TotalUserInfo = res.locals.user;
+  const siteUrl =
+    processEnv.NODE_ENV === "production"
+      ? "https://tup1tsa.herokuapp.com"
+      : "http://localhost:3000";
+  let hash: string = "";
   try {
-    const hash = await generateUniqueHashFunc();
+    hash = await generateUniqueHashFunc();
     if (!user._id) {
       throw new Error("user id is not defined");
       // should not happen
@@ -36,19 +41,22 @@ export const sendVerificationEmailRouteFactory: SendVerificationEmailRouteFactor
     if (updateResult.result.ok !== 1) {
       throw new Error("update has failed");
     }
-    const siteUrl =
-      processEnv.NODE_ENV === "production"
-        ? "https://tup1tsa.herokuapp.com"
-        : "http://localhost:3000";
+  } catch (err) {
+    res.status(500).end(MESSAGES.unexpectectedError);
+    return;
+  }
+  try {
     const mailBody = `
     <p>In order to verificate your email, click 
       <a href='${siteUrl}/verifyEmail/${hash}'>here</a>
     </p>`;
     await sendMailFunc("Running app email verification", mailBody, user.email);
   } catch (err) {
-    // tslint:disable-next-line
-    console.log(err);
-    res.status(500).end(MESSAGES.unexpectectedError);
+    res
+      .status(500)
+      .end(
+        "Provided email is possibly incorrect. Verification link was not send"
+      );
     return;
   }
   res.status(200).end(`Verification instructions were send to ${user.email}`);
