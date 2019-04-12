@@ -1,47 +1,52 @@
 import { sendMailFactory } from "../../application/mail/sendMail";
 
-it("should use proper proper auth options for transporter", async done => {
-  const auth = {
-    user: "sasha",
-    pass: "secret"
+const mailServiceMock = {
+  setApiKey: jest.fn(),
+  send: jest.fn()
+};
+const processEnvMock = {
+  SEND_GRID_API_KEY: "some key"
+};
+
+it("should set proper api key", async done => {
+  const processEnv = {
+    SEND_GRID_API_KEY: "KEY"
   };
-  const getMailAuthMock = jest.fn().mockReturnValue(auth);
-  const sendMailMock = jest.fn().mockResolvedValue(true);
-  const createTransportMock = jest
-    .fn()
-    .mockReturnValue({ sendMail: sendMailMock });
-  await sendMailFactory(getMailAuthMock, createTransportMock)("", "", "");
-  expect(createTransportMock.mock.calls.length).toBe(1);
-  expect(createTransportMock.mock.calls[0][0]).toEqual({
-    service: "gmail",
-    auth
-  });
+  const setApiKey = jest.fn();
+  const mailService = { ...mailServiceMock, setApiKey };
+  await sendMailFactory(processEnv, mailService)("", "", "");
+  expect(setApiKey.mock.calls.length).toBe(1);
+  expect(setApiKey.mock.calls[0][0]).toEqual("KEY");
   done();
 });
 
-it("should forward title, text and email to nodemailer and return result", async done => {
+it("should throw if api key is not defined", async done => {
+  try {
+    await sendMailFactory({}, mailServiceMock)("", "", "");
+  } catch (err) {
+    expect(err.message).toBe("send grid api key is not defined");
+    done();
+  }
+});
+
+it("should forward title, text and email to mail service and return result", async done => {
   const sendingResult = {
     success: true
   };
   const title = "nice mail";
   const text = "even better text";
   const destinationEmail = "some@gmail.com";
-  const fromEmail = "my@gmail.com";
-  const getMailAuthMock = jest
-    .fn()
-    .mockReturnValue({ user: fromEmail, pass: "" });
-  const sendMailMock = jest.fn().mockResolvedValue(sendingResult);
-  const createTransportMock = jest
-    .fn()
-    .mockReturnValue({ sendMail: sendMailMock });
-  const mailResult = await sendMailFactory(
-    getMailAuthMock,
-    createTransportMock
-  )(title, text, destinationEmail);
+  const sendMail = jest.fn().mockResolvedValue(sendingResult);
+  const mailService = { ...mailServiceMock, send: sendMail };
+  const mailResult = await sendMailFactory(processEnvMock, mailService)(
+    title,
+    text,
+    destinationEmail
+  );
   expect(mailResult).toBe(sendingResult);
-  expect(sendMailMock.mock.calls.length).toBe(1);
-  expect(sendMailMock.mock.calls[0][0]).toEqual({
-    from: fromEmail,
+  expect(sendMail.mock.calls.length).toBe(1);
+  expect(sendMail.mock.calls[0][0]).toEqual({
+    from: "natorvano@gmail.com",
     to: destinationEmail,
     subject: title,
     html: text

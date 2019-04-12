@@ -1,40 +1,39 @@
-import { createTransport, Transporter } from "nodemailer";
-import { GetMailAuth, getMailAuth, MailAuth } from "./getMailAuth";
+import { ClientResponse } from "@sendgrid/client/src/response";
+import { MailData } from "@sendgrid/helpers/classes/mail";
+import * as sgMail from "@sendgrid/mail";
+import { ProcessEnv } from "mongo-wrappers";
 
-interface TransportOptions {
-  readonly auth: MailAuth;
-  readonly service: string;
+interface MailService {
+  setApiKey: (key: string) => void;
+  send: (data: MailData) => Promise<[ClientResponse, {}]>;
 }
-
-type CreateTransport = (transportOptions: TransportOptions) => Transporter;
 
 export type SendMail = (
   title: string,
   text: string,
   email: string
-) => Promise<object>;
+) => Promise<[ClientResponse, {}]>;
 
 type SendMailFactory = (
-  getMailAuth: GetMailAuth,
-  createTransport: CreateTransport
+  processEnv: ProcessEnv,
+  mailService: MailService
 ) => SendMail;
 
 export const sendMailFactory: SendMailFactory = (
-  getMailAuthFunc,
-  createTransportFunc
+  processEnv,
+  mailService
 ) => async (title, text, email) => {
-  const { user, pass } = getMailAuthFunc();
-  const transport = createTransportFunc({
-    service: "gmail",
-    auth: { user, pass }
-  });
-  const mailOptions = {
-    from: user,
+  const key = processEnv.SEND_GRID_API_KEY;
+  if (!key) {
+    throw new Error("send grid api key is not defined");
+  }
+  mailService.setApiKey(key);
+  return mailService.send({
     to: email,
+    from: "natorvano@gmail.com",
     subject: title,
     html: text
-  };
-  return transport.sendMail(mailOptions);
+  });
 };
 
-export const sendMail: SendMail = sendMailFactory(getMailAuth, createTransport);
+export const sendMail: SendMail = sendMailFactory(process.env, sgMail);
