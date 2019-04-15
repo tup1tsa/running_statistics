@@ -5,7 +5,6 @@ import HeaderConnector from "../connectors/HeaderConnector";
 import NavigationConnector from "../connectors/NavigationConnector";
 import RoutesConnector from "../connectors/routes/RoutesConnector";
 import "../scss/App.scss";
-
 interface AppProps {
   history: History;
 }

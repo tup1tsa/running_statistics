@@ -16,7 +16,11 @@ const Modal = ({
   isError = false,
   onClose = () => null
 }: Props) => (
-  <Popup open={isOpen} onClose={onClose}>
+  <Popup
+    contentStyle={{ "max-width": 450, "border-radius": 20 }}
+    open={isOpen}
+    onClose={onClose}
+  >
     <div id="popupWrapper" className={classnames({ error: isError })}>
       <span>{text}</span>
     </div>
