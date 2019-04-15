@@ -17,6 +17,10 @@ Server side
 
 Client side
 
+    –– during save it shows that there are no races (but they are being send to the server)
+    –– header should not show login/sign up buttons when login is in the process
+    –– geolocation is not initialized immediately in mozila mobile browser for some reason
+       in order to start the race it is required to navigate to different page and start the race again
     –– detailed race stats should not show invalid races if races number is 0
     –– create separate folder for react pages
     –– 'email is not verified' message (on start race route, for example) 
