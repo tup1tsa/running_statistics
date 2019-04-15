@@ -14,7 +14,8 @@ type MapDispatchToProps = (dispatch: Dispatch) => HeaderDispatchProps;
 
 const mapStateToProps: MapStateToProps = ({ login, user }) => ({
   isUserLoggedIn: login.isLoggedIn,
-  user
+  user,
+  isLoggingIn: login.inProgress
 });
 
 const mapDispatchToProps: MapDispatchToProps = dispatch => ({

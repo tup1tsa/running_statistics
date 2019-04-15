@@ -11,7 +11,8 @@ const defaultProps = {
     name: "",
     email: "",
     isEmailVerified: true
-  }
+  },
+  isLoggingIn: false
 };
 
 it("should render sign in and sign up blue buttons if user is not logged id", () => {
@@ -76,4 +77,10 @@ it("should render header container no matter if user is logged in or not", () =>
     <Header {...defaultProps} isUserLoggedIn={true} />
   );
   expect(loggedOutElement.find(".header").length).toBe(1);
+});
+
+it("should render correct preloader on sign in request", () => {
+  const wrapper = shallow(<Header {...defaultProps} isLoggingIn={true} />);
+  expect(wrapper.find("span").text()).toBe("Logging in");
+  expect(wrapper.find("img").props().src).toBe("/images/loader.gif");
 });

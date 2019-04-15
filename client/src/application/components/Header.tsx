@@ -11,6 +11,7 @@ export interface HeaderDispatchProps {
 export interface HeaderStateProps {
   readonly user: UserState;
   readonly isUserLoggedIn: boolean;
+  readonly isLoggingIn: boolean;
 }
 
 export const Header = (props: HeaderDispatchProps & HeaderStateProps) => {
@@ -19,12 +20,31 @@ export const Header = (props: HeaderDispatchProps & HeaderStateProps) => {
     goToLoginPage,
     logout,
     user,
-    isUserLoggedIn
+    isUserLoggedIn,
+    isLoggingIn
   } = props;
   const { name, isEmailVerified } = user;
+  let content = (
+    <>
+      <button className="blue" onClick={goToRegistrationPage}>
+        Sign up
+      </button>
+      <button className="blue" onClick={goToLoginPage}>
+        Sign in
+      </button>
+    </>
+  );
+  if (isLoggingIn) {
+    content = (
+      <>
+        <span>Logging in</span>
+        <img src="/images/loader.gif" />
+      </>
+    );
+  }
   if (isUserLoggedIn) {
-    return (
-      <div className="header">
+    content = (
+      <>
         <span title={isEmailVerified ? "" : "Email is not verified"}>
           {name}
           {isEmailVerified ? "" : "*"}
@@ -32,17 +52,8 @@ export const Header = (props: HeaderDispatchProps & HeaderStateProps) => {
         <button className="blue" onClick={logout}>
           Sign out
         </button>
-      </div>
+      </>
     );
   }
-  return (
-    <div className="header">
-      <button className="blue" onClick={goToRegistrationPage}>
-        Sign up
-      </button>
-      <button className="blue" onClick={goToLoginPage}>
-        Sign in
-      </button>
-    </div>
-  );
+  return <div className="header">{content}</div>;
 };
