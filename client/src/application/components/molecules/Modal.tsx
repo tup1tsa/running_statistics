@@ -17,7 +17,7 @@ const Modal = ({
   onClose = () => null
 }: Props) => (
   <Popup
-    contentStyle={{ "max-width": 450, "border-radius": 20 }}
+    contentStyle={{ maxWidth: 450, borderRadius: 20 }}
     open={isOpen}
     onClose={onClose}
   >
