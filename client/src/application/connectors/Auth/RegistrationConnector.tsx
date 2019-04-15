@@ -18,7 +18,7 @@ type MapStateToProps = (
   state: GlobalState
 ) => Pick<
   RegistrationProps,
-  "name" | "email" | "password" | "passwordCopy" | "error"
+  "name" | "email" | "password" | "passwordCopy" | "error" | "inProgress"
 >;
 
 export const mapStateToProps: MapStateToProps = ({ user, registration }) => ({
@@ -26,7 +26,8 @@ export const mapStateToProps: MapStateToProps = ({ user, registration }) => ({
   email: user.email,
   password: registration.passwordFirstInput,
   passwordCopy: registration.passwordSecondInput,
-  error: registration.error
+  error: registration.error,
+  inProgress: registration.inProgress
 });
 
 type MapDispatchToProps = (

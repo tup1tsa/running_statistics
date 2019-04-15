@@ -16,7 +16,8 @@ type MapStateToProps = (state: GlobalState) => LoginStateProps;
 const mapStateToProps: MapStateToProps = ({ login }) => ({
   email: login.email,
   password: login.password,
-  errorMessage: login.errorMessage
+  errorMessage: login.errorMessage,
+  isLoggingIn: login.inProgress
 });
 
 type MapDispatchToProps = (dispatch: Dispatch) => LoginDispatchProps;

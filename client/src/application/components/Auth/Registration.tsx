@@ -9,6 +9,7 @@ import {
   validatePassword
 } from "running_app_core";
 import { Input } from "../atoms/Input";
+import LoadingModal from "../molecules/LoadingModal";
 import Modal from "../molecules/Modal";
 import { PasswordInput } from "../molecules/PasswordInput";
 
@@ -24,6 +25,7 @@ export interface RegistrationProps {
   readonly password: string;
   readonly passwordCopy: string;
   readonly error: string | null;
+  readonly inProgress: boolean;
   readonly changeName: (name: string) => void;
   readonly changeEmail: (email: string) => void;
   readonly changePassword: (password: string) => void;
@@ -46,7 +48,8 @@ export const RegistrationFactory = ({
   changePasswordConfirmation,
   register,
   error,
-  removeRegistrationError
+  removeRegistrationError,
+  inProgress
 }: RegistrationProps & Validators) => {
   const userInfo = {
     name,
@@ -68,6 +71,7 @@ export const RegistrationFactory = ({
         isError={error != null}
         onClose={removeRegistrationError}
       />
+      <LoadingModal isOpen={inProgress} />
       <Input
         id="name"
         label="Name"

@@ -2,6 +2,7 @@ import { shallow } from "enzyme";
 import React from "react";
 import { Input } from "../../../application/components/atoms/Input";
 import { RegistrationFactory } from "../../../application/components/Auth/Registration";
+import LoadingModal from "../../../application/components/molecules/LoadingModal";
 import Modal from "../../../application/components/molecules/Modal";
 import { PasswordInput } from "../../../application/components/molecules/PasswordInput";
 
@@ -11,6 +12,7 @@ const defaultProps = {
   password: "",
   passwordCopy: "",
   error: null,
+  inProgress: false,
 
   validateName: jest.fn().mockReturnValue(true),
   validateEmail: jest.fn().mockReturnValue(true),
@@ -255,4 +257,16 @@ it("should render modal if error message is present", () => {
   }
   modalProps.onClose();
   expect(removeError.mock.calls.length).toBe(1);
+});
+
+it("should render loader when login is in progress", () => {
+  const loadingWrapper = shallow(
+    <RegistrationFactory {...defaultProps} inProgress={true} />
+  );
+  expect(loadingWrapper.find(LoadingModal).props().isOpen).toBe(true);
+
+  const finishedLoadingWrapper = shallow(
+    <RegistrationFactory {...defaultProps} inProgress={false} />
+  );
+  expect(finishedLoadingWrapper.find(LoadingModal).props().isOpen).toBe(false);
 });

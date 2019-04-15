@@ -11,7 +11,8 @@ it("should dispatch correct state fields", () => {
     email: state.user.email,
     password: state.registration.passwordFirstInput,
     passwordCopy: state.registration.passwordSecondInput,
-    error: state.registration.error
+    error: state.registration.error,
+    inProgress: state.registration.inProgress
   });
 });
 
