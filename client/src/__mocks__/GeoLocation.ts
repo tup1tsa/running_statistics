@@ -53,3 +53,29 @@ export class GeoLocationMock implements Geolocation {
     this.providedErrorCallback(this.lastError);
   }
 }
+
+export const simulateRace = (): Geolocation => {
+  const geoLocationMock = new GeoLocationMock();
+  setTimeout(() => {
+    geoLocationMock.sendPosition({
+      // @ts-ignore
+      coords: { latitude: 48.4259232, longitude: 35.025148 },
+      timestamp: new Date().getTime()
+    });
+  }, 1000);
+  setTimeout(() => {
+    geoLocationMock.sendPosition({
+      // @ts-ignore
+      coords: { latitude: 48.42252841, longitude: 35.05864354 },
+      timestamp: new Date().getTime()
+    });
+  }, 11500);
+  setTimeout(() => {
+    geoLocationMock.sendPosition({
+      // @ts-ignore
+      coords: { latitude: 48.4226755, longitude: 35.05862271 },
+      timestamp: new Date().getTime()
+    });
+  }, 22000);
+  return geoLocationMock;
+};

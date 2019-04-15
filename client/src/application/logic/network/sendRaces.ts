@@ -13,7 +13,7 @@ export const sendRacesFactory: SendRacesFactory = networkRequestFunc => async ra
   if (races.length === 0) {
     return { success: false, errorMessage: MESSAGES.nothingToSave };
   }
-  const result = await networkRequestFunc("/saveRaces", "post", races);
+  const result = await networkRequestFunc("/saveRaces", "post", { races });
   if (result.errorMessage) {
     return { success: false, errorMessage: result.errorMessage };
   }

@@ -33,7 +33,7 @@ it("should call correct uri endpoint and put correct data", async done => {
   const [url, type, data] = networkRequest.mock.calls[0];
   expect(url).toBe("/saveRaces");
   expect(type).toBe("post");
-  expect(data).toBe(races);
+  expect(data).toEqual({ races });
   done();
 });
 
