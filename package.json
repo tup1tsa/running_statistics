@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "engines": {
-    "node": "11.10.1",
-    "npm": "6.7.0"
+    "node": "10.15.3",
+    "npm": "6.4.1"
   },
   "pre-commit": [
     "check:server-ts",
