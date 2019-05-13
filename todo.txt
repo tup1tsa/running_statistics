@@ -1,6 +1,5 @@
 Server side
 
-    –– gmail account doesn't work on production
     –– add function that checks if all .env variables are set before starting the server
     –– races are being saved but user id is null (fetch races would not work)
     –– disallow saving the same races (validate by race date)
