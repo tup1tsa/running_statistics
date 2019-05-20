@@ -19,6 +19,11 @@ loadIcons();
 
 const history = createBrowserHistory();
 
+// weird workaround for mozilla. First time geo watcher
+// is initialized, it doesn't work
+const id = navigator.geolocation.watchPosition(() => null, () => null);
+navigator.geolocation.clearWatch(id);
+
 const composeEnhancer: typeof compose =
   (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
