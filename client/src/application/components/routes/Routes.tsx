@@ -1,11 +1,11 @@
 import React from "react";
 import { Route, Switch } from "react-router";
-import EmailVerificationConnector from "../../connectors/Auth/EmailVerificationConnector";
 import LoginConnector from "../../connectors/Auth/LoginConnector";
 import RegistrationConnector from "../../connectors/Auth/RegistrationConnector";
 import PathWatcherConnector from "../../connectors/PathWatcherConnector";
 import RaceStartPreparationConnector from "../../connectors/RaceStartPreparationConnector";
 import RaceViewerConnector from "../../connectors/RaceViewerConnector";
+import FirebaseLogin from "../Auth/FirebaseLogin";
 import { Message } from "../Message";
 import { PrivateRoute } from "./PrivateRoute";
 
@@ -22,8 +22,8 @@ const Routes = ({ checkAuth }: RouteStateProps) => (
     <Switch>
       <Route exact={true} path="/" component={EmptyPage} />
       <Route path="/registration" component={RegistrationConnector} />
-      <Route path="/verifyEmail/:hash" component={EmailVerificationConnector} />
       <Route path="/login" component={LoginConnector} />
+      <Route path="/firebase-login" component={FirebaseLogin} />
       <PrivateRoute
         path="/startRace"
         component={RaceStartPreparationConnector}
