@@ -8,7 +8,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { applyMiddleware, compose, createStore } from "redux";
-import { loginViaToken } from "./application/actions/async/loginViaToken";
 import App from "./application/components/App";
 import rootReducer from "./application/reducers/rootReducer";
 import "./application/scss/index.scss";
@@ -31,8 +30,6 @@ const store = createStore(
   rootReducer(history),
   composeEnhancer(applyMiddleware(routerMiddleware(history)))
 );
-
-loginViaToken()(store.dispatch);
 
 ReactDOM.render(
   <Provider store={store}>

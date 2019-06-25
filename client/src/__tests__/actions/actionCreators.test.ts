@@ -1,23 +1,13 @@
 import { getTestPosition } from "running_app_core";
 import {
   addGpsPosition,
-  changeLoginEmail,
-  changeLoginPassword,
   changeRaceType,
-  changeRegistrationEmail,
-  changeRegistrationName,
-  changeRegistrationPassword,
-  changeRegistrationPasswordConfirmation,
   decrementRace,
   gpsError,
   incrementRace,
   loginFail,
   loginStart,
-  loginSuccess,
   logout,
-  registrationFail,
-  registrationStart,
-  registrationSuccess,
   setRaces,
   startRace,
   startRacesDownload,
@@ -119,58 +109,8 @@ it("should create change race type action", () => {
   });
 });
 
-it("should create change registration name action", () => {
-  expect(changeRegistrationName("my name")).toEqual({
-    type: "CHANGE_REGISTRATION_NAME",
-    payload: "my name"
-  });
-});
-
-it("should create change registration email action", () => {
-  expect(changeRegistrationEmail("some@gmail.com")).toEqual({
-    type: "CHANGE_REGISTRATION_EMAIL",
-    payload: "some@gmail.com"
-  });
-});
-
-it("should create change registration password action", () => {
-  expect(changeRegistrationPassword("secret")).toEqual({
-    type: "CHANGE_REGISTRATION_PASSWORD",
-    payload: "secret"
-  });
-});
-
-it("should create change registration password confirmation action", () => {
-  expect(changeRegistrationPasswordConfirmation("password repeated")).toEqual({
-    type: "CHANGE_REGISTRATION_PASSWORD_CONFIRMATION",
-    payload: "password repeated"
-  });
-});
-
-it("should create start registration action", () => {
-  expect(registrationStart()).toEqual({ type: "REGISTRATION_START" });
-});
-
-it("should create success registration action", () => {
-  expect(registrationSuccess()).toEqual({ type: "REGISTRATION_SUCCESS" });
-});
-
-it("should create fail registration action", () => {
-  const error = new Error("no internet");
-  expect(registrationFail(error)).toEqual({
-    type: "REGISTRATION_FAIL",
-    error: true,
-    payload: error
-  });
-});
-
 it("should create start login action", () => {
   expect(loginStart()).toEqual({ type: "LOGIN_START" });
-});
-
-it("should create success login action", () => {
-  const user = { email: "some@gmail.com", name: "bifa", isEmailVerified: true };
-  expect(loginSuccess(user)).toEqual({ type: "LOGIN_SUCCESS", payload: user });
 });
 
 it("should create fail login action", () => {
@@ -185,19 +125,5 @@ it("should create fail login action", () => {
 it("should create logout acion", () => {
   expect(logout()).toEqual({
     type: "LOGOUT"
-  });
-});
-
-it("should create change login email action", () => {
-  expect(changeLoginEmail("some@gmail.com")).toEqual({
-    type: "CHANGE_LOGIN_EMAIL",
-    payload: "some@gmail.com"
-  });
-});
-
-it("should create change login password action", () => {
-  expect(changeLoginPassword("secret")).toEqual({
-    type: "CHANGE_LOGIN_PASSWORD",
-    payload: "secret"
   });
 });

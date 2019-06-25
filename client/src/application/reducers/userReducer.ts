@@ -1,36 +1,36 @@
 import { Reducer } from "redux";
 import { AnyAction } from "../actions/actions";
 
-export interface UserState {
-  readonly name: string;
-  readonly email: string;
-  readonly isEmailVerified: boolean;
+export interface User {
+  readonly displayName: string | null;
+  readonly email: string | null;
+  readonly emailVerified: boolean;
+  readonly photoURL: string | null;
+  readonly uid: string;
+}
+
+export interface UserState extends User {
+  readonly isLoggedIn: boolean;
 }
 
 const defaultState: UserState = {
-  name: "",
-  email: "",
-  isEmailVerified: false
+  displayName: null,
+  email: null,
+  emailVerified: false,
+  photoURL: null,
+  uid: "",
+  isLoggedIn: false
 };
 
 const userReducer: Reducer<UserState, AnyAction> = (
   state = defaultState,
   action
 ) => {
-  if (action.type === "CHANGE_REGISTRATION_EMAIL") {
-    return { ...state, email: action.payload };
-  }
-  if (action.type === "CHANGE_REGISTRATION_NAME") {
-    return { ...state, name: action.payload };
-  }
   if (action.type === "LOGIN_SUCCESS") {
-    return { ...state, ...action.payload };
+    return { ...state, ...action.payload, isLoggedIn: true };
   }
   if (action.type === "LOGOUT") {
     return defaultState;
-  }
-  if (action.type === "EMAIL_VERIFICATION_SUCCESS") {
-    return { ...state, isEmailVerified: true };
   }
   return state;
 };

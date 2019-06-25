@@ -2,7 +2,7 @@ import { getTestRaces } from "running_app_core";
 import {
   decrementRace,
   incrementRace,
-  registrationStart,
+  loginStart,
   setRaces,
   startRacesDownload
 } from "../../application/actions/actionCreators";
@@ -19,7 +19,7 @@ const defaultState: RacesOnMapState = {
 };
 
 it("should not change state if action is not correct", () => {
-  const action = registrationStart();
+  const action = loginStart();
   expect(racesOnMapReducer(defaultState, action)).toEqual(defaultState);
 });
 

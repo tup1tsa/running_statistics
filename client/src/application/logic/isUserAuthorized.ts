@@ -1,14 +1,11 @@
 import { GlobalState } from "../reducers/rootReducer";
 
 type IsUserAuthorized = (state: GlobalState) => boolean;
-export const isUserAuthorized: IsUserAuthorized = ({ login, user }) => {
-  if (!user.isEmailVerified) {
+export const isUserAuthorized: IsUserAuthorized = ({ user }) => {
+  if (!user.emailVerified) {
     return false;
   }
-  if (login.inProgress) {
-    return false;
-  }
-  if (!login.isLoggedIn) {
+  if (!user.isLoggedIn) {
     return false;
   }
   return true;

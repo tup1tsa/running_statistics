@@ -1,17 +1,9 @@
-import { PublicUserInfo, Race } from "running_app_core";
+import { Race } from "running_app_core";
+import { User } from "../reducers/userReducer";
 import {
   AddGpsPositionAction,
-  ChangeLoginEmailAction,
-  ChangeLoginPasswordAction,
   ChangeRaceTypeAction,
-  ChangeRegistrationEmailAction,
-  ChangeRegistrationNameAction,
-  ChangeRegistrationPasswordAction,
-  ChangeRegistrationPasswordConfirmationAction,
   DecrementRaceAction,
-  EmailVerificationFailAction,
-  EmailVerificationStartAction,
-  EmailVerificationSuccessAction,
   GpsErrorAction,
   IncrementRaceAction,
   LoginFailAction,
@@ -19,9 +11,6 @@ import {
   LoginSuccessAction,
   LogoutAction,
   RaceType,
-  RegistrationFailAction,
-  RegistrationStartAction,
-  RegistrationSuccessAction,
   RemoveErrorsAction,
   SetRacesAction,
   StartRaceAction,
@@ -94,59 +83,12 @@ export const changeRaceType: ChangeRaceType = raceType => ({
   payload: raceType
 });
 
-type ChangeRegistrationName = (payload: string) => ChangeRegistrationNameAction;
-export const changeRegistrationName: ChangeRegistrationName = payload => ({
-  type: "CHANGE_REGISTRATION_NAME",
-  payload
-});
-
-type ChangeRegistrationEmail = (
-  payload: string
-) => ChangeRegistrationEmailAction;
-export const changeRegistrationEmail: ChangeRegistrationEmail = payload => ({
-  type: "CHANGE_REGISTRATION_EMAIL",
-  payload
-});
-
-type ChangeRegistrationPassword = (
-  payload: string
-) => ChangeRegistrationPasswordAction;
-export const changeRegistrationPassword: ChangeRegistrationPassword = payload => ({
-  type: "CHANGE_REGISTRATION_PASSWORD",
-  payload
-});
-
-type ChangeRegistrationPasswordConfirmation = (
-  payload: string
-) => ChangeRegistrationPasswordConfirmationAction;
-export const changeRegistrationPasswordConfirmation: ChangeRegistrationPasswordConfirmation = payload => ({
-  type: "CHANGE_REGISTRATION_PASSWORD_CONFIRMATION",
-  payload
-});
-
-type RegistrationStart = () => RegistrationStartAction;
-export const registrationStart: RegistrationStart = () => ({
-  type: "REGISTRATION_START"
-});
-
-type RegistrationSuccess = () => RegistrationSuccessAction;
-export const registrationSuccess: RegistrationSuccess = () => ({
-  type: "REGISTRATION_SUCCESS"
-});
-
-type RegistrationFail = (error: Error) => RegistrationFailAction;
-export const registrationFail: RegistrationFail = error => ({
-  type: "REGISTRATION_FAIL",
-  error: true,
-  payload: error
-});
-
 type LoginStart = () => LoginStartAction;
 export const loginStart: LoginStart = () => ({
   type: "LOGIN_START"
 });
 
-type LoginSuccess = (payload: PublicUserInfo) => LoginSuccessAction;
+type LoginSuccess = (payload: User) => LoginSuccessAction;
 export const loginSuccess: LoginSuccess = payload => ({
   type: "LOGIN_SUCCESS",
   payload
@@ -167,33 +109,4 @@ export const removeErrors: RemoveErrors = () => ({
 type Logout = () => LogoutAction;
 export const logout: Logout = () => ({
   type: "LOGOUT"
-});
-
-type ChangeLoginEmail = (email: string) => ChangeLoginEmailAction;
-export const changeLoginEmail: ChangeLoginEmail = payload => ({
-  type: "CHANGE_LOGIN_EMAIL",
-  payload
-});
-
-type ChangeLoginPassword = (password: string) => ChangeLoginPasswordAction;
-export const changeLoginPassword: ChangeLoginPassword = payload => ({
-  type: "CHANGE_LOGIN_PASSWORD",
-  payload
-});
-
-type EmailVerificationStart = () => EmailVerificationStartAction;
-export const emailVerificationStart: EmailVerificationStart = () => ({
-  type: "EMAIL_VERIFICATON_START"
-});
-
-type EmailVerificationFail = (payload: Error) => EmailVerificationFailAction;
-export const emailVerificationFail: EmailVerificationFail = payload => ({
-  type: "EMAIL_VERIFICATION_FAIL",
-  isError: true,
-  payload
-});
-
-type EmailVerificationSuccess = () => EmailVerificationSuccessAction;
-export const emailVerificationSuccess: EmailVerificationSuccess = () => ({
-  type: "EMAIL_VERIFICATION_SUCCESS"
 });

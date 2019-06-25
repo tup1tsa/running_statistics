@@ -4,10 +4,9 @@ import React from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router";
 import { createStore } from "redux";
+import { startRacesDownload } from "../../../application/actions/actionCreators";
 import { Message } from "../../../application/components/Message";
 import Routes from "../../../application/components/routes/Routes";
-import LoginConnector from "../../../application/connectors/Auth/LoginConnector";
-import RegistrationConnector from "../../../application/connectors/Auth/RegistrationConnector";
 import PathWatcherConnector from "../../../application/connectors/PathWatcherConnector";
 import RaceStartPreparationConnector from "../../../application/connectors/RaceStartPreparationConnector";
 import RaceViewerConnector from "../../../application/connectors/RaceViewerConnector";
@@ -96,8 +95,10 @@ it("should not render current race page if user is unauthorized", () => {
 
 it("should render detailed race stats page is user is authorized", () => {
   const checkAuth = jest.fn().mockReturnValue(true);
+  const storeWithRaces = createStore(rootReducer(createBrowserHistory()));
+  storeWithRaces.dispatch(startRacesDownload());
   const wrapper = mount(
-    <Provider store={store}>
+    <Provider store={storeWithRaces}>
       <MemoryRouter initialEntries={["/detailedRaceStats"]}>
         <Routes checkAuth={checkAuth} />
       </MemoryRouter>
@@ -116,26 +117,4 @@ it("should not render detailed race stats page is user is unauthorized", () => {
     </Provider>
   );
   expect(wrapper.find(RaceViewerConnector).length).toBe(0);
-});
-
-it("should render registration page", () => {
-  const wrapper = mount(
-    <Provider store={store}>
-      <MemoryRouter initialEntries={["/registration"]}>
-        <Routes checkAuth={jest.fn()} />
-      </MemoryRouter>
-    </Provider>
-  );
-  expect(wrapper.find(RegistrationConnector).length).toBe(1);
-});
-
-it("should render login page", () => {
-  const wrapper = mount(
-    <Provider store={store}>
-      <MemoryRouter initialEntries={["/login"]}>
-        <Routes checkAuth={jest.fn()} />
-      </MemoryRouter>
-    </Provider>
-  );
-  expect(wrapper.find(LoginConnector).length).toBe(1);
 });

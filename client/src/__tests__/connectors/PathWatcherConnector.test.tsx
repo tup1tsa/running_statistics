@@ -20,24 +20,12 @@ export const testGlobalState = () => {
       partialRaceFinish: 1
     },
     user: {
-      name: "",
-      email: "",
-      isEmailVerified: false
-    },
-    login: {
+      displayName: null,
+      email: null,
+      emailVerified: false,
       isLoggedIn: false,
-      inProgress: false,
-      email: "",
-      password: ""
-    },
-    registration: {
-      passwordFirstInput: "",
-      passwordSecondInput: "",
-      inProgress: false,
-      error: null
-    },
-    emailVerification: {
-      inProgress: false
+      photoURL: null,
+      uid: ""
     },
     router: {
       location: {

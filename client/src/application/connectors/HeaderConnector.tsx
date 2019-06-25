@@ -12,10 +12,11 @@ import { GlobalState } from "../reducers/rootReducer";
 type MapStateToProps = (state: GlobalState) => HeaderStateProps;
 type MapDispatchToProps = (dispatch: Dispatch) => HeaderDispatchProps;
 
-const mapStateToProps: MapStateToProps = ({ login, user }) => ({
-  isUserLoggedIn: login.isLoggedIn,
-  user,
-  isLoggingIn: login.inProgress
+const mapStateToProps: MapStateToProps = ({ user }) => ({
+  ...user,
+  // todo: Fix it
+  isLoggingIn: false,
+  name: user.displayName ? user.displayName : ""
 });
 
 const mapDispatchToProps: MapDispatchToProps = dispatch => ({

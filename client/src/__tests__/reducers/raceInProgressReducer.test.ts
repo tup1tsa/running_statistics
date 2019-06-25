@@ -4,7 +4,7 @@ import {
   addGpsPosition,
   changeRaceType,
   gpsError,
-  registrationStart,
+  loginStart,
   stopGps,
   toggleSaving
 } from "../../application/actions/actionCreators";
@@ -29,7 +29,7 @@ const defaultState = {
 };
 
 it("should not change state if action is incorrect", () => {
-  const action = registrationStart();
+  const action = loginStart();
   expect(
     raceInProgressReducerFactory(dependencies)(defaultState, action)
   ).toEqual(defaultState);

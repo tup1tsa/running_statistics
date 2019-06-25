@@ -6,11 +6,12 @@ import {
 import { GlobalState } from "../../reducers/rootReducer";
 
 type MapStateToProps = (state: GlobalState) => AuthCheckerProps;
-export const mapStateToProps: MapStateToProps = state => ({
-  loginErrorMessage: state.login.errorMessage,
-  isLoggedIn: state.login.isLoggedIn,
-  isLoggingIn: state.login.inProgress,
-  isEmailVerified: state.user.isEmailVerified
+export const mapStateToProps: MapStateToProps = ({ user }) => ({
+  loginErrorMessage: undefined,
+  isLoggedIn: user.isLoggedIn,
+  // todo: fix it. Is loggin in is not implemented
+  isLoggingIn: false,
+  isEmailVerified: user.emailVerified
 });
 
 export default connect(mapStateToProps)(AuthChecker);

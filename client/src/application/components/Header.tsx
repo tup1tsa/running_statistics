@@ -1,5 +1,4 @@
 import React from "react";
-import { UserState } from "../reducers/userReducer";
 import "../scss/Header.scss";
 
 export interface HeaderDispatchProps {
@@ -9,9 +8,10 @@ export interface HeaderDispatchProps {
 }
 
 export interface HeaderStateProps {
-  readonly user: UserState;
-  readonly isUserLoggedIn: boolean;
   readonly isLoggingIn: boolean;
+  readonly isLoggedIn: boolean;
+  readonly name: string;
+  readonly emailVerified: boolean;
 }
 
 export const Header = (props: HeaderDispatchProps & HeaderStateProps) => {
@@ -19,11 +19,12 @@ export const Header = (props: HeaderDispatchProps & HeaderStateProps) => {
     goToRegistrationPage,
     goToLoginPage,
     logout,
-    user,
-    isUserLoggedIn,
+    emailVerified,
+    isLoggedIn,
+    name,
     isLoggingIn
   } = props;
-  const { name, isEmailVerified } = user;
+
   let content = (
     <>
       <button className="blue" onClick={goToRegistrationPage}>
@@ -42,12 +43,12 @@ export const Header = (props: HeaderDispatchProps & HeaderStateProps) => {
       </>
     );
   }
-  if (isUserLoggedIn) {
+  if (isLoggedIn) {
     content = (
       <>
-        <span title={isEmailVerified ? "" : "Email is not verified"}>
+        <span title={emailVerified ? "" : "Email is not verified"}>
           {name}
-          {isEmailVerified ? "" : "*"}
+          {emailVerified ? "" : "*"}
         </span>
         <button className="blue" onClick={logout}>
           Sign out
