@@ -1,6 +1,6 @@
 import { MESSAGES, Race } from "running_app_core";
 import { saveRacesRouteFactory } from "../../application/routes/saveRacesRoute";
-import { getRequestReponse } from "./registationRoute.test";
+import { getRequestReponse } from "./checkAccess.test";
 
 const successValidator = (races: unknown): races is ReadonlyArray<Race> => true;
 

@@ -1,6 +1,6 @@
 import { TotalUserInfo } from "running_app_core";
 import { loginViaTokenRouteFactory } from "../../application/routes/loginViaTokenRoute";
-import { getRequestReponse } from "./registationRoute.test";
+import { getRequestReponse } from "./checkAccess.test";
 
 it("should send non private user data", async done => {
   const { request, response, next, send, status } = getRequestReponse();

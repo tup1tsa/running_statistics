@@ -1,5 +1,5 @@
 import { loadUserRouteFactory } from "../../application/routes/loadUserRoute";
-import { getRequestReponse } from "./registationRoute.test";
+import { getRequestReponse } from "./checkAccess.test";
 
 it("should return 403 if token is not provided via cookie", async done => {
   const { request, response, next, status, end } = getRequestReponse();
