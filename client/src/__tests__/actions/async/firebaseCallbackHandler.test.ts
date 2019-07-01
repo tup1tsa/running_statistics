@@ -1,6 +1,6 @@
 import firebase from "firebase/app";
 import FirebaseAuthMock from "../../../__mocks__/FirebaseAuth";
-import firebaseAuth from "../../../application/actions/async/firebaseAuth";
+import firebaseCallbackHandler from "../../../application/actions/async/firebaseCallbackHandler";
 
 const wait = () =>
   new Promise(resolve => {
@@ -15,7 +15,7 @@ it("should dispatch login action on success firebase callback", async done => {
     displayName: "Sasha"
   } as firebase.User;
   const dispatch = jest.fn();
-  firebaseAuth(firebaseAuthMock)(dispatch);
+  firebaseCallbackHandler(firebaseAuthMock)(dispatch);
   await wait();
   firebaseAuthMock.updateCurrentUser(user);
   expect(dispatch.mock.calls.length).toBe(1);
@@ -29,7 +29,7 @@ it("should dispatch login action on success firebase callback", async done => {
 it("should dispatch logout action on fail firebase callback", async done => {
   const firebaseAuthMock = (new FirebaseAuthMock() as unknown) as firebase.auth.Auth;
   const dispatch = jest.fn();
-  firebaseAuth(firebaseAuthMock)(dispatch);
+  firebaseCallbackHandler(firebaseAuthMock)(dispatch);
   await wait();
   firebaseAuthMock.updateCurrentUser(null);
   expect(dispatch.mock.calls.length).toBe(1);

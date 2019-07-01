@@ -2,9 +2,11 @@ import firebase from "firebase/app";
 import { Dispatch } from "redux";
 import { loginSuccess, logout } from "../actionCreators";
 
-type FirebaseAuth = (auth: firebase.auth.Auth) => (dispatch: Dispatch) => void;
+type FirebaseCallbackHandler = (
+  auth: firebase.auth.Auth
+) => (dispatch: Dispatch) => void;
 
-const firebaseAuth: FirebaseAuth = auth => dispatch => {
+const firebaseCallbackHandler: FirebaseCallbackHandler = auth => dispatch => {
   auth.onAuthStateChanged(user => {
     if (!user) {
       dispatch(logout());
@@ -14,4 +16,4 @@ const firebaseAuth: FirebaseAuth = auth => dispatch => {
   });
 };
 
-export default firebaseAuth;
+export default firebaseCallbackHandler;

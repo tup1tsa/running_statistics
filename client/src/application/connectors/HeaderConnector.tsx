@@ -1,7 +1,7 @@
 import { push } from "connected-react-router";
+import firebase from "firebase/app";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { logout } from "../actions/actionCreators";
 import {
   Header,
   HeaderDispatchProps,
@@ -22,7 +22,7 @@ const mapStateToProps: MapStateToProps = ({ user }) => ({
 const mapDispatchToProps: MapDispatchToProps = dispatch => ({
   goToLoginPage: () => dispatch(push("/login")),
   goToRegistrationPage: () => dispatch(push("/registration")),
-  logout: () => dispatch(logout())
+  logout: () => firebase.auth().signOut()
 });
 
 export default connect(
