@@ -1,6 +1,8 @@
 import firebase from "firebase/app";
+import "firebase/auth";
 import React from "react";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import "../../scss/FirebaseLogin.scss";
 
 interface FactoryProps {
   readonly auth: firebase.auth.Auth;
@@ -26,9 +28,8 @@ export class FirebaseLoginFactory extends React.Component<Props> {
       return null;
     }
     return (
-      <div>
-        <h1>Log in</h1>
-        <p>Please, sign-in</p>
+      <div className="container">
+        <h1>Please, sign in</h1>
         <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />
       </div>
     );
@@ -43,7 +44,10 @@ const FirebaseLogin = (
     uiConfig={{
       signInFlow: "popup",
       signInSuccessUrl: "/firebase-login",
-      signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID]
+      signInOptions: [
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        firebase.auth.EmailAuthProvider.PROVIDER_ID
+      ]
     }}
     auth={firebase.auth()}
   />

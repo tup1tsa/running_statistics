@@ -20,8 +20,8 @@ const mapStateToProps: MapStateToProps = ({ user }) => ({
 });
 
 const mapDispatchToProps: MapDispatchToProps = dispatch => ({
-  goToLoginPage: () => dispatch(push("/login")),
-  goToRegistrationPage: () => dispatch(push("/registration")),
+  goToLoginPage: () => dispatch(push("/firebase-login")),
+  goToRegistrationPage: () => dispatch(push("/firebase-login")),
   logout: () => firebase.auth().signOut()
 });
 
