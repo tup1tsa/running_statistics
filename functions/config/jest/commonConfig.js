@@ -7,6 +7,7 @@ module.exports = {
     "!<rootDir>/src/application/config.ts"
   ],
   testMatch: ["<rootDir>/src/__tests__/**/*.ts"],
+  testPathIgnorePatterns: ["<rootDir>/src/__tests__/helpers.ts"],
   testEnvironment: "node",
   transform: {
     "^.+\\.ts$": "ts-jest"

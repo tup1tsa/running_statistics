@@ -26,7 +26,7 @@
     "build": "tsc",
     "check:firebase-ts": "echo 'ts firebase functions' && tsc --noEmit --project functions",
     "check:firebase-tslint": "echo 'tslint firebase functions' && tslint 'functions/src/**/*.ts'",
-    "check:firebase-tests": "echo 'tests for firebase are not implemented yet'",
+    "check:firebase-tests": "echo 'firebase unit-tests' && node functions/scripts/test.js -c functions/config/jest/commonConfig.js --colors",
     "check:client-ts": "echo 'ts client' && tsc --noEmit --project client",
     "check:client-tslint": "echo 'tslint client' && tslint 'client/src/**/*.{ts,tsx}'",
     "check:client-tests": "cd client && CI=true yarn test"

@@ -3,8 +3,8 @@ import * as compression from "compression";
 import * as express from "express";
 import * as admin from "firebase-admin";
 import * as functions from "firebase-functions";
-import fetchRacesRoute from "./routes/fetchRacesRoute";
-import saveRacesRoute from "./routes/saveRacesRoute";
+import fetchRacesRoute from "./application/routes/fetchRacesRoute";
+import saveRacesRoute from "./application/routes/saveRacesRoute";
 
 admin.initializeApp(functions.config().firebase);
 
