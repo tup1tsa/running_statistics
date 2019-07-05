@@ -1,8 +1,21 @@
+import * as bodyParser from "body-parser";
+import * as compression from "compression";
+import * as express from "express";
 import * as admin from "firebase-admin";
 import * as functions from "firebase-functions";
 
-admin.initializeApp();
+admin.initializeApp(functions.config().firebase);
 
-export const addMessage = functions.https.onRequest(async (req, res) => {
-  res.send("all is fine ").status(200);
+// const db = admin.firestore();
+const app = express();
+
+app.use(compression());
+app.use(bodyParser.json({ limit: "10mb" }));
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.post("/", async (req, res) => {
+  const { races } = req.body;
+  res.status(200).end(JSON.stringify(races))
 });
+
+export const saveRaces = functions.https.onRequest(app);
