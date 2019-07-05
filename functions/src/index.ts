@@ -3,6 +3,8 @@ import * as compression from "compression";
 import * as express from "express";
 import * as admin from "firebase-admin";
 import * as functions from "firebase-functions";
+import fetchRacesRoute from "./routes/fetchRacesRoute";
+import saveRacesRoute from "./routes/saveRacesRoute";
 
 admin.initializeApp(functions.config().firebase);
 
@@ -13,9 +15,7 @@ app.use(compression());
 app.use(bodyParser.json({ limit: "10mb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post("/", async (req, res) => {
-  const { races } = req.body;
-  res.status(200).end(JSON.stringify(races))
-});
+app.get("/races/", fetchRacesRoute);
+app.put('/races/', saveRacesRoute)
 
 export const saveRaces = functions.https.onRequest(app);

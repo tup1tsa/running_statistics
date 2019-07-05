@@ -8,11 +8,12 @@
     "npm": "6.4.1"
   },
   "pre-commit": [
-    "check:server-ts",
-    "check:server-tslint",
+    "check:firebase-ts",
+    "check:firebase-tslint",
+    "check:firebase-tests",
+    
     "check:client-ts",
     "check:client-tslint",
-    "check:server-tests",
     "check:client-tests"
   ],
   "scripts": {
@@ -23,10 +24,9 @@
     "test:coverage": "node scripts/test.js -c config/jest/commonConfig.js --colors --coverage",
     "test:debug": "node --inspect-brk scripts/test.js --runInBand -c config/jest/commonConfig.js",
     "build": "tsc",
-    "format": "tslint --fix 'src/**/*.ts'",
-    "check:server-ts": "echo 'ts server' && tsc --noEmit",
-    "check:server-tslint": "echo 'tslint server' && tslint 'src/**/*.ts'",
-    "check:server-tests": "node scripts/test.js -c config/jest/commonConfig.js --colors",
+    "check:firebase-ts": "echo 'ts firebase functions' && tsc --noEmit --project functions",
+    "check:firebase-tslint": "echo 'tslint firebase functions' && tslint 'functions/src/**/*.ts'",
+    "check:firebase-tests": "echo 'tests for firebase are not implemented yet'",
     "check:client-ts": "echo 'ts client' && tsc --noEmit --project client",
     "check:client-tslint": "echo 'tslint client' && tslint 'client/src/**/*.{ts,tsx}'",
     "check:client-tests": "cd client && CI=true yarn test"
